@@ -3,7 +3,7 @@ puts "---------------STARTED SEEDING---------------"
 puts ""
 
 puts "----------ADMINS----------"
-@admin_user = User.create_with(first_name: "Peter", last_name: "Schorsch", active: true, password_digest: User.digest("Peteschorsch1!"), role: "Admin").find_or_create_by(email: "peteschorsch@icloud.com")
+@admin_user = User.create_with(first_name: "Peter", last_name: "Schorsch", active: true, password_digest: User.digest("Peteschorsch1!"), role: "Admin").find_or_create_by(email: "peteschorsch@gmail.com")
 puts @admin_user.inspect
 
 puts ""
