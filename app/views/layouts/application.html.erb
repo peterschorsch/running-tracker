@@ -13,6 +13,8 @@
 
   <body>
     <%= render "layouts/header" if logged_in? %>
-    <%= yield %>
+    <div class="left-right-padding">
+      <%= yield %>
+    </div>
   </body>
 </html>

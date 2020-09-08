@@ -1,6 +1,36 @@
-<h1>Editing User</h1>
+<div class="row">
+	<div class="col-md-12">
+		<h1 class="align-center"><%= current_user.concat_name %></h1>
+		<hr />
+	</div>
+</div>
 
-<%= render 'form', user: @user %>
+<%= render "templates/alerts/notice" %>
+<%= render "templates/alerts/form-errors", model: current_user %>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<div class="row">
+	<div class="col-md-6 col-sm-12">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h1 class="align-center">Basic Information</h1>
+				</div>
+				<div class="panel-body">
+					<%= render 'basic-user-attr-form' %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-12">
+		<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h1 class="align-center">Change Password</h1>
+				</div>
+				<div class="panel-body">
+					<%= render 'password-form' %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

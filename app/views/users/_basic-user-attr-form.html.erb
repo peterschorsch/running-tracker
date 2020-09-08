@@ -1,0 +1,19 @@
+<%= form_with(model: current_user, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |form| %>
+  <div class="row vertical-align-middle">
+    <div class="col-md-3 col-xs-12 align-right"><%= form.label :first_name, 'First Name:' %></div>
+    <div class="col-md-3 col-xs-12"><%= form.text_field :first_name, class: 'form-control' %></div>
+    <div class="col-md-3 col-xs-12 align-right"><%= form.label :last_name, 'Last Name:' %></div>
+    <div class="col-md-3 col-xs-12"><%= form.text_field :last_name, class: 'form-control' %></div>
+  </div>
+  <br />
+  <div class="row vertical-align-middle">
+    <div class="col-md-3 col-xs-12 align-right"><%= form.label :email, 'Email:' %></div>
+    <div class="col-md-9 col-xs-12"><%= form.text_field :email, class: 'form-control' %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= form.submit "Save", class: "btn btn-success btn-block" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<% if model.errors.any? %>
+	<div class="row">
+		<div class="col-md-offset-1 col-xs-offset-0 col-md-10 col-xs-12">
+			<div class="panel panel-danger">
+			  	<div class="panel-heading">
+			   		<h2><%= pluralize(model.errors.count, "error") %> prevented this form being saved:</h2>
+		  		</div>
+			  	<div class="panel-body">
+					<ul class="error-list-padding red-text">
+						<% model.errors.full_messages.each do |message| %>
+							<li><%= message %></li>
+						<% end %>
+					</ul>
+			    </div>
+			</div>	
+		</div>
+	</div>
+	<br />
+<% end %>

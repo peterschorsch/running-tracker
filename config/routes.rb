@@ -8,5 +8,10 @@ Rails.application.routes.draw do
   post "/sessions", to: "sessions#create"
   delete "/sessions", to: "sessions#destroy"
 
-  resources :users
+  ### USERS PAGE ###
+    resources :users, except: [:index, :new, :create, :show, :destroy] do
+      collection do
+        patch 'update_password'
+      end
+    end
 end

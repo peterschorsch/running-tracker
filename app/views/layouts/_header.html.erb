@@ -30,6 +30,7 @@
 		</li>
 	  </ul>
       <ul class="nav navbar-nav navbar-right">
+      	<li><%= link_to "My Profile", edit_user_path(current_user) %></li>
 		<li><%= link_to "Logout", sessions_path, method: :delete %></li>
 	  </ul>
 	</div><!-- /.navbar-collapse -->
