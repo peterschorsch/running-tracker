@@ -1,0 +1,32 @@
+h1, h2, h3{
+	margin-top: 10px !important;
+}
+.align-left{
+	text-align: left;
+}
+.align-center{
+	text-align: center;
+}
+.align-right{
+	text-align: right;
+}
+
+.red-text{
+	color: red;
+}
+
+.small-caps {
+  font-variant: small-caps;
+}
+
+.navbar-brand{
+	font-size: 36px !important;
+}
+
+//Link that looks like text
+.text-link:hover, .text-link:visited, .text-link:link, .text-link:active, 
+.text-link a:hover, .text-link a:visited, .text-link a:link, .text-link a:active {
+  text-decoration: none;
+  color: #333333;
+  background-color: transparent;
+}

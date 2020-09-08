@@ -1,1 +1,23 @@
-<h1>Dashboard</h1>
+<% if notice %>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 col-xs-1">
+			<div class="alert alert-success alert-dismissable align-center" role="alert">
+				<h2>
+					<a href="#" class="close text-link" data-dismiss="alert" aria-label="close">X</a>
+					<span id="notice"><%= raw(notice) %></span>
+				</h2>
+			</div>
+		</div>
+	</div>
+<% end %>
+
+<% if alert %>
+	<div class="row">
+		<div class="col-xs-8 col-xs-offset-2">
+			<h3 class="align-center red-text" id=”alert”><%= alert %></h3>
+		</div>
+	</div>
+<% end %>
+
+<h1 class="align-center">Dashboard</h1>
+<hr />
