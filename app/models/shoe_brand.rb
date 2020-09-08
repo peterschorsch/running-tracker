@@ -1,0 +1,2 @@
+class ShoeBrand < ApplicationRecord
+end
