@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_09_050054) do
+ActiveRecord::Schema.define(version: 2020_09_09_050504) do
 
   create_table "gears", force: :cascade do |t|
     t.string "model", null: false
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2020_09_09_050054) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["shoe_brand_id"], name: "index_gears_on_shoe_brand_id"
+  end
+
+  create_table "month_keys", force: :cascade do |t|
+    t.integer "number", limit: 1, null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "shoe_brands", force: :cascade do |t|

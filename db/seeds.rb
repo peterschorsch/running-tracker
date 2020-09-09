@@ -273,5 +273,16 @@ puts "SEEDED all 50 States"
 puts ""
 puts ""
 
+puts "----------MONTH KEYS----------"
+month_list = Array[ [1, "January"], [2, "February"], [3, "March"], [4, "April"], [5, "May"], [6, "June"],
+                [7, "July"], [8, "August"], [9, "September"], [10, "October"], [11, "November"], [12, "December"] ]
+
+month_list.each do |number, month_name|
+  MonthKey.create_with(number: number, name: month_name).find_or_create_by(number: number, name: month_name)
+end
+puts "SEEDED all 12 Months"
+puts ""
+puts ""
+
 
 puts "RAN SEEDING IN " + (Time.now - start).round(1).to_s + " SECONDS"

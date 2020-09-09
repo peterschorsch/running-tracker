@@ -1,0 +1,3 @@
+class MonthKey < ApplicationRecord
+
+end
