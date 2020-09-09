@@ -1,0 +1,22 @@
+<table class="table table-responsive table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Hex Code</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% run_types.each do |run_type| %>
+      <%= run_type.default ? "<tr class='bold-text'>".html_safe : "<tr>".html_safe %>
+        <td><%= run_type.name %></td>
+        <td style="background-color: <%=run_type.hex_code%>"><%= run_type.hex_code %></td>
+        <td>
+          <%= render edit_icon_btn_path, edit_path: edit_run_type_path(run_type) %>
+          <%= render remove_icon_btn_path, object: run_type %>    
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

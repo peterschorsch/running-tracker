@@ -1,0 +1,14 @@
+<%= render edit_header_path, path: run_types_path, btn_text: "Run Types" %>
+
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default">
+			<div class="panel-heading align-center">
+				<h1>Editing: <strong><%= @run_type.name %></strong></h1>
+			</div>
+			<div class="panel-body">
+				<%= render 'form', run_type: @run_type %>
+			</div>
+		</div>
+	</div>
+</div>

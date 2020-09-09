@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @run_type.name %>
+</p>
+
+<p>
+  <strong>Hex code:</strong>
+  <%= @run_type.hex_code %>
+</p>
+
+<p>
+  <strong>Default:</strong>
+  <%= @run_type.default %>
+</p>
+
+<%= link_to 'Edit', edit_run_type_path(@run_type) %> |
+<%= link_to 'Back', run_types_path %>

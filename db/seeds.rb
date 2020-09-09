@@ -82,7 +82,7 @@ image_file = File.new(image_path)
   )).find_or_create_by(:model => model, :color_way => color_way)
 puts @gear.inspect
 
-model = "Waverider 22"
+model = "Wave Rider 22"
 color_way = "Blue Jay/Silver"
 image_path = "#{Rails.root}/app/assets/images/shoes/waverider_22.png"
 image_file = File.new(image_path)
@@ -273,6 +273,7 @@ puts "SEEDED all 50 States"
 puts ""
 puts ""
 
+
 puts "----------MONTH KEYS----------"
 month_list = Array[ [1, "January"], [2, "February"], [3, "March"], [4, "April"], [5, "May"], [6, "June"],
                 [7, "July"], [8, "August"], [9, "September"], [10, "October"], [11, "November"], [12, "December"] ]
@@ -281,6 +282,34 @@ month_list.each do |number, month_name|
   MonthKey.create_with(number: number, name: month_name).find_or_create_by(number: number, name: month_name)
 end
 puts "SEEDED all 12 Months"
+puts ""
+puts ""
+
+
+puts "----------RUN TYPES----------"
+type = "Easy Run"
+@runtype = RunType.create_with(name: type, hex_code: "#FFA500", active: true, default: false).find_or_create_by(name: type)
+puts @runtype.inspect
+
+type = "Tempo"
+@runtype = RunType.create_with(name: type, hex_code: "#228B22", active: true, default: false, default: false).find_or_create_by(name: type)
+puts @runtype.inspect
+
+type = "Speed"
+@runtype = RunType.create_with(name: type, hex_code: "#1E90FF ", active: true, default: false).find_or_create_by(name: type)
+puts @runtype.inspect
+
+type = "Long Run"
+@runtype = RunType.create_with(name: type, hex_code: "#FFD700", active: true, default: false).find_or_create_by(name: type)
+puts @runtype.inspect
+
+type = "Race"
+@runtype = RunType.create_with(name: type, hex_code: "#FF0000", active: true, default: false).find_or_create_by(name: type)
+puts @runtype.inspect
+
+type = "Recreation"
+@runtype = RunType.create_with(name: type, hex_code: "#FF6347", active: true, default: true).find_or_create_by(name: type)
+puts @runtype.inspect
 puts ""
 puts ""
 

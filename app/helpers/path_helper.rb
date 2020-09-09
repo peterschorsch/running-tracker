@@ -20,6 +20,14 @@ module PathHelper
 		"templates/buttons/crud/edit-icon"
 	end
 
+	def remove_btn_path
+		"templates/buttons/crud/delete"
+	end
+
+	def remove_icon_btn_path
+		"templates/buttons/crud/delete-icon"
+	end
+
 	def index_header_new_btn_path
 		"templates/index-header-new-btn"
 	end

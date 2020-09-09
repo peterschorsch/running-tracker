@@ -1,0 +1,17 @@
+<%= render index_header_new_btn_path, new_path: new_run_type_path, heading_text: "Run Types" %>
+
+<ul class="nav nav-tabs nav-justified text-link tab-text">
+  <li class="active"><a data-toggle="tab" href="#active_run_types">Active Run Types</a></li>
+  <li><a data-toggle="tab" href="#removed_run_types">Removed Run Types</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="active_run_types" class="tab-pane fade in active">
+    <br />
+    <%= render "table", run_types: @active_run_types %>
+  </div>
+  <div id="removed_run_types" class="tab-pane fade">
+    <br />
+    <%= render "table", run_types: @removed_run_types %>
+  </div>
+</div>

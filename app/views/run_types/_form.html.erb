@@ -1,0 +1,24 @@
+<%= form_with(model: run_type, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+  <%= render "templates/alerts/form-errors", model: run_type %>
+
+  <div class="row">
+    <div class="col-xs-2 col-xs-offset-1 align-right"><%= f.label :name, 'Run Type:' %></div>
+    <div class="col-xs-4"><%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run" } %></div>
+    <div class="col-xs-2 align-right"><%= f.label :active, 'Active?' %></div>
+    <div class="col-xs-1"><%= f.check_box :active, { class: 'form-control' } %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-2 col-xs-offset-1 align-right"><%= f.label :hex_code, 'Hex Code:' %></div>
+    <div class="col-xs-2"><%= f.text_field :hex_code, { class: 'form-control', placeholder: "#123456"} %></div>
+    <div class="col-xs-2" style="background-color: <%=f.object.hex_code%>">Current Hex Code: <%=f.object.hex_code%></div>
+    <div class="col-xs-2 align-right"><%= f.label :default, 'Make Default?' %></div>
+    <div class="col-xs-1"><%= f.check_box :default, { class: 'form-control' } %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+    </div>
+  </div>
+<% end %>
