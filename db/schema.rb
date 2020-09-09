@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_200008) do
+ActiveRecord::Schema.define(version: 2020_09_09_050054) do
 
   create_table "gears", force: :cascade do |t|
     t.string "model", null: false
@@ -37,6 +37,13 @@ ActiveRecord::Schema.define(version: 2020_09_08_200008) do
 
   create_table "shoe_brands", force: :cascade do |t|
     t.string "brand", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abbreviation", limit: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
