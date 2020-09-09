@@ -1,4 +1,4 @@
-<%= form_with(model: gear, local: true) do |f| %>
+<%= form_with(model: gear, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
   <%= render "templates/alerts/form-errors", model: gear %>
   <div class="row">
     <div class="col-xs-2 col-xs-offset-9 align-right"><%= f.label :default, 'Make Default?' %></div>
