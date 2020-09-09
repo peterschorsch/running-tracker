@@ -10,7 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_194523) do
+ActiveRecord::Schema.define(version: 2020_09_08_200008) do
+
+  create_table "gears", force: :cascade do |t|
+    t.string "model", null: false
+    t.string "color_way", null: false
+    t.string "image_file_name", null: false
+    t.string "image_content_type", null: false
+    t.bigint "image_file_size", null: false
+    t.datetime "image_updated_at", null: false
+    t.string "heel_drop", limit: 2, null: false
+    t.string "weight", limit: 4, null: false
+    t.string "size", limit: 4, null: false
+    t.string "shoe_type", null: false
+    t.integer "mileage", default: 0
+    t.boolean "default", default: false
+    t.date "purchased_on", null: false
+    t.date "first_used_on"
+    t.boolean "retired", default: false
+    t.date "retired_on"
+    t.integer "shoe_brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shoe_brand_id"], name: "index_gears_on_shoe_brand_id"
+  end
 
   create_table "shoe_brands", force: :cascade do |t|
     t.string "brand", null: false

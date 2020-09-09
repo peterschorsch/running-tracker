@@ -1,0 +1,12 @@
+<div class="row">
+	<div class="col-md-2">
+		<%= render back_to_dashboard_path %>
+	</div>
+	<div class="col-md-2 col-md-offset-8">
+		<%= render new_btn_path, new_path: new_path, new_btn_text: "Shoe" %>
+	</div>
+</div>
+
+<h1 class="align-center"><%=heading_text%></h1>
+<hr />
+<%= render "templates/alerts/notice" %>

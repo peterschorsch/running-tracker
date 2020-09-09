@@ -17,7 +17,10 @@ h1, h2, h3{
 }
 
 .small-caps {
-  font-variant: small-caps;
+	font-variant: small-caps;
+}
+.bold-text{
+	font-weight: bold;
 }
 
 .navbar-brand{
@@ -30,4 +33,10 @@ h1, h2, h3{
   text-decoration: none;
   color: #333333;
   background-color: transparent;
+}
+
+.vertical-align-middle{
+  display:flex;
+  align-items:center; /* vertically aligns */
+  justify-content: center;
 }

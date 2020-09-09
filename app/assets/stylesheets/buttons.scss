@@ -1,0 +1,19 @@
+/* ############### */
+/* ### BUTTONS ### */
+/* ############### */
+	.btn{
+		font-size: 16px;
+		white-space: normal !important;
+	}
+
+	.btn-group-vertical{
+		width: 100%;
+	}
+
+	.btn-primary, .btn-success, .btn-info, .btn-danger, .btn-warning, .btn-green{
+		color: white !important;
+	}
+
+	input[type='checkbox'].form-control, .pointer-cursor{
+		cursor: pointer;
+	}
