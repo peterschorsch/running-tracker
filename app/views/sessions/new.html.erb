@@ -15,13 +15,14 @@
             <div class="col-xs-10 col-xs-offset-1"><h3 class="align-center" id="notice"><%= notice %></h3></div>
           </div>
         <% end %>
+        <br />
         <div class="row">
           <div class="col-xs-6 col-xs-offset-3">
-            <%= image_tag("logos/runner_icon.png") %>
+            <%= link_to image_tag("logos/login_runner_icon.png", class: "fill-width"), login_path %>
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-6 col-xs-offset-3">
+          <div class="col-xs-8 col-xs-offset-2">
             <h1 class="align-center">Run Tracker</h1>
           </div>
         </div>
