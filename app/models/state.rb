@@ -1,4 +1,6 @@
 class State < ApplicationRecord
+	validates :name, :abbreviation, presence: true, uniqueness: true
+
 	scope :find_by_abbr, -> (abbreviation) {
 		where(:abbreviation => abbreviation).first
 	}

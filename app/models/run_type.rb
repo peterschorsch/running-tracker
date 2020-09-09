@@ -1,6 +1,6 @@
 class RunType < ApplicationRecord
-	validates :name, :hex_code, presence: true
-	validates :name, :hex_code, uniqueness: true
+	validates :name, :hex_code, presence: true, uniqueness: true
+	validates :hex_code, length: { is: 7 }
 
 	scope :active_run_types, -> {
 		where(:active => true)

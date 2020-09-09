@@ -1,6 +1,8 @@
 class ShoeBrand < ApplicationRecord
 	has_many :gears
 
+	validates :brand, presence: true, uniqueness: true
+
 	scope :named, -> (brand) {
 		find_by(:brand => brand)
 	}
