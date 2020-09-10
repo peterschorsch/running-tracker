@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_09_195548) do
+ActiveRecord::Schema.define(version: 2020_09_10_232426) do
 
   create_table "gears", force: :cascade do |t|
     t.string "model", null: false
@@ -40,6 +40,17 @@ ActiveRecord::Schema.define(version: 2020_09_09_195548) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "obligations", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "start_datetime", null: false
+    t.datetime "end_datetime", null: false
+    t.string "city", null: false
+    t.integer "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["state_id"], name: "index_obligations_on_state_id"
   end
 
   create_table "run_types", force: :cascade do |t|

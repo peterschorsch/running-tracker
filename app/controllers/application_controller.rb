@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
 	helper_method :logged_in?, :current_user
 
 	def dashboard
+		@obligations = Obligation.all.includes(:state)
 	end
 
 	def current_user

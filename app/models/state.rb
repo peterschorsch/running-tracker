@@ -1,8 +1,10 @@
 class State < ApplicationRecord
+	has_many :obligations
+
 	validates :name, :abbreviation, presence: true, uniqueness: true
 
 	scope :find_by_abbr, -> (abbreviation) {
-		where(:abbreviation => abbreviation).first
+		find_by(:abbreviation => abbreviation)
 	}
 
 	scope :sort_by_name, -> {

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Obligations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @obligations.each do |obligation| %>
+      <tr>
+        <td><%= link_to 'Show', obligation %></td>
+        <td><%= link_to 'Edit', edit_obligation_path(obligation) %></td>
+        <td><%= link_to 'Destroy', obligation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Obligation', new_obligation_path %>
