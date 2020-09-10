@@ -17,6 +17,10 @@ module FormatdatetimeHelper
   def formatDateDots(date)
     date.strftime("%-m.%-d.%y")
   end
+  # 9/19
+  def formatCalendarDay(date)
+    date.strftime("%-m/%-d")
+  end
   # 4:38pm
   def formatTime(date)
     date.strftime("%-I:%M%p")
