@@ -1,0 +1,2 @@
+class WeeklyTotal < ApplicationRecord
+end

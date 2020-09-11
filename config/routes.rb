@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   resources :races, except: [:show]
   resources :yearly_totals
   resources :monthly_totals
+  resources :weekly_totals
 end
