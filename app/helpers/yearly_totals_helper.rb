@@ -1,0 +1,2 @@
+module YearlyTotalsHelper
+end

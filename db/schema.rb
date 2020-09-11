@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_024953) do
+ActiveRecord::Schema.define(version: 2020_09_11_195904) do
 
   create_table "gears", force: :cascade do |t|
     t.string "model", null: false
@@ -112,6 +112,20 @@ ActiveRecord::Schema.define(version: 2020_09_11_024953) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "yearly_totals", force: :cascade do |t|
+    t.string "year", limit: 4, null: false
+    t.decimal "mileage_total", null: false
+    t.integer "number_of_runs", null: false
+    t.integer "elevation_gain", null: false
+    t.integer "hours", null: false
+    t.integer "minutes", limit: 3, null: false
+    t.integer "seconds", limit: 2, null: false
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_yearly_totals_on_user_id"
   end
 
 end
