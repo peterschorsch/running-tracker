@@ -1,0 +1,2 @@
+class MonthlyTotal < ApplicationRecord
+end

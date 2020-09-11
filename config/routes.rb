@@ -19,4 +19,5 @@ Rails.application.routes.draw do
   resources :race_distances, path: "race-distances", except: [:show]
   resources :races, except: [:show]
   resources :yearly_totals
+  resources :monthly_totals
 end

@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Month number:</strong>
+  <%= @monthly_total.month_number %>
+</p>
+
+<p>
+  <strong>Month start:</strong>
+  <%= @monthly_total.month_start %>
+</p>
+
+<p>
+  <strong>Month end:</strong>
+  <%= @monthly_total.month_end %>
+</p>
+
+<p>
+  <strong>Mileage total:</strong>
+  <%= @monthly_total.mileage_total %>
+</p>
+
+<p>
+  <strong>Hours:</strong>
+  <%= @monthly_total.hours %>
+</p>
+
+<p>
+  <strong>Minutes:</strong>
+  <%= @monthly_total.minutes %>
+</p>
+
+<p>
+  <strong>Seconds:</strong>
+  <%= @monthly_total.seconds %>
+</p>
+
+<p>
+  <strong>Number of runs:</strong>
+  <%= @monthly_total.number_of_runs %>
+</p>
+
+<p>
+  <strong>Elevation gain:</strong>
+  <%= @monthly_total.elevation_gain %>
+</p>
+
+<%= link_to 'Edit', edit_monthly_total_path(@monthly_total) %> |
+<%= link_to 'Back', monthly_totals_path %>

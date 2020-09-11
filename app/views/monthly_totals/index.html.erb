@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Monthly Totals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month number</th>
+      <th>Month start</th>
+      <th>Month end</th>
+      <th>Mileage total</th>
+      <th>Hours</th>
+      <th>Minutes</th>
+      <th>Seconds</th>
+      <th>Number of runs</th>
+      <th>Elevation gain</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @monthly_totals.each do |monthly_total| %>
+      <tr>
+        <td><%= monthly_total.month_number %></td>
+        <td><%= monthly_total.month_start %></td>
+        <td><%= monthly_total.month_end %></td>
+        <td><%= monthly_total.mileage_total %></td>
+        <td><%= monthly_total.hours %></td>
+        <td><%= monthly_total.minutes %></td>
+        <td><%= monthly_total.seconds %></td>
+        <td><%= monthly_total.number_of_runs %></td>
+        <td><%= monthly_total.elevation_gain %></td>
+        <td><%= link_to 'Show', monthly_total %></td>
+        <td><%= link_to 'Edit', edit_monthly_total_path(monthly_total) %></td>
+        <td><%= link_to 'Destroy', monthly_total, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Monthly Total', new_monthly_total_path %>

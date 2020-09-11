@@ -1,0 +1,62 @@
+<%= form_with(model: monthly_total, local: true) do |form| %>
+  <% if monthly_total.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(monthly_total.errors.count, "error") %> prohibited this monthly_total from being saved:</h2>
+
+      <ul>
+      <% monthly_total.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :month_number %>
+    <%= form.text_field :month_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :month_start %>
+    <%= form.datetime_select :month_start %>
+  </div>
+
+  <div class="field">
+    <%= form.label :month_end %>
+    <%= form.datetime_select :month_end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :mileage_total %>
+    <%= form.text_field :mileage_total %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hours %>
+    <%= form.number_field :hours %>
+  </div>
+
+  <div class="field">
+    <%= form.label :minutes %>
+    <%= form.number_field :minutes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :seconds %>
+    <%= form.number_field :seconds %>
+  </div>
+
+  <div class="field">
+    <%= form.label :number_of_runs %>
+    <%= form.number_field :number_of_runs %>
+  </div>
+
+  <div class="field">
+    <%= form.label :elevation_gain %>
+    <%= form.number_field :elevation_gain %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

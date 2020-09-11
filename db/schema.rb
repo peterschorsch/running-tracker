@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_195904) do
+ActiveRecord::Schema.define(version: 2020_09_11_201533) do
 
   create_table "gears", force: :cascade do |t|
     t.string "model", null: false
@@ -40,6 +40,22 @@ ActiveRecord::Schema.define(version: 2020_09_11_195904) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "monthly_totals", force: :cascade do |t|
+    t.string "month_number", limit: 1, null: false
+    t.datetime "month_start", null: false
+    t.datetime "month_end", null: false
+    t.decimal "mileage_total", null: false
+    t.integer "hours", null: false
+    t.integer "minutes", limit: 3, null: false
+    t.integer "seconds", limit: 2, null: false
+    t.integer "number_of_runs", null: false
+    t.integer "elevation_gain", null: false
+    t.integer "yearly_total_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["yearly_total_id"], name: "index_monthly_totals_on_yearly_total_id"
   end
 
   create_table "obligations", force: :cascade do |t|
