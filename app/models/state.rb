@@ -16,11 +16,7 @@ class State < ApplicationRecord
 	}
 
 	### FOR FORMS ###
-	scope :return_states_w_names, -> {
-		sort_by_abbr.select(:id, :name)
-	}
-
-	scope :return_states_w_abbr, -> {
-		sort_by_abbr.select(:id, :abbreviation)
-	}
+	def self.select_state_id_name
+		self.all.map{ |state| [state.name, state.id] }
+	end
 end

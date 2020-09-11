@@ -1,15 +1,10 @@
 class ObligationsController < ApplicationController
-  before_action :set_obligation, only: [:show, :edit, :update, :destroy]
+  before_action :set_obligation, only: [:edit, :update, :destroy]
 
   # GET /obligations
   # GET /obligations.json
   def index
-    @obligations = Obligation.all
-  end
-
-  # GET /obligations/1
-  # GET /obligations/1.json
-  def show
+    @obligations = Obligation.order_by_newest_date_time.includes(:state)
   end
 
   # GET /obligations/new
@@ -28,8 +23,8 @@ class ObligationsController < ApplicationController
 
     respond_to do |format|
       if @obligation.save
-        format.html { redirect_to @obligation, notice: 'Obligation was successfully created.' }
-        format.json { render :show, status: :created, location: @obligation }
+        format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully created." }
+        format.json { render :index, status: :created, location: @obligation }
       else
         format.html { render :new }
         format.json { render json: @obligation.errors, status: :unprocessable_entity }
@@ -42,8 +37,8 @@ class ObligationsController < ApplicationController
   def update
     respond_to do |format|
       if @obligation.update(obligation_params)
-        format.html { redirect_to @obligation, notice: 'Obligation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @obligation }
+        format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully updated." }
+        format.json { render :index, status: :ok, location: @obligation }
       else
         format.html { render :edit }
         format.json { render json: @obligation.errors, status: :unprocessable_entity }
@@ -56,7 +51,7 @@ class ObligationsController < ApplicationController
   def destroy
     @obligation.destroy
     respond_to do |format|
-      format.html { redirect_to obligations_url, notice: 'Obligation was successfully destroyed.' }
+      format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully removed." }
       format.json { head :no_content }
     end
   end

@@ -1,17 +1,28 @@
-<%= form_with(model: obligation, local: true) do |form| %>
-  <% if obligation.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(obligation.errors.count, "error") %> prohibited this obligation from being saved:</h2>
+<%= form_with(model: obligation, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+  <%= render "templates/alerts/form-errors", model: obligation %>
 
-      <ul>
-      <% obligation.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="row">
+    <div class="col-xs-2 col-xs-offset-2 align-right"><%= f.label :name, 'Name:' %></div>
+    <div class="col-xs-5"><%= f.text_field :name, { class: 'form-control', placeholder: "Event Name" } %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-2 align-right"><%= f.label :start_datetime, 'Start Date/Time:' %></div>
+    <div class="col-xs-4"><%= f.datetime_select :start_datetime, { class: 'form-control' } %></div>
+    <div class="col-xs-2 align-right"><%= f.label :end_datetime, 'End Date/Time:' %></div>
+    <div class="col-xs-4"><%= f.datetime_select :end_datetime, { class: 'form-control' } %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-2 col-xs-offset-1 align-right"><%= f.label :city, 'City:' %></div>
+    <div class="col-xs-3"><%= f.text_field :city, { class: 'form-control', placeholder: 'Anytown' } %></div>
+    <div class="col-xs-2 align-right"><%= f.label :state, 'State:' %></div>
+    <div class="col-xs-3"><%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Please Select a State" }, { :class => "form-control" })%></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>

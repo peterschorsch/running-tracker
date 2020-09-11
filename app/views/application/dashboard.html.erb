@@ -22,10 +22,6 @@
 <h1 class="align-center">Dashboard</h1>
 <hr />
 
-<%#= month_calendar(attribute: :start_datetime, end_attribute: :end_datetime) do |date| %>
-  <%#= date %>
-<%# end %>
-
 <%= month_calendar(attribute: :start_datetime, end_attribute: :end_datetime, events: @obligations) do |date, obligations| %>
   <%= date %>
 
@@ -35,7 +31,7 @@
       <br />
       <i><%= obligation.return_city_state_abbreviation %></i>
       <br />
-      <%= formatTime(obligation.start_datetime) %> - <%= formatTime(obligation.end_datetime) %>
+      <%= obligation.return_formatted_time_period %>
     </div>
   <% end %>
 <% end %>

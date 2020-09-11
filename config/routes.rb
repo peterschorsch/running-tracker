@@ -15,5 +15,5 @@ Rails.application.routes.draw do
 
   resources :gears, path: "shoes", except: [:show, :destroy]
   resources :run_types, path: "run-types"
-  resources :obligations
+  resources :obligations, except: [:show]
 end
