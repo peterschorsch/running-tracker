@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'sessions#new', as: "login"
 
@@ -16,4 +17,5 @@ Rails.application.routes.draw do
   resources :gears, path: "shoes", except: [:show, :destroy]
   resources :run_types, path: "run-types"
   resources :obligations, except: [:show]
+  resources :race_distances, path: "race-distances"
 end
