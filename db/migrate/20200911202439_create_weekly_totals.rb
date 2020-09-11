@@ -6,7 +6,7 @@ class CreateWeeklyTotals < ActiveRecord::Migration[5.2]
       t.datetime :week_end, :null => false
 
       t.decimal :mileage_total, :null => false
-      t.decimal, :goal
+      t.decimal :goal, :precision => 5, :scale => 5
       t.boolean :met_goal, :default => false
 
       t.integer :hours, :null => false

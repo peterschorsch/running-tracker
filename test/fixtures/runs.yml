@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  distance: 9.99
+  hours: 1
+  minutes: 1
+  seconds: 1
+  pace: MyString
+  elevation_gain: 1
+  avg_heart_rate: MyString
+  max_heart_rate: MyString
+  city: MyString
+  notes: MyText
+  personal_best: false
+
+two:
+  distance: 9.99
+  hours: 1
+  minutes: 1
+  seconds: 1
+  pace: MyString
+  elevation_gain: 1
+  avg_heart_rate: MyString
+  max_heart_rate: MyString
+  city: MyString
+  notes: MyText
+  personal_best: false

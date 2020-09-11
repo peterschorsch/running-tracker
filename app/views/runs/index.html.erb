@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Runs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Distance</th>
+      <th>Hours</th>
+      <th>Minutes</th>
+      <th>Seconds</th>
+      <th>Pace</th>
+      <th>Elevation gain</th>
+      <th>Avg heart rate</th>
+      <th>Max heart rate</th>
+      <th>City</th>
+      <th>Notes</th>
+      <th>Personal best</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @runs.each do |run| %>
+      <tr>
+        <td><%= run.distance %></td>
+        <td><%= run.hours %></td>
+        <td><%= run.minutes %></td>
+        <td><%= run.seconds %></td>
+        <td><%= run.pace %></td>
+        <td><%= run.elevation_gain %></td>
+        <td><%= run.avg_heart_rate %></td>
+        <td><%= run.max_heart_rate %></td>
+        <td><%= run.city %></td>
+        <td><%= run.notes %></td>
+        <td><%= run.personal_best %></td>
+        <td><%= link_to 'Show', run %></td>
+        <td><%= link_to 'Edit', edit_run_path(run) %></td>
+        <td><%= link_to 'Destroy', run, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Run', new_run_path %>

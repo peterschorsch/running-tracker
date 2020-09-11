@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_201533) do
+ActiveRecord::Schema.define(version: 2020_09_11_203325) do
 
   create_table "gears", force: :cascade do |t|
     t.string "model", null: false
@@ -105,6 +105,30 @@ ActiveRecord::Schema.define(version: 2020_09_11_201533) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "runs", force: :cascade do |t|
+    t.decimal "distance", precision: 5, scale: 5, null: false
+    t.string "pace", null: false
+    t.integer "hours", null: false
+    t.integer "minutes", limit: 3, null: false
+    t.integer "seconds", limit: 2, null: false
+    t.integer "elevation_gain", null: false
+    t.string "avg_heart_rate", limit: 3, null: false
+    t.string "max_heart_rate", limit: 3, null: false
+    t.string "city", null: false
+    t.text "notes"
+    t.boolean "personal_best", default: false
+    t.integer "run_type_id"
+    t.integer "state_id"
+    t.integer "weekly_total_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["run_type_id"], name: "index_runs_on_run_type_id"
+    t.index ["state_id"], name: "index_runs_on_state_id"
+    t.index ["user_id"], name: "index_runs_on_user_id"
+    t.index ["weekly_total_id"], name: "index_runs_on_weekly_total_id"
+  end
+
   create_table "shoe_brands", force: :cascade do |t|
     t.string "brand", null: false
     t.datetime "created_at", null: false
@@ -128,6 +152,25 @@ ActiveRecord::Schema.define(version: 2020_09_11_201533) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "weekly_totals", force: :cascade do |t|
+    t.string "week_number", limit: 1, null: false
+    t.datetime "week_start", null: false
+    t.datetime "week_end", null: false
+    t.decimal "mileage_total", null: false
+    t.decimal "goal", precision: 5, scale: 5
+    t.boolean "met_goal", default: false
+    t.integer "hours", null: false
+    t.integer "minutes", limit: 3, null: false
+    t.integer "seconds", limit: 2, null: false
+    t.integer "number_of_runs", null: false
+    t.integer "elevation_gain", null: false
+    t.text "notes"
+    t.integer "monthly_total_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["monthly_total_id"], name: "index_weekly_totals_on_monthly_total_id"
   end
 
   create_table "yearly_totals", force: :cascade do |t|
