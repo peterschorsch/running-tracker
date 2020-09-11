@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  race_datetime: 2020-09-10 19:49:53
+  hours: MyString
+  minutes: MyString
+  seconds: MyString
+  pace: MyString
+  notes: MyText
+  city: MyString
+
+two:
+  name: MyString
+  race_datetime: 2020-09-10 19:49:53
+  hours: MyString
+  minutes: MyString
+  seconds: MyString
+  pace: MyString
+  notes: MyText
+  city: MyString

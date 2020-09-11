@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Race</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Race</th>
+      <th>Race datetime</th>
+      <th>Hours</th>
+      <th>Minutes</th>
+      <th>Seconds</th>
+      <th>Pace</th>
+      <th>Notes</th>
+      <th>City</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @races.each do |race| %>
+      <tr>
+        <td><%= race.race %></td>
+        <td><%= race.race_datetime %></td>
+        <td><%= race.hours %></td>
+        <td><%= race.minutes %></td>
+        <td><%= race.seconds %></td>
+        <td><%= race.pace %></td>
+        <td><%= race.notes %></td>
+        <td><%= race.city %></td>
+        <td><%= link_to 'Edit', edit_race_path(race) %></td>
+        <td><%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Race', new_race_path %>

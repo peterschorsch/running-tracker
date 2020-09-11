@@ -1,5 +1,6 @@
 class State < ApplicationRecord
 	has_many :obligations
+	has_many :races
 
 	validates :name, :abbreviation, presence: true, uniqueness: true
 

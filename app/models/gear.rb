@@ -1,5 +1,6 @@
 class Gear < ApplicationRecord
 	belongs_to :shoe_brand
+	has_many :races
 
 	has_attached_file :image
 	validates_attachment_presence :image
@@ -10,6 +11,14 @@ class Gear < ApplicationRecord
 	validates :heel_drop, length: { maximum: 2 }
 	validates :weight, :size, length: { maximum: 4 }
 	validate :retired_fields
+
+	scope :find_shoe, -> (shoe_model) {
+		find_by(model: shoe_model)
+	}
+
+	scope :find_shoe_with_color, -> (shoe_model, color_way) {
+		find_by(model: shoe_model, color_way: color_way)
+	}
 
 	scope :order_by_shoe, -> {
 		joins(:shoe_brand).order(:brand, :model)
