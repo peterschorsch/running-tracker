@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+	has_many :yearly_totals
+	has_many :runs
+
 	include EmailValidator
 
 	validates :first_name, :last_name, presence: true
