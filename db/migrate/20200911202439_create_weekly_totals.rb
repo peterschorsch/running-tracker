@@ -17,8 +17,6 @@ class CreateWeeklyTotals < ActiveRecord::Migration[5.2]
 
       t.text :notes
 
-      t.references :monthly_total, index: true, foreign_key: true
-
       t.timestamps
     end
   end

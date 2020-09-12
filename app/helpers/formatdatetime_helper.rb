@@ -41,4 +41,8 @@ module FormatdatetimeHelper
     date.strftime("%-m/%-d/%y at %-I:%M%p")
   end
 
+  def formatYear(date)
+    date.strftime("%-Y")
+  end
+
 end

@@ -63,10 +63,8 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.integer "seconds", limit: 2, null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
-    t.integer "yearly_total_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["yearly_total_id"], name: "index_monthly_totals_on_yearly_total_id"
   end
 
   create_table "obligations", force: :cascade do |t|
@@ -133,7 +131,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.integer "run_type_id"
     t.integer "gear_id"
     t.integer "state_id"
-    t.integer "weekly_total_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -141,7 +138,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.index ["run_type_id"], name: "index_runs_on_run_type_id"
     t.index ["state_id"], name: "index_runs_on_state_id"
     t.index ["user_id"], name: "index_runs_on_user_id"
-    t.index ["weekly_total_id"], name: "index_runs_on_weekly_total_id"
   end
 
   create_table "shoe_brands", force: :cascade do |t|
@@ -184,10 +180,8 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
     t.text "notes"
-    t.integer "monthly_total_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["monthly_total_id"], name: "index_weekly_totals_on_monthly_total_id"
   end
 
   create_table "yearly_totals", force: :cascade do |t|

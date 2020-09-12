@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+		<div class="col-md-4 align-center">
+			<h2>September</h2>
+			<hr />
+			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+    	</div>
+		<div class="col-md-4 align-center">
+			<h2><%= Date.today.year %></h2>
+			<hr />
+			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+		</div>
+		<div class="col-md-4 align-center">
+			<h2>All-Time</h2>
+			<hr />
+			<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+		</div>
+	</div>
+</div>
+
+<br /><br />
+
+<div class="container">
+    <div class="row">
+		<div class="col-md-8 col-md-offset-2 align-center">
+			<h2>Personal Bests</h2>
+			<hr />
+			<% @personal_bests.each do |race| %>
+				<h3><%= formatYear(race.start_time) %> <%= race.name %></h3>
+				<p><%= race.concat_full_location %></p>
+				<p><strong><%= race.concat_distance_miles %></strong> | <strong><%= race.concat_elapsed_time %></strong></p>
+				<p><%= race.concat_pace_min_miles %> | <%= race.concat_elevation_gain %></p>
+				<p><%= race.gear.return_full_shoe_name %></p>
+				<br />
+			<% end %>
+    	</div>
+	</div>
+	<hr>
+</div>

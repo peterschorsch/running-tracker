@@ -3,18 +3,27 @@ class Run < ApplicationRecord
 	belongs_to :weekly_total, optional: true
 	belongs_to :gear
 	belongs_to :state
+	belongs_to :run_type
 
 	validates :name, :start_time, :distance, :minutes, :seconds, :elevation_gain, :avg_heart_rate, :max_heart_rate, :city, presence: true
 	validates :distance, :elevation_gain, numericality: true
 	validates :hours, numericality: true, length: { maximum: 3 }, allow_nil: true
 	validates :minutes, numericality: true, length: { in: 0..2 }
 	validates :seconds, numericality: true, length: { in: 1..2 }
-	validates :avg_heart_rate, :max_heart_rate, numericality: true, length: { in: 2..3 }
+	validates :avg_heart_rate, :max_heart_rate, numericality: true, length: { in: 1..3 }
 
 
 	scope :of_user, -> (user) {
 	    where(user: user)
-	  }
+	}
+
+	scope :of_run_type, -> (run_type) {
+	    where(run_type: run_type)
+	}
+
+	scope :retrieve_personal_bests, -> {
+		joins(:run_type).where("run_types.name=? AND runs.personal_best=?", "Race", true).order(:distance).includes(:run_type, :state, gear: :shoe_brand)
+	}
 
 	scope :order_by_most_recent, -> {
 		order('start_time DESC')
@@ -47,4 +56,11 @@ class Run < ApplicationRecord
 		heart_rate + " bpm"
 	end
 	
+	def concat_full_location
+		self.city + ", " + self.state.name
+	end
+
+	def concat_location_abbreviation
+		self.city + ", " + self.state.abbreviation
+	end
 end
