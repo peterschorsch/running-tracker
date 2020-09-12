@@ -1,15 +1,10 @@
 class RunsController < ApplicationController
-  before_action :set_run, only: [:show, :edit, :update, :destroy]
+  before_action :set_run, only: [:edit, :update, :destroy]
 
   # GET /runs
   # GET /runs.json
   def index
-    @runs = Run.all
-  end
-
-  # GET /runs/1
-  # GET /runs/1.json
-  def show
+    @runs = Run.of_user(current_user).includes(gear: :shoe_brand).order_by_most_recent
   end
 
   # GET /runs/new
@@ -25,11 +20,12 @@ class RunsController < ApplicationController
   # POST /runs.json
   def create
     @run = Run.new(run_params)
+    @run.user_id = current_user.id
 
     respond_to do |format|
       if @run.save
-        format.html { redirect_to @run, notice: 'Run was successfully created.' }
-        format.json { render :show, status: :created, location: @run }
+        format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
+        format.json { render :index, status: :created, location: @run }
       else
         format.html { render :new }
         format.json { render json: @run.errors, status: :unprocessable_entity }
@@ -40,10 +36,12 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1
   # PATCH/PUT /runs/1.json
   def update
+    @run.user_id = current_user.id
+
     respond_to do |format|
       if @run.update(run_params)
-        format.html { redirect_to @run, notice: 'Run was successfully updated.' }
-        format.json { render :show, status: :ok, location: @run }
+        format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
+        format.json { render :index, status: :ok, location: @run }
       else
         format.html { render :edit }
         format.json { render json: @run.errors, status: :unprocessable_entity }
@@ -56,7 +54,7 @@ class RunsController < ApplicationController
   def destroy
     @run.destroy
     respond_to do |format|
-      format.html { redirect_to runs_url, notice: 'Run was successfully destroyed.' }
+      format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
       format.json { head :no_content }
     end
   end
@@ -69,6 +67,6 @@ class RunsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def run_params
-      params.require(:run).permit(:distance, :hours, :minutes, :seconds, :pace, :elevation_gain, :avg_heart_rate, :max_heart_rate, :city, :notes, :personal_best)
+      params.require(:run).permit(:name, :distance, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :avg_heart_rate, :max_heart_rate, :city, :notes, :personal_best, :gear_id, :state_id)
     end
 end

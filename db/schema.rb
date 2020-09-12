@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.datetime "start_time", null: false
     t.decimal "distance", precision: 5, scale: 5, null: false
     t.string "pace", null: false
-    t.integer "hours", null: false
+    t.integer "hours"
     t.integer "minutes", limit: 3, null: false
     t.integer "seconds", limit: 2, null: false
     t.integer "elevation_gain", null: false

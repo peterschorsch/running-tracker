@@ -17,6 +17,11 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">Link</a></li>
 				<li>
+					<%= link_to runs_path do %>
+						<span class="glyphicon glyphicon-share-alt"></span> My Runs
+					<% end %>
+				</li>
+				<li>
 					<%= link_to gears_path do %>
 						<span class="glyphicon glyphicon-briefcase"></span> My Gear
 					<% end %>

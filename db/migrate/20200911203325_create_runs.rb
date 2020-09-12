@@ -6,7 +6,7 @@ class CreateRuns < ActiveRecord::Migration[5.2]
 
       t.decimal :distance, :null => false, :precision => 5, :scale => 5
       t.string :pace, :null => false
-      t.integer :hours, :null => false
+      t.integer :hours
       t.integer :minutes, :null => false, :limit => 3
       t.integer :seconds, :null => false, :limit => 2
 

@@ -15,8 +15,8 @@
     <tbody>
       <% gears.each do |shoe| %>
         <%= shoe.default ? "<tr class='bold-text'>".html_safe : "<tr>".html_safe %>
-          <td scope="row"><%= image_tag(shoe.image.url, alt: "#{shoe.return_shoe_name} Icon", class: "shoe-icon") %></td>
-          <td scope="row"><%= shoe.return_shoe_name %></td>
+          <td scope="row"><%= image_tag(shoe.image.url, alt: "#{shoe.return_full_shoe_name} Icon", class: "shoe-icon") %></td>
+          <td scope="row"><%= shoe.return_full_shoe_name %></td>
           <td scope="row"><%= shoe.return_shoe_weight %></td>
           <td scope="row"><%= shoe.return_shoe_drop %></td>
           <td scope="row"><%= formatDateDots(shoe.purchased_on) %></td>

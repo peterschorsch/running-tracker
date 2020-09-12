@@ -8,6 +8,10 @@ class RunType < ApplicationRecord
 		find_by(:name => run_type)
 	}
 
+	scope :order_by_name, ->  {
+		order(:name)
+	}
+
 	scope :active_run_types, -> {
 		where(:active => true)
 	}
@@ -19,5 +23,9 @@ class RunType < ApplicationRecord
 	scope :default_run_type, -> {
 		find_by(:default => true)
 	}
+
+	def self.select_run_type_id_name
+		self.all.order_by_name.map{ |run_type| [run_type.name, run_type.id] }
+	end
 
 end

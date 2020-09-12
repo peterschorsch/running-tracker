@@ -1,5 +1,14 @@
-<h1>New Run</h1>
+<%= render new_header_path, path: runs_path, btn_text: "Runs", heading_text: "Run" %>
 
-<%= render 'form', run: @run %>
-
-<%= link_to 'Back', runs_path %>
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default">
+			<div class="panel-heading align-center">
+				<h1>Add New Shoe</h1>
+			</div>
+			<div class="panel-body">
+				<%= render 'form', run: @run %>
+			</div>
+		</div>
+	</div>
+</div>

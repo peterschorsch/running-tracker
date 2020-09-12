@@ -40,7 +40,7 @@ class Gear < ApplicationRecord
 		find_by(:model => "RUNNING SHOE")
 	}
 
-	def return_shoe_name
+	def return_full_shoe_name
 		self.shoe_brand.brand + " " + self.model
 	end
 
@@ -58,6 +58,10 @@ class Gear < ApplicationRecord
 
 	def set_new_default
 		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
+	end
+
+	def self.select_gear_id_name
+		self.active_shoes.order_by_shoe.map{ |gear| [gear.return_full_shoe_name, gear.id] }
 	end
 
 	def unretire_shoe

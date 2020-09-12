@@ -1,72 +1,47 @@
-<%= form_with(model: run, local: true) do |form| %>
-  <% if run.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(run.errors.count, "error") %> prohibited this run from being saved:</h2>
+<%= form_with(model: run, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+  <%= render "templates/alerts/form-errors", model: run %>
 
-      <ul>
-      <% run.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="row vertical-align-middle">
+    <div class="col-xs-1 align-right"><%= f.label :name, 'Name:' %></div>
+    <div class="col-xs-3"><%= f.text_field :name, { class: 'form-control', placeholder: "Los Angeles Running" } %></div>
+    <div class="col-xs-1"><%= f.label :start_time, 'Start Time:' %></div>
+    <div class="col-xs-3"><%= f.datetime_field :start_time, { class: 'form-control' } %></div>
+    <div class="col-xs-1 align-right"><%= f.label :gear_id, 'Shoe:' %></div>
+    <div class="col-xs-2"><%= f.select(:gear_id, Gear.select_gear_id_name, { :include_blank => "Select a Shoe" }, { :class => "form-control" })%></div>
+  </div>
+  <br />
+  <div class="row vertical-align-middle">
+    <div class="col-xs-1 align-right"><%= f.label :distance, 'Distance (miles):' %></div>
+    <div class="col-xs-2"><%= f.number_field :distance, { class: 'form-control', min: 0, step: 0.1, placeholder: "4" } %></div>
+    <div class="col-xs-1 align-right"><%= f.label :hours, 'Elasped Time:' %></div>
+    <div class="col-xs-1"><%= f.number_field :hours, { class: 'form-control', min: 0, step: 1, placeholder: "hours" } %></div>
+    <div class="col-xs-1"><%= f.number_field :minutes, { class: 'form-control', min: 0, step: 1, placeholder: "minutes" } %></div>
+    <div class="col-xs-1"><%= f.number_field :seconds, { class: 'form-control',  min: 0, step: 1, placeholder: "seconds" } %></div>
+    <div class="col-xs-1 align-right"><%= f.label :pace, 'Pace (mi/min):' %></div>
+    <div class="col-xs-2"><%= f.text_field :pace, { class: 'form-control', placeholder: "7:35" } %></div>
+    <div class="col-xs-1 align-right"><%= f.label :run_type_id, 'Run Type:' %></div>
+    <div class="col-xs-2"><%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control" })%></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-2 align-right"><%= f.label :elevation_gain, 'Elevation Gain (ft):' %></div>
+    <div class="col-xs-2"><%= f.number_field :elevation_gain, { class: 'form-control', min: 0, step: 1, placeholder: "200" } %></div>
+    <div class="col-xs-2 align-right"><%= f.label :avg_heart_rate, 'Avg. Heart Rate (bpm):' %></div>
+    <div class="col-xs-2"><%= f.number_field :avg_heart_rate, { class: 'form-control', min: 0, step: 1, placeholder: "152" } %></div>
+    <div class="col-xs-2 align-right"><%= f.label :max_heart_rate, 'Max Heart Rate (bpm):' %></div>
+    <div class="col-xs-2"><%= f.number_field :max_heart_rate, { class: 'form-control', min: 0, step: 1, placeholder: "190" } %></div>
+  </div>
+  <br />
+  <div class="row vertical-align-middle">
+    <div class="col-xs-1 align-right"><%= f.label :city, 'City:' %></div>
+    <div class="col-xs-2"><%= f.text_field :city, { class: 'form-control', placeholder: "Los Angeles" } %></div>
+    <div class="col-xs-1 align-right"><%= f.label :state_id, 'State:' %></div>
+    <div class="col-xs-2"><%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Select a State" }, { :class => "form-control" })%></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :distance %>
-    <%= form.text_field :distance %>
-  </div>
-
-  <div class="field">
-    <%= form.label :hours %>
-    <%= form.number_field :hours %>
-  </div>
-
-  <div class="field">
-    <%= form.label :minutes %>
-    <%= form.number_field :minutes %>
-  </div>
-
-  <div class="field">
-    <%= form.label :seconds %>
-    <%= form.number_field :seconds %>
-  </div>
-
-  <div class="field">
-    <%= form.label :pace %>
-    <%= form.text_field :pace %>
-  </div>
-
-  <div class="field">
-    <%= form.label :elevation_gain %>
-    <%= form.number_field :elevation_gain %>
-  </div>
-
-  <div class="field">
-    <%= form.label :avg_heart_rate %>
-    <%= form.text_field :avg_heart_rate %>
-  </div>
-
-  <div class="field">
-    <%= form.label :max_heart_rate %>
-    <%= form.text_field :max_heart_rate %>
-  </div>
-
-  <div class="field">
-    <%= form.label :city %>
-    <%= form.text_field :city %>
-  </div>
-
-  <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes %>
-  </div>
-
-  <div class="field">
-    <%= form.label :personal_best %>
-    <%= form.check_box :personal_best %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
   </div>
 <% end %>
