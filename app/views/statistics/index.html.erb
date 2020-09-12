@@ -1,19 +1,22 @@
 <div class="container">
     <div class="row">
 		<div class="col-md-4 align-center">
-			<h2>September</h2>
+			<h2><%= format_month(@monthly_stats.month_end) %></h2>
 			<hr />
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+			<p><%= @monthly_stats.concat_number_of_runs %> | <%= number_with_delimiter(@monthly_stats.mileage_total, :delimiter => ',') %> miles | <%= number_with_delimiter(@monthly_stats.elevation_gain, :delimiter => ',') %> ft</p>
+			<p><%= @monthly_stats.concat_total_time %></p>
     	</div>
 		<div class="col-md-4 align-center">
 			<h2><%= Date.today.year %></h2>
 			<hr />
-			<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+			<p><%= @yearly_stats.concat_number_of_runs %> | <%= number_with_delimiter(@yearly_stats.mileage_total, :delimiter => ',') %> miles | <%= number_with_delimiter(@yearly_stats.elevation_gain, :delimiter => ',') %> ft</p>
+			<p><%= @yearly_stats.concat_total_time %></p>
 		</div>
 		<div class="col-md-4 align-center">
 			<h2>All-Time</h2>
 			<hr />
-			<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+			<p><%= @all_time_stats.concat_number_of_runs %> | <%= number_with_delimiter(@all_time_stats.mileage_total, :delimiter => ',') %> miles | <%= number_with_delimiter(@all_time_stats.elevation_gain, :delimiter => ',') %> ft</p>
+			<p><%= @all_time_stats.concat_total_time %></p>
 		</div>
 	</div>
 </div>
