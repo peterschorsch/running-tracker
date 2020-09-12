@@ -13,7 +13,7 @@
           <br />
           <%= obligation.return_formatted_time_period %>
           <br />
-          <%= obligation.return_city_state_full %>
+          <%= concat_city_state_full(obligation.city, obligation.state) %>
         </td>
       </tr>
     <% end %>

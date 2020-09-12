@@ -31,12 +31,4 @@ class Run < ApplicationRecord
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
 		Run.where(start_time: starting_day..ending_day)
 	end
-	
-	def concat_full_location
-		self.city + ", " + self.state.name
-	end
-
-	def concat_location_abbreviation
-		self.city + ", " + self.state.abbreviation
-	end
 end

@@ -27,7 +27,7 @@
 			<hr />
 			<% @personal_bests.each do |race| %>
 				<h3><%= formatYear(race.start_time) %> <%= race.name %></h3>
-				<p><%= race.concat_full_location %></p>
+				<p><%= concat_city_state_full(race.city, race.state) %></p>
 				<p><strong><%= concat_distance_miles(race.mileage_total) %></strong> | <strong><%= concat_elapsed_time(race.hours, race.minutes, race.seconds) %></strong></p>
 				<p><%= concat_pace_min_miles(race.pace) %> | <%= concat_elevation_gain(race.elevation_gain) %></p>
 				<p><%= race.gear.return_full_shoe_name %></p>

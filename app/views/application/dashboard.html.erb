@@ -29,7 +29,7 @@
     <div>
       <strong><%= obligation.name %></strong>
       <br />
-      <i><%= obligation.return_city_state_abbreviation %></i>
+      <i><%= concat_city_state_abbreviation(obligation.city, obligation.state) %></i>
       <br />
       <%= obligation.return_formatted_time_period %>
     </div>

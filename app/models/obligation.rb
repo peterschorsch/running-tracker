@@ -20,12 +20,4 @@ class Obligation < ApplicationRecord
 	def return_formatted_time_period
 		self.start_datetime.strftime("%-I:%M%p") + " - " + self.end_datetime.strftime("%-I:%M%p")
 	end
-
-	def return_city_state_full
-		self.city + ", " + self.state.name
-	end
-
-	def return_city_state_abbreviation
-		self.city + ", " + self.state.abbreviation
-	end
 end
