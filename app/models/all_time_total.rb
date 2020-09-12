@@ -6,14 +6,6 @@ class AllTimeTotal < ApplicationRecord
 	    where(user: user)
 	}
 
-	def concat_number_of_runs
-		self.number_of_runs.to_s + " runs"
-	end
-
-	def concat_total_time
-		self.hours.to_s + " hrs " + self.minutes.to_s + " min " + self.seconds.to_s + " sec"
-	end
-
 	def self.update_all_time_totals(run)
 		self.mileage_total += run.distance
 		self.number_of_runs += 1

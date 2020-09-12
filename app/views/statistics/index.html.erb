@@ -3,20 +3,17 @@
 		<div class="col-md-4 align-center">
 			<h2><%= format_month(@monthly_stats.month_end) %></h2>
 			<hr />
-			<p><%= @monthly_stats.concat_number_of_runs %> | <%= number_with_delimiter(@monthly_stats.mileage_total, :delimiter => ',') %> miles | <%= number_with_delimiter(@monthly_stats.elevation_gain, :delimiter => ',') %> ft</p>
-			<p><%= @monthly_stats.concat_total_time %></p>
+			<p><%= concat_totals(@monthly_stats) %></p>
     	</div>
 		<div class="col-md-4 align-center">
 			<h2><%= Date.today.year %></h2>
 			<hr />
-			<p><%= @yearly_stats.concat_number_of_runs %> | <%= number_with_delimiter(@yearly_stats.mileage_total, :delimiter => ',') %> miles | <%= number_with_delimiter(@yearly_stats.elevation_gain, :delimiter => ',') %> ft</p>
-			<p><%= @yearly_stats.concat_total_time %></p>
+			<p><%= concat_totals(@yearly_stats) %></p>
 		</div>
 		<div class="col-md-4 align-center">
 			<h2>All-Time</h2>
 			<hr />
-			<p><%= @all_time_stats.concat_number_of_runs %> | <%= number_with_delimiter(@all_time_stats.mileage_total, :delimiter => ',') %> miles | <%= number_with_delimiter(@all_time_stats.elevation_gain, :delimiter => ',') %> ft</p>
-			<p><%= @all_time_stats.concat_total_time %></p>
+			<p><%= concat_totals(@all_time_stats) %></p>
 		</div>
 	</div>
 </div>
@@ -31,8 +28,8 @@
 			<% @personal_bests.each do |race| %>
 				<h3><%= formatYear(race.start_time) %> <%= race.name %></h3>
 				<p><%= race.concat_full_location %></p>
-				<p><strong><%= race.concat_distance_miles %></strong> | <strong><%= race.concat_elapsed_time %></strong></p>
-				<p><%= race.concat_pace_min_miles %> | <%= race.concat_elevation_gain %></p>
+				<p><strong><%= concat_distance_miles(race.mileage_total) %></strong> | <strong><%= concat_elapsed_time(race.hours, race.minutes, race.seconds) %></strong></p>
+				<p><%= concat_pace_min_miles(race.pace) %> | <%= concat_elevation_gain(race.elevation_gain) %></p>
 				<p><%= race.gear.return_full_shoe_name %></p>
 				<br />
 			<% end %>

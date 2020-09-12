@@ -4,7 +4,7 @@ class CreateRuns < ActiveRecord::Migration[5.2]
       t.string :name, :null => false
       t.datetime :start_time, :null => false
 
-      t.decimal :mileage, :null => false, :precision => 5, :scale => 5
+      t.decimal :mileage_total, :null => false, :precision => 5, :scale => 5
       t.string :pace, :null => false
       t.integer :hours
       t.integer :minutes, :null => false, :limit => 3

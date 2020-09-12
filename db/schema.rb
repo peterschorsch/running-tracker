@@ -78,13 +78,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.index ["state_id"], name: "index_obligations_on_state_id"
   end
 
-  create_table "race_distances", force: :cascade do |t|
-    t.string "name", null: false
-    t.decimal "distance_miles", precision: 5, scale: 5, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "run_types", force: :cascade do |t|
     t.string "name", null: false
     t.string "hex_code", limit: 7, null: false
@@ -97,7 +90,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
   create_table "runs", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "start_time", null: false
-    t.decimal "mileage", precision: 5, scale: 5, null: false
+    t.decimal "mileage_total", precision: 5, scale: 5, null: false
     t.string "pace", null: false
     t.integer "hours"
     t.integer "minutes", limit: 3, null: false

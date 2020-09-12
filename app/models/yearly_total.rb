@@ -15,12 +15,4 @@ class YearlyTotal < ApplicationRecord
 	def self.return_year_totals(year = Date.today.year)
 		self.find_by_year(year)
 	end
-
-	def concat_number_of_runs
-		self.number_of_runs.to_s + " runs"
-	end
-
-	def concat_total_time
-		self.hours.to_s + " hrs " + self.minutes.to_s + " min " + self.seconds.to_s + " sec"
-	end
 end
