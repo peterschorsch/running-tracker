@@ -348,21 +348,6 @@ puts ""
 puts ""
 
 
-puts "----------RACE DISTANCES----------"
-@race_distance = RaceDistance.find_or_create_by(name: "1 Mile", distance_miles: BigDecimal.new('1'))
-puts @race_distance.inspect
-@race_distance = RaceDistance.find_or_create_by(name: "5k", distance_miles: BigDecimal.new('3.1'))
-puts @race_distance.inspect
-@race_distance = RaceDistance.find_or_create_by(name: "10k", distance_miles: BigDecimal.new('6.2'))
-puts @race_distance.inspect
-@race_distance = RaceDistance.find_or_create_by(name: "Half Marathon", distance_miles: BigDecimal.new('13.1'))
-puts @race_distance.inspect
-@race_distance = RaceDistance.find_or_create_by(name: "Marathon", distance_miles: BigDecimal.new('26.2'))
-puts @race_distance.inspect
-puts ""
-puts ""
-
-
 user_id = User.find_user_by_name("Peter", "Schorsch").id
 puts "----------ALL TIME TOTALS----------"
 @alltime = AllTimeTotal.find_or_create_by(mileage_total: BigDecimal('2209'), elevation_gain: 69153, number_of_runs: 315, hours: 263, minutes: 42, seconds: 0, user_id: user_id)
