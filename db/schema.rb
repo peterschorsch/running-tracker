@@ -117,14 +117,12 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
   create_table "runs", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "start_time", null: false
-    t.decimal "distance", precision: 5, scale: 5, null: false
+    t.decimal "mileage", precision: 5, scale: 5, null: false
     t.string "pace", null: false
     t.integer "hours"
     t.integer "minutes", limit: 3, null: false
     t.integer "seconds", limit: 2, null: false
     t.integer "elevation_gain", null: false
-    t.string "avg_heart_rate", limit: 3, null: false
-    t.string "max_heart_rate", limit: 3, null: false
     t.string "city", null: false
     t.text "notes"
     t.boolean "personal_best", default: false

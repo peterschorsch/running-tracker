@@ -26,8 +26,6 @@
         <td><%= run.concat_elapsed_time %></td>
         <td><%= run.concat_pace_min_miles %></td>
         <td><%= run.concat_elevation_gain %></td>
-        <td><%= run.concat_heart_rate(run.avg_heart_rate) %></td>
-        <td><%= run.concat_heart_rate(run.max_heart_rate) %></td>
         <td><%= render edit_icon_btn_path, edit_path: edit_run_path(run) %></td>
         <td><%= render remove_icon_btn_path, object: run %></td>
       </tr>
