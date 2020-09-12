@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-	has_many :yearly_totals
+	has_one :all_time_total
 	has_many :runs
 
 	include EmailValidator
@@ -18,6 +18,9 @@ class User < ApplicationRecord
 
 	validates :password_digest, format: PASSWORD_FORMAT
 
+	scope :find_user_by_name, -> (firstname, lastname) {
+		find_by(:first_name => firstname, :last_name => lastname)
+	}
 
 	def is_admin?
 		self.role == "Admin"
