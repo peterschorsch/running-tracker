@@ -362,50 +362,6 @@ puts @race_distance.inspect
 puts ""
 puts ""
 
-puts "----------RACES----------"
-puts "----------2017----------"
-@race = Race.find_or_create_by(race: "Chicago Chinatown 5K & Youth Run", race_datetime: DateTime.new(2017, 7, 8, 8, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "19", seconds: "59", pace: "6:26", bib_number: "438", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 8").id, race_distance_id: RaceDistance.find_by_distance(3.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Rock 'n' Roll Chicago Half Marathon", race_datetime: DateTime.new(2017, 7, 15, 6, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "33", seconds: "9", pace: "7:27", bib_number: "1386", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 8").id, race_distance_id: RaceDistance.find_by_distance(13.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Chicago Chinatown 5K & Youth Run", race_datetime: DateTime.new(2017, 7, 8, 8, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "19", seconds: "59", pace: "6:26", bib_number: "438", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 8").id, race_distance_id: RaceDistance.find_by_distance(3.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Fox Valley Marathon", race_datetime: DateTime.new(2017, 9, 17, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "3", minutes: "11", seconds: "17", pace: "7:18", bib_number: "727", city: "St. Charles", gear_id: Gear.find_shoe("Ravenna 8").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Naperville Half Marathon and 5K", race_datetime: DateTime.new(2017, 10, 22, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "25", seconds: "48", pace: "6:33", bib_number: "3800", city: "Naperville", gear_id: Gear.find_shoe("Ravenna 8").id, race_distance_id: RaceDistance.find_by_distance(13.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-puts "----------2018----------"
-@race = Race.find_or_create_by(race: "Chicago Spring Half Marathon & 10k", race_datetime: DateTime.new(2018, 5, 20, 7, 50, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "38", seconds: "21", pace: "6:11", bib_number: "8111", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, race_distance_id: RaceDistance.find_by_distance(6.2).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Chicago Chinatown 5K & Youth Run", race_datetime: DateTime.new(2018, 7, 14, 8, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "4", pace: "5:49", bib_number: "36", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, race_distance_id: RaceDistance.find_by_distance(3.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Rock 'n' Roll Chicago Half Marathon", race_datetime: DateTime.new(2018, 7, 21, 6, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "21", seconds: "18", pace: "6:12", bib_number: "1346", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, race_distance_id: RaceDistance.find_by_distance(13.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Fox Valley Marathon", race_datetime: DateTime.new(2018, 9, 16, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "51", seconds: "48", pace: "6:33", bib_number: "622", city: "St. Charles", gear_id: Gear.find_shoe("Ravenna 9").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Bank of America Chicago Marathon", race_datetime: DateTime.new(2018, 10, 7, 7, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "46", seconds: "11", pace: "6:21", bib_number: "6084", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Naperville Half Marathon and 5K", race_datetime: DateTime.new(2018, 10, 21, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "57", pace: "6:07", bib_number: "1473", city: "Naperville", gear_id: Gear.find_shoe("Ravenna 9").id, race_distance_id: RaceDistance.find_by_distance(13.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-puts "----------2019----------"
-@race = Race.find_or_create_by(race: "Boston Marathon", race_datetime: DateTime.new(2019, 4, 15, 10, 02, 0).in_time_zone("Eastern Time (US & Canada)"), hours: "2", minutes: "57", seconds: "08", pace: "6:46", bib_number: "1183", city: "Boston", gear_id: Gear.find_shoe("Ravenna 10").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("MA").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Rock 'n' Roll Chicago Half Marathon", race_datetime: DateTime.new(2019, 7, 21, 6, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "44", pace: "6:05", bib_number: "1175", city: "Chicago", gear_id: Gear.find_shoe("Kinvara 10").id, race_distance_id: RaceDistance.find_by_distance(13.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Fox Valley Marathon", race_datetime: DateTime.new(2010, 9, 22, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "49", seconds: "34", pace: "6:28", bib_number: "347", city: "St. Charles", gear_id: Gear.find_shoe("Kinvara 10").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Bucktown 5K Run", race_datetime: DateTime.new(2019, 10, 6, 8, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "4", pace: "5:49", city: "Chicago", bib_number: "4291", gear_id: Gear.find_shoe("Adios 4").id, race_distance_id: RaceDistance.find_by_distance(3.1).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "Bank of America Chicago Marathon", race_datetime: DateTime.new(2019, 10, 13, 7, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "43", seconds: "08", pace: "6:14", bib_number: "11184", city: "Chicago", gear_id: Gear.find_shoe("Adios 4").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("IL").id)
-puts @race.inspect
-@race = Race.find_or_create_by(race: "TCS New York City Marathon", race_datetime: DateTime.new(2019, 11, 3, 9, 42, 0).in_time_zone("Eastern Time (US & Canada)"), hours: "3", minutes: "7", seconds: "16", pace: "7:09", bib_number: "2052", city: "New York", gear_id: Gear.find_shoe_with_color("Cloudswift", "Rock/Slate").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("NY").id)
-puts @race.inspect
-puts "----------2020----------"
-@race = Race.find_or_create_by(race: "Los Angeles Marathon", race_datetime: DateTime.new(2020, 3, 8, 6, 55, 0).in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", bib_number: "1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, race_distance_id: RaceDistance.find_by_distance(26.2).id, state_id: State.find_by_abbr("CA").id)
-puts @race.inspect
-puts ""
-puts ""
-
 
 user_id = User.find_user_by_name("Peter", "Schorsch").id
 puts "----------ALL TIME TOTALS----------"

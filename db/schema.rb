@@ -85,26 +85,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "races", force: :cascade do |t|
-    t.string "race", null: false
-    t.datetime "race_datetime", null: false
-    t.string "hours", limit: 3, null: false
-    t.string "minutes", limit: 2, null: false
-    t.string "seconds", limit: 2, null: false
-    t.string "pace", null: false
-    t.text "notes"
-    t.string "city", null: false
-    t.string "bib_number", null: false
-    t.integer "gear_id"
-    t.integer "race_distance_id"
-    t.integer "state_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["gear_id"], name: "index_races_on_gear_id"
-    t.index ["race_distance_id"], name: "index_races_on_race_distance_id"
-    t.index ["state_id"], name: "index_races_on_state_id"
-  end
-
   create_table "run_types", force: :cascade do |t|
     t.string "name", null: false
     t.string "hex_code", limit: 7, null: false
