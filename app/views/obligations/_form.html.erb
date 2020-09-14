@@ -2,21 +2,21 @@
   <%= render "templates/alerts/form-errors", model: obligation %>
 
   <div class="row">
-    <div class="col-xs-2 col-xs-offset-2 align-right"><%= f.label :name, 'Name:' %></div>
+    <div class="col-xs-2 col-xs-offset-2 text-right"><%= f.label :name, 'Name:' %></div>
     <div class="col-xs-5"><%= f.text_field :name, { class: 'form-control', placeholder: "Event Name" } %></div>
   </div>
   <br />
   <div class="row">
-    <div class="col-xs-2 align-right"><%= f.label :start_datetime, 'Start Date/Time:' %></div>
+    <div class="col-xs-2 text-right"><%= f.label :start_datetime, 'Start Date/Time:' %></div>
     <div class="col-xs-4"><%= f.datetime_select :start_datetime, { class: 'form-control' } %></div>
-    <div class="col-xs-2 align-right"><%= f.label :end_datetime, 'End Date/Time:' %></div>
+    <div class="col-xs-2 text-right"><%= f.label :end_datetime, 'End Date/Time:' %></div>
     <div class="col-xs-4"><%= f.datetime_select :end_datetime, { class: 'form-control' } %></div>
   </div>
   <br />
   <div class="row">
-    <div class="col-xs-2 col-xs-offset-1 align-right"><%= f.label :city, 'City:' %></div>
+    <div class="col-xs-2 col-xs-offset-1 text-right"><%= f.label :city, 'City:' %></div>
     <div class="col-xs-3"><%= f.text_field :city, { class: 'form-control', placeholder: 'Anytown' } %></div>
-    <div class="col-xs-2 align-right"><%= f.label :state, 'State:' %></div>
+    <div class="col-xs-2 text-right"><%= f.label :state, 'State:' %></div>
     <div class="col-xs-3"><%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Please Select a State" }, { :class => "form-control" })%></div>
   </div>
   <br />

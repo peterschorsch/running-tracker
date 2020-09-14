@@ -1,7 +1,7 @@
 <% if notice %>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2 col-xs-1">
-			<div class="alert alert-success alert-dismissable align-center" role="alert">
+			<div class="alert alert-success alert-dismissable text-center" role="alert">
 				<h2>
 					<a href="#" class="close text-link" data-dismiss="alert" aria-label="close">X</a>
 					<span id="notice"><%= raw(notice) %></span>
@@ -14,12 +14,12 @@
 <% if alert %>
 	<div class="row">
 		<div class="col-xs-8 col-xs-offset-2">
-			<h3 class="align-center red-text" id=”alert”><%= alert %></h3>
+			<h3 class="text-center red-text" id=”alert”><%= alert %></h3>
 		</div>
 	</div>
 <% end %>
 
-<h1 class="align-center">Dashboard</h1>
+<h1 class="text-center">Dashboard</h1>
 <hr />
 
 <%= month_calendar(attribute: :start_datetime, end_attribute: :end_datetime, events: @obligations) do |date, obligations| %>

@@ -8,22 +8,23 @@
       <th>Time</th>
       <th>Pace</th>
       <th>Elevation Gain</th>
+      <th>Shoe</th>
       <th colspan="2"></th>
     </tr>
   </thead>
   <tbody>
     <% @runs.each do |run| %>
-      <tr class="align-center">
+      <tr class="text-center">
         <td>
-          <%= formateDateTimeWithAt(run.start_time) %><br />
+          <small class="text-muted"><%= formateDateTimeWithAt(run.start_time) %></small><br />
           <strong><%= run.name %></strong><br />
-          <%= run.gear.model %> (<%= run.gear.return_shoe_mileage %>)<br />
           <%= run.notes %>
         </td>
         <td><%= concat_distance_miles(run.mileage_total) %></td>
         <td><%= concat_elapsed_time(run.hours, run.minutes, run.seconds) %></td>
         <td><%= concat_pace_min_miles(run.pace) %></td>
         <td><%= concat_elevation_gain(run.elevation_gain) %></td>
+        <td><%= run.gear.model %> (<%= run.gear.return_shoe_mileage %>)</td>
         <td><%= render edit_icon_btn_path, edit_path: edit_run_path(run) %></td>
         <td><%= render remove_icon_btn_path, object: run %></td>
       </tr>

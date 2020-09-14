@@ -1,16 +1,16 @@
 <div class="container">
     <div class="row">
-		<div class="col-md-4 align-center">
+		<div class="col-md-4 text-center">
 			<h2><%= format_month(@monthly_stats.month_end) %></h2>
 			<hr />
 			<p><%= concat_totals(@monthly_stats) %></p>
     	</div>
-		<div class="col-md-4 align-center">
+		<div class="col-md-4 text-center">
 			<h2><%= Date.today.year %></h2>
 			<hr />
 			<p><%= concat_totals(@yearly_stats) %></p>
 		</div>
-		<div class="col-md-4 align-center">
+		<div class="col-md-4 text-center">
 			<h2>All-Time</h2>
 			<hr />
 			<p><%= concat_totals(@all_time_stats) %></p>
@@ -22,7 +22,7 @@
 
 <div class="container">
     <div class="row">
-		<div class="col-md-8 col-md-offset-2 align-center">
+		<div class="col-md-8 col-md-offset-2 text-center">
 			<h2>Personal Bests</h2>
 			<hr />
 			<% @personal_bests.each do |race| %>
