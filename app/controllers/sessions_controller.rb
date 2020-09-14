@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
   def new
+    redirect_to dashboard_path if current_user
   end
 
   def create
     @user = User.find_by(email: params[:email])
-    puts @user.inspect
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
