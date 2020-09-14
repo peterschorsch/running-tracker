@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 		if current_user.nil?
 			redirect_to login_path
 		else
-			redirect_to current_user.is_archived? ?  login_path : dashboard_path
+			redirect_to login_path if current_user.is_archived?
 		end
 	end
 end
