@@ -1,16 +1,18 @@
 class Gear < ApplicationRecord
 	belongs_to :shoe_brand
-	has_many :races
+	has_many :runs
 
 	has_attached_file :image
 	validates_attachment_presence :image
 	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
 
-	validates :model, :color_way, :heel_drop, :weight, :size, :shoe_type, :purchased_on, presence: true
+	validates :model, :color_way, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :purchased_on, presence: true
 	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way] }, :if => :model_changed?
-	validates :heel_drop, length: { maximum: 2 }
+	validates :forefoot_stack, :heel_stack, :heel_drop, length: { maximum: 2 }
 	validates :weight, :size, length: { maximum: 4 }
 	validate :retired_fields
+
+	default_scope -> { includes(:shoe_brand).order("shoe_brands.brand, gears.model") }
 
 	scope :find_shoe, -> (shoe_model) {
 		find_by(model: shoe_model)
@@ -18,10 +20,6 @@ class Gear < ApplicationRecord
 
 	scope :find_shoe_with_color, -> (shoe_model, color_way) {
 		find_by(model: shoe_model, color_way: color_way)
-	}
-
-	scope :order_by_shoe, -> {
-		joins(:shoe_brand).order(:brand, :model)
 	}
 
 	scope :active_shoes, -> {
@@ -36,12 +34,53 @@ class Gear < ApplicationRecord
 		where.not(:model => "RUNNING SHOE")
 	}
 
-	scope :default_shoe, -> {
+	scope :return_default_shoe, -> {
 		find_by(:model => "RUNNING SHOE")
 	}
 
+	def set_new_default
+		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
+	end
+
+	def self.select_gear_id_name
+		self.active_shoes.remove_default_shoe.map{ |gear| [gear.return_full_shoe_name, gear.id] }
+	end
+
+	### ADDING NEW MILEAGE FROM A RUN TO SHOE ###
+	def add_mileage_to_shoe(mileage)
+		self.mileage += mileage
+		self.save(:validate => false)
+	end
+
+	### UPDATING MILEAGE FROM A RUN OF SHOE ###
+	def update_mileage_of_shoe(run_id, updated_mileage)
+		self.runs.where.not(:id => run_id).each { |run| updated_mileage += run.mileage_total.to_f }
+		self.mileage = updated_mileage
+		self.save!(:validate => false)
+	end
+
+
+	def unretire_shoe
+		self.retired_on = nil
+	end
+
+	def retire_shoe
+		self.default = false
+		@active_default_shoes = Gear.active_shoes.where(:default => true)
+		Gear.return_default_shoe.update_attribute("default", true) if @active_default_shoes.empty?
+	end
+
+	def retired_fields
+		#puts self.retired
+	end
+
+	### DISPLAY METHODS ###
 	def return_full_shoe_name
 		self.shoe_brand.brand + " " + self.model
+	end
+
+	def return_shoe_stack_height
+		self.forefoot_stack.to_s + "mm/" + self.heel_stack.to_s + "mm"
 	end
 
 	def return_shoe_drop
@@ -54,28 +93,6 @@ class Gear < ApplicationRecord
 
 	def return_shoe_mileage
 		self.mileage.to_s + " miles"
-	end
-
-	def set_new_default
-		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
-	end
-
-	def self.select_gear_id_name
-		self.active_shoes.order_by_shoe.map{ |gear| [gear.return_full_shoe_name, gear.id] }
-	end
-
-	def unretire_shoe
-		self.retired_on = nil
-	end
-
-	def retire_shoe
-		self.default = false
-		@active_default_shoes = Gear.active_shoes.where(:default => true)
-		Gear.default_shoe.update_attribute("default", true) if @active_default_shoes.empty?
-	end
-
-	def retired_fields
-		#puts self.retired
 	end
 
 end

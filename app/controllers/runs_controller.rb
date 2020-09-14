@@ -22,10 +22,12 @@ class RunsController < ApplicationController
     @run = Run.new(run_params)
     @run.user_id = current_user.id
 
+    @run.gear.add_mileage_to_shoe(@run.mileage_total)
+
     respond_to do |format|
       if @run.save
         format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
-        format.json { render :index, status: :created, location: @run }
+        format.json { render :new, status: :created, location: @run }
       else
         format.html { render :new }
         format.json { render json: @run.errors, status: :unprocessable_entity }
@@ -37,6 +39,7 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1.json
   def update
     @run.user_id = current_user.id
+    @run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
 
     respond_to do |format|
       if @run.update(run_params)
@@ -67,6 +70,6 @@ class RunsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def run_params
-      params.require(:run).permit(:name, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id)
+      params.require(:run).permit(:name, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
     end
 end

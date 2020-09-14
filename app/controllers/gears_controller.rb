@@ -4,7 +4,7 @@ class GearsController < ApplicationController
   # GET /gears
   # GET /gears.json
   def index
-    @gears = Gear.includes(:shoe_brand).order_by_shoe
+    @gears = Gear.all
     @active_shoes = @gears.active_shoes
     @retired_shoes = @gears.retired_shoes
   end
@@ -65,6 +65,6 @@ class GearsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def gear_params
-      params.require(:gear).permit(:model, :color_way, :image, :heel_drop, :weight, :size, :shoe_type, :mileage, :default, :purchased_on, :first_used_on, :retired, :retired_on, :shoe_brand_id)
+      params.require(:gear).permit(:model, :color_way, :image, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :mileage, :default, :purchased_on, :first_used_on, :retired, :retired_on, :shoe_brand_id)
     end
 end

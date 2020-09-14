@@ -5,7 +5,8 @@
         <th scope="col"></th>
         <th scope="col">Shoe</th>
         <th scope="col">Weight</th>
-        <th scope="col">Drop</th>
+        <th scope="col">Forefoot Stack/Heel Stack</th>
+        <th scope="col">Heel Drop</th>
         <th scope="col">Purchased</th>
         <th scope="col">First Used</th>
         <th scope="col">Mileage</th>
@@ -18,6 +19,7 @@
           <td scope="row"><%= image_tag(shoe.image.url, alt: "#{shoe.return_full_shoe_name} Icon", class: "shoe-icon") %></td>
           <td scope="row"><%= shoe.return_full_shoe_name %></td>
           <td scope="row"><%= shoe.return_shoe_weight %></td>
+          <td scope="row"><%= shoe.return_shoe_stack_height %></td>
           <td scope="row"><%= shoe.return_shoe_drop %></td>
           <td scope="row"><%= formatDateDots(shoe.purchased_on) %></td>
           <td scope="row"><%= date_nil_check(shoe.first_used_on) %></td>

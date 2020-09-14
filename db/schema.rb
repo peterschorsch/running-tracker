@@ -30,11 +30,13 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.string "image_content_type", null: false
     t.bigint "image_file_size", null: false
     t.datetime "image_updated_at", null: false
+    t.integer "forefoot_stack", limit: 2, null: false
+    t.integer "heel_stack", limit: 2, null: false
     t.string "heel_drop", limit: 2, null: false
     t.string "weight", limit: 4, null: false
     t.string "size", limit: 4, null: false
     t.string "shoe_type", null: false
-    t.integer "mileage", default: 0
+    t.decimal "mileage", default: "0.0"
     t.boolean "default", default: false
     t.date "purchased_on", null: false
     t.date "first_used_on"
@@ -90,7 +92,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
   create_table "runs", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "start_time", null: false
-    t.decimal "mileage_total", precision: 5, scale: 5, null: false
+    t.decimal "mileage_total", null: false
     t.string "pace", null: false
     t.integer "hours"
     t.integer "minutes", limit: 3, null: false
