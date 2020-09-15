@@ -12,8 +12,16 @@ module PathHelper
 		"templates/buttons/crud/new"
 	end
 
+	def new_btn_tag_path
+		"templates/buttons/crud/new-button-tag"
+	end
+
 	def edit_btn_path
 		"templates/buttons/crud/edit"
+	end
+
+	def edit_btn_tag_path
+		"templates/buttons/crud/edit-button-tag"
 	end
 	
 	def edit_icon_btn_path

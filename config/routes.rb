@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
+  end
+
   resources :gears, path: "shoes", except: [:show, :destroy]
   resources :run_types, path: "run-types"
   resources :obligations, except: [:show]

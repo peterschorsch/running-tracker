@@ -1,0 +1,2 @@
+module Admin::ShoeBrandsHelper
+end

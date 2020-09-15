@@ -1,0 +1,14 @@
+<div class="modal-body">
+	<%= form_with(model: [:admin, admin_shoe_brand], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+		<%= render "templates/alerts/form-errors", model: admin_shoe_brand %>
+
+		<div class="row vertical-align-middle">
+		    <div class="col-xs-2 text-right"><%= f.label :brand, 'Brand:' %></div>
+		    <div class="col-xs-4"><%= f.text_field :brand, { class: 'form-control', placeholder: "ASICS" } %></div>
+		</div>
+</div>
+<div class="modal-footer">
+	<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#editShoeBrandModal-#{admin_shoe_brand.id}" } %>
+	<%= f.submit "Save Changes", class: 'btn btn-success' %>
+</div>
+<% end %>
