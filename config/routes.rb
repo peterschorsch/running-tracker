@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   resources :monthly_totals
   resources :weekly_totals
   get 'statistics', to: 'statistics#index'
+  get 'calendars', to: 'calendars#index'
 end

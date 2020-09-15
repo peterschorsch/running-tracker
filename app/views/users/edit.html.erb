@@ -1,11 +1,5 @@
-<div class="row">
-	<div class="col-md-12">
-		<h1 class="text-center"><%= current_user.concat_name %></h1>
-		<hr />
-	</div>
-</div>
+<%= render index_header_path, heading_text: current_user.concat_name %>
 
-<%= render "templates/alerts/notice" %>
 <%= render "templates/alerts/form-errors", model: current_user %>
 
 <div class="row">

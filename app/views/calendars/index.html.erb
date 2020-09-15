@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-md-12">
+		<%= month_calendar(attribute: :start_time, events: @runs) do |date, runs| %>
+			<h5><strong><%= date %></strong></h5>
+			<hr />
+			<% runs.each do |run| %>
+				<div class="panel panel-default card" style="border-color: <%= run.run_type.hex_code %>">
+					<div class="row padding">
+						<div class="col-xs-12 text-center">
+							<div><strong><%= run.name %></strong></div>
+							<div>
+								<small>
+									<%= concat_distance_miles(run.mileage_total) %> | <strong><%= concat_elapsed_time(run.hours, run.minutes, run.seconds) %></strong>
+									<br />
+									<%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %>
+								</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+
+<!--<%#= month_calendar(attribute: :start_datetime, end_attribute: :end_datetime, events: @obligations) do |date, obligations| %>
+  <%#= date %>
+
+  <%# obligations.each do |obligation| %>
+    <div>
+      <strong><%#= obligation.name %></strong>
+      <br />
+      <i><%#= concat_city_state_abbreviation(obligation.city, obligation.state) %></i>
+      <br />
+      <%#= obligation.return_formatted_time_period %>
+    </div>
+  <%# end %>
+<%# end %>-->
