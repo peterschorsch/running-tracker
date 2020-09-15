@@ -17,6 +17,7 @@ class CreateRuns < ActiveRecord::Migration[5.2]
       t.text :notes
 
       t.boolean :personal_best, :default => false
+      t.boolean :completed_run, :default => false
 
       t.references :run_type, index: true, foreign_key: true
       t.references :gear, index: true, foreign_key: true
