@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
 	before_action :authorized?, only: [:dashboard]
 
 	def dashboard
-		@obligations = Obligation.all.includes(:state)
+		#@obligations = Obligation.all.includes(:state) 
+		@runs = Run.all.includes(:run_type)
 	end
 
 	def current_user

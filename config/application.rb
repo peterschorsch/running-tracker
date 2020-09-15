@@ -13,6 +13,7 @@ module RunningTracker
 
     config.time_zone = 'Pacific Time (US & Canada)'
     config.active_record.default_timezone = :local
+    config.beginning_of_week = :monday
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

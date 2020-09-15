@@ -92,7 +92,8 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
   create_table "runs", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "start_time", null: false
-    t.decimal "mileage_total", null: false
+    t.decimal "planned_mileage", null: false
+    t.decimal "mileage_total", default: "0.0"
     t.string "pace", null: false
     t.integer "hours"
     t.integer "minutes", limit: 3, null: false

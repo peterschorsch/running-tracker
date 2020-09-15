@@ -17,3 +17,9 @@
 	input[type='checkbox'].form-control, .pointer-cursor{
 		cursor: pointer;
 	}
+
+	.vertical-align-middle{
+		display:flex;
+		align-items:center; /* vertically aligns */
+		justify-content: center;
+	}
