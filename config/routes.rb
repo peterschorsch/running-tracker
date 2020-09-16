@@ -15,10 +15,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
+    resources :run_types, path: "run-types", except: [:show]
   end
 
   resources :gears, path: "shoes", except: [:show, :destroy]
-  resources :run_types, path: "run-types"
   resources :obligations, except: [:show]
   resources :runs, except: [:show]
   resources :yearly_totals

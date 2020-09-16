@@ -1,16 +1,11 @@
-class RunTypesController < ApplicationController
-  before_action :set_run_type, only: [:show, :edit, :update, :destroy]
+class Admin::RunTypesController < ApplicationController
+  before_action :set_run_type, only: [:edit, :update, :destroy]
 
   # GET /run_types
   # GET /run_types.json
   def index
     @active_run_types = RunType.active_run_types
     @removed_run_types = RunType.removed_run_types
-  end
-
-  # GET /run_types/1
-  # GET /run_types/1.json
-  def show
   end
 
   # GET /run_types/new
@@ -29,7 +24,9 @@ class RunTypesController < ApplicationController
 
     respond_to do |format|
       if @run_type.save
-        format.html { redirect_to run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully created." }
+        @run_type.update_default_shoe(params[:run_type][:default].to_i)
+
+        format.html { redirect_to admin_run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully created." }
         format.json { render :index, status: :created, location: @run_type }
       else
         format.html { render :new }
@@ -43,7 +40,9 @@ class RunTypesController < ApplicationController
   def update
     respond_to do |format|
       if @run_type.update(run_type_params)
-        format.html { redirect_to run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully updated." }
+        @run_type.update_default_shoe(params[:run_type][:default].to_i)
+
+        format.html { redirect_to admin_run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully updated." }
         format.json { render :index, status: :ok, location: @run_type }
       else
         format.html { render :edit }
@@ -55,11 +54,11 @@ class RunTypesController < ApplicationController
   # DELETE /run_types/1
   # DELETE /run_types/1.json
   def destroy
-    @run_type.active = false
+    @run_type.remove_action_set_new_default
 
     respond_to do |format|
       if @run_type.save
-        format.html { redirect_to run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully removed." }
+        format.html { redirect_to admin_run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully removed." }
         format.json { render :index, status: :ok, location: @run_type }
       else
         format.html { render :edit }

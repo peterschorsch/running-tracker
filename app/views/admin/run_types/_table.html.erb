@@ -13,8 +13,8 @@
         <td><%= run_type.name %></td>
         <td style="background-color: <%=run_type.hex_code%>"><%= run_type.hex_code %></td>
         <td>
-          <%= render edit_icon_btn_path, edit_path: edit_run_type_path(run_type) %>
-          <%= render remove_icon_btn_path, object: run_type %>
+          <%= render edit_icon_btn_path, edit_path: edit_admin_run_type_path(run_type) %>
+          <%= render remove_icon_btn_path, object: [:admin, run_type] %>
         </td>
       </tr>
     <% end %>
