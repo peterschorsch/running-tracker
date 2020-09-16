@@ -1,5 +1,9 @@
 module PathHelper
 
+	def notice_path
+		"templates/alerts/notice"
+	end
+
 	def alert_path
 		"templates/alerts/alert"
 	end
