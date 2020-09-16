@@ -38,7 +38,7 @@ class Run < ApplicationRecord
 		state_id = State.find_by_abbr("CA").id
 		run_type_id = RunType.default_run_type.id
 
-		# Current date
+		# Current Date
 		current_date = DateTime.now
 		# Starts on a Monday
 		week_start_date = current_date.beginning_of_week
@@ -56,7 +56,7 @@ class Run < ApplicationRecord
 
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_last_weeks_runs(current_user)
-		# Last week's date
+		# Last week's Date
 		last_week_date = DateTime.now-1.week
 		# Starts on a Monday
 		week_start_date = last_week_date.beginning_of_week
@@ -77,7 +77,7 @@ class Run < ApplicationRecord
 
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_current_weeks_runs(current_user)
-		# Last week's date
+		# Current week's Date
 		current_week_date = DateTime.now
 		# Starts on a Monday
 		current_start_date = current_week_date.beginning_of_week
@@ -85,13 +85,50 @@ class Run < ApplicationRecord
 
 		default_shoe_id = Gear.return_default_shoe.id
 
-		puts @current_weeks_runs = Run.of_user(current_user).where(:start_time => current_start_date..current_end_date)
+		@current_weeks_runs = Run.of_user(current_user).where(:start_time => current_start_date..current_end_date)
 		@current_weeks_runs.each do |run|
 			@run = Run.find_or_create_by(name: run.name, start_time: run.start_time+1.week,
 										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
 										user_id: current_user.id, completed_run: false)
+		end
+	end
+
+	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
+	def self.copy_until_specific_date(current_user, week_date)
+		# Current Week's Date
+		current_week_date = DateTime.now
+		# Current Week's Start & End Dates
+		current_week_start_date = current_week_date.beginning_of_week
+		current_week_end_date = current_week_date.end_of_week
+
+		# Next Week's Date
+		next_week_date = current_week_date+1.week
+		# Next Week's Start Date
+		next_week_start_date = next_week_date.beginning_of_week
+
+		# End Week's Start Date
+		end_week_start_date = week_date.beginning_of_week
+
+		default_shoe_id = Gear.return_default_shoe.id
+
+		number_of_weeks = end_week_start_date.cweek - next_week_start_date.cweek
+
+		@current_weeks_runs = Run.of_user(current_user).where(:start_time => current_week_start_date..current_week_end_date)
+
+		@current_weeks_runs.each do |run|
+			if number_of_weeks > 0
+				(1..number_of_weeks+1).each do |number|
+					running_date = run.start_time + number.week
+
+					@run = Run.find_or_create_by(name: run.name, start_time: running_date,
+											hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
+											gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
+											elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
+											user_id: current_user.id, completed_run: false)
+				end
+			end
 		end
 	end
 end

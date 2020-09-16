@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       post '/create_current_week_runs', to: 'calendars#create_current_week_runs'
       post '/copy_past_week_runs', to: 'calendars#copy_past_week_runs'
       post '/copy_current_week_runs', to: 'calendars#copy_current_week_runs'
+      post '/copy_until_specific_date', to: 'calendars#copy_until_specific_date'
     end
   end
 end

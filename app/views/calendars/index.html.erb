@@ -1,5 +1,11 @@
 <%= render "templates/alerts/notice" %>
-
+<% if alert %>
+	<div class="row padding-bottom">
+		<div class="col-xs-8 col-xs-offset-2">
+			<h3 class="text-center red-text" id=”alert”><%= alert %></h3>
+		</div>
+	</div>
+<% end %>
 <div class="row">
 	<div class="col-md-3">
 		<%= button_to "Create this Week's Default Runs", create_current_week_runs_calendars_path, { class: "btn btn-primary btn-block" } %>
@@ -9,6 +15,10 @@
 	</div>
 	<div class="col-md-3">
 		<%= button_to "Copy This Week's Runs", copy_current_week_runs_calendars_path, { class: "btn btn-primary btn-block" } %>
+	</div>
+	<div class="col-md-3">
+		<%= button_tag "Copy This Week's Runs Until Specific Date", :class => "btn btn-warning btn-block", data: { toggle: 'modal', target: '#copySpecificDateModal' } %>
+		<%= render "copy-runs-until-date-modal" %>
 	</div>
 </div>
 <br />

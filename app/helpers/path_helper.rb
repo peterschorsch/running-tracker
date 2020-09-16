@@ -1,5 +1,9 @@
 module PathHelper
 
+	def alert_path
+		"templates/alerts/alert"
+	end
+
 	def back_to_dashboard_path
 		"templates/buttons/back-to-dashboard"
 	end
