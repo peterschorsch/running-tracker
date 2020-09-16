@@ -439,7 +439,7 @@ puts ""
 
 
 puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
-#Run.create_weeklong_default_runs
+puts Run.create_weeklong_default_runs(@my_admin_user)
 puts ""
 puts ""
 

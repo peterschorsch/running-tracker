@@ -33,7 +33,7 @@ class Run < ApplicationRecord
 	end
 
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK
-	def self.create_weeklong_default_runs(current_user = User.first)
+	def self.create_weeklong_default_runs(current_user)
 		default_shoe_id = Gear.return_default_shoe.id
 		state_id = State.find_by_abbr("CA").id
 		run_type_id = RunType.default_run_type.id
@@ -54,7 +54,7 @@ class Run < ApplicationRecord
 		end
 	end
 
-	###
+	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_last_weeks_runs(current_user)
 		# Last week's date
 		last_week_date = DateTime.now-1.week
@@ -71,6 +71,26 @@ class Run < ApplicationRecord
 										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: default_run_type_id,
+										user_id: current_user.id, completed_run: false)
+		end
+	end
+
+	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
+	def self.copy_current_weeks_runs(current_user)
+		# Last week's date
+		current_week_date = DateTime.now
+		# Starts on a Monday
+		current_start_date = current_week_date.beginning_of_week
+		current_end_date = current_week_date.end_of_week
+
+		default_shoe_id = Gear.return_default_shoe.id
+
+		puts @current_weeks_runs = Run.of_user(current_user).where(:start_time => current_start_date..current_end_date)
+		@current_weeks_runs.each do |run|
+			@run = Run.find_or_create_by(name: run.name, start_time: run.start_time+1.week,
+										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
+										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
+										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
 										user_id: current_user.id, completed_run: false)
 		end
 	end
