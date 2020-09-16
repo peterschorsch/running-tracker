@@ -4,8 +4,9 @@ class Admin::RunTypesController < Admin::AdminController
   # GET /run_types
   # GET /run_types.json
   def index
-    @active_run_types = RunType.active_run_types
-    @removed_run_types = RunType.removed_run_types
+    @run_types = RunType.all.order_by_name
+    @active_run_types = @run_types.active_run_types
+    @removed_run_types = @run_types.removed_run_types
   end
 
   # GET /run_types/new

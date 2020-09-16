@@ -313,7 +313,7 @@ puts ""
 
 puts "----------RUN TYPES----------"
 type = "Easy Run"
-@runtype = RunType.create_with(name: type, hex_code: "#FFA500", active: true, default: false).find_or_create_by(name: type)
+@runtype = RunType.create_with(name: type, hex_code: "#6A0DAD", active: true, default: false).find_or_create_by(name: type)
 puts @runtype.inspect
 
 type = "Tempo Run"
