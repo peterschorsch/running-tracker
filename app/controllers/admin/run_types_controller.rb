@@ -1,4 +1,4 @@
-class Admin::RunTypesController < ApplicationController
+class Admin::RunTypesController < Admin::AdminController
   before_action :set_run_type, only: [:edit, :update, :destroy]
 
   # GET /run_types
