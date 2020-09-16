@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources 'calendars', only: [:index] do
     collection do
       post '/create_current_week_runs', to: 'calendars#create_current_week_runs'
+      post '/copy_past_week_runs', to: 'calendars#copy_past_week_runs'
     end
   end
 end

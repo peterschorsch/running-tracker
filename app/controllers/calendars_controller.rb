@@ -1,7 +1,7 @@
 class CalendarsController < ApplicationController
 	def index
 		#@obligations = Obligation.all.includes(:state) 
-		@runs = Run.all.includes(:run_type, :gear)
+		@runs = Run.of_user(current_user).includes(:run_type, :gear)
 		@run_types = RunType.active_run_types.order_by_name
 	end
 
@@ -13,6 +13,16 @@ class CalendarsController < ApplicationController
 				format.html { redirect_to request.referrer, errors: @usergroup.errors }
 			end
 		end
+	end
+
+	def copy_past_week_runs
+		#respond_to do |format|
+			Run.copy_last_weeks_runs(current_user)
+				#format.html { redirect_to request.referrer, notice: "<strong>Last Week's</strong> runs were copy to the current week starting <strong>#{DateTime.now.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
+			#else
+				#format.html { redirect_to request.referrer, errors: @usergroup.errors }
+			#end
+		#end
 	end
 
 end
