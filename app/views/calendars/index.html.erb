@@ -1,3 +1,19 @@
+<%= render "templates/alerts/notice" %>
+
+<div class="row">
+	<div class="col-md-3">
+		<%= button_to "Create this Week's Default Runs", create_current_week_runs_calendars_path, { class: "btn btn-primary btn-block" } %>
+	</div>
+	<div class="col-md-3">
+		<p>Copy Last Week's Runs</p>
+		<%#= button_to "Copy Last Week's Runs", { class: "btn btn-primary btn-block" } %>
+	</div>
+	<div class="col-md-3">
+		<p>Copy This Week's Runs</p>
+		<%#= button_to "Copy Last Week's Runs", { class: "btn btn-primary btn-block" } %>
+	</div>
+</div>
+<br />
 <div class="row">
 	<div class="col-md-12">
 		<p class="text-center">
@@ -7,29 +23,13 @@
 		</p>
 	</div>
 </div>
-<br />
 <div class="row">
 	<div class="col-md-12">
 		<%= month_calendar(attribute: :start_time, events: @runs) do |date, runs| %>
 			<h5><strong><%= date %></strong></h5>
 			<hr />
 			<% runs.each do |run| %>
-				<div class="panel panel-default card" style="border-color: <%= run.run_type.hex_code %>">
-					<div class="row padding">
-						<div class="col-xs-12 text-center">
-							<div><small style="color: <%=run.run_type.hex_code%>"><%= run.run_type.name %></small></div>
-							<div><strong><%= run.name %></strong></div>
-							<div>
-								<small>
-									<%= concat_distance_miles(run.mileage_total) %> | <strong><%= concat_elapsed_time(run.hours, run.minutes, run.seconds) %></strong>
-									<br />
-									<%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %>
-								</small>
-							</div>
-							<div><small class="text-muted"><%= run.gear.return_full_shoe_name %> (<%= run.gear.return_shoe_mileage %>)</small></div>
-						</div>
-					</div>
-				</div>
+				<%= render run.completed_run ? "completed-run-card" : "default-run-card", run: run %>
 			<% end %>
 		<% end %>
 	</div>

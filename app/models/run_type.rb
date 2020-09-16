@@ -25,6 +25,10 @@ class RunType < ApplicationRecord
 		find_by(default: true, active: true)
 	}
 
+	def is_race?
+		self.name == "Race"
+	end
+
 	def self.select_run_type_id_name
 		self.all.order_by_name.map{ |run_type| [run_type.name, run_type.id] }
 	end

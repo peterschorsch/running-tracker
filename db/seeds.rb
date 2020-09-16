@@ -3,8 +3,8 @@ puts "---------------STARTED SEEDING---------------"
 puts ""
 
 puts "----------ADMINS----------"
-@admin_user = User.create_with(first_name: "Peter", last_name: "Schorsch", active: true, password_digest: User.digest("Peteschorsch1!"), role: "Admin").find_or_create_by(email: "peteschorsch@gmail.com")
-puts @admin_user.inspect
+@my_admin_user = User.create_with(first_name: "Peter", last_name: "Schorsch", active: true, password_digest: User.digest("Peteschorsch1!"), role: "Admin").find_or_create_by(email: "peteschorsch@gmail.com")
+puts @my_admin_user.inspect
 @user = User.create_with(first_name: "Normal", last_name: "User", active: true, password_digest: User.digest("Normaluser1!"), role: "User").find_or_create_by(email: "peteschorsch@icloud.com")
 puts @user.inspect
 puts ""
@@ -434,6 +434,12 @@ puts @run.inspect
 puts @run.inspect
 @run = Run.find_or_create_by(name: "Testing 2", start_time: DateTime.new(2020, 9, 8, 18, 15, 0).in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user_id, completed_run: true)
 puts @run.inspect
+puts ""
+puts ""
+
+
+puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
+#Run.create_weeklong_default_runs
 puts ""
 puts ""
 

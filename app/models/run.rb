@@ -31,4 +31,26 @@ class Run < ApplicationRecord
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
 		Run.where(start_time: starting_day..ending_day)
 	end
+
+	def self.create_weeklong_default_runs(current_user_id = User.first.id)
+		@gear_id = Gear.return_default_shoe.id
+		@state_id = State.find_by_abbr("CA").id
+		@run_type_id = RunType.default_run_type.id
+
+		# Current date
+		current_date = DateTime.now
+		# Starts on a Monday
+		week_start_date = current_date.beginning_of_week
+		week_end_date = current_date.end_of_week
+		loop_week = week_start_date...week_end_date
+
+		loop_week.each_with_index do |date, index|
+			@run = Run.find_or_create_by(name: "Default Run #{index+1}", start_time: date,
+										hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
+										gear_id: @gear_id, planned_mileage: BigDecimal('0'), 
+										elevation_gain: BigDecimal('0'), state_id: @state_id, run_type_id: @run_type_id,
+										user_id: current_user_id, completed_run: false)
+			puts @run.inspect
+		end
+	end
 end

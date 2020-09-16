@@ -25,5 +25,9 @@ Rails.application.routes.draw do
   resources :monthly_totals
   resources :weekly_totals
   get 'statistics', to: 'statistics#index'
-  get 'calendars', to: 'calendars#index'
+  resources 'calendars', only: [:index] do
+    collection do
+      post '/create_current_week_runs', to: 'calendars#create_current_week_runs'
+    end
+  end
 end
