@@ -6,9 +6,9 @@
 			<div>
 				<small>
 					<% if not run.run_type.is_race? %>
-						Planned: <%= concat_distance_miles(run.planned_mileage) %>
+						Planned/Actual
 						<br />
-						Actual: <%= concat_distance_miles(run.mileage_total) %>
+						<%= concat_distance_miles(run.planned_mileage) %>/<%= concat_distance_miles(run.mileage_total) %>
 					<% else %>
 						<%= concat_distance_miles(run.mileage_total) %>
 					<% end %>

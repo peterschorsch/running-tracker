@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   get 'statistics', to: 'statistics#index'
   resources 'calendars', only: [:index] do
     collection do
+      get '/edit/:id', to: 'calendars#edit', as: "edit"
+      patch '/edit/:id', to: 'calendars#update', as: "update"
       post '/create_current_week_runs', to: 'calendars#create_current_week_runs'
       post '/copy_past_week_runs', to: 'calendars#copy_past_week_runs'
       post '/copy_current_week_runs', to: 'calendars#copy_current_week_runs'

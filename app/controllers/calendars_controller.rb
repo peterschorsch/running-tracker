@@ -1,8 +1,28 @@
 class CalendarsController < ApplicationController
+	before_action :set_run, only: [:edit, :update]
+
 	def index
 		#@obligations = Obligation.all.includes(:state) 
 		@runs = Run.of_user(current_user).includes(:run_type, :gear)
 		@run_types = RunType.active_run_types.order_by_name
+	end
+
+	def edit
+	end
+
+	def update
+		@run.user_id = current_user.id
+		@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
+
+		respond_to do |format|
+			if @run.update(run_params)
+				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
+				format.json { render :index, status: :ok, location: @run }
+			else
+				format.html { render :edit }
+				format.json { render json: @run.errors, status: :unprocessable_entity }
+			end
+		end
 	end
 
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK
@@ -52,5 +72,14 @@ class CalendarsController < ApplicationController
 			end
 		end
 	end
+
+	private
+		def set_run
+			@run = Run.of_user(current_user).find(params[:id])
+		end
+
+		def run_params
+	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
+	    end
 
 end

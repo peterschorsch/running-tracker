@@ -43,7 +43,7 @@ class Gear < ApplicationRecord
 	end
 
 	def self.select_gear_id_name
-		self.active_shoes.remove_default_shoe.map{ |gear| [gear.return_full_shoe_name, gear.id] }
+		self.unscoped.active_shoes.includes(:shoe_brand).order(default: :desc, brand: :asc).map{ |gear| [gear.return_full_shoe_name, gear.id] }
 	end
 
 	### ADDING NEW MILEAGE FROM A RUN TO SHOE ###
