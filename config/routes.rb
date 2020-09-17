@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'sessions#new', as: "login"
 
-  get 'dashboard', to: 'application#dashboard'
+  get 'dashboard', to: 'homes#dashboard'
   post "/sessions", to: "sessions#create"
   delete "/sessions", to: "sessions#destroy"
 

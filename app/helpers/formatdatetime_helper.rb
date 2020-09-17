@@ -5,6 +5,11 @@ module FormatdatetimeHelper
     date.strftime("%B")
   end
 
+  # Wednesday
+  def formatDayofWeek(date)
+    date.strftime("%A")
+  end
+
   # Feb.23.2018
   def format_date_month(date)
     date.strftime("%b.%d.%Y")

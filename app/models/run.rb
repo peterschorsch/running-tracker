@@ -23,9 +23,29 @@ class Run < ApplicationRecord
 		joins(:run_type).where("run_types.name=? AND runs.personal_best=?", "Race", true).order(:mileage_total).includes(:run_type, :state, gear: :shoe_brand)
 	}
 
+	scope :return_completed_runs, -> {
+		where(:completed_run=>true)
+	}
+
+	scope :return_uncompleted_runs, -> {
+		where(:completed_run=>false)
+	}
+
 	scope :order_by_most_recent, -> {
 		order('start_time DESC')
 	}
+
+	scope :find_last_completed_run, -> {
+		return_completed_runs.order_by_most_recent.first
+	}
+
+	scope :find_next_run, -> {
+		return_uncompleted_runs.where("start_time > ?", DateTime.now).first
+	}
+
+	def was_completed?
+		self.completed_run
+	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)

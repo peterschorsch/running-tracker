@@ -1,22 +1,59 @@
-<% if notice %>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2 col-xs-1">
-			<div class="alert alert-success alert-dismissable text-center" role="alert">
-				<h2>
-					<a href="#" class="close text-link" data-dismiss="alert" aria-label="close">X</a>
-					<span id="notice"><%= raw(notice) %></span>
-				</h2>
+<%= render notice_path %>
+<%= render alert_path %>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default" style="border-color: <%=@last_run.run_type.hex_code%>">
+			<div class="panel-heading text-center" style="border-color: <%=@last_run.run_type.hex_code%>">
+				<h1>Last Run</h1>
+			</div>
+			<div class="panel-body text-center">
+				<p>
+					<small class="text-muted"><%=formatDayofWeek(@last_run.start_time)%> | <%=format_date_month(@last_run.start_time)%> | <%=formatTime(@last_run.start_time)%></small>
+				</p>
+				<p style="color: <%=@last_run.run_type.hex_code%>"><%= @last_run.run_type.name %></p>
+				<h3><strong><%= @last_run.name %></strong></h3>
+				<% if not @last_run.run_type.is_race? %>
+					<p>(Planned) <%= concat_distance_miles(@last_run.planned_mileage) %>/<%= concat_distance_miles(@last_run.mileage_total) %> (Actual)</p>
+				<% else %>
+					<p><%= concat_distance_miles(@last_run.mileage_total) %></p>
+				<% end %>
+				<p>
+					<strong><%= concat_elapsed_time(@last_run.hours, @last_run.minutes, @last_run.seconds) %></strong> | <%= concat_pace_min_miles(@last_run.pace) %> | <%= concat_elevation_gain(@last_run.elevation_gain) %>
+				</p>
+				<p><%= @last_run.gear.return_full_shoe_name %> (<%= @last_run.gear.return_shoe_mileage %>)</p>
 			</div>
 		</div>
 	</div>
-<% end %>
-
-<% if alert %>
-	<div class="row">
-		<div class="col-xs-8 col-xs-offset-2">
-			<h3 class="text-center red-text" id=”alert”><%= alert %></h3>
+	<div class="col-md-4">
+		<div class="panel panel-default" style="border-color: <%= @next_run.run_type.hex_code %>">
+			<div class="panel-heading text-center" style="border-color: <%= @next_run.run_type.hex_code %>">
+				<h1>Next Run</h1>
+			</div>
+			<div class="panel-body text-center">
+				<p>
+					<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%></small>
+				</p>
+				<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
+				<h3><strong><%= @next_run.name %></strong></h3>
+				<p>Planned: <%= concat_distance_miles(@next_run.planned_mileage) %></p>
+			</div>
 		</div>
 	</div>
-<% end %>
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<h1>Weekly Goal</h1>
+			</div>
+			<div class="panel-body">
 
-<h1>Home Page</h1>
+			</div>
+			<div class="panel-heading text-center">
+				<h1>Weekly Totals</h1>
+			</div>
+			<div class="panel-body">
+
+			</div>
+		</div>
+	</div>
+</div>
