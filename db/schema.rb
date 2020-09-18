@@ -144,10 +144,9 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
 
   create_table "weekly_totals", force: :cascade do |t|
     t.string "week_number", limit: 1, null: false
-    t.datetime "week_start", null: false
-    t.datetime "week_end", null: false
-    t.decimal "mileage_total", null: false
-    t.decimal "goal", precision: 5, scale: 5
+    t.string "week_year", limit: 4, null: false
+    t.decimal "mileage_total", default: "0.0", null: false
+    t.decimal "goal", precision: 5, scale: 5, default: "0.0"
     t.boolean "met_goal", default: false
     t.integer "hours", null: false
     t.integer "minutes", limit: 3, null: false
@@ -155,8 +154,10 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
     t.text "notes"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_weekly_totals_on_user_id"
   end
 
   create_table "yearly_totals", force: :cascade do |t|

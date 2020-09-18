@@ -14,6 +14,7 @@ gem 'google_maps_rails'
 gem 'paperclip'
 gem 'cocoon'
 gem "simple_calendar", "~> 2.0"
+gem 'week_of_month'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.3'

@@ -1,3 +1,5 @@
+<p class="text-right"><%= formatFullDate(DateTime.now) %></p>
+<hr />
 <%= render notice_path %>
 <%= render alert_path %>
 
@@ -9,7 +11,7 @@
 			</div>
 			<div class="panel-body text-center">
 				<p>
-					<small class="text-muted"><%=formatDayofWeek(@last_run.start_time)%> | <%=format_date_month(@last_run.start_time)%> | <%=formatTime(@last_run.start_time)%></small>
+					<small class="text-muted"><%=formatDayofWeek(@last_run.start_time)%> | <%=format_date_month(@last_run.start_time)%> | <%=formatTime(@last_run.start_time)%> | about <%= time_ago_in_words(@last_run.start_time) %> ago</small>
 				</p>
 				<p style="color: <%=@last_run.run_type.hex_code%>"><%= @last_run.run_type.name %></p>
 				<h3><strong><%= @last_run.name %></strong></h3>
@@ -32,7 +34,7 @@
 			</div>
 			<div class="panel-body text-center">
 				<p>
-					<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%></small>
+					<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%> | in <%= time_ago_in_words(@next_run.start_time) %></small>
 				</p>
 				<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
 				<h3><strong><%= @next_run.name %></strong></h3>
@@ -43,17 +45,18 @@
 	<div class="col-md-4">
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
-				<h1>Weekly Goal</h1>
-			</div>
-			<div class="panel-body">
-
-			</div>
-			<div class="panel-heading text-center">
 				<h1>Weekly Totals</h1>
 			</div>
 			<div class="panel-body">
-
+				<% if @weekly_total.met_goal %>
+					<div class="alert alert-success text-center" role="alert"><p><strong>Congrats on meeting your weekly goal!</strong></p></div>
+				<% end %>
+				<p class="text-center"><%= concat_goal(@weekly_total) %></p>
+				<p class="text-center"><strong><%= @weekly_goal_difference %></strong></p>
+				<br />
+				<p class="text-center"><%= concat_totals(@weekly_total) %></p>
 			</div>
 		</div>
 	</div>
 </div>
+<hr />

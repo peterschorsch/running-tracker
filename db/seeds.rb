@@ -359,13 +359,13 @@ puts ""
 
 
 puts "----------YEARLY TOTALS----------"
-@yearly_2017 = YearlyTotal.find_or_create_by(year: "2017", year_start: DateTime.new(2017, 1, 1, 0, 0, 0).in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2017, 12, 31, 23, 59, 59).in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, all_time_total_id: @alltime.id)
+@yearly_2017 = YearlyTotal.find_or_create_by(year: "2017", year_start: DateTime.new(2017).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2017).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, all_time_total_id: @alltime.id)
 puts @yearly_2017.inspect
-@yearly_2018 = YearlyTotal.find_or_create_by(year: "2018", year_start: DateTime.new(2018, 1, 1, 0, 0, 0).in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2018, 12, 31, 23, 59, 59).in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('800'), elevation_gain: 10000, number_of_runs: 150, hours: 100, minutes: 30, seconds: 57, all_time_total_id: @alltime.id)
+@yearly_2018 = YearlyTotal.find_or_create_by(year: "2018", year_start: DateTime.new(2018).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2018).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('800'), elevation_gain: 10000, number_of_runs: 150, hours: 100, minutes: 30, seconds: 57, all_time_total_id: @alltime.id)
 puts @yearly_2018.inspect
-@yearly_2019 = YearlyTotal.find_or_create_by(year: "2019", year_start: DateTime.new(2019, 1, 1, 0, 0, 0).in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2019, 12, 31, 23, 59, 59).in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('664.7'), elevation_gain: 14327, number_of_runs: 101, hours: 73, minutes: 6, seconds: 0, all_time_total_id: @alltime.id)
+@yearly_2019 = YearlyTotal.find_or_create_by(year: "2019", year_start: DateTime.new(2019).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2019).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('664.7'), elevation_gain: 14327, number_of_runs: 101, hours: 73, minutes: 6, seconds: 0, all_time_total_id: @alltime.id)
 puts @yearly_2019.inspect
-@yearly_2020 = YearlyTotal.find_or_create_by(year: "2020", year_start: DateTime.new(2020, 1, 1, 0, 0, 0).in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2020, 12, 31, 23, 59, 59).in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('1564'), elevation_gain: 54826, number_of_runs: 214, hours: 190, minutes: 36, seconds: 0, all_time_total_id: @alltime.id)
+@yearly_2020 = YearlyTotal.find_or_create_by(year: "2020", year_start: DateTime.new(2020).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2020).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('1564'), elevation_gain: 54826, number_of_runs: 214, hours: 190, minutes: 36, seconds: 0, all_time_total_id: @alltime.id)
 puts @yearly_2020.inspect
 puts ""
 puts ""
@@ -373,16 +373,24 @@ puts ""
 
 puts "----------MONTHLY TOTALS----------"
 YearlyTotal.all.each do |yearly_total|
-  @first_month_of_year = yearly_total.year_end.at_beginning_of_year.beginning_of_month
+  @first_month_of_year = yearly_total.year_start.at_beginning_of_year.beginning_of_month
   @last_month_of_year = yearly_total.year_end.end_of_year.end_of_month
-
   year = yearly_total.year_end.year
+
   puts "-----#{year}-----"
   (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
     month_end = DateTime.new(year, month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)
     month_start = month_end.beginning_of_month
     @monthly_total = MonthlyTotal.create_with(month_number: month, month_start: month_start, month_end: month_end, mileage_total: BigDecimal(rand(150..250)), elevation_gain: rand(750..1250), number_of_runs: rand(5..28), hours: rand(1..15), minutes: rand(0..59), seconds: rand(0..59)).find_or_create_by(month_number: month, month_start: month_start, month_end: month_end)
     puts @monthly_total.inspect
+
+    #(1..month_end.total_weeks).each do |week_number_of_month|
+    (1..52).each do |week_number|
+      #week_end = DateTime.new(year, month_end.month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)+week_number_of_month.week
+      @weekly_total = WeeklyTotal.find_or_create_by(week_number: week_number, week_year: year, mileage_total: 35, goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user_id)
+      puts @weekly_total.inspect
+    end
+
   end
   puts ""
 end

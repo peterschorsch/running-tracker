@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'sessions#new', as: "login"
-
-  get 'dashboard', to: 'homes#dashboard'
   post "/sessions", to: "sessions#create"
   delete "/sessions", to: "sessions#destroy"
+
+  ### HOME PAGE ###
+  get 'dashboard', to: 'dashboards#index'
 
   ### USERS PAGE ###
   resources :users, except: [:index, :new, :create, :show, :destroy] do
