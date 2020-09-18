@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Run</th>
+      <th>Run Type</th>
       <th>Distance</th>
       <th>Time</th>
       <th>Pace</th>
@@ -20,8 +21,9 @@
           <strong><%= run.name %></strong><br />
           <small><%= run.notes %></small>
         </td>
+        <td style="color: <%=run.run_type.hex_code%>"><%= run.run_type.name %></td>
         <td><%= concat_distance_miles(run.mileage_total) %></td>
-        <td><%= concat_elapsed_time(run.hours, run.minutes, run.seconds) %></td>
+        <td><%= concat_elapsed_time(run) %></td>
         <td><%= concat_pace_min_miles(run.pace) %></td>
         <td><%= concat_elevation_gain(run.elevation_gain) %></td>
         <td><%= run.gear.return_full_shoe_name %> (<%= run.gear.return_shoe_mileage %>)</td>
