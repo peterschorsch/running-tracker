@@ -358,89 +358,126 @@ puts ""
 puts ""
 
 
-puts "----------YEARLY TOTALS----------"
-@yearly_2017 = YearlyTotal.find_or_create_by(year: "2017", year_start: DateTime.new(2017).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2017).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, all_time_total_id: @alltime.id)
-puts @yearly_2017.inspect
-@yearly_2018 = YearlyTotal.find_or_create_by(year: "2018", year_start: DateTime.new(2018).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2018).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('800'), elevation_gain: 10000, number_of_runs: 150, hours: 100, minutes: 30, seconds: 57, all_time_total_id: @alltime.id)
-puts @yearly_2018.inspect
-@yearly_2019 = YearlyTotal.find_or_create_by(year: "2019", year_start: DateTime.new(2019).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2019).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('664.7'), elevation_gain: 14327, number_of_runs: 101, hours: 73, minutes: 6, seconds: 0, all_time_total_id: @alltime.id)
-puts @yearly_2019.inspect
-@yearly_2020 = YearlyTotal.find_or_create_by(year: "2020", year_start: DateTime.new(2020).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2020).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('1564'), elevation_gain: 54826, number_of_runs: 214, hours: 190, minutes: 36, seconds: 0, all_time_total_id: @alltime.id)
-puts @yearly_2020.inspect
-puts ""
-puts ""
+#puts "----------YEARLY TOTALS----------"
+#@yearly_2017 = YearlyTotal.find_or_create_by(year: "2017", year_start: DateTime.new(2017).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2017).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, user_id: user_id, all_time_total_id: @my_admin_user.id)
+#puts @yearly_2017.inspect
+#@yearly_2018 = YearlyTotal.find_or_create_by(year: "2018", year_start: DateTime.new(2018).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2018).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('800'), elevation_gain: 10000, number_of_runs: 150, hours: 100, minutes: 30, seconds: 57, user_id: user_id, all_time_total_id: @my_admin_user.id)
+#puts @yearly_2018.inspect
+#@yearly_2019 = YearlyTotal.find_or_create_by(year: "2019", year_start: DateTime.new(2019).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2019).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('664.7'), elevation_gain: 14327, number_of_runs: 101, hours: 73, minutes: 6, seconds: 0, user_id: user_id, all_time_total_id: @my_admin_user.id)
+#puts @yearly_2019.inspect
+#@yearly_2020 = YearlyTotal.find_or_create_by(year: "2020", year_start: DateTime.new(2020).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2020).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('1564'), elevation_gain: 54826, number_of_runs: 214, hours: 190, minutes: 36, seconds: 0, user_id: user_id, all_time_total_id: @my_admin_user.id)
+#puts @yearly_2020.inspect
+#puts ""
+#puts ""
 
 
-puts "----------MONTHLY TOTALS----------"
-YearlyTotal.all.each do |yearly_total|
-  @first_month_of_year = yearly_total.year_start.at_beginning_of_year.beginning_of_month
-  @last_month_of_year = yearly_total.year_end.end_of_year.end_of_month
-  year = yearly_total.year_end.year
+#puts "----------MONTHLY TOTALS----------"
+#YearlyTotal.all.each do |yearly_total|
+#  @first_month_of_year = yearly_total.year_start.at_beginning_of_year.beginning_of_month
+#  @last_month_of_year = yearly_total.year_end.end_of_year.end_of_month
+#  year = yearly_total.year_end.year
 
-  puts "-----#{year}-----"
-  (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
+#  (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
     #month_end = DateTime.new(year, month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)
     #month_start = month_end.beginning_of_month
-    @monthly_total = MonthlyTotal.find_or_create_by(month_number: month, month_year: year, mileage_total: BigDecimal(rand(150..250)), elevation_gain: rand(750..1250), number_of_runs: rand(5..28), hours: rand(1..15), minutes: rand(0..59), seconds: rand(0..59), user_id: user_id)
-    puts @monthly_total.inspect
+#    @monthly_total = MonthlyTotal.find_or_create_by(month_number: month, month_year: year, mileage_total: 200, elevation_gain: 10000, number_of_runs: 24, hours: 30, minutes: 26, seconds: 52, user_id: user_id, yearly_total_id: yearly_total.id)
+#    puts @monthly_total.inspect
 
+#    puts "----------WEEKLY TOTALS----------"
     #(1..month_end.total_weeks).each do |week_number_of_month|
-    (1..52).each do |week_number|
+#    (1..52).each do |week_number|
       #week_end = DateTime.new(year, month_end.month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)+week_number_of_month.week
-      @weekly_total = WeeklyTotal.find_or_create_by(week_number: week_number, week_year: year, mileage_total: 35, goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user_id)
+#      @weekly_total = WeeklyTotal.find_or_create_by(week_number: week_number, week_month: month, mileage_total: 35, goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user_id, monthly_total_id: @monthly_total.id)
       #puts @weekly_total.inspect
-    end
+#    end
 
-  end
-  puts ""
-end
-
-puts "----------WEEKLY TOTALS----------"
-puts ""
-puts ""
+#  end
+#  puts ""
+#end
+#puts ""
 
 puts "----------RUNS----------"
+run_type_id = RunType.named("Race").id
+illinois_state_id = State.find_by_abbr("IL").id
+
 puts "----------2017----------"
-@run = Run.find_or_create_by(name: "Chicago Chinatown 5K & Youth Run", planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), start_time: DateTime.new(2017, 7, 8, 8, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "19", seconds: "59", pace: "6:26", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('0'), city: "Chicago", state_id: State.find_by_abbr("IL").id, notes: "Bib #: 438", run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+run_date = DateTime.new(2017, 7, 8, 8, 0, 0)
+@run = Run.find_or_create_by(name: "Chicago Chinatown 5K & Youth Run", planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "19", seconds: "59", pace: "6:26", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('0'), city: "Chicago", state_id: illinois_state_id, notes: "Bib #: 438", run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), start_time: DateTime.new(2017, 7, 15, 6, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "33", seconds: "09", pace: "7:27", notes: "Bib#: 1386", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('150'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2017, 7, 15, 6, 30, 0)
+@run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "33", seconds: "09", pace: "7:27", notes: "Bib#: 1386", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('150'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Fox Valley Marathon", planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), start_time: DateTime.new(2017, 9, 17, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "3", minutes: "11", seconds: "17", pace: "7:18", notes: "Bib#: 727", city: "St. Charles", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('326'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2017, 9, 17, 7, 0, 0)
+@run = Run.find_or_create_by(name: "Fox Valley Marathon", planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "3", minutes: "11", seconds: "17", pace: "7:18", notes: "Bib#: 727", city: "St. Charles", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('326'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Naperville Half Marathon and 5K", planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), start_time: DateTime.new(2017, 10, 22, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "25", seconds: "48", pace: "6:33", notes: "Bib#: 3800", city: "Naperville", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2017, 10, 22, 7, 0, 0)
+@run = Run.find_or_create_by(name: "Naperville Half Marathon and 5K", planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "25", seconds: "48", pace: "6:33", notes: "Bib#: 3800", city: "Naperville", gear_id: Gear.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
+
 puts "----------2018----------"
-@run = Run.find_or_create_by(name: "Chicago Spring Half Marathon & 10k", start_time: DateTime.new(2018, 5, 20, 7, 50, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "38", seconds: "21", pace: "6:11", notes: "Bib#: 8111", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('6.2'), mileage_total: BigDecimal('6.2'), elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, personal_best: true, completed_run: true)
+run_date = DateTime.new(2018, 5, 20, 7, 50, 0)
+@run = Run.find_or_create_by(name: "Chicago Spring Half Marathon & 10k", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "38", seconds: "21", pace: "6:11", notes: "Bib#: 8111", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('6.2'), mileage_total: BigDecimal('6.2'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, personal_best: true, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Chicago Chinatown 5K & Youth Run", start_time: DateTime.new(2018, 7, 14, 8, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "04", pace: "5:49", notes: "Bib#: 36", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2018, 7, 14, 8, 0, 0)
+@run = Run.find_or_create_by(name: "Chicago Chinatown 5K & Youth Run", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "04", pace: "5:49", notes: "Bib#: 36", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: DateTime.new(2018, 7, 21, 6, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "21", seconds: "18", pace: "6:12", notes: "Bib#: 1346", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2018, 7, 21, 6, 30, 0)
+@run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "21", seconds: "18", pace: "6:12", notes: "Bib#: 1346", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Fox Valley Marathon", start_time: DateTime.new(2018, 9, 16, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "51", seconds: "48", pace: "6:33", notes: "Bib#:  622", city: "St. Charles", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('326'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2018, 9, 16, 7, 0, 0)
+@run = Run.find_or_create_by(name: "Fox Valley Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "51", seconds: "48", pace: "6:33", notes: "Bib#:  622", city: "St. Charles", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('326'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Bank of America Chicago Marathon", start_time: DateTime.new(2018, 10, 7, 7, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "46", seconds: "11", pace: "6:21", notes: "Bib#: 6084", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('242'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2018, 10, 7, 7, 30, 0)
+@run = Run.find_or_create_by(name: "Bank of America Chicago Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "46", seconds: "11", pace: "6:21", notes: "Bib#: 6084", city: "Chicago", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('242'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Naperville Half Marathon and 5K", start_time: DateTime.new(2018, 10, 21, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "57", pace: "6:07", notes: "Bib#: 1473", city: "Naperville", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2018, 10, 21, 7, 0, 0)
+@run = Run.find_or_create_by(name: "Naperville Half Marathon and 5K", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "57", pace: "6:07", notes: "Bib#: 1473", city: "Naperville", gear_id: Gear.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
+
 puts "----------2019----------"
-@run = Run.find_or_create_by(name: "Boston Marathon", start_time: DateTime.new(2019, 4, 15, 10, 02, 0).in_time_zone("Eastern Time (US & Canada)"), hours: "2", minutes: "57", seconds: "08", pace: "6:46", notes: "Bib#: 1183", city: "Boston", gear_id: Gear.find_shoe("Ravenna 10").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('655'), state_id: State.find_by_abbr("MA").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+run_date = DateTime.new(2019, 4, 15, 10, 02, 0)
+@run = Run.find_or_create_by(name: "Boston Marathon", start_time: run_date.in_time_zone("Eastern Time (US & Canada)"), hours: "2", minutes: "57", seconds: "08", pace: "6:46", notes: "Bib#: 1183", city: "Boston", gear_id: Gear.find_shoe("Ravenna 10").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('655'), state_id: State.find_by_abbr("MA").id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: DateTime.new(2019, 7, 21, 6, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "44", pace: "6:05", notes: "Bib#: 1175", city: "Chicago", gear_id: Gear.find_shoe("Kinvara 10").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, personal_best: true, completed_run: true)
+
+run_date = DateTime.new(2019, 7, 21, 6, 30, 0)
+@run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "44", pace: "6:05", notes: "Bib#: 1175", city: "Chicago", gear_id: Gear.find_shoe("Kinvara 10").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, personal_best: true, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Fox Valley Marathon", start_time: DateTime.new(2010, 9, 22, 7, 0, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "49", seconds: "34", pace: "6:28", notes: "Bib#: 347", city: "St. Charles", gear_id: Gear.find_shoe("Kinvara 10").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('326'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2019, 9, 22, 7, 0, 0)
+@run = Run.find_or_create_by(name: "Fox Valley Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "49", seconds: "34", pace: "6:28", notes: "Bib#: 347", city: "St. Charles", gear_id: Gear.find_shoe("Kinvara 10").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('326'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Bucktown 5K Run", start_time: DateTime.new(2019, 10, 6, 8, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "4", pace: "5:49", city: "Chicago", notes: "Bib#: 4291", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), elevation_gain: BigDecimal('0'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, personal_best: true, completed_run: true)
+
+run_date = DateTime.new(2019, 10, 6, 8, 30, 0)
+@run = Run.find_or_create_by(name: "Bucktown 5K Run", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "4", pace: "5:49", city: "Chicago", notes: "Bib#: 4291", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, personal_best: true, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Bank of America Chicago Marathon", start_time: DateTime.new(2019, 10, 13, 7, 30, 0).in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "43", seconds: "08", pace: "6:14", notes: "Bib#: 11184", city: "Chicago", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('100'), state_id: State.find_by_abbr("IL").id, run_type_id: RunType.named("Race").id, user_id: user_id, personal_best: true, completed_run: true)
+
+run_date = DateTime.new(2019, 10, 13, 7, 30, 0)
+@run = Run.find_or_create_by(name: "Bank of America Chicago Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "2", minutes: "43", seconds: "08", pace: "6:14", notes: "Bib#: 11184", city: "Chicago", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('100'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: user_id, personal_best: true, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "TCS New York City Marathon", start_time: DateTime.new(2019, 11, 3, 9, 42, 0).in_time_zone("Eastern Time (US & Canada)"), hours: "3", minutes: "7", seconds: "16", pace: "7:09", notes: "Bib#: 2052", city: "New York", gear_id: Gear.find_shoe_with_color("Cloudswift", "Rock/Slate").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('830'), state_id: State.find_by_abbr("NY").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2019, 11, 3, 9, 42, 0)
+@run = Run.find_or_create_by(name: "TCS New York City Marathon", start_time: run_date.in_time_zone("Eastern Time (US & Canada)"), hours: "3", minutes: "7", seconds: "16", pace: "7:09", notes: "Bib#: 2052", city: "New York", gear_id: Gear.find_shoe_with_color("Cloudswift", "Rock/Slate").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('830'), state_id: State.find_by_abbr("NY").id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
+
 puts "----------2020----------"
-@run = Run.find_or_create_by(name: "Los Angeles Marathon", start_time: DateTime.new(2020, 3, 8, 6, 55, 0).in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Race").id, user_id: user_id, completed_run: true)
+run_date = DateTime.new(2020, 3, 8, 6, 55, 0)
+@run = Run.find_or_create_by(name: "Los Angeles Marathon", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: run_type_id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Testing", start_time: DateTime.new(2020, 9, 5, 10, 0, 0).in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Long Run").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2020, 9, 5, 10, 0, 0)
+@run = Run.find_or_create_by(name: "Testing", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Long Run").id, user_id: user_id, completed_run: true)
 puts @run.inspect
-@run = Run.find_or_create_by(name: "Testing 2", start_time: DateTime.new(2020, 9, 8, 18, 15, 0).in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user_id, completed_run: true)
+
+run_date = DateTime.new(2020, 9, 8, 18, 15, 0)
+@run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user_id, completed_run: true)
 puts @run.inspect
 puts ""
 puts ""

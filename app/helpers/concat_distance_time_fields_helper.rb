@@ -1,20 +1,26 @@
 module ConcatDistanceTimeFieldsHelper
 
+	# Chicago Marathon
+	def concat_race_name(name)
+		raw("<strong>#{name}</strong>")
+	end
+
 	# 5 miles
 	def concat_distance_miles(mileage)
 		raw("<strong>#{number_precision(mileage, 3)}</strong> miles")
 	end
 
 	#
-	def concat_elapsed_time(hours, minutes, seconds)
+	def concat_elapsed_time(record)
 		time = ""
-		time += (hours.to_s + ":") if hours.to_i != 0 || hours.nil?
-		time += minutes.to_s + ":" + seconds.to_s
+		time += (record.hours.to_s + ":") if record.hours.to_i != 0 || record.hours.nil?
+		time += record.minutes.to_s + ":" + record.seconds.to_s
+		raw("<strong>#{time}</strong>")
 	end
 
-	# 10 hours 45 min 23 sec
-	def concat_total_time(hours, minutes, seconds)
-		raw("<strong>#{hours}</strong> hrs | <strong>#{minutes}</strong> min | <strong>#{seconds}</strong> sec")
+	# 10 hrs | 45 min | 23 sec
+	def concat_total_time(record)
+		raw("<strong>#{record.hours}</strong> hrs | <strong>#{record.minutes}</strong> min | <strong>#{record.seconds}</strong> sec")
 	end
 
 	def concat_goal(record)

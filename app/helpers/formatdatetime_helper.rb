@@ -10,6 +10,10 @@ module FormatdatetimeHelper
     date.strftime("%A")
   end
 
+  def formatYear(date)
+    date.strftime("%Y")
+  end
+
   # Feb.23.2018
   def format_date_month(date)
     date.strftime("%b.%d.%Y")

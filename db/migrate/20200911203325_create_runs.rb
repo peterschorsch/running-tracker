@@ -24,6 +24,8 @@ class CreateRuns < ActiveRecord::Migration[5.2]
       t.references :state, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
 
+      #t.references :weekly_total, index: true, foreign_key: true
+
       t.timestamps
     end
   end

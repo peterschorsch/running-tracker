@@ -19,8 +19,24 @@ class Run < ApplicationRecord
 	    where(run_type: run_type)
 	}
 
+	scope :of_week, -> (week) {
+	    where(start_time: week.beginning_of_week..week.end_of_week)
+	}
+
+	scope :of_month, -> (month) {
+	    where(start_time: month.beginning_of_month..month.end_of_month)
+	}
+
+	scope :of_year, -> (year) {
+	    where(start_time: year.beginning_of_year..year.end_of_year)
+	}
+
+	scope :group_by_year, -> {
+	    group_by { |y| y.start_time.beginning_of_year }
+	}
+
 	scope :retrieve_personal_bests, -> {
-		joins(:run_type).where("run_types.name=? AND runs.personal_best=?", "Race", true).order(:mileage_total).includes(:run_type, :state, gear: :shoe_brand)
+		joins(:run_type).where("run_types.name=? AND runs.personal_best=?", "Race", true).order(:mileage_total).includes(:state)
 	}
 
 	scope :return_completed_runs, -> {
@@ -32,6 +48,10 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_most_recent, -> {
+		order('start_time DESC')
+	}
+
+	scope :order_by_oldest, -> {
 		order('start_time DESC')
 	}
 

@@ -1,5 +1,7 @@
 class MonthlyTotal < ApplicationRecord
 	belongs_to :user
+	belongs_to :yearly_total
+	has_many :weekly_totals
 
 	validates :month_number, :month_year, :mileage_total, :minutes, :seconds, :elevation_gain, presence: true
 	validates :month_number, length: { maximum: 2 }

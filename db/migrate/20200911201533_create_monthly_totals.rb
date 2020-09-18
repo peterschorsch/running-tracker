@@ -12,6 +12,7 @@ class CreateMonthlyTotals < ActiveRecord::Migration[5.2]
       t.integer :number_of_runs, :null => false
       t.integer :elevation_gain, :null => false
 
+      #t.references :yearly_total, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
 
       t.timestamps

@@ -1,5 +1,7 @@
 class WeeklyTotal < ApplicationRecord
 	belongs_to :user
+	belongs_to :monthly_total
+	has_many :runs
 
 	validates :week_number, :week_year, :mileage_total, :minutes, :seconds, :elevation_gain, presence: true
 	validates :week_number, length: { maximum: 2 }
@@ -14,7 +16,7 @@ class WeeklyTotal < ApplicationRecord
 	}
 
 	scope :of_week_number, -> (week_number) {
-	    where(week_number: week_number).order_by_week_year
+	    where(week_number: week_number)
 	}
 
 	scope :of_year, -> (year) {

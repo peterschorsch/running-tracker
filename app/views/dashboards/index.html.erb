@@ -28,17 +28,17 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="panel panel-default" style="border-color: <%= @next_run.run_type.hex_code %>">
-			<div class="panel-heading text-center" style="border-color: <%= @next_run.run_type.hex_code %>">
+		<div class="panel panel-default" style="border-color: <%#= @next_run.run_type.hex_code %>">
+			<div class="panel-heading text-center" style="border-color: <%#= @next_run.run_type.hex_code %>">
 				<h1>Next Run</h1>
 			</div>
 			<div class="panel-body text-center">
 				<p>
-					<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%> | in <%= time_ago_in_words(@next_run.start_time) %></small>
+					<small class="text-muted"><%#=formatDayofWeek(@next_run.start_time)%> | <%#=format_date_month(@next_run.start_time)%> | <%#=formatTime(@next_run.start_time)%> | in <%#= time_ago_in_words(@next_run.start_time) %></small>
 				</p>
-				<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
-				<h3><strong><%= @next_run.name %></strong></h3>
-				<p>Planned: <%= concat_distance_miles(@next_run.planned_mileage) %></p>
+				<p style="color: <%#=@next_run.run_type.hex_code%>"><%#= @next_run.run_type.name %></p>
+				<h3><strong><%#= @next_run.name %></strong></h3>
+				<p>Planned: <%#= concat_distance_miles(@next_run.planned_mileage) %></p>
 			</div>
 		</div>
 	</div>

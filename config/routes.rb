@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :monthly_totals
   resources :weekly_totals
   get 'statistics', to: 'statistics#index'
+  get 'race-results', to: 'race_results#index'
   resources 'calendars', only: [:index] do
     collection do
       get '/edit/:id', to: 'calendars#edit', as: "edit"

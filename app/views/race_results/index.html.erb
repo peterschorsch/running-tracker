@@ -1,0 +1,24 @@
+<div class="row">
+	<div class="col-md-8">
+		<% @race_results.each do |year, race| %>
+			<h1 class="display-2"><%= formatYear(year) %></h1>
+			<hr />
+			<% race.each do |run| %>
+				<p><strong><%= formatCalendarDay(run.start_time) %></strong> | <%= concat_distance_miles(run.mileage_total) %> | <%= concat_race_name(run.name) %> | <%= concat_elapsed_time(run) %> | <%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %> | <%= run.gear.return_full_shoe_name %></p>
+			<% end %>
+			<br /><br />
+		<% end %>
+	</div>
+	<div class="col-md-4 text-center">
+		<h1 class="display-2">Personal Bests</h1>
+		<hr />
+		<% @personal_bests.each do |race| %>
+			<h3><%= formatYear(race.start_time) %> <%= race.name %></h3>
+			<p><%= concat_city_state_full(race.city, race.state) %></p>
+			<p><%= concat_distance_miles(race.mileage_total) %> | <%= concat_elapsed_time(race) %></p>
+			<p><%= concat_pace_min_miles(race.pace) %> | <%= concat_elevation_gain(race.elevation_gain) %></p>
+			<p><%= race.gear.return_full_shoe_name %></p>
+			<br />
+		<% end %>
+	</div>
+</div>
