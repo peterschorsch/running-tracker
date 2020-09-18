@@ -171,9 +171,11 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.integer "hours", null: false
     t.integer "minutes", limit: 3, null: false
     t.integer "seconds", limit: 2, null: false
+    t.integer "all_time_total_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["all_time_total_id"], name: "index_yearly_totals_on_all_time_total_id"
     t.index ["user_id"], name: "index_yearly_totals_on_user_id"
   end
 

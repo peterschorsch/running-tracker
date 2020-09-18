@@ -358,19 +358,6 @@ puts ""
 puts ""
 
 
-#puts "----------YEARLY TOTALS----------"
-#@yearly_2017 = YearlyTotal.find_or_create_by(year: "2017", year_start: DateTime.new(2017).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2017).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, user_id: user_id, all_time_total_id: @my_admin_user.id)
-#puts @yearly_2017.inspect
-#@yearly_2018 = YearlyTotal.find_or_create_by(year: "2018", year_start: DateTime.new(2018).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2018).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('800'), elevation_gain: 10000, number_of_runs: 150, hours: 100, minutes: 30, seconds: 57, user_id: user_id, all_time_total_id: @my_admin_user.id)
-#puts @yearly_2018.inspect
-#@yearly_2019 = YearlyTotal.find_or_create_by(year: "2019", year_start: DateTime.new(2019).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2019).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('664.7'), elevation_gain: 14327, number_of_runs: 101, hours: 73, minutes: 6, seconds: 0, user_id: user_id, all_time_total_id: @my_admin_user.id)
-#puts @yearly_2019.inspect
-#@yearly_2020 = YearlyTotal.find_or_create_by(year: "2020", year_start: DateTime.new(2020).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2020).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('1564'), elevation_gain: 54826, number_of_runs: 214, hours: 190, minutes: 36, seconds: 0, user_id: user_id, all_time_total_id: @my_admin_user.id)
-#puts @yearly_2020.inspect
-#puts ""
-#puts ""
-
-
 #puts "----------MONTHLY TOTALS----------"
 #YearlyTotal.all.each do |yearly_total|
 #  @first_month_of_year = yearly_total.year_start.at_beginning_of_year.beginning_of_month
@@ -479,6 +466,18 @@ puts @run.inspect
 run_date = DateTime.new(2020, 9, 8, 18, 15, 0)
 @run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user_id, completed_run: true)
 puts @run.inspect
+puts ""
+puts ""
+
+puts "----------YEARLY TOTALS----------"
+@yearly_2017 = YearlyTotal.find_or_create_by(year: "2017", year_start: DateTime.new(2017).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2017).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, user_id: user_id, all_time_total_id: @my_admin_user.all_time_total.id)
+puts @yearly_2017.inspect
+@yearly_2018 = YearlyTotal.find_or_create_by(year: "2018", year_start: DateTime.new(2018).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2018).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('800'), elevation_gain: 10000, number_of_runs: 150, hours: 100, minutes: 30, seconds: 57, user_id: user_id, all_time_total_id: @my_admin_user.all_time_total.id)
+puts @yearly_2018.inspect
+@yearly_2019 = YearlyTotal.find_or_create_by(year: "2019", year_start: DateTime.new(2019).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2019).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('664.7'), elevation_gain: 14327, number_of_runs: 101, hours: 73, minutes: 6, seconds: 0, user_id: user_id, all_time_total_id: @my_admin_user.all_time_total.id)
+puts @yearly_2019.inspect
+@yearly_2020 = YearlyTotal.find_or_create_by(year: "2020", year_start: DateTime.new(2020).beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: DateTime.new(2020).end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('1564'), elevation_gain: 54826, number_of_runs: 214, hours: 190, minutes: 36, seconds: 0, user_id: user_id, all_time_total_id: @my_admin_user.all_time_total.id)
+puts @yearly_2020.inspect
 puts ""
 puts ""
 

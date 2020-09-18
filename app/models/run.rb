@@ -67,6 +67,43 @@ class Run < ApplicationRecord
 		self.completed_run
 	end
 
+	def self.return_weekly_stats(current_user, week = Date.current)
+		@runs_of_week = current_user.runs.of_week(week)
+		self.running_totals(@runs_of_week)
+	end
+
+	def self.return_monthly_stats(current_user, month = Date.current)
+		@runs_of_month = current_user.runs.of_month(month)
+		self.running_totals(@runs_of_month)
+	end
+
+	def self.return_yearly_stats(current_user, year = Date.current)
+		@runs_of_year = current_user.runs.of_year(year)
+		self.running_totals(@runs_of_year)
+	end
+
+	def self.running_totals(runs)
+		number_of_runs = actual_mileage = elevation_gain = hours = minutes = seconds = 0
+
+		runs.each do |run|
+			number_of_runs += 1
+			actual_mileage += run.mileage_total
+			elevation_gain += run.elevation_gain
+			seconds += run.seconds
+			if seconds >= 60
+				minutes += 1
+				seconds -= 60
+			end
+			minutes += run.minutes
+			if minutes >= 60
+				hours += 1
+				minutes -= 60
+			end
+			hours += run.hours
+		end
+		return [number_of_runs, actual_mileage, elevation_gain, hours, minutes, seconds]
+	end
+
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
 		Run.where(start_time: starting_day..ending_day)

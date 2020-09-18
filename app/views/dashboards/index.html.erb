@@ -21,24 +21,24 @@
 					<p><%= concat_distance_miles(@last_run.mileage_total) %></p>
 				<% end %>
 				<p>
-					<strong><%= concat_elapsed_time(@last_run.hours, @last_run.minutes, @last_run.seconds) %></strong> | <%= concat_pace_min_miles(@last_run.pace) %> | <%= concat_elevation_gain(@last_run.elevation_gain) %>
+					<strong><%= concat_elapsed_time(@last_run) %></strong> | <%= concat_pace_min_miles(@last_run.pace) %> | <%= concat_elevation_gain(@last_run.elevation_gain) %>
 				</p>
 				<p><%= @last_run.gear.return_full_shoe_name %> (<%= @last_run.gear.return_shoe_mileage %>)</p>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="panel panel-default" style="border-color: <%#= @next_run.run_type.hex_code %>">
-			<div class="panel-heading text-center" style="border-color: <%#= @next_run.run_type.hex_code %>">
+		<div class="panel panel-default" style="border-color: <%= @next_run.run_type.hex_code %>">
+			<div class="panel-heading text-center" style="border-color: <%= @next_run.run_type.hex_code %>">
 				<h1>Next Run</h1>
 			</div>
 			<div class="panel-body text-center">
 				<p>
-					<small class="text-muted"><%#=formatDayofWeek(@next_run.start_time)%> | <%#=format_date_month(@next_run.start_time)%> | <%#=formatTime(@next_run.start_time)%> | in <%#= time_ago_in_words(@next_run.start_time) %></small>
+					<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%> | in <%= time_ago_in_words(@next_run.start_time) %></small>
 				</p>
-				<p style="color: <%#=@next_run.run_type.hex_code%>"><%#= @next_run.run_type.name %></p>
-				<h3><strong><%#= @next_run.name %></strong></h3>
-				<p>Planned: <%#= concat_distance_miles(@next_run.planned_mileage) %></p>
+				<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
+				<h3><strong><%= @next_run.name %></strong></h3>
+				<p>Planned: <%= concat_distance_miles(@next_run.planned_mileage) %></p>
 			</div>
 		</div>
 	</div>
@@ -46,16 +46,10 @@
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
 				<h1>Weekly Totals</h1>
-				<small><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small>
 			</div>
 			<div class="panel-body">
-				<% if @weekly_total.met_goal %>
-					<div class="alert alert-success text-center" role="alert"><p><strong>Congrats on meeting your weekly goal!</strong></p></div>
-				<% end %>
-				<p class="text-center"><%= concat_goal(@weekly_total) %></p>
-				<p class="text-center"><strong><%= @weekly_goal_difference %></strong></p>
-				<br />
-				<p class="text-center"><%= concat_totals(@weekly_total) %></p>
+				<p class="text-center"><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
+				<%= render weekly_monthly_stats_path, stats: @weekly_total %>
 			</div>
 		</div>
 	</div>
@@ -75,7 +69,7 @@
 				<h1><%= format_month(Date.current) %> Totals</h1>
 			</div>
 			<div class="panel-body">
-				<p class="text-center"><%= concat_totals(@monthly_total) %></p>
+				<%= render weekly_monthly_stats_path, stats: @monthly_total %>
 			</div>
 		</div>
 	</div>

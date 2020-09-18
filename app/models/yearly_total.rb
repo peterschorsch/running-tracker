@@ -12,7 +12,7 @@ class YearlyTotal < ApplicationRecord
 	validates_numericality_of :seconds, less_than_or_equal_to: 60
 
 
-	scope :find_by_year, -> (year) {
+	scope :of_year, -> (year = Date.today.year) {
 		find_by(:year => year)
 	}
 
@@ -20,7 +20,4 @@ class YearlyTotal < ApplicationRecord
 		order(:year)
 	}
 
-	def self.return_year_totals(year = Date.today.year)
-		self.find_by_year(year)
-	end
 end
