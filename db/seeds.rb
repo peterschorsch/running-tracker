@@ -379,16 +379,16 @@ YearlyTotal.all.each do |yearly_total|
 
   puts "-----#{year}-----"
   (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
-    month_end = DateTime.new(year, month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)
-    month_start = month_end.beginning_of_month
-    @monthly_total = MonthlyTotal.create_with(month_number: month, month_start: month_start, month_end: month_end, mileage_total: BigDecimal(rand(150..250)), elevation_gain: rand(750..1250), number_of_runs: rand(5..28), hours: rand(1..15), minutes: rand(0..59), seconds: rand(0..59)).find_or_create_by(month_number: month, month_start: month_start, month_end: month_end)
+    #month_end = DateTime.new(year, month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)
+    #month_start = month_end.beginning_of_month
+    @monthly_total = MonthlyTotal.find_or_create_by(month_number: month, month_year: year, mileage_total: BigDecimal(rand(150..250)), elevation_gain: rand(750..1250), number_of_runs: rand(5..28), hours: rand(1..15), minutes: rand(0..59), seconds: rand(0..59), user_id: user_id)
     puts @monthly_total.inspect
 
     #(1..month_end.total_weeks).each do |week_number_of_month|
     (1..52).each do |week_number|
       #week_end = DateTime.new(year, month_end.month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)+week_number_of_month.week
       @weekly_total = WeeklyTotal.find_or_create_by(week_number: week_number, week_year: year, mileage_total: 35, goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user_id)
-      puts @weekly_total.inspect
+      #puts @weekly_total.inspect
     end
 
   end

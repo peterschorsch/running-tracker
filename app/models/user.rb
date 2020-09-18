@@ -2,6 +2,7 @@ class User < ApplicationRecord
 	has_one :all_time_total
 	has_many :runs, dependent: :destroy
 	has_many :weekly_totals, dependent: :destroy
+	has_many :monthly_totals, dependent: :destroy
 
 	include EmailValidator
 

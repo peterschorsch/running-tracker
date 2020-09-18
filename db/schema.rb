@@ -57,16 +57,17 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
 
   create_table "monthly_totals", force: :cascade do |t|
     t.string "month_number", limit: 1, null: false
-    t.datetime "month_start", null: false
-    t.datetime "month_end", null: false
+    t.string "month_year", limit: 4, null: false
     t.decimal "mileage_total", null: false
     t.integer "hours", null: false
     t.integer "minutes", limit: 3, null: false
     t.integer "seconds", limit: 2, null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_monthly_totals_on_user_id"
   end
 
   create_table "obligations", force: :cascade do |t|

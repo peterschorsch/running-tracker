@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
 		<div class="col-md-4 text-center">
-			<h2><%= format_month(@monthly_stats.month_end) %></h2>
+			<h2><%= format_month(Date.current) %></h2>
 			<hr />
 			<p><%= concat_totals(@monthly_stats) %></p>
     	</div>

@@ -1,12 +1,36 @@
 class MonthlyTotal < ApplicationRecord
-	### MUST SUPPLY PARAMETERS IN DATETIME FORMAT
-	scope :find_by_month, -> (starting_month, ending_month) {
-		find_by("month_start >= ? and month_end <= ?", starting_month, ending_month)
+	belongs_to :user
+
+	validates :month_number, :month_year, :mileage_total, :minutes, :seconds, :elevation_gain, presence: true
+	validates :month_number, length: { maximum: 2 }
+	validates :month_year, length: { maximum: 4 }
+	validates :mileage_total, :elevation_gain, numericality: true
+	validates :hours, numericality: true, length: { maximum: 3 }, allow_nil: true
+	validates :minutes, numericality: true, length: { in: 0..2 }
+	validates :seconds, numericality: true, length: { in: 1..2 }
+
+	scope :return_current_months_totals, -> {
+	    of_month_number.of_month_year.first
 	}
 
-	### MUST SUPPLY PARAMETERS IN DATETIME FORMAT
-	def self.return_monthly_totals(date = DateTime.now)
-		self.find_by_month(date.beginning_of_month, date.end_of_month)
-	end
+	scope :of_user, -> (user) {
+	    where(user: user)
+	}
+
+	scope :of_month_number, -> (month_number = Date.current.month.to_s) {
+	    where(month_number: month_number).order_by_month_year
+	}
+
+	scope :of_month_year, -> (year = Date.current.year.to_s) {
+	    where(month_year: year).order_by_month_number
+	}
+
+	scope :order_by_month_number, -> {
+	    order(:month_number)
+	}
+
+	scope :order_by_month_year, -> {
+	    order(:month_year)
+	}
 
 end
