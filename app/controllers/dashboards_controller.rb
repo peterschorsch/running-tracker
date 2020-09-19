@@ -15,7 +15,7 @@ class DashboardsController < ApplicationController
 		#@weekly_goal_difference = @weekly_goal_difference.to_s + " miles"
 
 		### MONTHLY TOTALS ###
-		@monthly_total = Run.return_monthly_stats(current_user, Date.current)
+		@monthly_total = current_user.monthly_totals.of_year.of_month
 
 	end
 

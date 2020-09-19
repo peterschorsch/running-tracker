@@ -72,16 +72,6 @@ class Run < ApplicationRecord
 		self.running_totals(@runs_of_week)
 	end
 
-	def self.return_monthly_stats(current_user, month = Date.current)
-		@runs_of_month = current_user.runs.of_month(month)
-		self.running_totals(@runs_of_month)
-	end
-
-	def self.return_yearly_stats(current_user, year = Date.current)
-		@runs_of_year = current_user.runs.of_year(year)
-		self.running_totals(@runs_of_year)
-	end
-
 	def self.running_totals(runs)
 		number_of_runs = actual_mileage = elevation_gain = hours = minutes = seconds = 0
 

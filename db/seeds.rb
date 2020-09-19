@@ -481,6 +481,31 @@ puts @yearly_2020.inspect
 puts ""
 puts ""
 
+YearlyTotal.all.each do |yearly_total|
+  @first_month_of_year = yearly_total.year_start.at_beginning_of_year.beginning_of_month
+  @last_month_of_year = yearly_total.year_end.end_of_year.end_of_month
+  year = yearly_total.year_end.year
+
+  puts "----------#{year} | MONTHLY TOTALS----------"
+  (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
+    month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.now.zone).end_of_day
+    month_start = month_end.beginning_of_month
+    
+    @monthly_total = MonthlyTotal.find_or_create_by(month_start: month_start, month_end: month_end, mileage_total: 200, elevation_gain: 10000, number_of_runs: 24, hours: 30, minutes: 26, seconds: 52, user_id: user_id, yearly_total_id: yearly_total.id)
+    puts @monthly_total.inspect
+
+#    puts "----------WEEKLY TOTALS----------"
+    #(1..month_end.total_weeks).each do |week_number_of_month|
+#    (1..52).each do |week_number|
+      #week_end = DateTime.new(year, month_end.month, Time.days_in_month(month, year), 23, 59, 59, DateTime.now.zone)+week_number_of_month.week
+#      @weekly_total = WeeklyTotal.find_or_create_by(week_number: week_number, week_month: month, mileage_total: 35, goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user_id, monthly_total_id: @monthly_total.id)
+      #puts @weekly_total.inspect
+  end
+
+  puts ""
+end
+puts ""
+
 
 puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
 puts Run.create_weeklong_default_runs(@my_admin_user)

@@ -3,7 +3,8 @@
 		<div class="col-md-4 text-center">
 			<h2><%= format_month(Date.current) %></h2>
 			<hr />
-			<%= render weekly_monthly_stats_path, stats: @monthly_stats %>
+			<p><%= concat_run_totals_line_one(@monthly_stats) %></p>
+			<p><%= concat_run_totals_line_two(@monthly_stats) %></p>
     	</div>
 		<div class="col-md-4 text-center">
 			<h2><%= Date.today.year %></h2>
