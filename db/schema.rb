@@ -146,10 +146,10 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
   end
 
   create_table "weekly_totals", force: :cascade do |t|
-    t.string "week_number", limit: 1, null: false
-    t.string "week_year", limit: 4, null: false
+    t.datetime "week_start", null: false
+    t.datetime "week_end", null: false
     t.decimal "mileage_total", default: "0.0", null: false
-    t.decimal "goal", precision: 5, scale: 5, default: "0.0"
+    t.decimal "mileage_goal", precision: 5, scale: 5, default: "0.0"
     t.boolean "met_goal", default: false
     t.integer "hours", null: false
     t.integer "minutes", limit: 3, null: false

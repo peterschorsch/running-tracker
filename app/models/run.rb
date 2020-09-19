@@ -67,31 +67,24 @@ class Run < ApplicationRecord
 		self.completed_run
 	end
 
-	def self.return_weekly_stats(current_user, week = Date.current)
-		@runs_of_week = current_user.runs.of_week(week)
-		self.running_totals(@runs_of_week)
-	end
-
-	def self.running_totals(runs)
+	def running_totals
 		number_of_runs = actual_mileage = elevation_gain = hours = minutes = seconds = 0
+		user_id = self.run.user.id
 
-		runs.each do |run|
-			number_of_runs += 1
-			actual_mileage += run.mileage_total
-			elevation_gain += run.elevation_gain
-			seconds += run.seconds
-			if seconds >= 60
-				minutes += 1
-				seconds -= 60
-			end
-			minutes += run.minutes
-			if minutes >= 60
-				hours += 1
-				minutes -= 60
-			end
-			hours += run.hours
+		number_of_runs += 1
+		actual_mileage += run.mileage_total
+		elevation_gain += run.elevation_gain
+		seconds += run.seconds
+		if seconds >= 60
+			minutes += 1
+			seconds -= 60
 		end
-		return [number_of_runs, actual_mileage, elevation_gain, hours, minutes, seconds]
+		minutes += run.minutes
+		if minutes >= 60
+			hours += 1
+			minutes -= 60
+		end
+		hours += run.hours
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###

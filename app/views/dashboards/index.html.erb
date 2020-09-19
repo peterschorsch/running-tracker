@@ -47,9 +47,10 @@
 			<div class="panel-heading text-center">
 				<h1>Weekly Totals</h1>
 			</div>
-			<div class="panel-body">
-				<p class="text-center"><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
-				<%= render weekly_monthly_stats_path, stats: @weekly_total %>
+			<div class="panel-body text-center">
+				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
+				<p><%= concat_run_totals_line_one(@weekly_total) %></p>
+				<p><%= concat_run_totals_line_two(@weekly_total) %></p>
 			</div>
 		</div>
 	</div>
@@ -69,7 +70,6 @@
 				<h1><%= format_month(Date.current) %> Totals</h1>
 			</div>
 			<div class="panel-body text-center">
-				<%#= render weekly_monthly_stats_path, stats: @monthly_total %>
 				<p><%= concat_run_totals_line_one(@monthly_total) %></p>
 				<p><%= concat_run_totals_line_two(@monthly_total) %></p>
 			</div>

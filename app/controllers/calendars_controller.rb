@@ -13,6 +13,7 @@ class CalendarsController < ApplicationController
 	def update
 		@run.user_id = current_user.id
 		@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
+		@run.user.all_time_total.update_all_time_totals
 
 		respond_to do |format|
 			if @run.update(run_params)

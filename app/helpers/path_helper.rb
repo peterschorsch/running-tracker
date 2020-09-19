@@ -44,10 +44,6 @@ module PathHelper
 		"templates/buttons/crud/delete-icon"
 	end
 
-	def weekly_monthly_stats_path
-		"templates/display-weekly-monthly-stats"
-	end
-
 	def index_header_new_btn_path
 		"templates/index-header-new-btn"
 	end

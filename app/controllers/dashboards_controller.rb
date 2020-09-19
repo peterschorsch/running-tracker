@@ -9,14 +9,10 @@ class DashboardsController < ApplicationController
 		@next_run = @runs.find_next_run
 
 		### WEEKLY TOTALS ###
-		@weekly_total = Run.return_weekly_stats(current_user, Date.current)
-		#@weekly_goal_difference = @weekly_total.mileage_total - @weekly_total.goal
-		#@weekly_goal_difference = "+" + @weekly_goal_difference.to_s if not @weekly_goal_difference.negative?
-		#@weekly_goal_difference = @weekly_goal_difference.to_s + " miles"
+		@weekly_total = current_user.weekly_totals.order_by_recent_week.first
 
 		### MONTHLY TOTALS ###
 		@monthly_total = current_user.monthly_totals.of_year.of_month
-
 	end
 
 end
