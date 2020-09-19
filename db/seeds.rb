@@ -298,19 +298,6 @@ puts "SEEDED all 50 States"
 puts ""
 puts ""
 
-
-puts "----------MONTH KEYS----------"
-month_list = Array[ [1, "January"], [2, "February"], [3, "March"], [4, "April"], [5, "May"], [6, "June"],
-                [7, "July"], [8, "August"], [9, "September"], [10, "October"], [11, "November"], [12, "December"] ]
-
-month_list.each do |number, month_name|
-  MonthKey.create_with(number: number, name: month_name).find_or_create_by(number: number, name: month_name)
-end
-puts "SEEDED all 12 Months"
-puts ""
-puts ""
-
-
 puts "----------RUN TYPES----------"
 type = "Easy Run"
 @runtype = RunType.create_with(name: type, hex_code: "#6A0DAD", active: true, default: false).find_or_create_by(name: type)
@@ -479,12 +466,9 @@ User.all.each do |user|
       @weekly_total = WeeklyTotal.find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, mileage_total: 35, mileage_goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user.id)
       puts @weekly_total.inspect
     end
-  puts ""
   puts ""  
 end
 puts ""
-puts ""
-
 
 puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
 puts Run.create_weeklong_default_runs(@my_admin_user)

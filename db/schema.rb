@@ -48,13 +48,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.index ["shoe_brand_id"], name: "index_gears_on_shoe_brand_id"
   end
 
-  create_table "month_keys", force: :cascade do |t|
-    t.integer "number", limit: 1, null: false
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "monthly_totals", force: :cascade do |t|
     t.datetime "month_start", null: false
     t.datetime "month_end", null: false
