@@ -10,6 +10,7 @@ module FormatdatetimeHelper
     date.strftime("%A")
   end
 
+  # 2020
   def formatYear(date)
     date.strftime("%Y")
   end
@@ -23,9 +24,17 @@ module FormatdatetimeHelper
   def formatFullDate(date)
     date.strftime("%A, %B %-d, %Y")
   end
+  # 9/19
+  def formatMonthDayDate(date)
+    date.strftime("%-m/%-d")
+  end
   # 9/19/17
   def formatDate(date)
     date.strftime("%-m/%-d/%y")
+  end
+  # 9.19
+  def formatMonthDateDots(date)
+    date.strftime("%-m.%-d")
   end
   # 9.19.17
   def formatDateDots(date)

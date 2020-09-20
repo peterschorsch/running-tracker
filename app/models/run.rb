@@ -52,7 +52,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_oldest, -> {
-		order('start_time DESC')
+		order(:start_time)
 	}
 
 	scope :find_last_completed_run, -> {

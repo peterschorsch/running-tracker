@@ -11,13 +11,20 @@ class YearlyTotal < ApplicationRecord
 	validates_numericality_of :minutes, less_than_or_equal_to: 60
 	validates_numericality_of :seconds, less_than_or_equal_to: 60
 
+	scope :order_by_oldest_year, -> {
+	    order(:year)
+	}
+
+	scope :order_by_recent_year, -> {
+	    order(year: :desc)
+	}
 
 	scope :of_year, -> (year = Date.today.year) {
 		find_by(:year => year)
 	}
 
-	scope :order_by_year, -> {
-		order(:year)
+	scope :of_user, -> (user) {
+		where(:user => user)
 	}
 
 end

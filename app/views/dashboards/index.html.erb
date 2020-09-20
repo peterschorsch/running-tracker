@@ -28,19 +28,30 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<div class="panel panel-default" style="border-color: <%= @next_run.run_type.hex_code %>">
-			<div class="panel-heading text-center" style="border-color: <%= @next_run.run_type.hex_code %>">
-				<h1>Next Run</h1>
+		<%if not @next_run.present? %>
+			<div class="panel panel-default" style="border-color: <%= @next_run.run_type.hex_code %>">
+				<div class="panel-heading text-center" style="border-color: <%= @next_run.run_type.hex_code %>">
+					<h1>Next Run</h1>
+				</div>
+				<div class="panel-body text-center">
+					<p>
+						<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%> | in <%= time_ago_in_words(@next_run.start_time) %></small>
+					</p>
+					<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
+					<h3><strong><%= @next_run.name %></strong></h3>
+					<p>Planned: <%= concat_distance_miles(@next_run.planned_mileage) %></p>
+				</div>
 			</div>
-			<div class="panel-body text-center">
-				<p>
-					<small class="text-muted"><%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%=formatTime(@next_run.start_time)%> | in <%= time_ago_in_words(@next_run.start_time) %></small>
-				</p>
-				<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
-				<h3><strong><%= @next_run.name %></strong></h3>
-				<p>Planned: <%= concat_distance_miles(@next_run.planned_mileage) %></p>
+		<% else %>
+			<div class="panel panel-default">
+				<div class="panel-heading text-center">
+					<h1>Next Run</h1>
+				</div>
+				<div class="panel-body text-center">
+					<p>Your next run is not scheduled yet.</p>
+				</div>
 			</div>
-		</div>
+		<% end %>
 	</div>
 	<div class="col-md-4">
 		<div class="panel panel-default">
@@ -60,7 +71,7 @@
 	<div class="col-md-8">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<p class="text-center">[INSERT GRAPH FOR WEEKLY TOTALS HERE]</p>
+				<%= render mileage_chart_path, title: "Mileage for the past 4 Weeks", data: @weekly_total_graph %>
 			</div>
 		</div>
 	</div>

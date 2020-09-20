@@ -8,6 +8,10 @@ module PathHelper
 		"templates/alerts/alert"
 	end
 
+	def mileage_chart_path
+		"templates/charts/area-chart-mileage"
+	end
+
 	def back_to_dashboard_path
 		"templates/buttons/back-to-dashboard"
 	end
