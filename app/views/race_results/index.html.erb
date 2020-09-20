@@ -12,6 +12,10 @@
 	<div class="col-md-4 text-center">
 		<h1 class="display-2">Personal Bests</h1>
 		<hr />
+		<% @race_counts.each do |distance, count| %>
+			<p><strong><%= distance %></strong> | <%= count %></p>
+		<% end %>
+		<hr />
 		<% @personal_bests.each do |race| %>
 			<h3><%= formatYear(race.start_time) %> <%= race.name %></h3>
 			<p><%= concat_city_state_full(race.city, race.state) %></p>

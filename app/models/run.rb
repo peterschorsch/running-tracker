@@ -67,6 +67,12 @@ class Run < ApplicationRecord
 		self.completed_run
 	end
 
+	def self.return_race_distance_counts
+		totals = self.group(:mileage_total).count
+		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
+		return totals.transform_keys(&mappings.method(:[]))
+	end
+
 	def running_totals
 		number_of_runs = actual_mileage = elevation_gain = hours = minutes = seconds = 0
 		user_id = self.run.user.id
