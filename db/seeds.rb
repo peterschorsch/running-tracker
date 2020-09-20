@@ -425,7 +425,7 @@ puts ""
 
 User.all.each do |user|
   puts "----------#{user.concat_name} ALL TIME TOTALS----------"
-  @alltime = AllTimeTotal.find_or_create_by(mileage_total: BigDecimal('2209'), elevation_gain: 69153, number_of_runs: 315, hours: 263, minutes: 42, seconds: 0, user_id: user.id)
+  @alltime = AllTimeTotal.find_or_create_by(mileage_total: BigDecimal('2209'), elevation_gain: rand(60000..150000), number_of_runs: rand(500..1000), hours: rand(250..500), minutes: rand(1..59), seconds: rand(1..59), user_id: user.id)
   puts @alltime.inspect
   puts ""
   puts ""
@@ -433,7 +433,7 @@ User.all.each do |user|
   puts "----------#{user.concat_name} YEARLY TOTALS----------"
   (2017..Date.current.year).each do |year|
     year_date = DateTime.new(year)
-    @year = YearlyTotal.find_or_create_by(year: year, year_start: year_date.beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: year_date.end_of_year.in_time_zone("Pacific Time (US & Canada)"), mileage_total: BigDecimal('750.8'), elevation_gain: 7000, number_of_runs: 150, hours: 90, minutes: 2, seconds: 29, user_id: user.id, all_time_total_id: @alltime.id)
+    @year = YearlyTotal.create_with(mileage_total: BigDecimal(rand(1000..2500)), elevation_gain: rand(22000..60000), number_of_runs: rand(220..310), hours: rand(100..200), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(year: year, year_start: year_date.beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: year_date.end_of_year.in_time_zone("Pacific Time (US & Canada)"), user_id: user.id, all_time_total_id: @alltime.id)
     puts @year.inspect
 
     if year == Date.current.year
@@ -449,7 +449,7 @@ User.all.each do |user|
       month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.now.zone).end_of_day
       month_start = month_end.beginning_of_month
       
-      @monthly_total = MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), hours: rand(12..50), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user.id, yearly_total_id: @year.id, month_start: month_start, month_end: month_end,)
+      @monthly_total = MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), hours: rand(12..50), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user.id, yearly_total_id: @year.id, month_start: month_start, month_end: month_end)
       puts @monthly_total.inspect
     end
     puts ""
@@ -457,12 +457,15 @@ User.all.each do |user|
 
   puts "----------CREATE MOST RECENT FOUR WEEKLY TOTALS FOR MY ACCOUNT----------"
   current_date = DateTime.now
-    @weekly_total = WeeklyTotal.find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, mileage_total: 35, mileage_goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user.id)
+  mileage_total = rand(15..75)
+  mileage_goal = 40
+  met_goal = mileage_total >= mileage_goal ? true : false
+  @weekly_total = WeeklyTotal.create_with(mileage_total: BigDecimal(mileage_total), mileage_goal: BigDecimal(mileage_goal), met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user.id)
+  puts @weekly_total.inspect
+  (1..3).each do |number|
+    @weekly_total = WeeklyTotal.create_with(mileage_total: rand(5..39), mileage_goal: mileage_goal, met_goal: false, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, user_id: user.id)
     puts @weekly_total.inspect
-    (1..3).each do |number|
-      @weekly_total = WeeklyTotal.find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, mileage_total: 35, mileage_goal: 40, met_goal: true, hours: 5, minutes: 24, seconds: 05, number_of_runs: 6, elevation_gain: 670, user_id: user.id)
-      puts @weekly_total.inspect
-    end
+  end
   puts ""  
 end
 puts ""
