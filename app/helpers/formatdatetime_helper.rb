@@ -22,7 +22,7 @@ module FormatdatetimeHelper
 
   # Tuesday, October 10, 2017
   def formatFullDate(date)
-    date.strftime("%A, %B %-d, %Y")
+    date.strftime("%A, %B #{date.day.ordinalize}, %Y")
   end
   # 9/19
   def formatMonthDayDate(date)
