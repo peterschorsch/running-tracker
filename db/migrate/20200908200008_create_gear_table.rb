@@ -22,6 +22,7 @@ class CreateGearTable < ActiveRecord::Migration[5.2]
 		t.boolean :retired, :default => false
 		t.date :retired_on
 
+		t.references :user, index: true, foreign_key: true
 		t.references :shoe_brand, index: true, foreign_key: true
 
 		t.timestamps

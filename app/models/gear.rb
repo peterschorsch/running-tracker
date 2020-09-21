@@ -1,4 +1,5 @@
 class Gear < ApplicationRecord
+	belongs_to :user
 	belongs_to :shoe_brand
 	has_many :runs
 

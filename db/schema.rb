@@ -42,10 +42,12 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.date "first_used_on"
     t.boolean "retired", default: false
     t.date "retired_on"
+    t.integer "user_id"
     t.integer "shoe_brand_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["shoe_brand_id"], name: "index_gears_on_shoe_brand_id"
+    t.index ["user_id"], name: "index_gears_on_user_id"
   end
 
   create_table "monthly_totals", force: :cascade do |t|
