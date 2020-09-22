@@ -12,7 +12,7 @@ state_list = Array[ ["AK", "Alaska"], ["AL", "Alabama"], ["AR", "Arkansas"], ["A
                 ["VT", "Vermont"], ["WA", "Washington"], ["WI", "Wisconsin"], ["WV", "West Virginia"], ["WY", "Wyoming"] ]
 
 state_list.each do |abbr, name|
-  State.create_with(abbreviation: abbr, name: name).find_or_create_by(abbreviation: abbr, name: name)
+  State.find_or_create_by(abbreviation: abbr, name: name)
 end
 puts "SEEDED all 50 States"
 puts ""
