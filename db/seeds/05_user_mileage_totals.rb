@@ -124,12 +124,14 @@ User.exclude_viewer_accounts.each do |user|
   @run = Run.find_or_create_by(name: "Los Angeles Marathon", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: run_type_id, user_id: user.id, completed_run: true)
   puts @run.inspect
 
-  run_date = DateTime.new(2020, 9, 5, 10, 0, 0)
-  @run = Run.find_or_create_by(name: "Testing", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Long Run").id, user_id: user.id, completed_run: true)
+  two_days_ago = 2.days.ago
+  run_date = DateTime.new(two_days_ago.year, two_days_ago.month, two_days_ago.day, 10, 0, 0)
+  @run = Run.find_or_create_by(name: "Testing", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "28", seconds: "23", pace: "7:02", notes: nil, city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('20'), mileage_total: BigDecimal('21'), elevation_gain: BigDecimal('1000'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Long Run").id, user_id: user.id, completed_run: true)
   puts @run.inspect
 
-  run_date = DateTime.new(2020, 9, 8, 18, 15, 0)
-  @run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user.id, completed_run: true)
+  one_day_ago = 1.day.ago
+  run_date = DateTime.new(one_day_ago.year, one_day_ago.month, one_day_ago.day, 18, 15, 0)
+  @run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: 0, minutes: "30", seconds: "00", pace: "7:30", notes: nil, city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('5'), mileage_total: BigDecimal('5'), elevation_gain: BigDecimal('252'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user.id, completed_run: true)
   puts @run.inspect
   puts ""
 end
