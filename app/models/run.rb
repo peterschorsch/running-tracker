@@ -59,9 +59,10 @@ class Run < ApplicationRecord
 		return_completed_runs.order_by_most_recent.first
 	}
 
-	scope :find_next_run, -> {
-		return_uncompleted_runs.where("start_time > ?", DateTime.now).first
-	}
+	# Used on Current User's Runs
+	def self.find_next_run
+		return_uncompleted_runs.find_by("start_time > ?", DateTime.now) || nil
+	end
 
 	def was_completed?
 		self.completed_run
