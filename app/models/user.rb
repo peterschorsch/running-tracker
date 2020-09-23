@@ -1,8 +1,9 @@
 class User < ApplicationRecord
-	has_one :all_time_total
+	has_one :all_time_total, dependent: :destroy
 	has_many :yearly_totals, dependent: :destroy
 	has_many :monthly_totals, dependent: :destroy
 	has_many :weekly_totals, dependent: :destroy
+	has_many :gears, dependent: :destroy
 	has_many :runs, dependent: :destroy
 
 	include EmailValidator
@@ -25,12 +26,20 @@ class User < ApplicationRecord
 		find_by(:first_name => firstname, :last_name => lastname)
 	}
 
+	scope :exclude_viewer_accounts, -> {
+		where.not(:role => "Viewer")
+	}
+
 	def is_admin?
 		self.role == "Admin"
 	end
 
 	def is_user?
 		self.role == "User"
+	end
+
+	def is_viewer?
+		self.role == "Viewer"
 	end
 
 	def is_active?
