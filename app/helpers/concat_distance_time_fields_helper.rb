@@ -14,7 +14,7 @@ module ConcatDistanceTimeFieldsHelper
 	def concat_elapsed_time(record)
 		time = ""
 		time += (record.hours.to_s + ":") if record.hours.to_i != 0 || record.hours.nil?
-		time += record.minutes.to_s + ":" + record.seconds.to_s
+		time += record.minutes.to_s.rjust(2, '0') + ":" + record.seconds.to_s.rjust(2, '0')
 		raw("<strong>#{time}</strong>")
 	end
 
