@@ -113,7 +113,7 @@ class Run < ApplicationRecord
 		loop_week = week_start_date...week_end_date
 
 		loop_week.each_with_index do |date, index|
-			@run = Run.find_or_create_by(name: "Default Run #{index+1}", start_time: date,
+			@run = Run.find_or_create_by(name: "Planned Run #{index+1}", start_time: date,
 										hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
 										gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
 										elevation_gain: BigDecimal('0'), state_id: state_id, run_type_id: run_type_id,
