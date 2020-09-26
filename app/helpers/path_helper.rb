@@ -12,6 +12,10 @@ module PathHelper
 		"templates/charts/area-chart-mileage"
 	end
 
+	def weekly_mileage_progress_path
+		"templates/charts/weekly-mileage-progress-bar"
+	end
+
 	def back_to_dashboard_path
 		"templates/buttons/back-to-dashboard"
 	end

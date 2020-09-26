@@ -1,0 +1,5 @@
+<div class="progress">
+	<div class="progress-bar-striped progress-bar-<%= object.met_goal ? 'success' : 'danger' %>" role="progressbar" style="width:<%=object.calculate_goal_percentage%>%; color: white">
+		<%= object.mileage_total %>/<%= object.mileage_goal %> miles
+	</div>
+</div>

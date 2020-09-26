@@ -19,4 +19,13 @@ class WeeklyTotal < ApplicationRecord
 	    where(user: user)
 	}
 
+	scope :of_week, -> (week = DateTime.current) {
+	    find_by("week_start <= ? AND week_end >= ?", week.beginning_of_week, week.end_of_week)
+	}
+
+	def calculate_goal_percentage
+		@goal_percentage = (self.mileage_total/self.mileage_goal)*100
+		@goal_percentage = @goal_percentage >= 100 ? 100 : @goal_percentage
+	end
+
 end

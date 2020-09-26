@@ -60,6 +60,7 @@
 			</div>
 			<div class="panel-body text-center">
 				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
+				<%= render weekly_mileage_progress_path, object: @weekly_total %>
 				<p><%= concat_run_totals_line_one(@weekly_total) %></p>
 				<p><%= concat_run_totals_line_two(@weekly_total) %></p>
 			</div>
