@@ -2,6 +2,14 @@ table thead tr th, table tbody tr{
 	text-align: center;
 }
 
+table tbody tr th, .table-bordered thead tr th:nth-child(2){
+	text-align: center;
+	background-color: #ececec;
+}
+.table-bordered thead tr th:nth-child(1){
+	background-color: #e0e0e0;
+}
+
 .gear-table-scrollbar {
 	position: relative;
 	height: 600px;

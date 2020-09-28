@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   ### HOME PAGE ###
   get 'dashboard', to: 'dashboards#index'
+  get 'pace-chart', to: 'dashboards#pace_chart'
 
   ### USERS PAGE ###
   resources :users, except: [:index, :new, :create, :show, :destroy] do

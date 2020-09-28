@@ -17,4 +17,7 @@ class DashboardsController < ApplicationController
 		@monthly_total = current_user.monthly_totals.of_year.of_month
 	end
 
+	def pace_chart
+	end
+
 end
