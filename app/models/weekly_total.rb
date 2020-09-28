@@ -19,21 +19,22 @@ class WeeklyTotal < ApplicationRecord
 	    where(user: user)
 	}
 
-	scope :of_week, -> (week = DateTime.current) {
-	    find_by("week_start <= ? AND week_end >= ?", week.beginning_of_week, week.end_of_week)
-	}
+	def self.of_week(week = DateTime.current)
+		find_by("week_start <= ? AND week_end >= ?", week.beginning_of_week, week.end_of_week) || nil
+	end
 
 	def calculate_goal_percentage
 		@goal_percentage = (self.mileage_total/self.mileage_goal)*100
 		@goal_percentage = @goal_percentage >= 100 ? 100 : @goal_percentage
 	end
 
-	def self.populate_pie_chart(user)
+	def self.populate_pie_chart(user, date)
 		@run_types = RunType.active_run_types
 		pie_chart_data = []
 
 		@run_types.each do |run_type|
-			pie_chart_data << [run_type.name, run_type.runs.of_user(user).of_week(Date.current-1.week).count]
+			run_type_count = run_type.runs.of_user(user).of_week(date).count
+			pie_chart_data << [run_type.name, run_type_count] if run_type_count > 0
 		end
 		return pie_chart_data
 	end

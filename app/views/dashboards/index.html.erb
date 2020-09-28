@@ -48,7 +48,7 @@
 					<h1>Next Run</h1>
 				</div>
 				<div class="panel-body text-center">
-					<p>Your next run is not scheduled yet.</p>
+					<p class="text-muted"><i>Your next run is not scheduled yet.</i></p>
 				</div>
 			</div>
 		<% end %>
@@ -59,10 +59,14 @@
 				<h1>Weekly Totals</h1>
 			</div>
 			<div class="panel-body text-center">
-				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
-				<%= render weekly_mileage_progress_path, object: @weekly_total %>
-				<p><%= concat_run_totals_line_one(@weekly_total) %></p>
-				<p><%= concat_run_totals_line_two(@weekly_total) %></p>
+				<% if not @weekly_total.nil? %>
+					<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
+					<%= render weekly_mileage_progress_path, object: @weekly_total %>
+					<p><%= concat_run_totals_line_one(@weekly_total) %></p>
+					<p><%= concat_run_totals_line_two(@weekly_total) %></p>
+				<% else %>
+					<p class="text-muted"><i>No data yet.</i></p>
+				<% end %>
 			</div>
 		</div>
 	</div>

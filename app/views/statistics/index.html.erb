@@ -3,7 +3,7 @@
 
 <div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
-		<%= pie_chart @pie_chart_data %>
+		<%= pie_chart @pie_chart_data, messages: { empty: "No data" } %>
 	</div>
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage this Week", data: @current_week_graph %>
@@ -22,25 +22,22 @@
 			<p><%= formatMonthDayDate(weekly_total.week_start) %>-<%= formatDate(weekly_total.week_end) %> | <%= concat_run_totals_line_one(weekly_total) %> | <%= concat_run_totals_line_two(weekly_total) %></p>
 		<% end %>
 	</div>
-</div>
-<hr />
-<div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage over the past 12 Months", data: @monthly_stats_graph %>
 		<% @monthly_totals.each do |monthly_total| %>
 			<p><%= format_month(monthly_total.month_end) %> <%= formatYear(monthly_total.month_end) %> | <%= concat_run_totals_line_one(monthly_total) %> | <%= concat_run_totals_line_two(monthly_total) %></p>
 		<% end %>
 	</div>
+</div>
+<hr />
+<div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage Year-to-Year", data: @yearly_totals_graph %>
 		<% @yearly_totals.each do |yearly_total| %>
 			<p><%= formatYear(yearly_total.year_end) %> | <%= concat_run_totals_line_one(yearly_total) %> | <%= concat_run_totals_line_two(yearly_total) %></p>
 		<% end %>
 	</div>
-</div>
-<hr />
-<div class="row">
-	<div class="col-md-4 col-md-offset-4 text-center">
+	<div class="col-md-6 col-sm-12 text-center">
 		<h2>All-Time</h2>
 		<hr />
 		<p><%= concat_run_totals_line_one(@all_time_stats) %></p>
