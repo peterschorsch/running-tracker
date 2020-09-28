@@ -28,4 +28,13 @@ class WeeklyTotal < ApplicationRecord
 		@goal_percentage = @goal_percentage >= 100 ? 100 : @goal_percentage
 	end
 
+	def self.populate_pie_chart(user)
+		@run_types = RunType.active_run_types
+		pie_chart_data = []
+
+		@run_types.each do |run_type|
+			pie_chart_data << [run_type.name, run_type.runs.of_user(user).of_week(Date.current-1.week).count]
+		end
+		return pie_chart_data
+	end
 end

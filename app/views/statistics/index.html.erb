@@ -3,15 +3,19 @@
 
 <div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
+		<%= pie_chart @pie_chart_data %>
+	</div>
+	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage this Week", data: @current_week_graph %>
-		<br />
-		<%= render weekly_mileage_progress_path, object: @weekly_totals.of_week %>
 		<% @current_week_runs.each do |run| %>
 			<p><%= formatDayofWeek(run.start_time) %>, <%= formateDateTimeWithAt(run.start_time) %> | <%= run.run_type.name %> | <%= run.gear.return_full_shoe_name %> </p>
 			<p><%= concat_distance_miles(run.mileage_total) %> | <%= concat_elapsed_time(run) %> | <%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %></p>
 			<br />
 		<% end %>
 	</div>
+</div>
+<hr />
+<div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage over the past 4 Weeks", data: @weekly_totals_graph %>
 		<% @weekly_totals.each do |weekly_total| %>
