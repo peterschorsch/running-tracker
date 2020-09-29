@@ -1,13 +1,13 @@
-<%= render edit_header_path, path: calendars_path, btn_text: "Calendar" %>
+<%= render new_header_path, path: calendars_path, btn_text: "Calendar" %>
 
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
-				<h1>Editing: <strong><%= @run.name %></strong></h1>
+				<h1>Add New Run</h1>
 			</div>
 			<div class="panel-body">
-				<%= render "form", run: @run, action: "update" %>
+				<%= render "form", run: @run, action: "new" %>
 			</div>
 		</div>
 	</div>

@@ -10,10 +10,31 @@ class CalendarsController < ApplicationController
 	def edit
 	end
 
+	def new
+		@run = Run.new
+	end
+
+	def create
+		@run = Run.new(run_params)
+		@run.user_id = current_user.id
+
+		@run.gear.add_mileage_to_shoe(@run.mileage_total) if @run.was_completed?
+
+		respond_to do |format|
+			if @run.save
+				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
+				format.json { render :new, status: :created, location: @run }
+			else
+				format.html { render :new }
+				format.json { render json: @run.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+
 	def update
 		@run.user_id = current_user.id
 		@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
-		@run.user.all_time_total.update_all_time_totals
+		@run.user.all_time_total.update_all_time_totals(@run)
 
 		respond_to do |format|
 			if @run.update(run_params)

@@ -1,0 +1,54 @@
+<%= form_with(model: run, local: true, :url => { :action => action }, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+					<%= render "templates/alerts/form-errors", model: run %>
+
+					<div class="row">
+						<div class="col-xs-2 col-xs-offset-9 text-right"><%= f.label :completed_run, 'Completed Run:' %></div>
+						<div class="col-xs-1"><%= f.check_box :completed_run, { class: 'form-control' } %></div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-xs-1 text-right"><%= f.label :name, 'Name:' %></div>
+						<div class="col-xs-3"><%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run" } %></div>
+						<div class="col-xs-1 text-right"><%= f.label :start_time, 'Start Time:' %></div>
+						<div class="col-xs-2"><%= f.datetime_field :start_time, { class: 'form-control' } %></div>
+						<div class="col-xs-1 text-right"><%= f.label :run_type_id, 'Run Type:' %></div>
+						<div class="col-xs-2"><%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control" })%></div>
+						<div class="col-xs-1 text-right"><%= f.label :personal_best, 'Personal Best:' %></div>
+						<div class="col-xs-1"><%= f.check_box :personal_best, { class: 'form-control' } %></div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-xs-2 text-right"><%= f.label :planned_mileage, 'Planned Mileage:' %></div>
+						<div class="col-xs-1"><%= f.number_field :planned_mileage, { class: 'form-control', step: 0.1 } %></div>
+						<div class="col-xs-2 text-right"><%= f.label :mileage_total, 'Actual Mileage:' %></div>
+						<div class="col-xs-1"><%= f.number_field :mileage_total, { class: 'form-control', step: 0.1 } %></div>
+						<div class="col-xs-1 text-right"><%= f.label :pace, 'Pace:' %></div>
+						<div class="col-xs-1"><%= f.text_field :pace, { class: 'form-control', placeholder: "8:00" } %></div>
+						<div class="col-xs-1 text-right"><%= f.label :hours, 'Elapsed Time:' %></div>
+						<div class="col-xs-1"><%= f.number_field :hours, { class: 'form-control', placeholder: "hours" } %></div>
+						<div class="col-xs-1"><%= f.number_field :minutes, { class: 'form-control', placeholder: "minutes" } %></div>
+						<div class="col-xs-1"><%= f.number_field :seconds, { class: 'form-control', placeholder: "seconds" } %></div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-xs-2 text-right"><%= f.label :elevation_gain, 'Elevation Gain:' %></div>
+						<div class="col-xs-1"><%= f.text_field :elevation_gain, { class: 'form-control', placeholder: "100" } %></div>
+						<div class="col-xs-1 text-right"><%= f.label :city, 'City:' %></div>
+						<div class="col-xs-2"><%= f.text_field :city, { class: 'form-control' } %></div>
+						<div class="col-xs-1 text-right"><%= f.label :state_id, 'State:' %></div>
+						<div class="col-xs-1"><%= f.select(:state_id, State.select_state_id_abbr, { :include_blank => "Select a State" }, { :class => "form-control" })%></div>
+						<div class="col-xs-1 text-right"><%= f.label :gear_id, 'Shoes:' %></div>
+						<div class="col-xs-3"><%= f.select(:gear_id, Gear.select_gear_id_name, {}, { :class => "form-control" })%></div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-xs-2 col-xs-offset-1 text-right"><%= f.label :notes, 'Notes:' %></div>
+						<div class="col-xs-6"><%= f.text_area :notes, { class: 'form-control', rows: 6 } %></div>
+					</div>
+					<br />
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+						</div>
+					</div>
+				<% end %>
