@@ -7,6 +7,7 @@
 				<small>Planned: <%= concat_distance_miles(run.planned_mileage) %></small>
 			</div>
 			<%= render edit_icon_btn_path, edit_path: edit_calendars_path(run.id) %>
+			<%= render remove_icon_btn_path, object: destroy_calendars_path(run.id) %>
 		</div>
 	</div>
 </div>

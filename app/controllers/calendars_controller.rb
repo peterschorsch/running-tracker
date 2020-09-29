@@ -1,5 +1,5 @@
 class CalendarsController < ApplicationController
-	before_action :set_run, only: [:edit, :update]
+	before_action :set_run, only: [:edit, :update, :destroy]
 
 	def index
 		#@obligations = Obligation.all.includes(:state) 
@@ -26,10 +26,18 @@ class CalendarsController < ApplicationController
 		end
 	end
 
+	def destroy
+		@run.destroy
+		respond_to do |format|
+			format.html { redirect_to request.referrer, notice: "<strong>#{@run.name}</strong> was successfully removed." }
+			format.json { head :no_content }
+		end
+	end
+
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK
 	def create_current_week_runs
 		respond_to do |format|
-			if Run.create_weeklong_default_runs(current_user.id)
+			if Run.create_weeklong_default_runs(current_user)
 				format.html { redirect_to request.referrer, notice: "<strong>Default Runs</strong> were created for the week starting <strong>#{DateTime.now.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
 				format.html { redirect_to request.referrer, errors: @usergroup.errors }

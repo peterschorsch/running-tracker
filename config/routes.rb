@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     collection do
       get '/edit/:id', to: 'calendars#edit', as: "edit"
       patch '/edit/:id', to: 'calendars#update', as: "update"
+      delete '/destroy/:id', to: 'calendars#destroy', as: "destroy"
       post '/create_current_week_runs', to: 'calendars#create_current_week_runs'
       post '/copy_past_week_runs', to: 'calendars#copy_past_week_runs'
       post '/copy_current_week_runs', to: 'calendars#copy_current_week_runs'
