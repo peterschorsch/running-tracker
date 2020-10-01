@@ -24,10 +24,11 @@ class GearsController < ApplicationController
     @gear = Gear.new(gear_params)
 
     set_gear_fields
+    @gear.save
 
     respond_to do |format|
-      if @gear.save
-        format.html { redirect_to gears_path, notice: "<strong>#{@gear.return_shoe_name}</strong> was successfully created." }
+      if check_for_retired_shoe
+        format.html { redirect_to gears_path, notice: "<strong>#{@gear.return_full_shoe_name}</strong> was successfully created." }
         format.json { render :show, status: :created, location: @gear }
       else
         format.html { render :new }
@@ -40,10 +41,11 @@ class GearsController < ApplicationController
   # PATCH/PUT /gears/1.json
   def update
     set_gear_fields
+    @gear.update(gear_params)
 
     respond_to do |format|
-      if @gear.update(gear_params)
-        format.html { redirect_to gears_path, notice: "<strong>#{@gear.return_shoe_name}</strong> was successfully updated." }
+      if check_for_retired_shoe
+        format.html { redirect_to gears_path, notice: "<strong>#{@gear.return_full_shoe_name}</strong> was successfully updated." }
         format.json { render :index, status: :ok, location: @gear }
       else
         format.html { render :edit }
@@ -61,7 +63,10 @@ class GearsController < ApplicationController
     def set_gear_fields
       @gear.user_id = current_user.id
       @gear.set_new_default if gear_params[:default]=="1"
-      #gear_params[:retired]=="1" ? @gear.retire_shoe : gear_params[:retired_on] = nil
+    end
+
+    def check_for_retired_shoe
+      gear_params[:retired]=="1" ? @gear.retire_shoe : @gear.unretire_shoe
     end
 
     # Only allow a list of trusted parameters through.

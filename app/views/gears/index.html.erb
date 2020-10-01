@@ -8,10 +8,10 @@
 <div class="tab-content">
   <div id="shoes" class="tab-pane fade in active">
     <br />
-    <%= render "table", gears: @active_shoes %>
+    <%= render "table", gears: @active_shoes, id: "#shoes" %>
   </div>
   <div id="retired_shoes" class="tab-pane fade">
     <br />
-    <%= render "table", gears: @retired_shoes %>
+    <%= render "table", gears: @retired_shoes, id: "#retired_shoes" %>
   </div>
 </div>

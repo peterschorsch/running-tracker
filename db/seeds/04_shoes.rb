@@ -131,30 +131,10 @@ image_file = File.new(image_path)
 puts @gear.inspect
 
 model = "Zoom Fly 3"
-color_way = "Black/Light Current Blue/Wolf Grey/White (Chicago Themed)"
-image_path = "#{Rails.root}/app/assets/images/shoes/zoom_fly_3_chicago.png"
-image_file = File.new(image_path)
-@gear = Gear.create_with(:shoe_brand_id => nike_id, :model => model, :color_way => color_way, :forefoot_stack => 28, :heel_stack => 36, :heel_drop => 8, :mileage => 0, :weight => 8.9, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2020, 1, 8), :retired => true, :retired_on => Date.new(2020, 6, 28), 
-	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
-    # detect the image's mime type with MIME if you can't provide it yourself.
-    :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
-puts @gear.inspect
 color_way = "Electric Green"
 image_path = "#{Rails.root}/app/assets/images/shoes/zoom_fly_3.png"
 image_file = File.new(image_path)
 @gear = Gear.create_with(:shoe_brand_id => nike_id, :model => model, :color_way => color_way, :forefoot_stack => 28, :heel_stack => 36, :heel_drop => 8, :mileage => 66.3, :weight => 8.9, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 10, 31), :first_used_on => Date.new(2019, 12, 12), 
-	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
-    # detect the image's mime type with MIME if you can't provide it yourself.
-    :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
-puts @gear.inspect
-
-model = "Vaporfly Next%"
-color_way = "Neon Green"
-image_path = "#{Rails.root}/app/assets/images/shoes/next%.png"
-image_file = File.new(image_path)
-@gear = Gear.create_with(:shoe_brand_id => nike_id, :model => model, :color_way => color_way, :forefoot_stack => 32, :heel_stack => 40, :heel_drop => 8, :mileage => 0, :weight => 6.6, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 10, 22), 
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type

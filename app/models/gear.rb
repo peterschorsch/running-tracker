@@ -11,7 +11,6 @@ class Gear < ApplicationRecord
 	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way] }, :if => :model_changed?
 	validates :forefoot_stack, :heel_stack, :heel_drop, length: { maximum: 2 }
 	validates :weight, :size, length: { maximum: 4 }
-	validate :retired_fields
 
 	default_scope -> { includes(:shoe_brand).order("shoe_brands.brand, gears.model") }
 
@@ -39,8 +38,8 @@ class Gear < ApplicationRecord
 		find_by(:model => "RUNNING SHOE")
 	}
 
-	def set_new_default
-		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
+	def is_retired?
+		self.retired
 	end
 
 	def self.select_gear_id_name
@@ -60,19 +59,21 @@ class Gear < ApplicationRecord
 		self.save!(:validate => false)
 	end
 
+	def set_new_default
+		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
+	end
 
 	def unretire_shoe
+		self.retired = false
 		self.retired_on = nil
+		self.save(:validate => false)
 	end
 
 	def retire_shoe
 		self.default = false
 		@active_default_shoes = Gear.active_shoes.where(:default => true)
 		Gear.return_default_shoe.update_attribute("default", true) if @active_default_shoes.empty?
-	end
-
-	def retired_fields
-		#puts self.retired
+		self.save(:validate => false)
 	end
 
 	### DISPLAY METHODS ###
