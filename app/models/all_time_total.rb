@@ -6,6 +6,10 @@ class AllTimeTotal < ApplicationRecord
 	    where(user: user)
 	}
 
+	def self.create_random_totals(user_id)
+		AllTimeTotal.create_with(mileage_total: BigDecimal(rand(3500..10000)), elevation_gain: rand(60000..150000), number_of_runs: rand(500..1000), hours: rand(250..500), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user_id)
+	end
+
 	def update_all_time_totals(run)
 		@old_run = Run.find_by(:id => run.id)
 		@new_run = run

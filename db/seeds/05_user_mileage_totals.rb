@@ -1,13 +1,13 @@
 User.exclude_viewer_accounts.each do |user|
   puts "----------#{user.concat_name} ALL TIME TOTALS----------"
-  @alltime = AllTimeTotal.create_with(mileage_total: BigDecimal(rand(3500..10000)), elevation_gain: rand(60000..150000), number_of_runs: rand(500..1000), hours: rand(250..500), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user.id)
+  @alltime = AllTimeTotal.create_random_totals(user.id)
   puts @alltime.inspect
   puts ""
 
   puts "----------#{user.concat_name} YEARLY TOTALS----------"
   (2017..Date.current.year).each do |year|
     year_date = DateTime.new(year)
-    @yearly_total = YearlyTotal.create_with(mileage_total: BigDecimal(rand(1000..2500)), elevation_gain: rand(22000..60000), number_of_runs: rand(220..310), hours: rand(100..200), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(year: year, year_start: year_date.beginning_of_year.in_time_zone("Pacific Time (US & Canada)"), year_end: year_date.end_of_year.in_time_zone("Pacific Time (US & Canada)"), user_id: user.id, all_time_total_id: @alltime.id)
+    @yearly_total = YearlyTotal.create_random_totals(user.id, @alltime.id, Date.new(year))
     puts @yearly_total.inspect
 
     if year == Date.current.year
@@ -24,7 +24,7 @@ User.exclude_viewer_accounts.each do |user|
       month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.now.zone).end_of_day
       month_start = month_end.beginning_of_month
       
-      @monthly_total = MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), hours: rand(12..50), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user.id, yearly_total_id: @yearly_total.id, month_start: month_start, month_end: month_end)
+      @monthly_total = MonthlyTotal.create_random_totals(user.id, @yearly_total.id, month_start, month_end)
       puts @monthly_total.inspect
     end
     puts ""

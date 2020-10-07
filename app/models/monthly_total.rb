@@ -20,12 +20,16 @@ class MonthlyTotal < ApplicationRecord
 	    where(user: user)
 	}
 
-	scope :of_month, -> (month = Date.current) {
-	    find_by("month_start <= ? AND month_end >= ?", month.beginning_of_month, month.end_of_month)
+	scope :of_month, -> (date = Date.current) {
+	    find_by("month_start <= ? AND month_end >= ?", date, date)
 	}
 
 	scope :of_year, -> (year = Date.current) {
 	    where("month_start >= ? AND month_end <= ?", year.beginning_of_year, year.end_of_year)
 	}
+
+	def self.create_random_totals(user_id, yearly_total_id, month_start, month_end)
+		MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), hours: rand(12..50), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
+	end
 
 end
