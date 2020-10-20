@@ -1,7 +1,7 @@
 class YearlyTotal < ApplicationRecord
 	belongs_to :user
 	belongs_to :all_time_total
-	has_many :monthly_totals
+	has_many :monthly_totals, dependent: :destroy
 
 	validates :year, :mileage_total, :number_of_runs, :elevation_gain, :hours, :minutes, :seconds, presence: true
 	validates_uniqueness_of :year, :scope => [:all_time_total_id, :user_id]

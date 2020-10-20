@@ -1,5 +1,5 @@
 class AllTimeTotal < ApplicationRecord
-	has_many :yearly_totals
+	has_many :yearly_totals, dependent: :destroy
 	belongs_to :user
 
 	scope :of_user, -> (user) {

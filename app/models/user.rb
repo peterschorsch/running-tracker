@@ -1,10 +1,10 @@
 class User < ApplicationRecord
 	has_one :all_time_total, dependent: :destroy
-	has_many :yearly_totals, dependent: :destroy
-	has_many :monthly_totals, dependent: :destroy
-	has_many :weekly_totals, dependent: :destroy
-	has_many :gears, dependent: :destroy
-	has_many :runs, dependent: :destroy
+	has_many :yearly_totals, dependent: :destroy, dependent: :destroy
+	has_many :monthly_totals, dependent: :destroy, dependent: :destroy
+	has_many :weekly_totals, dependent: :destroy, dependent: :destroy
+	has_many :gears, dependent: :destroy, dependent: :destroy
+	has_many :runs, dependent: :destroy, dependent: :destroy
 
 	include EmailValidator
 
