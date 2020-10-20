@@ -19,6 +19,11 @@ class Run < ApplicationRecord
 	    where(run_type: run_type)
 	}
 
+	# Requires DateTime
+	scope :of_day, -> (day) {
+	    where(start_time: day.beginning_of_day..day.end_of_day)
+	}
+
 	scope :of_week, -> (week) {
 	    where(start_time: week.beginning_of_week..week.end_of_week)
 	}
@@ -113,11 +118,15 @@ class Run < ApplicationRecord
 		loop_week = week_start_date...week_end_date
 
 		loop_week.each_with_index do |date, index|
-			@run = Run.find_or_create_by(name: "Planned Run #{index+1}", start_time: date,
-										hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
-										gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
-										elevation_gain: BigDecimal('0'), state_id: state_id, run_type_id: run_type_id,
-										user_id: current_user.id, completed_run: false)
+			@existing_run = Run.of_day(date)
+
+			if not @existing_run.exists?
+				@run = Run.find_or_create_by(name: "Planned Run #{index+1}", start_time: date,
+											hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
+											gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
+											elevation_gain: BigDecimal('0'), state_id: state_id, run_type_id: run_type_id,
+											user_id: current_user.id, completed_run: false)
+			end
 		end
 	end
 

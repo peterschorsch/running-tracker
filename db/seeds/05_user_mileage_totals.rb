@@ -43,10 +43,6 @@ User.exclude_viewer_accounts.each do |user|
   end
   puts ""
 
-  puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
-  puts Run.create_weeklong_default_runs(user)
-  puts ""
-
 
   puts "----------RUNS----------"
   run_type_id = RunType.named("Race").id
@@ -133,6 +129,10 @@ User.exclude_viewer_accounts.each do |user|
   run_date = DateTime.new(one_day_ago.year, one_day_ago.month, one_day_ago.day, 18, 15, 0)
   @run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: 0, minutes: "30", seconds: "00", pace: "7:30", notes: nil, city: "Los Angeles", gear_id: Gear.find_shoe("Adios 4").id, planned_mileage: BigDecimal('5'), mileage_total: BigDecimal('5'), elevation_gain: BigDecimal('252'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: user.id, completed_run: true)
   puts @run.inspect
+  puts ""
+
+  puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
+  puts Run.create_weeklong_default_runs(user)
   puts ""
 end
 puts ""
