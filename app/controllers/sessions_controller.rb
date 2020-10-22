@@ -8,14 +8,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
-      # Create All Time Total if not yet currently created
-      @all_time_total = AllTimeTotal.create_random_totals(@user.id)
-
-      # Create Yearly Totals if not yet currently created
-      @yearly_total = YearlyTotal.create_random_totals(@user.id, @all_time_total.id)
-
-      # Create Monthly Totals if not yet currently created
-      @monthly_total = MonthlyTotal.create_random_totals(@user.id, @yearly_total.id, Date.current.beginning_of_month, Date.current.end_of_month)
+      current_user.create_user_totals
 
       respond_to do |format|
         format.html { redirect_to dashboard_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }

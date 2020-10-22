@@ -1,10 +1,10 @@
 class User < ApplicationRecord
 	has_one :all_time_total, dependent: :destroy
-	has_many :yearly_totals, dependent: :destroy, dependent: :destroy
-	has_many :monthly_totals, dependent: :destroy, dependent: :destroy
-	has_many :weekly_totals, dependent: :destroy, dependent: :destroy
-	has_many :gears, dependent: :destroy, dependent: :destroy
-	has_many :runs, dependent: :destroy, dependent: :destroy
+	has_many :yearly_totals, dependent: :destroy
+	has_many :monthly_totals, dependent: :destroy
+	has_many :weekly_totals, dependent: :destroy
+	has_many :gears, dependent: :destroy
+	has_many :runs, dependent: :destroy
 
 	include EmailValidator
 
@@ -55,6 +55,21 @@ class User < ApplicationRecord
 	                                                BCrypt::Engine.cost
 		BCrypt::Password.create(string, cost: cost)
 	end
+
+	def create_user_totals
+		### Create All Time Total if not yet currently created ###
+		@all_time_total = AllTimeTotal.create_random_totals(self.id)
+
+		### Create Yearly Totals if not yet currently created ###
+		@yearly_total = YearlyTotal.create_random_totals(self.id, @all_time_total.id)
+
+		### Create Monthly Totals if not yet currently created ###
+		@monthly_total = MonthlyTotal.create_random_totals(self.id, @yearly_total.id, Date.current.beginning_of_month, Date.current.end_of_month)
+
+		### Create Weekly Totals if not yet currently created ###
+		@weekly_total = WeeklyTotal.create_random_totals(self.id)
+	end
+
 
 	### DISPLAY METHODS ###
 	def concat_name
