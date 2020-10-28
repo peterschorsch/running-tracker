@@ -54,7 +54,7 @@ class Gear < ApplicationRecord
 
 	### UPDATING MILEAGE FROM A RUN OF SHOE ###
 	def update_mileage_of_shoe(run_id, updated_mileage)
-		self.runs.where.not(:id => run_id).each { |run| updated_mileage += run.mileage_total.to_f }
+		#self.runs.where.not(:id => self.id).each { |run| updated_mileage += run.mileage_total.to_f }
 		self.mileage = updated_mileage
 		self.save!(:validate => false)
 	end

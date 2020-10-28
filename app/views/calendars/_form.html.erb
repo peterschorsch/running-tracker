@@ -2,17 +2,17 @@
 					<%= render "templates/alerts/form-errors", model: run %>
 
 					<div class="row">
-						<div class="col-xs-2 col-xs-offset-9 text-right"><%= f.label :completed_run, 'Completed Run:' %></div>
+						<div class="col-xs-1 col-xs-offset-2 text-right"><%= f.label :name, 'Name:' %></div>
+						<div class="col-xs-4"><%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run" } %></div>
+						<div class="col-xs-2 text-right"><%= f.label :completed_run, 'Completed Run:' %></div>
 						<div class="col-xs-1"><%= f.check_box :completed_run, { class: 'form-control' } %></div>
 					</div>
 					<br />
 					<div class="row">
-						<div class="col-xs-1 text-right"><%= f.label :name, 'Name:' %></div>
-						<div class="col-xs-3"><%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run" } %></div>
-						<div class="col-xs-1 text-right"><%= f.label :start_time, 'Start Time:' %></div>
-						<div class="col-xs-2"><%= f.datetime_field :start_time, { class: 'form-control' } %></div>
+						<div class="col-xs-1 col-xs-offset-1 text-right"><%= f.label :start_time, 'Start Time:' %></div>
+						<div class="col-xs-3"><%= f.datetime_field :start_time, { class: 'form-control' } %></div>
 						<div class="col-xs-1 text-right"><%= f.label :run_type_id, 'Run Type:' %></div>
-						<div class="col-xs-2"><%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control" })%></div>
+						<div class="col-xs-3"><%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control" })%></div>
 						<div class="col-xs-1 text-right"><%= f.label :personal_best, 'Personal Best:' %></div>
 						<div class="col-xs-1"><%= f.check_box :personal_best, { class: 'form-control' } %></div>
 					</div>
@@ -32,7 +32,7 @@
 					<br />
 					<div class="row">
 						<div class="col-xs-2 text-right"><%= f.label :elevation_gain, 'Elevation Gain:' %></div>
-						<div class="col-xs-1"><%= f.text_field :elevation_gain, { class: 'form-control', placeholder: "100" } %></div>
+						<div class="col-xs-1"><%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "100" } %></div>
 						<div class="col-xs-1 text-right"><%= f.label :city, 'City:' %></div>
 						<div class="col-xs-2"><%= f.text_field :city, { class: 'form-control' } %></div>
 						<div class="col-xs-1 text-right"><%= f.label :state_id, 'State:' %></div>

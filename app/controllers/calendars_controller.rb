@@ -16,9 +16,8 @@ class CalendarsController < ApplicationController
 
 	def create
 		@run = Run.new(run_params)
-		@run.user_id = current_user.id
 
-		@run.gear.add_mileage_to_shoe(@run.mileage_total) if @run.was_completed?
+		update_subsequent_tables if @run.was_completed?
 
 		respond_to do |format|
 			if @run.save
@@ -32,9 +31,7 @@ class CalendarsController < ApplicationController
 	end
 
 	def update
-		@run.user_id = current_user.id
-		@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
-		@run.user.all_time_total.update_all_time_totals(@run)
+		update_subsequent_tables if @run.was_completed?
 
 		respond_to do |format|
 			if @run.update(run_params)
@@ -111,5 +108,27 @@ class CalendarsController < ApplicationController
 		def run_params
 	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
 	    end
+
+		def update_subsequent_tables
+			@run.user_id = current_user.id
+			### Update Shoe Mileage Total
+			@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
+
+			### Update Weekly Total
+			current_date = Date.current
+			@weekly_total = @run.user.weekly_totals.find_by(week_start: current_date.beginning_of_week.beginning_of_day)
+			@run.update_user_run_totals(@weekly_total)
+			@weekly_total.update_met_goal_field
+
+			### Update Monthly Total
+			@run.update_user_run_totals(current_user.monthly_totals.of_month)
+
+			### Update Yearly Total
+			@run.update_user_run_totals(current_user.yearly_totals.of_current_year)
+
+			### Update All Time Total
+			@run.update_user_run_totals(current_user.all_time_total)
+			#@run.user.all_time_total.update_all_time_totals(@run)
+		end
 
 end

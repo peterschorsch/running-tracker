@@ -39,12 +39,48 @@ class WeeklyTotal < ApplicationRecord
 		return pie_chart_data
 	end
 
+	def check_if_met_goal
+		self.mileage_total >= self.mileage_goal
+	end
+
+	def update_met_goal_field
+		self.met_goal = self.check_if_met_goal
+		self.save(:validate => false)
+	end
+
+	# Not used
+	def self.add_to_current_weekly_total(run)
+		current_date = Date.current
+		@weekly_total = run.user.weekly_totals.find_by(week_start: current_date.beginning_of_week.beginning_of_day, week_end: current_date.end_of_week.end_of_day)
+
+		@weekly_total.mileage_total+=run.mileage_total
+		@weekly_total.met_goal = @weekly_total.check_if_met_goal
+		@weekly_total.elevation_gain+=run.elevation_gain
+		@weekly_total.number_of_runs = @weekly_total.number_of_runs+=1
+
+		working_seconds = @weekly_total.seconds += run.seconds
+		if working_seconds >= 60
+			@weekly_total.minutes += 1
+			working_seconds -= 60
+		end
+		working_minutes = @weekly_total.minutes += run.minutes
+		if working_minutes >= 60
+			@weekly_total.hours += 1
+			working_minutes -= 60
+		end
+		@weekly_total.hours = @weekly_total.hours += run.hours
+		@weekly_total.minutes = working_minutes
+		@weekly_total.seconds = working_seconds
+
+		@weekly_total.save(:validate => false)
+	end
+
 	### CREATE TOTALS FOR LAST FOUR WEEKS ###
 	def self.create_random_totals(user_id)
 		current_date = DateTime.now
 		mileage_total = rand(15..75)
 		mileage_goal = 40
-		met_goal = mileage_total >= mileage_goal ? true : false
+		met_goal = mileage_total >= mileage_goal
 		@weekly_total = WeeklyTotal.create_with(mileage_total: BigDecimal(mileage_total), mileage_goal: BigDecimal(mileage_goal), met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user_id)
 		puts @weekly_total.inspect
 		(1..3).each do |number|

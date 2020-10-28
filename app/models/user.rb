@@ -70,6 +70,32 @@ class User < ApplicationRecord
 		@weekly_total = WeeklyTotal.create_random_totals(self.id)
 	end
 
+	### CREATE DEFAULT RUNS FOR CURRENT WEEK
+	def create_weeklong_default_runs
+		default_shoe_id = Gear.return_default_shoe.id
+		state_id = State.find_by_abbr("CA").id
+		run_type_id = RunType.default_run_type.id
+
+		# Current Date
+		current_date = DateTime.now
+		# Starts on a Monday
+		week_start_date = current_date.beginning_of_week
+		week_end_date = current_date.end_of_week
+		loop_week = week_start_date...week_end_date
+
+		loop_week.each_with_index do |date, index|
+			@existing_run = Run.of_day(date)
+
+			if not @existing_run.exists?
+				@run = Run.find_or_create_by(name: "Planned Run #{index+1}", start_time: date,
+											hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
+											gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
+											elevation_gain: BigDecimal('0'), state_id: state_id, run_type_id: run_type_id,
+											user_id: self.id, completed_run: false)
+			end
+		end
+	end
+
 
 	### DISPLAY METHODS ###
 	def concat_name

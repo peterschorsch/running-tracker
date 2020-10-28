@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
 
       current_user.create_user_totals
+      current_user.create_weeklong_default_runs
 
       respond_to do |format|
         format.html { redirect_to dashboard_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }

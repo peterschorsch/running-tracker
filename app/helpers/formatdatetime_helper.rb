@@ -49,7 +49,7 @@ module FormatdatetimeHelper
     date.strftime("%-I:%M%p")
   end
 
-  # Jul 31 - Aug. 2, 2020
+  # Jul 31 - August 2, 2020
   def formatDateRange(startdate, enddate)
     startdate.strftime("%B %d") + " - " + enddate.strftime("%B %d, %Y")
   end

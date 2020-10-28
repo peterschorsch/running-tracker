@@ -86,6 +86,7 @@
 				<h1><%= format_month(Date.current) %> Totals</h1>
 			</div>
 			<div class="panel-body text-center">
+				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_month, Date.current.end_of_month) %></small></p>
 				<p><%= concat_run_totals_line_one(@monthly_total) %></p>
 				<p><%= concat_run_totals_line_two(@monthly_total) %></p>
 			</div>

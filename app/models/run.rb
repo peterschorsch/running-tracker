@@ -79,7 +79,8 @@ class Run < ApplicationRecord
 		return totals.transform_keys(&mappings.method(:[]))
 	end
 
-	def running_totals
+	# Not used
+	def add_to_running_totals
 		number_of_runs = actual_mileage = elevation_gain = hours = minutes = seconds = 0
 		user_id = self.run.user.id
 
@@ -99,36 +100,33 @@ class Run < ApplicationRecord
 		hours += run.hours
 	end
 
+	def update_user_run_totals(total_record)
+		total_record.mileage_total+=self.mileage_total
+		total_record.elevation_gain+=self.elevation_gain
+		total_record.number_of_runs = total_record.number_of_runs+=1
+
+		working_seconds = total_record.seconds += self.seconds
+		if working_seconds >= 60
+			@total_record.minutes += 1
+			working_seconds -= 60
+		end
+		working_minutes = total_record.minutes += self.minutes
+		if working_minutes >= 60
+			@total_record.hours += 1
+			working_minutes -= 60
+		end
+		total_record.hours = total_record.hours += self.hours
+		total_record.minutes = working_minutes
+		total_record.seconds = working_seconds
+
+		total_record.save(:validate => false)
+	end
+
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
 		Run.where(start_time: starting_day..ending_day)
 	end
 
-	### CREATE DEFAULT RUNS FOR CURRENT WEEK
-	def self.create_weeklong_default_runs(current_user)
-		default_shoe_id = Gear.return_default_shoe.id
-		state_id = State.find_by_abbr("CA").id
-		run_type_id = RunType.default_run_type.id
-
-		# Current Date
-		current_date = DateTime.now
-		# Starts on a Monday
-		week_start_date = current_date.beginning_of_week
-		week_end_date = current_date.end_of_week
-		loop_week = week_start_date...week_end_date
-
-		loop_week.each_with_index do |date, index|
-			@existing_run = Run.of_day(date)
-
-			if not @existing_run.exists?
-				@run = Run.find_or_create_by(name: "Planned Run #{index+1}", start_time: date,
-											hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
-											gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
-											elevation_gain: BigDecimal('0'), state_id: state_id, run_type_id: run_type_id,
-											user_id: current_user.id, completed_run: false)
-			end
-		end
-	end
 
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_last_weeks_runs(current_user)
