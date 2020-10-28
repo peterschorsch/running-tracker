@@ -52,6 +52,11 @@ class Gear < ApplicationRecord
 		self.save(:validate => false)
 	end
 
+	def subract_mileage_to_shoe(mileage)
+		self.mileage -= mileage
+		self.save(:validate => false)
+	end
+
 	### UPDATING MILEAGE FROM A RUN OF SHOE ###
 	def update_mileage_of_shoe(run_id, updated_mileage)
 		#self.runs.where.not(:id => self.id).each { |run| updated_mileage += run.mileage_total.to_f }

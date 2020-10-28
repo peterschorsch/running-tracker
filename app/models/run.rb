@@ -79,25 +79,26 @@ class Run < ApplicationRecord
 		return totals.transform_keys(&mappings.method(:[]))
 	end
 
-	# Not used
-	def add_to_running_totals
-		number_of_runs = actual_mileage = elevation_gain = hours = minutes = seconds = 0
-		user_id = self.run.user.id
+	def subtract_from_running_totals(total_record)
+		total_record.mileage_total-=self.mileage_total
+		total_record.elevation_gain-=self.elevation_gain
+		total_record.number_of_runs = total_record.number_of_runs-=1
 
-		number_of_runs += 1
-		actual_mileage += run.mileage_total
-		elevation_gain += run.elevation_gain
-		seconds += run.seconds
-		if seconds >= 60
-			minutes += 1
-			seconds -= 60
+		working_seconds = total_record.seconds -= self.seconds
+		if working_seconds < 0
+			total_record.minutes -= 1
+			working_seconds = working_seconds * -1
 		end
-		minutes += run.minutes
-		if minutes >= 60
-			hours += 1
-			minutes -= 60
+		working_minutes = total_record.minutes -= self.minutes
+		if working_minutes >= 60
+			total_record.hours -= 1
+			working_minutes -= 60
 		end
-		hours += run.hours
+		total_record.hours = total_record.hours -= self.hours
+		total_record.minutes = working_minutes
+		total_record.seconds = working_seconds
+
+		total_record.save(:validate => false)
 	end
 
 	def update_user_run_totals(total_record)
@@ -107,12 +108,12 @@ class Run < ApplicationRecord
 
 		working_seconds = total_record.seconds += self.seconds
 		if working_seconds >= 60
-			@total_record.minutes += 1
+			total_record.minutes += 1
 			working_seconds -= 60
 		end
 		working_minutes = total_record.minutes += self.minutes
 		if working_minutes >= 60
-			@total_record.hours += 1
+			total_record.hours += 1
 			working_minutes -= 60
 		end
 		total_record.hours = total_record.hours += self.hours

@@ -55,6 +55,24 @@ class RunsController < ApplicationController
   # DELETE /runs/1
   # DELETE /runs/1.json
   def destroy
+    @run.gear.subract_mileage_to_shoe(@run.mileage_total)
+
+    ### Update Weekly Total
+    @weekly_total = @run.user.weekly_totals.find_by(week_start: @run.start_time.beginning_of_week.beginning_of_day)
+    if not @weekly_total.nil?
+      @run.subtract_from_running_totals(@weekly_total)
+      @weekly_total.update_met_goal_field
+    end
+
+    ### Update Monthly Total
+    @run.subtract_from_running_totals(current_user.monthly_totals.of_month)
+
+    ### Update Yearly Total
+    @run.subtract_from_running_totals(current_user.yearly_totals.of_current_year)
+
+    ### Update All Time Total
+    @run.subtract_from_running_totals(current_user.all_time_total)
+
     @run.destroy
     respond_to do |format|
       format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
