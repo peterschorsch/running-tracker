@@ -64,7 +64,7 @@ class User < ApplicationRecord
 		@yearly_total = YearlyTotal.create_random_totals(self.id, @all_time_total.id)
 
 		### Create Monthly Totals if not yet currently created ###
-		@monthly_total = MonthlyTotal.create_random_totals(self.id, @yearly_total.id, Date.current.beginning_of_month, Date.current.end_of_month)
+		@monthly_total = MonthlyTotal.create_random_totals(self.id, @yearly_total.id, Date.current.beginning_of_month, Date.current.end_of_month) if MonthlyTotal.of_month.nil?
 
 		### Create Weekly Totals if not yet currently created ###
 		@weekly_total = WeeklyTotal.create_random_totals(self.id)

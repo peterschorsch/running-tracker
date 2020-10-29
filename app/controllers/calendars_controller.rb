@@ -55,7 +55,7 @@ class CalendarsController < ApplicationController
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK
 	def create_current_week_runs
 		respond_to do |format|
-			if Run.create_weeklong_default_runs(current_user)
+			if current_user.create_weeklong_default_runs
 				format.html { redirect_to request.referrer, notice: "<strong>Default Runs</strong> were created for the week starting <strong>#{DateTime.now.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
 				format.html { redirect_to request.referrer, errors: @usergroup.errors }

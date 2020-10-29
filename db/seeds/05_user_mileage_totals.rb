@@ -122,7 +122,7 @@ User.exclude_viewer_accounts.each do |user|
   puts ""
 
   puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
-  puts Run.create_weeklong_default_runs(user)
+  puts user.create_weeklong_default_runs
   puts ""
 end
 puts ""
