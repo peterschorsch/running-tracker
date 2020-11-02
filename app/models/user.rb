@@ -70,6 +70,15 @@ class User < ApplicationRecord
 		@weekly_total = WeeklyTotal.create_random_totals(self.id)
 	end
 
+	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL
+	def check_current_weekly_total_record_upon_login
+		@user_weekly_totals = WeeklyTotal.of_user(self)
+		if @user_weekly_totals.of_week.nil?
+			@old_weekly_total = @user_weekly_totals.return_oldest_weekly_total
+			@old_weekly_total.update_attributes(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0, week_start: Date.current.beginning_of_week, week_end: Date.current.end_of_week, notes: nil)
+		end
+	end
+
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK
 	def create_weeklong_default_runs
 		default_shoe_id = Gear.return_default_shoe.id

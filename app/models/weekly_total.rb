@@ -8,19 +8,27 @@ class WeeklyTotal < ApplicationRecord
 	validates :seconds, numericality: true, length: { in: 1..2 }
 
 	scope :order_by_oldest_week, -> {
-	    order(:week_start)
+		order(:week_start)
 	}
 
 	scope :order_by_recent_week, -> {
-	    order(week_start: :desc)
+		order(week_start: :desc)
 	}
 
 	scope :of_user, -> (user) {
-	    where(user: user)
+		where(user: user)
+	}
+
+	scope :return_oldest_weekly_total, -> {
+		order_by_oldest_week.first
+	}
+
+	scope :return_newest_weekly_total, -> {
+	    order_by_recent_week.first
 	}
 
 	def self.of_week(week = DateTime.current)
-		find_by("week_start <= ? AND week_end >= ?", week.beginning_of_week, week.end_of_week) || nil
+		find_by("week_start <= ?", week.beginning_of_week) || nil
 	end
 
 	def calculate_goal_percentage
@@ -78,16 +86,17 @@ class WeeklyTotal < ApplicationRecord
 	### CREATE TOTALS FOR LAST FOUR WEEKS ###
 	def self.create_random_totals(user_id)
 		current_date = DateTime.now
-		mileage_total = rand(15..75)
-		mileage_goal = 40
-		met_goal = mileage_total >= mileage_goal
-		@weekly_total = WeeklyTotal.create_with(mileage_total: BigDecimal(mileage_total), mileage_goal: BigDecimal(mileage_goal), met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user_id)
+		#mileage_total = rand(15..75)
+		#mileage_goal = 40
+		#met_goal = mileage_total >= mileage_goal
+		#@weekly_total = WeeklyTotal.create_with(mileage_total: BigDecimal(mileage_total), mileage_goal: BigDecimal(mileage_goal), met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user_id)
+		@weekly_total = WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user_id)
 		puts @weekly_total.inspect
 		(1..3).each do |number|
-			@weekly_total = WeeklyTotal.create_with(mileage_total: rand(5..39), mileage_goal: mileage_goal, met_goal: false, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, user_id: user_id)
-			#@weekly_total = WeeklyTotal.create_with(mileage_total: 0, mileage_goal: mileage_goal, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, user_id: user_id)
-			puts @weekly_total.inspect
+			#@weekly_total = WeeklyTotal.create_with(mileage_total: rand(5..39), mileage_goal: mileage_goal, met_goal: false, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, user_id: user_id)
+			@weekly_total = WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: current_date.beginning_of_week-number.week, week_end: current_date.end_of_week-number.week, user_id: user_id)
 		end
 		puts ""
 	end
+
 end

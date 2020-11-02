@@ -8,6 +8,8 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
+      current_user.check_current_weekly_total_record_upon_login
+
       current_user.create_user_totals
       current_user.create_weeklong_default_runs
 
