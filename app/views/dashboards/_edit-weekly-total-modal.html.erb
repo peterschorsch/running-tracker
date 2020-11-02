@@ -1,0 +1,24 @@
+<div class="modal fade" id="weeklyTotalEditModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="weeklyTotalEditModalLabel">Edit Weekly Total</h1>
+			</div>
+			<div class="modal-body">
+				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
+				<br />
+				<%= form_with(model: @weekly_total, url: update_dashboards_path(@weekly_total.id), method: "patch", local: true, :validate => true, html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+					<div class="row vertical-align-middle">
+						<div class="col-xs-3 text-right"><%= f.label :mileage_goal, 'Mileage Goal:' %></div>
+		          		<div class="col-xs-3"><%= f.number_field :mileage_goal, { class: 'form-control', step: 1 } %></div>
+		          	</div>
+		          	<br />
+			</div>
+			<div class="modal-footer">
+				<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#weeklyTotalEditModal" } %>
+				<%= f.submit "Save Changes", class: 'btn btn-success' %>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>

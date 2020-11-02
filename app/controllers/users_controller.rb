@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   def handle_record_not_found
     # Send it to the view that is specific for User not found
     flash[:alert] = "Record not Found"
-    redirect_to dashboard_path
+    redirect_to dashboards_path
   end
 
   private
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
       ### IF USER DOESN'T MATCH CURRENT USER OR IS ARCHIVED
       if current_user != @user || current_user.is_archived?
         flash[:alert] = "You are not authorized to do said action."
-        redirect_to dashboard_path
+        redirect_to dashboards_path
       end
     end
 

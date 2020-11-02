@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-    redirect_to dashboard_path if current_user
+    redirect_to dashboards_path if current_user
   end
 
   def create
@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
       current_user.create_weeklong_default_runs
 
       respond_to do |format|
-        format.html { redirect_to dashboard_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }
+        format.html { redirect_to dashboards_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }
       end
     else
       flash.now[:alert] = @user.blank? ? "Email or password is invalid" : @user.is_archived? ? "Your account has been marked as inactive" : "Email or password is invalid"

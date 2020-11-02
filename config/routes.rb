@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   delete "/sessions", to: "sessions#destroy"
 
   ### HOME PAGE ###
-  get 'dashboard', to: 'dashboards#index'
+  resources 'dashboards', path: "dashboard", only: [:index] do
+    collection do
+      patch 'weekly_total/:id', to: 'dashboards#update', as: "update"
+    end
+  end
 
   ### HEADER ###
   resources 'calendars', only: [:index] do

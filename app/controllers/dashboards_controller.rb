@@ -1,4 +1,5 @@
 class DashboardsController < ApplicationController
+	before_action :set_weekly_total, only: [:update]
 
 	def index
 		@runs = current_user.runs.includes(:run_type)
@@ -17,7 +18,30 @@ class DashboardsController < ApplicationController
 		@monthly_total = current_user.monthly_totals.of_month
 	end
 
+	def update
+		@mileage_goal = params[:weekly_total][:mileage_goal].to_i
+
+	    respond_to do |format|
+	      if @weekly_total.update(weekly_total_params)
+	        format.html { redirect_to dashboards_path, notice: "Your Weekly Mileage Goal was successfully updated to <strong>#{@mileage_goal.to_s + " mile".pluralize(@mileage_goal)}</strong>!" }
+	        format.json { render :index, status: :ok, location: @weekly_total }
+	      else
+	        format.html { render :index }
+	        format.json { render json: @weekly_total.errors, status: :unprocessable_entity }
+	      end
+	    end
+	end
+
 	def pace_chart
 	end
+
+	private
+		def set_weekly_total
+			@weekly_total = WeeklyTotal.of_user(current_user).find(params[:id])
+		end
+
+		def weekly_total_params
+			params.require(:weekly_total).permit(:mileage_goal)
+		end
 
 end

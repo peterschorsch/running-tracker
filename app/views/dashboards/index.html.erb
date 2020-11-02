@@ -39,7 +39,7 @@
 					</p>
 					<p style="color: <%=@next_run.run_type.hex_code%>"><%= @next_run.run_type.name %></p>
 					<h3><strong><%= @next_run.name %></strong></h3>
-					<p>Planned: <%= concat_distance_miles(@next_run.planned_mileage) %></p>
+					<p><%= concat_distance_miles(@next_run.planned_mileage) %></p>
 				</div>
 			</div>
 		<% else %>
@@ -56,7 +56,11 @@
 	<div class="col-md-4">
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
-				<h1>Weekly Totals</h1>
+				<div class="row">
+					<div class="col-md-12">
+						<h1>Weekly Totals</h1>
+					</div>
+				</div>
 			</div>
 			<div class="panel-body text-center">
 				<% if not @weekly_total.nil? %>
@@ -64,6 +68,12 @@
 					<%= render weekly_mileage_progress_path, object: @weekly_total %>
 					<p><%= concat_run_totals_line_one(@weekly_total) %></p>
 					<p><%= concat_run_totals_line_two(@weekly_total) %></p>
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<%= render edit_btn_tag_path, target: "#weeklyTotalEditModal" %>
+							<%= render "edit-weekly-total-modal" %>
+						</div>
+					</div>
 				<% else %>
 					<p class="text-muted"><i>No data yet.</i></p>
 				<% end %>
@@ -87,8 +97,8 @@
 			</div>
 			<div class="panel-body text-center">
 				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_month, Date.current.end_of_month) %></small></p>
-				<p><%= concat_run_totals_line_one(@monthly_total) %></p>
-				<p><%= concat_run_totals_line_two(@monthly_total) %></p>
+				<p><%#= concat_run_totals_line_one(@monthly_total) %></p>
+				<p><%#= concat_run_totals_line_two(@monthly_total) %></p>
 			</div>
 		</div>
 	</div>
