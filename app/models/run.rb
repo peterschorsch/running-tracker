@@ -73,6 +73,16 @@ class Run < ApplicationRecord
 		self.completed_run
 	end
 
+	### AN ACTIVE RUN COUNTS ON TOTALS, WHILE AN INACTIVE RUN IS ONE THAT HAS BEEN "REMOVED" BY THE USER
+	def is_active?
+		self.active_run
+	end
+
+	def make_run_inactive
+		self.active_run = false
+		self.save(:validate => false)
+	end
+
 	def self.return_race_distance_counts
 		totals = self.group(:mileage_total).count
 		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
@@ -146,7 +156,7 @@ class Run < ApplicationRecord
 										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: default_run_type_id,
-										user_id: current_user.id, completed_run: false)
+										user_id: current_user.id, completed_run: false, active_run: false)
 		end
 	end
 
@@ -166,7 +176,7 @@ class Run < ApplicationRecord
 										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
-										user_id: current_user.id, completed_run: false)
+										user_id: current_user.id, completed_run: false, active_run: false)
 		end
 	end
 
@@ -201,7 +211,7 @@ class Run < ApplicationRecord
 											hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 											gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 											elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
-											user_id: current_user.id, completed_run: false)
+											user_id: current_user.id, completed_run: false, active_run: false)
 				end
 			end
 		end

@@ -73,10 +73,14 @@ class RunsController < ApplicationController
     ### Update All Time Total
     @run.subtract_from_running_totals(current_user.all_time_total)
 
-    @run.destroy
     respond_to do |format|
-      format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
-      format.json { head :no_content }
+      if @run.make_run_inactive
+        format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
+        format.json { render :index, status: :ok, location: @run }
+      else
+        format.html { render :index }
+        format.json { render json: @run.errors, status: :unprocessable_entity }
+      end
     end
   end
 

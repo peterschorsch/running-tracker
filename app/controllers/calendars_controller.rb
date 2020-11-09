@@ -45,10 +45,14 @@ class CalendarsController < ApplicationController
 	end
 
 	def destroy
-		@run.destroy
 		respond_to do |format|
-			format.html { redirect_to request.referrer, notice: "<strong>#{@run.name}</strong> was successfully removed." }
-			format.json { head :no_content }
+			if @run.make_run_inactive
+				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
+				format.json { render :index, status: :ok, location: @run }
+			else
+				format.html { render :index }
+				format.json { render json: @run.errors, status: :unprocessable_entity }
+			end
 		end
 	end
 
@@ -115,8 +119,7 @@ class CalendarsController < ApplicationController
 			@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
 
 			### Update Weekly Total
-			current_date = Date.current
-			@weekly_total = @run.user.weekly_totals.find_by(week_start: current_date.beginning_of_week.beginning_of_day)
+			@weekly_total = @run.user.weekly_totals.find_by(week_start: Date.current.beginning_of_week.beginning_of_day)
 			@run.update_user_run_totals(@weekly_total)
 			@weekly_total.update_met_goal_field
 
