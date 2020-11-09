@@ -41,7 +41,12 @@ Rails.application.routes.draw do
       patch 'update_password'
     end
   end
-  get 'statistics', to: 'statistics#index'
+  resources :statistics, only: [:index] do
+    collection do
+      post :refresh, to: 'statistics#refresh_stats'
+    end
+  end
+
   get 'race-results', to: 'race_results#index'
   resources :obligations, except: [:show]
 end

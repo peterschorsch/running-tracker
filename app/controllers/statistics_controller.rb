@@ -25,4 +25,8 @@ class StatisticsController < ApplicationController
 		### ALL TIME TOTALS ###
 		@all_time_stats = current_user.all_time_total
 	end
+
+	def refresh_stats
+		puts "WORKS++++++++++++++++++++"
+	end
 end

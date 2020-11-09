@@ -1,6 +1,14 @@
 <%= render index_header_path, heading_text: "Statistics" %>
 
 <div class="row">
+	<div class="col-md-1 col-xs-8 col-md-offset-11 text-right">
+		<%= button_to refresh_statistics_path, :class => "btn btn-primary" do %> 
+			<span class="glyphicon glyphicon-refresh"></span>
+		<% end %>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= pie_chart @pie_chart_data, messages: { empty: "No data" } %>
 	</div>

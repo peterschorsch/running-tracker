@@ -111,6 +111,7 @@ class Run < ApplicationRecord
 		total_record.save(:validate => false)
 	end
 
+	### UPDATE TOTALS WHILE WITH TOTAL RECORD PARAMS USING RUN RECORD ###
 	def update_user_run_totals(total_record)
 		total_record.mileage_total+=self.mileage_total
 		total_record.elevation_gain+=self.elevation_gain
@@ -132,6 +133,8 @@ class Run < ApplicationRecord
 
 		total_record.save(:validate => false)
 	end
+
+	
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
