@@ -23,6 +23,7 @@ class CreateRuns < ActiveRecord::Migration[5.2]
       t.references :run_type, index: true, foreign_key: true
       t.references :gear, index: true, foreign_key: true
       t.references :state, index: true, foreign_key: true
+      t.references :monthly_total, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
 
       t.timestamps

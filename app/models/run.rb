@@ -1,5 +1,6 @@
 class Run < ApplicationRecord
 	belongs_to :user
+	belongs_to :monthly_total
 	belongs_to :gear
 	belongs_to :state
 	belongs_to :run_type
@@ -134,7 +135,7 @@ class Run < ApplicationRecord
 		total_record.save(:validate => false)
 	end
 
-	
+
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
@@ -155,11 +156,13 @@ class Run < ApplicationRecord
 
 		@last_weeks_runs = Run.of_user(current_user).where(:start_time => week_start_date..week_end_date)
 		@last_weeks_runs.each do |run|
-			@run = Run.find_or_create_by(name: run.name, start_time: run.start_time+1.week,
+			start_time = run.start_time+1.week
+			monthly_total_id = MonthlyTotal.of_month(start_time).id
+			@run = Run.find_or_create_by(name: run.name, start_time: start_time,
 										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: default_run_type_id,
-										user_id: current_user.id, completed_run: false, active_run: false)
+										user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
 		end
 	end
 
@@ -175,11 +178,13 @@ class Run < ApplicationRecord
 
 		@current_weeks_runs = Run.of_user(current_user).where(:start_time => current_start_date..current_end_date)
 		@current_weeks_runs.each do |run|
-			@run = Run.find_or_create_by(name: run.name, start_time: run.start_time+1.week,
+			start_time = run.start_time+1.week
+			monthly_total_id = MonthlyTotal.of_month(start_time).id
+			@run = Run.find_or_create_by(name: run.name, start_time: start_time,
 										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
-										user_id: current_user.id, completed_run: false, active_run: false)
+										user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
 		end
 	end
 
@@ -214,7 +219,7 @@ class Run < ApplicationRecord
 											hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 											gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 											elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
-											user_id: current_user.id, completed_run: false, active_run: false)
+											user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
 				end
 			end
 		end

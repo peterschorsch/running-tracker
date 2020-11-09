@@ -105,10 +105,12 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.integer "run_type_id"
     t.integer "gear_id"
     t.integer "state_id"
+    t.integer "monthly_total_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["gear_id"], name: "index_runs_on_gear_id"
+    t.index ["monthly_total_id"], name: "index_runs_on_monthly_total_id"
     t.index ["run_type_id"], name: "index_runs_on_run_type_id"
     t.index ["state_id"], name: "index_runs_on_state_id"
     t.index ["user_id"], name: "index_runs_on_user_id"

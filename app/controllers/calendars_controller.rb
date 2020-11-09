@@ -115,6 +115,8 @@ class CalendarsController < ApplicationController
 
 		def update_subsequent_tables
 			@run.user_id = current_user.id
+			#@run.monthly_total_id = MonthlyTotal.of_month(params[:run][:start_time])
+
 			### Update Shoe Mileage Total
 			@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
 
