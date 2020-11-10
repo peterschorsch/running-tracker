@@ -99,4 +99,35 @@ class WeeklyTotal < ApplicationRecord
 		puts ""
 	end
 
+	### RECALCULATE WEEKLY TOTALS ###
+	def self.refresh_weekly_totals(user)
+		user.weekly_totals.each do |weekly_total|
+			@runs = Run.of_week(weekly_total.week_start).return_completed_runs
+
+			weekly_total.mileage_total = weekly_total.elevation_gain = weekly_total.number_of_runs = 0
+
+			weekly_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
+			weekly_total.elevation_gain = @runs.sum(&:elevation_gain)
+			weekly_total.number_of_runs = @runs.count
+
+			@runs.each do |run|
+				weekly_total.hours = weekly_total.minutes = weekly_total.seconds = 0
+				working_seconds = weekly_total.seconds += run.seconds
+				if working_seconds >= 60
+					weekly_total.minutes += 1
+					working_seconds -= 60
+				end
+				working_minutes = weekly_total.minutes += run.minutes
+				if working_minutes >= 60
+					weekly_total.hours += 1
+					working_minutes -= 60
+				end
+				weekly_total.hours = weekly_total.hours += run.hours
+				weekly_total.minutes = working_minutes
+				weekly_total.seconds = working_seconds
+			end
+			weekly_total.save(:validate => false)
+		end
+	end
+
 end

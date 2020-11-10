@@ -31,6 +31,36 @@ class YearlyTotal < ApplicationRecord
 		where(:user => user)
 	}
 
+	### RECALCULATE YEARLY TOTALS ###
+	def self.refresh_yearly_totals(user)
+		user.yearly_totals.each do |yearly_total|
+			yearly_total.mileage_total = yearly_total.elevation_gain = yearly_total.number_of_runs = yearly_total.hours = yearly_total.minutes = yearly_total.seconds = 0
+
+			@runs = user.runs.of_year(yearly_total.year_start).return_completed_runs
+
+			yearly_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
+			yearly_total.elevation_gain = @runs.sum(&:elevation_gain)
+			yearly_total.number_of_runs = @runs.count
+
+			@runs.each do |run|
+				working_seconds = yearly_total.seconds += run.seconds
+				if working_seconds >= 60
+					yearly_total.minutes += 1
+					working_seconds -= 60
+				end
+				working_minutes = yearly_total.minutes += run.minutes
+				if working_minutes >= 60
+					yearly_total.hours += 1
+					working_minutes -= 60
+				end
+				yearly_total.hours = yearly_total.hours += run.hours
+				yearly_total.minutes = working_minutes
+				yearly_total.seconds = working_seconds
+			end
+			yearly_total.save(:validate => false)
+		end
+	end
+
 	def self.create_random_totals(user_id, all_time_total_id, year = Date.current)
 		year_start = year.beginning_of_year.in_time_zone("Pacific Time (US & Canada)")
 		year_end = year.end_of_year.in_time_zone("Pacific Time (US & Canada)")

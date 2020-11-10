@@ -35,18 +35,19 @@ class MonthlyTotal < ApplicationRecord
 	end
 
 
-	### REFRESH MONTHLY TOTALS ###
+	### RECALCULATE MONTHLY TOTALS ###
 	def self.refresh_monthly_totals(user)
 		user.monthly_totals.each do |monthly_total|
-			monthly_total.mileage_total = monthly_total.elevation_gain = monthly_total.number_of_runs = monthly_total.hours = monthly_total.minutes = monthly_total.seconds = 0
+			@runs = monthly_total.runs.return_completed_runs
 
-			@runs = Run.of_month(monthly_total.month_start)
+			monthly_total.mileage_total = monthly_total.elevation_gain = monthly_total.number_of_runs = 0
 
 			monthly_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
 			monthly_total.elevation_gain = @runs.sum(&:elevation_gain)
 			monthly_total.number_of_runs = @runs.count
 
 			@runs.each do |run|
+				monthly_total.hours = monthly_total.minutes = monthly_total.seconds = 0
 				working_seconds = monthly_total.seconds += run.seconds
 				if working_seconds >= 60
 					monthly_total.minutes += 1

@@ -27,6 +27,14 @@ class StatisticsController < ApplicationController
 	end
 
 	def refresh_stats
-		puts "WORKS++++++++++++++++++++"
+		respond_to do |format|
+			if current_user.refresh_all_user_totals
+				format.html { redirect_to statistics_path, notice: "<strong>#{current_user.concat_name}'s</strong> totals were successfully updated." }
+				format.json { render :new, status: :created, location: @run }
+			else
+				format.html { render :new }
+				format.json { render json: @run.errors, status: :unprocessable_entity }
+			end
+		end
 	end
 end

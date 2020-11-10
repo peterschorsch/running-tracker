@@ -11,6 +11,35 @@ class AllTimeTotal < ApplicationRecord
 		#AllTimeTotal.create_with(mileage_total: BigDecimal(0), elevation_gain: 0, number_of_runs: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(user_id: user_id)
 	end
 
+	### RECALCULATE MONTHLY TOTALS ###
+	def self.refresh_all_time_total(user)
+		@all_time_total = user.all_time_total
+		@all_time_total.mileage_total = @all_time_total.elevation_gain = @all_time_total.number_of_runs = @all_time_total.hours = @all_time_total.minutes = @all_time_total.seconds = 0
+
+		@runs = user.runs.return_completed_runs
+
+		@all_time_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
+		@all_time_total.elevation_gain = @runs.sum(&:elevation_gain)
+		@all_time_total.number_of_runs = @runs.count
+
+		@runs.each do |run|
+			working_seconds = @all_time_total.seconds += run.seconds
+			if working_seconds >= 60
+				@all_time_total.minutes += 1
+				working_seconds -= 60
+			end
+			working_minutes = @all_time_total.minutes += run.minutes
+			if working_minutes >= 60
+				@all_time_total.hours += 1
+				working_minutes -= 60
+			end
+			@all_time_total.hours = @all_time_total.hours += run.hours
+			@all_time_total.minutes = working_minutes
+			@all_time_total.seconds = working_seconds
+		end
+		@all_time_total.save(:validate => false)
+	end
+
 	def update_all_time_totals(run)
 		@old_run = Run.find_by(:id => run.id)
 		@new_run = run

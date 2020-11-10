@@ -105,6 +105,13 @@ class User < ApplicationRecord
 		end
 	end
 
+	def refresh_all_user_totals
+		WeeklyTotal.refresh_weekly_totals(self)
+		MonthlyTotal.refresh_monthly_totals(self)
+		YearlyTotal.refresh_yearly_totals(self)
+		AllTimeTotal.refresh_all_time_total(self)
+	end
+
 
 	### DISPLAY METHODS ###
 	def concat_name
