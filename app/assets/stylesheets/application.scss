@@ -17,3 +17,15 @@
 @import "bootstrap";
 @import "bootstrap-sprockets";
 @import "simple_calendar";
+
+.root-page-background {
+	background: url(asset_path("backgrounds/chicago_marathon_start.jpg"));
+    background-size: cover;
+    min-height: 100vh;
+ }
+
+.login-background {
+	background: url(asset_path("backgrounds/nyc_marathon.jpg"));
+    background-size: cover;
+    min-height: 100vh;
+ }

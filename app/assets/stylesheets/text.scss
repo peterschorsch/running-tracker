@@ -27,7 +27,17 @@ h1, h2, h3{
 }
 
 .vertical-align-middle{
-  display:flex;
-  align-items:center; /* vertically aligns */
-  justify-content: center;
+	display:flex;
+	align-items:center; /* vertically aligns */
+	justify-content: center;
+}
+
+.link-container{
+	float: none;
+	display: table-cell;
+	vertical-align: bottom;
+}
+.root-page-secret-link{
+	opacity: 0;
+	cursor: default;
 }

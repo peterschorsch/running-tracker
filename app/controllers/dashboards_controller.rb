@@ -1,6 +1,10 @@
 class DashboardsController < ApplicationController
 	before_action :set_weekly_total, only: [:update]
 
+	def home_page
+
+	end
+
 	def index
 		@runs = current_user.runs.includes(:run_type)
 		### LAST RUN ###

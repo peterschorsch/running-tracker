@@ -1,5 +1,11 @@
 class SessionsController < ApplicationController
+
+  def root_page
+    render layout: "root_screen"
+  end
+
   def new
+    render layout: "login_screen"
     redirect_to dashboards_path if current_user
   end
 

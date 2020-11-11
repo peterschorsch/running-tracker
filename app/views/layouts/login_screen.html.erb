@@ -12,9 +12,8 @@
   </head>
 
   <body>
-    <%= render "layouts/header" if logged_in? %>
-    <div class="left-right-padding">
-      <%= yield %>
-    </div>
+  	<div class="login-background">
+		<%= yield %>
+	</div>
   </body>
 </html>
