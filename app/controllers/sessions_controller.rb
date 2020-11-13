@@ -1,12 +1,13 @@
 class SessionsController < ApplicationController
+  before_action :check_for_logged_in, only: [:root_page, :new]
 
   def root_page
     render layout: "root_screen"
+    puts logged_in?
   end
 
   def new
     render layout: "login_screen"
-    redirect_to dashboards_path if current_user
   end
 
   def create
@@ -32,4 +33,9 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to login_path, notice: "You have been logged out!"
   end
+
+  private
+    def check_for_logged_in
+      redirect_to dashboards_path if logged_in?
+    end
 end
