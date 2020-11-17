@@ -1,13 +1,4 @@
-@my_admin_user = User.find_user_by_name("Peter","Schorsch")
-
-puts "----------SHOW BRANDS----------"
-shoe_brands = ["Adidas", "Altra", "ASICS", "Brooks", "DEFAULT", "Hoka One One", "Mizuno", "Newton", "New Balance", "Nike", "On", "Saloman", "Saucony"]
-shoe_brands.each do |brand|
-	@shoe = ShoeBrand.create_with(:brand => brand).find_or_create_by(:brand => brand)
-	puts @shoe.inspect
-end
-puts ""
-puts ""
+@website_viewer = User.return_website_viewer
 
 puts "----------GEAR----------"
 adidias_id = ShoeBrand.named("Adidas").id
@@ -25,7 +16,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Adios 4"
@@ -36,14 +27,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
-puts @gear.inspect
-model = "Adios 4 (Pair 2)"
-@gear = Gear.create_with(:shoe_brand_id => adidias_id, :model => model, :color_way => color_way, :forefoot_stack => 17, :heel_stack => 27, :heel_drop => 10, :weight => 9.4, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2020, 3, 15), 
-	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
-    # detect the image's mime type with MIME if you can't provide it yourself.
-    :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Escalante 2"
@@ -54,14 +38,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
-puts @gear.inspect
-model = "Escalante 2 (Pair 2)"
-@gear = Gear.create_with(:shoe_brand_id => alta_id, :model => model, :color_way => color_way, :heel_drop => 0, :mileage => 0, :weight => 9.2, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2020, 6, 17), 
-	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
-    # detect the image's mime type with MIME if you can't provide it yourself.
-    :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Ravenna 8"
@@ -72,7 +49,7 @@ image_file = File.new(image_path)
   :image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Ravenna 9"
@@ -83,7 +60,7 @@ image_file = File.new(image_path)
   :image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Ravenna 10"
@@ -94,7 +71,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Wave Rider 22"
@@ -105,7 +82,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "880v9"
@@ -116,7 +93,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Vomero 14"
@@ -127,7 +104,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Zoom Fly 3"
@@ -138,7 +115,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "CloudFlow"
@@ -149,7 +126,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "CloudFlow 2.0"
@@ -160,7 +137,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Cloudsurfer"
@@ -171,7 +148,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Cloudswift (Pair 2)"
@@ -182,14 +159,14 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 model = "Cloudswift"
 @gear = Gear.create_with(:shoe_brand_id => on_id, :model => model, :color_way => color_way, :forefoot_stack => 22, :heel_stack => 29, :heel_drop => 7, :mileage => 681.4, :weight => 10.2, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 4, 1), :first_used_on => Date.new(2019, 8, 18), :retired => true, :retired_on => Date.new(2020, 7, 12), 
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 color_way = "Rock/Slate"
@@ -199,7 +176,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Cloud 2.0"
@@ -210,7 +187,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Kinvara 10"
@@ -221,7 +198,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Triumph 17"
@@ -232,7 +209,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 
 model = "Triumph ISO 4"
@@ -243,7 +220,7 @@ image_file = File.new(image_path)
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @website_viewer.id)
 puts @gear.inspect
 puts ""
 puts ""

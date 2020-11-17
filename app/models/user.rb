@@ -56,6 +56,7 @@ class User < ApplicationRecord
 		BCrypt::Password.create(string, cost: cost)
 	end
 
+	### FOR TESTING ###
 	def create_user_totals
 		### Create All Time Total if not yet currently created ###
 		@all_time_total = AllTimeTotal.create_random_totals(self.id)
@@ -72,10 +73,19 @@ class User < ApplicationRecord
 
 	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL
 	def check_current_weekly_total_record_upon_login
-		@user_weekly_totals = WeeklyTotal.of_user(self)
-		if @user_weekly_totals.of_week.nil?
-			@old_weekly_total = @user_weekly_totals.return_oldest_weekly_total
-			@old_weekly_total.update_attributes(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0, week_start: Date.current.beginning_of_week, week_end: Date.current.end_of_week, notes: nil)
+		if not self.is_viewer?
+			@weekly_totals = self.weekly_totals
+			if @weekly_totals.empty?
+				WeeklyTotal.create_blank_four_totals(self.id)
+			else
+				if @weekly_totals.of_week.nil?
+					current_date = Date.current
+					@old_weekly_total = @weekly_totals.return_oldest_weekly_total
+					@old_weekly_total.update_attributes(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0, week_start: current_date.date.beginning_of_week, week_end: current_date.current.end_of_week, notes: nil)
+				end
+			end
+		else
+			WeeklyTotal.create_random_totals(self.id)
 		end
 	end
 
@@ -96,11 +106,13 @@ class User < ApplicationRecord
 			@existing_run = Run.of_day(date)
 
 			if not @existing_run.exists?
-				@run = Run.find_or_create_by(name: "Planned Run #{index+1}", start_time: date,
+				@monthly_total = self.monthly_totals.of_month
+				@run = Run.create!(name: "Planned Run #{index+1}", start_time: date,
 											hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
 											gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
-											elevation_gain: BigDecimal('0'), state_id: state_id, run_type_id: run_type_id,
-											user_id: self.id, completed_run: false)
+											elevation_gain: BigDecimal('0'), state_id: state_id, 
+											completed_run: false, active_run: true,
+											run_type_id: run_type_id, monthly_total_id: @monthly_total.id, user_id: self.id)
 			end
 		end
 	end
@@ -110,6 +122,10 @@ class User < ApplicationRecord
 		MonthlyTotal.refresh_monthly_totals(self)
 		YearlyTotal.refresh_yearly_totals(self)
 		AllTimeTotal.refresh_all_time_total(self)
+	end
+
+	def self.return_website_viewer
+		User.find_user_by_name("Website","Viewer")
 	end
 
 

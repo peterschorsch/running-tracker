@@ -15,10 +15,10 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
-      current_user.check_current_weekly_total_record_upon_login
+      @user.check_current_weekly_total_record_upon_login
 
-      current_user.create_user_totals
-      current_user.create_weeklong_default_runs
+      @user.create_weeklong_default_runs
+      puts "TESTING==========================="
 
       respond_to do |format|
         format.html { redirect_to dashboards_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }

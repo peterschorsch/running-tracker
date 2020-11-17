@@ -7,7 +7,7 @@ User.exclude_viewer_accounts.each do |user|
   puts "----------#{user.concat_name} YEARLY TOTALS----------"
   (2017..Date.current.year).each do |year|
     year_date = DateTime.new(year)
-    @yearly_total = YearlyTotal.create_random_totals(user.id, @alltime.id, Date.new(year))
+    @yearly_total = YearlyTotal.create_random_totals(user.id, @alltime.id, year_date)
     puts @yearly_total.inspect
 
     if year == Date.current.year

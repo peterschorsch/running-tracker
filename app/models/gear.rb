@@ -8,7 +8,7 @@ class Gear < ApplicationRecord
 	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
 
 	validates :model, :color_way, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :purchased_on, presence: true
-	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way] }, :if => :model_changed?
+	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way, :user_id] }, :if => :model_changed?
 	validates :forefoot_stack, :heel_stack, :heel_drop, length: { maximum: 2 }
 	validates :weight, :size, length: { maximum: 4 }
 
@@ -20,6 +20,10 @@ class Gear < ApplicationRecord
 
 	scope :find_shoe_with_color, -> (shoe_model, color_way) {
 		find_by(model: shoe_model, color_way: color_way)
+	}
+
+	scope :of_user, -> (user) {
+	    where(user: user)
 	}
 
 	scope :active_shoes, -> {
