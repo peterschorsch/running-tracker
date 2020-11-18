@@ -25,6 +25,10 @@ class RunType < ApplicationRecord
 		find_by(default: true, active: true)
 	}
 
+	scope :exclude_race_type, -> {
+		where.not(:name => "Race")
+	}
+
 	def is_race?
 		self.name == "Race"
 	end

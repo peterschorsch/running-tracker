@@ -1,0 +1,33 @@
+<div class="col-md-4 text-center">
+	<h1 class="display-2">Personal Bests</h1>
+	<hr />
+	<% @race_counts.each do |distance, count| %>
+		<p><strong><%= distance %></strong> | <%= count %></p>
+	<% end %>
+	<hr />
+	<table class="table table-borderless">
+		<% @personal_bests.each do |personal_best| %>
+			<thead>
+				<tr>
+					<th colspan="3">
+						<h3><%= formatYear(personal_best.start_time) %> <%= personal_best.name %></h3>
+						<small class="text-muted"><%= concat_city_state_full(personal_best.city, personal_best.state) %></small>
+					</th>
+				</tr>
+			</thead>
+			<body>
+				<tr>
+					<td class="col-md-4 text-right"><%= concat_elevation_gain(personal_best.elevation_gain) %></td>
+					<td class="col-md-4">
+						<%= concat_elapsed_time(personal_best) %><br />
+						<small class="text-muted"><%= concat_pace_min_miles(personal_best.pace) %></small>
+					</td>
+					<td class="col-md-4">
+						<%= personal_best.gear.return_full_shoe_name %><br />
+						<small class="text-muted"><%= personal_best.gear.color_way %></small>
+					</td>
+				</tr>
+			</body>
+		<% end %>
+	</table>
+</div>

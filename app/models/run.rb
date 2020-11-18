@@ -86,6 +86,8 @@ class Run < ApplicationRecord
 
 	def self.return_race_distance_counts
 		totals = self.group(:mileage_total).count
+		#totals = totals.reject { |k,v| k != BigDecimal('3.1') || k != BigDecimal('6.2') || k != BigDecimal('13.2') || k != BigDecimal('26.2') }
+		puts totals.inspect
 		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
 		return totals.transform_keys(&mappings.method(:[]))
 	end

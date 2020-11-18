@@ -6,66 +6,7 @@
 <br />
 
 <div class="row">
-	<div class="col-md-8">
-		<% @race_results.each do |year, races| %>
-			<h1 class="display-2"><%= formatYear(year) %></h1>
-			<hr />
-			<table class="table table-borderless table-hover">
-				<% races.each do |race| %>
-					<body>
-						<tr>
-							<td><strong><%= formatCalendarDay(race.start_time) %></strong></td>
-							<td>
-								<%= concat_race_name(race.name) %><br />
-								<small class="text-muted"><%= race.city %>, <%= race.state.abbreviation %></small>
-							</td>
-							<td><%= concat_distance_miles(race.mileage_total) %></td>
-							<td>
-								<%= concat_elapsed_time(race) %><br />
-								<small class="text-muted"><%= concat_pace_min_miles(race.pace) %></small>
-							</td>
-							<td><%= concat_elevation_gain(race.elevation_gain) %></td>
-							<td>
-								<%= race.gear.return_full_shoe_name %><br />
-								<small class="text-muted"><%= race.gear.color_way %></small>
-							</td>
-						</tr>
-					</body>
-				<% end %>
-			</table>
-		<% end %>
-	</div>
-	<div class="col-md-4 text-center">
-		<h1 class="display-2">Personal Bests</h1>
-		<hr />
-		<% @race_counts.each do |distance, count| %>
-			<p><strong><%= distance %></strong> | <%= count %></p>
-		<% end %>
-		<hr />
-		<table class="table table-borderless">
-				<% @personal_bests.each do |personal_best| %>
-					<thead>
-						<tr>
-							<th colspan="3">
-								<h3><%= formatYear(personal_best.start_time) %> <%= personal_best.name %></h3>
-								<small class="text-muted"><%= concat_city_state_full(personal_best.city, personal_best.state) %></small>
-							</th>
-						</tr>
-					</thead>
-					<body>
-						<tr>
-							<td class="col-md-4 text-right"><%= concat_elevation_gain(personal_best.elevation_gain) %></td>
-							<td class="col-md-4">
-								<%= concat_elapsed_time(personal_best) %><br />
-								<small class="text-muted"><%= concat_pace_min_miles(personal_best.pace) %></small>
-							</td>
-							<td class="col-md-4">
-								<%= personal_best.gear.return_full_shoe_name %><br />
-								<small class="text-muted"><%= personal_best.gear.color_way %></small>
-							</td>
-						</tr>
-					</body>
-				<% end %>
-		</table>
-	</div>
+	<%= content_tag(:p, content_tag(:i, "No data available."), :class => "text-center") if @personal_bests.empty? %>
+	<%= render "race-results" %>
+	<%= render "personal-bests" unless @personal_bests.empty? %>
 </div>
