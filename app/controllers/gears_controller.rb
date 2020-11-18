@@ -4,7 +4,7 @@ class GearsController < ApplicationController
   # GET /gears
   # GET /gears.json
   def index
-    @gears = Gear.all
+    @gears = current_user.gears
     @active_shoes = @gears.active_shoes
     @retired_shoes = @gears.retired_shoes
   end
