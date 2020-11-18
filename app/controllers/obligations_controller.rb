@@ -1,5 +1,6 @@
 class ObligationsController < ApplicationController
   before_action :set_obligation, only: [:edit, :update, :destroy]
+  before_action :authorized?
 
   # GET /obligations
   # GET /obligations.json
@@ -65,5 +66,13 @@ class ObligationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def obligation_params
       params.require(:obligation).permit(:name, :start_datetime, :end_datetime, :city, :state_id)
+    end
+
+    def authorized?
+    if current_user.is_viewer?
+        session[:user_id] = current_user.id || nil
+        flash[:alert] = "You are not authorized to do said action."
+        redirect_to dashboards_path
+      end
     end
 end

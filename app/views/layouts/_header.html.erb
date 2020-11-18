@@ -67,12 +67,14 @@
 								<span class="glyphicon glyphicon-th-list"></span> Race Results
 							<% end %>
 						</li>
-						<li role="separator" class="divider"></li>
-						<li class="text-center">
-							<%= link_to obligations_path, class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-calendar"></span> Edit Obligations
-							<% end %>
-						</li>
+						<% if not current_user.is_viewer? %>
+							<li role="separator" class="divider"></li>
+							<li class="text-center">
+								<%= link_to obligations_path, class: 'top-bottom-padding' do %>
+									<span class="glyphicon glyphicon-calendar"></span> Edit Obligations
+								<% end %>
+							</li>
+						<% end %>
 						<li role="separator" class="divider"></li>
 						<li class="text-center">
 							<%= link_to edit_user_path(current_user), class: 'top-bottom-padding' do %>

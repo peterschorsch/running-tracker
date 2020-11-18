@@ -18,7 +18,6 @@ class SessionsController < ApplicationController
       @user.check_current_weekly_total_record_upon_login
 
       @user.create_weeklong_default_runs
-      puts "TESTING==========================="
 
       respond_to do |format|
         format.html { redirect_to dashboards_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }
