@@ -42,10 +42,15 @@ class UsersController < ApplicationController
     def authorized?
       @user = User.find(params[:id])
 
+      alert_message = "You are not authorized to do said action."
+
       ### IF USER DOESN'T MATCH CURRENT USER OR IS ARCHIVED
       if current_user != @user || current_user.is_archived?
-        flash[:alert] = "You are not authorized to do said action."
+        flash[:alert] = alert_message
         redirect_to dashboards_path
+      elsif current_user.is_viewer?
+        flash[:alert] = alert_message
+        redirect_to edit_user_path(current_user)
       end
     end
 
