@@ -23,9 +23,9 @@
 <div class="row">
 	<div class="col-md-12">
 		<p class="text-center">
-			<% @run_types.each do |run_type| %>
-				| <span style="color: <%=run_type.hex_code%>"><%= run_type.name %></span>
-			<% end %> |
+			<% @run_types.each_with_index do |run_type, i| %>
+				<span style="color: <%=run_type.hex_code%>"><%= run_type.name %></span> <%= "|" unless @run_types.count == (i+1) %>
+			<% end %>
 		</p>
 	</div>
 </div>
