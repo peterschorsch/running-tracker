@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :authorized?
+  before_action :viewer_authorization, only: [:update, :update_password]
+
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
   # GET /users/1/edit
@@ -41,15 +43,16 @@ class UsersController < ApplicationController
   private
     def authorized?
       @user = User.find(params[:id])
-
-      alert_message = "You are not authorized to do said action."
-
       ### IF USER DOESN'T MATCH CURRENT USER OR IS ARCHIVED
       if current_user != @user || current_user.is_archived?
-        flash[:alert] = alert_message
+        flash[:alert] = "You are not authorized to do said action."
         redirect_to dashboards_path
-      elsif current_user.is_viewer?
-        flash[:alert] = alert_message
+      end
+    end
+
+    def viewer_authorization
+      if current_user.is_viewer?
+        flash[:alert] = "You are not authorized to do said action."
         redirect_to edit_user_path(current_user)
       end
     end
