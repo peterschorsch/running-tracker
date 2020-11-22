@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_211257) do
+ActiveRecord::Schema.define(version: 2020_11_22_231024) do
 
   create_table "all_time_totals", force: :cascade do |t|
     t.decimal "mileage_total", null: false
@@ -76,6 +76,16 @@ ActiveRecord::Schema.define(version: 2020_09_11_211257) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["state_id"], name: "index_obligations_on_state_id"
+  end
+
+  create_table "race_examples", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "distance", null: false
+    t.string "city", null: false
+    t.integer "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["state_id"], name: "index_race_examples_on_state_id"
   end
 
   create_table "run_types", force: :cascade do |t|
