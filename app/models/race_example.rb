@@ -1,4 +1,9 @@
 class RaceExample < ApplicationRecord
 	belongs_to :state
-	has_many :race_distances
+	belongs_to :race_distance
+
+
+	scope :named, -> (name) {
+	    find_by(name: name)
+	}
 end

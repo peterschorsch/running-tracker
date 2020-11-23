@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_22_232522) do
+ActiveRecord::Schema.define(version: 2020_11_23_225922) do
 
   create_table "all_time_totals", force: :cascade do |t|
     t.decimal "mileage_total", null: false
@@ -78,20 +78,20 @@ ActiveRecord::Schema.define(version: 2020_11_22_232522) do
     t.index ["state_id"], name: "index_obligations_on_state_id"
   end
 
-  create_table "race_distance", force: :cascade do |t|
+  create_table "race_distances", force: :cascade do |t|
     t.string "distance", null: false
-    t.integer "race_example_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["race_example_id"], name: "index_race_distance_on_race_example_id"
   end
 
   create_table "race_examples", force: :cascade do |t|
     t.string "name", null: false
     t.string "city", null: false
     t.integer "state_id"
+    t.integer "race_distance_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["race_distance_id"], name: "index_race_examples_on_race_distance_id"
     t.index ["state_id"], name: "index_race_examples_on_state_id"
   end
 
