@@ -37,6 +37,10 @@ class Run < ApplicationRecord
 	    where(start_time: year.beginning_of_year..year.end_of_year)
 	}
 
+	scope :return_runs_on_date, -> (month, day, year) {
+	    where(start_time: Date.new(year, month, day).all_day)
+	}
+
 	scope :group_by_year, -> {
 	    group_by { |y| y.start_time.beginning_of_year }
 	}
@@ -61,8 +65,28 @@ class Run < ApplicationRecord
 		order(:start_time)
 	}
 
+	scope :order_by_fastest, -> {
+		order('hours, minutes, seconds')
+	}
+
 	scope :find_last_completed_run, -> {
 		return_completed_runs.order_by_most_recent.first
+	}
+
+	scope :return_5k_results, -> {
+		where(mileage_total: BigDecimal('3.1')).return_completed_runs
+	}
+
+	scope :return_10k_results, -> {
+		where(mileage_total: BigDecimal('6.2')).return_completed_runs
+	}
+
+	scope :return_hm_results, -> {
+		where(mileage_total: BigDecimal('13.1')).return_completed_runs
+	}
+
+	scope :return_fm_results, -> {
+		where(mileage_total: BigDecimal('26.2')).return_completed_runs
 	}
 
 	# Used on Current User's Runs

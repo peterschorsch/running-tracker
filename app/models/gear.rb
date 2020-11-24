@@ -35,11 +35,11 @@ class Gear < ApplicationRecord
 	}
 
 	scope :remove_default_shoe, -> {
-		where.not(:model => "RUNNING SHOE")
+		where(:default => false)
 	}
 
 	scope :return_default_shoe, -> {
-		find_by(:model => "RUNNING SHOE")
+		find_by(:default => true)
 	}
 
 	def is_retired?

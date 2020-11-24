@@ -79,13 +79,19 @@ ActiveRecord::Schema.define(version: 2020_11_23_225922) do
   end
 
   create_table "race_distances", force: :cascade do |t|
-    t.string "distance", null: false
+    t.string "name", null: false
+    t.decimal "numeric_distance", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "race_examples", force: :cascade do |t|
     t.string "name", null: false
+    t.string "hours"
+    t.string "minutes", null: false
+    t.string "seconds", null: false
+    t.string "pace", null: false
+    t.string "elevation_gain", null: false
     t.string "city", null: false
     t.integer "state_id"
     t.integer "race_distance_id"

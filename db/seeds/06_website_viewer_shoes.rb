@@ -12,7 +12,7 @@ model = "RUNNING SHOE"
 color_way = "White"
 image_path = "#{Rails.root}/app/assets/images/shoes/stock_shoe.png"
 image_file = File.new(image_path)
-@gear = Gear.create_with(:shoe_brand_id => ShoeBrand.named("DEFAULT").id, :model => model, :color_way => color_way, :forefoot_stack => 0, :heel_stack => 0, :heel_drop => 0, :mileage => 0, :weight => 0, :size => 8.5, :shoe_type => "Neutral", :default => true, :purchased_on => Date.today, :first_used_on => Date.today,
+@gear = Gear.create_with(:shoe_brand_id => ShoeBrand.named("DEFAULT").id, :model => model, :color_way => color_way, :forefoot_stack => 0, :heel_stack => 0, :heel_drop => 0, :mileage => 0, :weight => 0, :size => 8.5, :shoe_type => "Neutral", :default => false, :purchased_on => Date.today, :first_used_on => Date.today,
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
@@ -23,7 +23,7 @@ model = "Adios 4"
 color_way = "Core Black/Cloud White"
 image_path = "#{Rails.root}/app/assets/images/shoes/adios_4.png"
 image_file = File.new(image_path)
-@gear = Gear.create_with(:shoe_brand_id => adidias_id, :model => model, :color_way => color_way, :forefoot_stack => 17, :heel_stack => 27, :heel_drop => 10, :mileage => 107.9, :weight => 9.4, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 8, 12), :first_used_on => Date.new(2019, 10, 6),
+@gear = Gear.create_with(:default => true, :shoe_brand_id => adidias_id, :model => model, :color_way => color_way, :forefoot_stack => 17, :heel_stack => 27, :heel_drop => 10, :mileage => 107.9, :weight => 9.4, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 8, 12), :first_used_on => Date.new(2019, 10, 6),
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
