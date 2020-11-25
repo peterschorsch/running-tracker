@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :race_examples
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'sessions#root_page'
   get "/login", to: "sessions#new"
@@ -35,6 +34,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
     resources :run_types, path: "run-types", except: [:show]
+    resources :race_examples, path: "race-examples", except: [:show, :destroy]
   end
 
   ### USERS PAGE ###

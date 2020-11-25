@@ -1,0 +1,32 @@
+<%= form_with(model: [:admin , race_example], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+  <%= render "templates/alerts/form-errors", model: race_example %>
+
+  <div class="row vertical-align-middle">
+    <div class="col-xs-2 text-right"><%= f.label :name, 'Name:' %></div>
+    <div class="col-xs-4"><%= f.text_field :name, { class: 'form-control', placeholder: "Example Race" } %></div>
+    <div class="col-xs-1 text-right"><%= f.label :race_distance_id, 'Distance:' %></div>
+    <div class="col-xs-2"><%= f.select(:race_distance_id, RaceDistance.select_race_distance_id_name, { :include_blank => "Select a Race Distance" }, { :class => "form-control" })%></div>
+  </div>
+  <br />
+  <div class="row vertical-align-middle">
+    <div class="col-xs-2 text-right"><%= f.label :hours, 'Elasped Time:' %></div>
+    <div class="col-xs-1"><%= f.number_field :hours, { class: 'form-control', min: 0, step: 1, placeholder: "hours" } %></div>
+    <div class="col-xs-1"><%= f.number_field :minutes, { class: 'form-control', min: 0, step: 1, placeholder: "minutes" } %></div>
+    <div class="col-xs-1"><%= f.number_field :seconds, { class: 'form-control',  min: 0, step: 1, placeholder: "seconds" } %></div>
+    <div class="col-xs-2 text-right"><%= f.label :elevation_gain, 'Elevation Gain:' %></div>
+    <div class="col-xs-2"><%= f.number_field :elevation_gain, { class: 'form-control', min: 0, step: 1, placeholder: "200" } %></div>
+  </div>
+  <br />
+  <div class="row vertical-align-middle">
+    <div class="col-xs-2 text-right"><%= f.label :city, 'City:' %></div>
+    <div class="col-xs-3"><%= f.text_field :city, { class: 'form-control', placeholder: "Los Angeles" } %></div>
+    <div class="col-xs-1 text-right"><%= f.label :state_id, 'State:' %></div>
+    <div class="col-xs-2"><%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Select a State" }, { :class => "form-control" })%></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+    </div>
+  </div>
+<% end %>

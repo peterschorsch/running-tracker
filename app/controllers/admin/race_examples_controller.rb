@@ -1,15 +1,10 @@
-class RaceExamplesController < ApplicationController
+class Admin::RaceExamplesController < ApplicationController
   before_action :set_race_example, only: [:show, :edit, :update, :destroy]
 
   # GET /race_examples
   # GET /race_examples.json
   def index
-    @race_examples = RaceExample.all
-  end
-
-  # GET /race_examples/1
-  # GET /race_examples/1.json
-  def show
+    @race_distances = RaceExample.includes(:race_distance).group_by_distance
   end
 
   # GET /race_examples/new
@@ -28,7 +23,7 @@ class RaceExamplesController < ApplicationController
 
     respond_to do |format|
       if @race_example.save
-        format.html { redirect_to @race_example, notice: 'Race example was successfully created.' }
+        format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
         format.json { render :show, status: :created, location: @race_example }
       else
         format.html { render :new }
@@ -42,22 +37,12 @@ class RaceExamplesController < ApplicationController
   def update
     respond_to do |format|
       if @race_example.update(race_example_params)
-        format.html { redirect_to @race_example, notice: 'Race example was successfully updated.' }
+        format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
         format.json { render :show, status: :ok, location: @race_example }
       else
         format.html { render :edit }
         format.json { render json: @race_example.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /race_examples/1
-  # DELETE /race_examples/1.json
-  def destroy
-    @race_example.destroy
-    respond_to do |format|
-      format.html { redirect_to race_examples_url, notice: 'Race example was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
@@ -69,6 +54,6 @@ class RaceExamplesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def race_example_params
-      params.fetch(:race_example, {})
+      params.require(:race_example).permit(:name, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :state_id, :race_distance_id)
     end
 end

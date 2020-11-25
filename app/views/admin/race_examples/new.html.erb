@@ -1,0 +1,14 @@
+<%= render new_header_path, path: admin_race_examples_path, btn_text: "Race Examples", heading_text: "Race Example" %>
+
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<h1>Add New Race Example</h1>
+			</div>
+			<div class="panel-body">
+				<%= render 'form', race_example: @race_example %>
+			</div>
+		</div>
+	</div>
+</div>
