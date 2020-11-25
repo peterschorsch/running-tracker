@@ -108,7 +108,7 @@ marathon_races = [
 	["Indianapolis Monumental Marathon", "Indianapolis", "IN", "2", "21", "21", "5:23", "1420"],
 	["Twin Cities Marathon", "Minneapolis", "MN", "3", "09", "33", "7:14", "122"],
 	["Grandma's Marathon", "Duluth", "MN", "3", "30", "21", "8:01", "222"],
-	["Marine Corps Marathon", "Arlington", "VA", "4", "56", "44", "6:57", "302"],
+	["Marine Corps Marathon", "Arlington", "VA", "4", "56", "44", "11:19", "302"],
 	["Carlsbad Marathon", "Carlsbad", "CA", "3", "44", "24", "8:33", "1504"],
 	["Honolulu Marathon", "Honolulu", "HI", "4", "34", "21", "10:28", "204"],
 	["Los Angeles Marathon", "Los Angeles", "CA", "2", "15", "35", "5:10", "276"],
