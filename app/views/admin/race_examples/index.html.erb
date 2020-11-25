@@ -12,10 +12,10 @@
     </tr>
   </thead>
   <tbody>
-    <% @race_distances.each do |race_distance_name, race_examples| %>
+    <% @race_distances.each do |race_distance, race_examples| %>
       <tr>
-        <th colspan="5" class="text-left"><%= race_distance_name %></th>
-        <th><%#= render edit_icon_btn_path, edit_path: edit_admin_race_example_path(race_example) %></th>
+        <th colspan="5" class="text-left"><%= race_distance[1] %></th>
+        <th><%= render edit_icon_btn_path, edit_path: edit_admin_race_distance_path(race_distance[0]) %></th>
       </tr>
       <% race_examples.each do |race_example| %>
         <tr class="text-center">

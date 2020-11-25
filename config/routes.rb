@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
     resources :run_types, path: "run-types", except: [:show]
     resources :race_examples, path: "race-examples", except: [:show, :destroy]
+    resources :race_distances, path: "race-distances", only: [:edit, :update]
   end
 
   ### USERS PAGE ###

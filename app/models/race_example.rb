@@ -19,7 +19,7 @@ class RaceExample < ApplicationRecord
 	}
 
 	scope :group_by_distance, -> {
-	    joins(:race_distance).order_by_fastest.group_by { |y| y.race_distance.name }
+	    joins(:race_distance).order_by_fastest.group_by { |y| [y.race_distance.id, y.race_distance.name] }
 	}
 
 end

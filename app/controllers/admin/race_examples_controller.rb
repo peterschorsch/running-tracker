@@ -24,7 +24,7 @@ class Admin::RaceExamplesController < ApplicationController
     respond_to do |format|
       if @race_example.save
         format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
-        format.json { render :show, status: :created, location: @race_example }
+        format.json { render :index, status: :created, location: @race_example }
       else
         format.html { render :new }
         format.json { render json: @race_example.errors, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class Admin::RaceExamplesController < ApplicationController
     respond_to do |format|
       if @race_example.update(race_example_params)
         format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
-        format.json { render :show, status: :ok, location: @race_example }
+        format.json { render :index, status: :ok, location: @race_example }
       else
         format.html { render :edit }
         format.json { render json: @race_example.errors, status: :unprocessable_entity }
