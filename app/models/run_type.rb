@@ -29,8 +29,17 @@ class RunType < ApplicationRecord
 		where.not(:name => "Race")
 	}
 
+	scope :return_planned_run_type, -> {
+		find_by(:name => "Recreational Run")
+	}
+
 	def is_race?
 		self.name == "Race"
+	end
+
+	def self.return_random_run_type_id
+		race_type = RunType.exclude_race_type
+		return run_type_id = race_type.offset(rand(race_type.count)).first.id
 	end
 
 	def self.select_run_type_id_name

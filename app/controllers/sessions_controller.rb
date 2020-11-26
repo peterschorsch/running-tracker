@@ -17,7 +17,11 @@ class SessionsController < ApplicationController
 
       @user.check_current_weekly_total_record_upon_login
 
-      @user.create_weeklong_default_runs
+      if @user.is_viewer?
+        @user.create_website_viewer_runs
+      else
+        @user.create_weeklong_default_runs
+      end
 
       respond_to do |format|
         format.html { redirect_to dashboards_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }

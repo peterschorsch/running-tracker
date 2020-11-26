@@ -29,8 +29,7 @@ puts @all_time_total.inspect
       run_date = DateTime.new(year, month, rand(1..1.week.ago.end_of_day.day))
       california_state_id = State.find_by_abbr("CA").id
 
-      race_type = RunType.exclude_race_type
-      run_type_id = race_type.offset(rand(race_type.count)).first.id
+      run_type_id = RunType.return_random_run_type_id
 
       gears = @website_viewer.gears.remove_default_shoe.active_shoes
       gear_id = gears.offset(rand(gears.count)).first.id

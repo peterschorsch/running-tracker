@@ -103,9 +103,17 @@ class Run < ApplicationRecord
 		self.active_run
 	end
 
+	def self.return_random_run_start_time(date = Date.current)
+		DateTime.new(date.year, date.month, date.day, rand(7..8), [0,30].sample, 0).in_time_zone("Pacific Time (US & Canada)")
+	end
+
 	def make_run_inactive
 		self.active_run = false
 		self.save(:validate => false)
+	end
+
+	def self.return_random_pace
+		rand(6..10).to_s + ":" + rand(00..59).to_s
 	end
 
 	def self.return_race_distance_counts
@@ -161,7 +169,20 @@ class Run < ApplicationRecord
 		total_record.save(:validate => false)
 	end
 
+	### CREATE RANDOM COMPLETED RUN ###
+	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
+		Run.create_with(name: name, planned_mileage: BigDecimal(rand(10)), mileage_total: BigDecimal(rand(10)), 
+			hours: rand(0..2), minutes: rand(1..60), seconds: rand(1..60), pace: Run.return_random_pace, 
+			elevation_gain: BigDecimal(rand(50..1000)), city: city, completed_run: completed_run, active_run: active_run, 
+			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
+	end
 
+	### CREATE PLANNED RUN ###
+	def self.create_planned_run_record(start_time, planned_mileage, gear_id, city, state_id, monthly_total_id, user_id)
+		Run.create_with(name: "Planned Run", hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
+			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
+			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
+	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
@@ -215,7 +236,7 @@ class Run < ApplicationRecord
 	end
 
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
-	def self.copy_until_specific_date(current_user, week_date)
+	def self.copy_until_specific_date(current_user, end_week_date)
 		# Current Week's Date
 		current_week_date = DateTime.now
 		# Current Week's Start & End Dates
@@ -228,13 +249,13 @@ class Run < ApplicationRecord
 		next_week_start_date = next_week_date.beginning_of_week
 
 		# End Week's Start Date
-		end_week_start_date = week_date.beginning_of_week
+		end_week_start_date = end_week_date.beginning_of_week
 
 		default_shoe_id = Gear.return_default_shoe.id
 
 		number_of_weeks = end_week_start_date.cweek - next_week_start_date.cweek
 
-		@current_weeks_runs = Run.of_user(current_user).where(:start_time => current_week_start_date..current_week_end_date)
+		@current_weeks_runs = current_user.runs.where(:start_time => current_week_start_date..current_week_end_date)
 
 		@current_weeks_runs.each do |run|
 			if number_of_weeks > 0

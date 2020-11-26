@@ -46,7 +46,7 @@ module FormatdatetimeHelper
   end
   # 4:38pm
   def formatTime(date)
-    date.strftime("%-I:%M%p")
+    date.utc.strftime("%-I:%M%p")
   end
 
   # Jul. 31 - Aug. 2, 2020
@@ -66,7 +66,7 @@ module FormatdatetimeHelper
 
   # 9/19/17 at 4:38pm
   def formateDateTimeWithAt(date)
-    date.utc.strftime("%-m/%-d/%y at %-I:%M%p")
+    date.strftime("%-m/%-d/%y at %-I:%M%p")
   end
 
   def formatYear(date)
