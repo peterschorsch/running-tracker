@@ -66,7 +66,7 @@ module FormatdatetimeHelper
 
   # 9/19/17 at 4:38pm
   def formateDateTimeWithAt(date)
-    date.strftime("%-m/%-d/%y at %-I:%M%p")
+    date.utc.strftime("%-m/%-d/%y at %-I:%M%p")
   end
 
   def formatYear(date)
