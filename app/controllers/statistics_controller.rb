@@ -14,7 +14,7 @@ class StatisticsController < ApplicationController
 
 		### MONTHLY TOTALS ###
 		@monthly_totals_master = current_user.monthly_totals.order_by_recent_month
-		@monthly_totals = @monthly_totals_master.first(12)
+		@monthly_totals = @monthly_totals_master.first(13)
 		@monthly_stats_graph = @monthly_totals.map { |mt| [mt.month_end.strftime("%b '%y"), mt.mileage_total.to_i] }.reverse
 
 		### YEARLY TOTALS ###

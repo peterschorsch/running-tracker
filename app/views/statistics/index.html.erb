@@ -32,7 +32,7 @@
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage over the past 12 Months", data: @monthly_stats_graph %>
 		<% @monthly_totals.each do |monthly_total| %>
-			<p><%= format_month(monthly_total.month_start.utc) %> <%= formatYear(monthly_total.month_start.utc) %> | <%= concat_run_totals_line_one(monthly_total) %> | <%= concat_run_totals_line_two(monthly_total) %></p>
+			<p><%= format_month(monthly_total.month_start.utc) %> <%= formatYear(monthly_total.month_start) %> | <%= concat_run_totals_line_one(monthly_total) %> | <%= concat_run_totals_line_two(monthly_total) %></p>
 		<% end %>
 	</div>
 </div>

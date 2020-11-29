@@ -42,7 +42,7 @@ module ConcatDistanceTimeFieldsHelper
 
 	# 1,000 ft
 	def concat_elevation_gain(elevation_gain)
-		raw("<strong>#{number_precision(elevation_gain, 0)}</strong> ft")
+		raw("<strong>#{number_precision(elevation_gain, 70)}</strong> ft")
 	end
 
 	# 100 runs
@@ -51,7 +51,7 @@ module ConcatDistanceTimeFieldsHelper
 	end
 
 	def number_precision(field, precision)
-		number_with_precision(field, :number_with_precision => precision, :delimiter => ',', significant: true, strip_insignificant_zeros: true)
+		number_with_precision(field, :number_with_precision => precision, :delimiter => ',', significant: false, strip_insignificant_zeros: true)
 	end
 
 end

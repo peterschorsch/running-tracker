@@ -235,15 +235,5 @@ image_file = File.new(image_path)
   )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
 puts @gear.inspect
 
-model = "Triumph ISO 4"
-color_way = "Black/Slime/Blue"
-image_path = "#{Rails.root}/app/assets/images/shoes/triumph_iso_4.png"
-image_file = File.new(image_path)
-@gear = Gear.create_with(:shoe_brand_id => saucony_id, :model => model, :color_way => color_way, :forefoot_stack => 20, :heel_stack => 28, :heel_drop => 8, :weight => 9.4, :mileage => 0, :size => 8.5, :shoe_type => "Neutral", :purchased_on =>  Date.new(2019, 11, 23), 
-	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
-    # detect the image's mime type with MIME if you can't provide it yourself.
-    :type => MIME::Types.type_for(image_path).first.content_type
-  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
-puts @gear.inspect
 puts ""
 puts ""
