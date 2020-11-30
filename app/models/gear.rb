@@ -62,10 +62,17 @@ class Gear < ApplicationRecord
 	end
 
 	### UPDATING MILEAGE FROM A RUN OF SHOE ###
-	def update_mileage_of_shoe(run_id, updated_mileage)
+	def update_mileage_of_shoe(updated_mileage)
 		#self.runs.where.not(:id => self.id).each { |run| updated_mileage += run.mileage_total.to_f }
 		self.mileage = updated_mileage
 		self.save!(:validate => false)
+	end
+
+	### UPDATING MILEAGE FROM A RUN OF SHOE ###
+	def self.recalculate_mileage_of_shoe(user)
+		user.gears.each do |gear|
+			gear.update_mileage_of_shoe(gear.runs.sum(:mileage_total))
+		end
 	end
 
 	def set_new_default

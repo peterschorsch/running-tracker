@@ -118,7 +118,7 @@ class CalendarsController < ApplicationController
 			#@run.monthly_total_id = MonthlyTotal.of_month(params[:run][:start_time])
 
 			### Update Shoe Mileage Total
-			@run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
+			@run.gear.update_mileage_of_shoe(params[:run][:mileage_total].to_f)
 
 			### Update Weekly Total
 			@weekly_total = @run.user.weekly_totals.find_by(week_start: Date.current.beginning_of_week.beginning_of_day)

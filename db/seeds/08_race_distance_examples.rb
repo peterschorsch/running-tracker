@@ -158,7 +158,5 @@ puts ""
 @website_viewer.runs.return_hm_results.order_by_fastest.first.update_column('personal_best', true)
 @website_viewer.runs.return_fm_results.order_by_fastest.first.update_column('personal_best', true)
 
-### WEBSITE VIEWER ACCOUNT - UPDATE MILEAGE OF SHOES ###
-@website_viewer.gears.each do |gear|
-	gear.update_column('mileage', gear.runs.sum(:mileage_total))
-end
+### UPDATE SHOE TOTALS ###
+Gear.recalculate_mileage_of_shoe(@website_viewer)

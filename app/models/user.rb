@@ -163,6 +163,8 @@ class User < ApplicationRecord
 		MonthlyTotal.refresh_monthly_totals(self)
 		YearlyTotal.refresh_yearly_totals(self)
 		AllTimeTotal.refresh_all_time_total(self)
+
+		Gear.recalculate_mileage_of_shoe(self)
 	end
 
 	def self.return_website_viewer

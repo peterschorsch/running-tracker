@@ -39,7 +39,7 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1.json
   def update
     @run.user_id = current_user.id
-    @run.gear.update_mileage_of_shoe(@run.id, params[:run][:mileage_total].to_f)
+    @run.gear.update_mileage_of_shoe(params[:run][:mileage_total].to_f)
 
     respond_to do |format|
       if @run.update(run_params)
