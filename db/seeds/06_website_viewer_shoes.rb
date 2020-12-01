@@ -5,7 +5,7 @@ adidias_id = ShoeBrand.named("Adidas").id
 alta_id = ShoeBrand.named("Altra").id
 brooks_id = ShoeBrand.named("Brooks").id
 nike_id = ShoeBrand.named("Nike").id
-on_id = ShoeBrand.named("On").id
+on_id = ShoeBrand.named("ON").id
 saucony_id = ShoeBrand.named("Saucony").id
 
 model = "RUNNING SHOE"

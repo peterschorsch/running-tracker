@@ -154,7 +154,7 @@ class User < ApplicationRecord
 		(current_date..end_of_week).each do |date|
 			@monthly_total = self.monthly_totals.of_month(date)
 
-			Run.create_planned_run_record(Run.return_random_run_start_time(date), rand(4..12), gear_id, city, state_id, @monthly_total.id, self.id)
+			Run.create_planned_run_record(Run.return_random_run_start_time(date), rand(4..12), gear_id, city, state_id, @monthly_total.id, self.id) unless @monthly_total
 		end
 	end
 

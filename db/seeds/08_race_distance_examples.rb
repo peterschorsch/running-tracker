@@ -124,10 +124,10 @@ puts ""
 puts "----------WEBSITE VIEWER RACES----------"
 ###CREATE RACES FOR WEBSITE VIEWER ACCOUNT###
 @website_viewer.yearly_totals.each do |yearly_total|
-	number_of_races = rand(4..6)
-	@race_examples = RaceExample.order("RANDOM()").limit(number_of_races)
+	@race_distances = RaceDistance.all
 
-	@race_examples.each_with_index do |race_example, index|
+	@race_distances.each do |race_distance|
+		race_example = race_distance.race_examples.order("RANDOM()").first
 		race_distance = race_example.race_distance
 		race_run_type = RunType.named("Race")
 		gear = Gear.return_default_shoe
