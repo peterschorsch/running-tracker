@@ -132,7 +132,7 @@ puts "----------RACES FOR MY ACCOUNT----------"
   puts "----------2020----------"
   run_date = DateTime.new(2020, 3, 8, 6, 55, 0)
   monthly_total_id = MonthlyTotal.of_month(run_date).id
-  @run = Run.find_or_create_by(name: "Los Angeles Marathon", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: @my_account.gears.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
+  @run = Run.find_or_create_by(name: "ASICS Los Angeles Marathon", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: "2", minutes: "48", seconds: "35", pace: "6:26", notes: "Bib#: 1356", city: "Los Angeles", gear_id: @my_account.gears.find_shoe("Adios 4").id, planned_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), elevation_gain: BigDecimal('850'), state_id: State.find_by_abbr("CA").id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
   puts @run.inspect
 
   two_days_ago = 2.days.ago
@@ -207,7 +207,3 @@ end
 
 ### ALL TIME TOTAL ###
 @all_time = @my_account.all_time_total.update_columns(mileage_total: @my_account.yearly_totals.sum(:mileage_total), number_of_runs: @my_account.yearly_totals.sum(:number_of_runs), elevation_gain: @my_account.yearly_totals.sum(:elevation_gain), hours: 319, minutes: 40, seconds: 52)
-
-
-### UPDATE SHOE TOTALS ###
-Gear.recalculate_mileage_of_shoe(@my_account)
