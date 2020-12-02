@@ -196,6 +196,7 @@ totals = [
   [166, 26, 4731, 20, 34, 40], #SEPT
   [163, 27, 4186, 20, 20, 56], #OCT
   [178.8, 21, 3589, 16, 45, 21], #NOV
+  [12.99, 2, 315, 1, 35, 54] #DEC AS OF DEC 2
 ]
 @yearly_total = @my_account.yearly_totals.of_year(Date.new(2020).year)
 @monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
