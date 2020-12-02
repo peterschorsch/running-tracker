@@ -54,7 +54,7 @@ puts "----------RACES FOR MY ACCOUNT----------"
 
   run_date = DateTime.new(2017, 7, 15, 6, 30, 0)
   monthly_total_id = MonthlyTotal.of_month(run_date).id
-  @run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "33", seconds: "09", pace: "7:27", notes: "Bib#: 1386", city: "Chicago", gear_id: @my_account.gears.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('150'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
+  @run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "33", seconds: "09", pace: "7:27", notes: "Bib#: 1386", city: "Chicago", gear_id: @my_account.gears.find_shoe("Ravenna 8").id, elevation_gain: BigDecimal('64'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
   puts @run.inspect
 
   run_date = DateTime.new(2017, 9, 17, 7, 0, 0)
@@ -70,7 +70,7 @@ puts "----------RACES FOR MY ACCOUNT----------"
   puts "----------2018----------"
   run_date = DateTime.new(2018, 5, 20, 7, 50, 0)
   monthly_total_id = MonthlyTotal.of_month(run_date).id
-  @run = Run.find_or_create_by(name: "Chicago Spring Half Marathon & 10k", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "38", seconds: "21", pace: "6:11", notes: "Bib#: 8111", city: "Chicago", gear_id: @my_account.gears.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('6.2'), mileage_total: BigDecimal('6.2'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, personal_best: true, completed_run: true, active_run: true)
+  @run = Run.find_or_create_by(name: "Chicago Spring Half Marathon & 10k", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "38", seconds: "21", pace: "6:11", notes: "Bib#: 8111", city: "Chicago", gear_id: @my_account.gears.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('6.2'), mileage_total: BigDecimal('6.2'), elevation_gain: BigDecimal('45'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, personal_best: true, completed_run: true, active_run: true)
   puts @run.inspect
 
   run_date = DateTime.new(2018, 7, 14, 8, 0, 0)
@@ -80,7 +80,7 @@ puts "----------RACES FOR MY ACCOUNT----------"
 
   run_date = DateTime.new(2018, 7, 21, 6, 30, 0)
   monthly_total_id = MonthlyTotal.of_month(run_date).id
-  @run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "21", seconds: "18", pace: "6:12", notes: "Bib#: 1346", city: "Chicago", gear_id: @my_account.gears.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
+  @run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "21", seconds: "18", pace: "6:12", notes: "Bib#: 1346", city: "Chicago", gear_id: @my_account.gears.find_shoe("Ravenna 9").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('64'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
   puts @run.inspect
 
   run_date = DateTime.new(2018, 9, 16, 7, 0, 0)
@@ -106,7 +106,7 @@ puts "----------RACES FOR MY ACCOUNT----------"
 
   run_date = DateTime.new(2019, 7, 21, 6, 30, 0)
   monthly_total_id = MonthlyTotal.of_month(run_date).id
-  @run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "44", pace: "6:05", notes: "Bib#: 1175", city: "Chicago", gear_id: @my_account.gears.find_shoe("Kinvara 10").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('0'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, personal_best: true, completed_run: true, active_run: true)
+  @run = Run.find_or_create_by(name: "Rock 'n' Roll Chicago Half Marathon", start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "1", minutes: "19", seconds: "44", pace: "6:05", notes: "Bib#: 1175", city: "Chicago", gear_id: @my_account.gears.find_shoe("Kinvara 10").id, planned_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), elevation_gain: BigDecimal('64'), state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: monthly_total_id, personal_best: true, completed_run: true, active_run: true)
   puts @run.inspect
 
   run_date = DateTime.new(2019, 9, 22, 7, 0, 0)
