@@ -1,10 +1,16 @@
 <div class="col-md-4 text-center">
 	<h1 class="display-2">Personal Bests</h1>
 	<hr />
-	<% @race_counts.each do |distance, count| %>
-		<p><strong><%= distance %></strong> | <%= count %></p>
-	<% end %>
-	<hr />
+	<div class="row">
+		<% @race_counts.each do |race_distance, race_count| %>
+			<div class="col-md-3 text-center">
+				<p><strong><%= race_distance %></strong> <span class="badge"><%= race_count %></span> </p>
+			</div>
+		<% end %>
+	</div>
+
+	<%= geo_chart @geo_chart, library: {region: 'US', resolution: 'provinces'} %>
+
 	<table class="table table-borderless">
 		<% @personal_bests.each do |personal_best| %>
 			<thead>

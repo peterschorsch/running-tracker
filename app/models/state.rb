@@ -1,6 +1,6 @@
 class State < ApplicationRecord
 	has_many :obligations
-	has_many :races
+	has_many :runs
 	has_many :race_examples
 
 	validates :name, :abbreviation, presence: true, uniqueness: true

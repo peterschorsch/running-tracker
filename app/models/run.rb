@@ -73,6 +73,10 @@ class Run < ApplicationRecord
 		return_completed_runs.order_by_most_recent.first
 	}
 
+	scope :return_races, -> {
+		joins(:run_type).where("run_types.name=?", "Race").return_completed_runs
+	}
+
 	scope :return_5k_results, -> {
 		where(mileage_total: BigDecimal('3.1')).return_completed_runs
 	}

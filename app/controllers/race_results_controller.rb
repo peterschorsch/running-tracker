@@ -8,6 +8,12 @@ class RaceResultsController < ApplicationController
 		@personal_bests = current_user.runs.retrieve_personal_bests
 
 		@race_counts = @races.return_race_distance_counts
+
+		@testing = current_user.runs.return_races.group(:state_id).count
+		@geo_chart = []
+		@testing.each do |key, value|
+			@geo_chart.push([State.find(key).name, value])
+		end
 	end
 
 	private
