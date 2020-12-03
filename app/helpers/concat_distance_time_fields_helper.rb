@@ -47,7 +47,7 @@ module ConcatDistanceTimeFieldsHelper
 
 	# 100 runs
 	def concat_number_of_runs(number_of_runs)
-		raw("<strong>#{number_precision(number_of_runs, 0)}</strong> runs")
+		raw(pluralize("<strong>#{number_precision(number_of_runs, 0)}</strong>", "run"))
 	end
 
 	def number_precision(field, precision)

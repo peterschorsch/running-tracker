@@ -1,13 +1,13 @@
 User.exclude_viewer_accounts.each do |user|
   puts "----------#{user.concat_name} ALL TIME TOTALS----------"
-  @alltime = AllTimeTotal.create_random_totals(user.id)
+  @alltime = AllTimeTotal.create_zero_totals(user.id)
   puts @alltime.inspect
   puts ""
 
   puts "----------#{user.concat_name} YEARLY TOTALS----------"
   (2017..Date.current.year).each do |year|
     year_date = DateTime.new(year)
-    @yearly_total = YearlyTotal.create_random_totals(user.id, @alltime.id, year_date)
+    @yearly_total = YearlyTotal.create_zero_totals(user.id, @alltime.id, year_date)
     puts @yearly_total.inspect
 
     if year == Date.current.year
@@ -24,7 +24,7 @@ User.exclude_viewer_accounts.each do |user|
       month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.now.zone).end_of_day
       month_start = month_end.beginning_of_month
       
-      @monthly_total = MonthlyTotal.create_random_totals(user.id, @yearly_total.id, month_start, month_end)
+      @monthly_total = MonthlyTotal.create_zero_totals(user.id, @yearly_total.id, month_start, month_end)
       puts @monthly_total.inspect
     end
     puts ""
@@ -39,12 +39,27 @@ User.exclude_viewer_accounts.each do |user|
 end
 puts ""
 
-### UPDATE TOTALS FOR MY ACCOUNT [UPDATED: NOVEMBER 27, 2020] ###
+### UPDATE TOTALS FOR MY ACCOUNT [UPDATED: DECEMBER 2, 2020] ###
 @my_account = User.find_user_by_name("Peter", "Schorsch")
 
 puts "----------RACES FOR MY ACCOUNT----------"
   run_type_id = RunType.named("Race").id
   illinois_state_id = State.find_by_abbr("IL").id
+
+  puts "----------2014----------"
+  @yearly_total = YearlyTotal.create_zero_totals(@my_account.id, @my_account.all_time_total.id, Date.new(2014))
+  run_date = DateTime.new(2014, 9, 27, 8, 0, 0)
+  @monthly_total = MonthlyTotal.create_zero_totals(@my_account.id, @yearly_total.id, run_date.beginning_of_month, run_date.end_of_month)
+  @run = Run.find_or_create_by(name: "4th Annual Saluki Kickoff 5K", planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "19", seconds: "59", pace: "6:24", gear_id: @my_account.gears.find_shoe("Wave Rider 15").id, elevation_gain: BigDecimal('0'), city: "Carbondale", state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: @monthly_total.id, completed_run: true, active_run: true)
+  puts @run.inspect
+
+  puts "----------2015----------"
+  @yearly_total = YearlyTotal.create_zero_totals(@my_account.id, @my_account.all_time_total.id, Date.new(2015))
+  run_date = DateTime.new(2015, 9, 26, 8, 0, 0)
+  @monthly_total = MonthlyTotal.create_zero_totals(@my_account.id, @yearly_total.id, run_date.beginning_of_month, run_date.end_of_month)
+  @run = Run.find_or_create_by(name: "5th Annual Saluki Kickoff 5K", planned_mileage: BigDecimal('3.1'), mileage_total: BigDecimal('3.1'), start_time: run_date.in_time_zone("Central Time (US & Canada)"), hours: "0", minutes: "18", seconds: "21", pace: "5:55", gear_id: @my_account.gears.find_shoe("Wave Rider 15").id, elevation_gain: BigDecimal('0'), city: "Carbondale", state_id: illinois_state_id, run_type_id: run_type_id, user_id: @my_account.id, monthly_total_id: @monthly_total.id, completed_run: true, active_run: true)
+  puts @run.inspect
+
 
   puts "----------2017----------"
   run_date = DateTime.new(2017, 7, 8, 8, 0, 0)
@@ -147,6 +162,24 @@ puts "----------RACES FOR MY ACCOUNT----------"
   @run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), hours: 0, minutes: "30", seconds: "00", pace: "7:30", notes: nil, city: "Los Angeles", gear_id: @my_account.gears.find_shoe("Adios 4").id, planned_mileage: BigDecimal('5'), mileage_total: BigDecimal('5'), elevation_gain: BigDecimal('252'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true, active_run: true)
   puts @run.inspect
   puts ""
+
+### 2014 YEARLY TOTAL ###
+@yearly_total = @my_account.yearly_totals.of_year(Date.new(2014).year)
+@yearly_total.update_columns(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0)
+@yearly_total.monthly_totals.update_all(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0)
+@my_account.runs.of_year(Date.new(@yearly_total.year.to_i)).each do |run|
+  run.update_user_run_totals(run.monthly_total)
+  run.update_user_run_totals(run.monthly_total.yearly_total)
+end
+
+### 2015 YEARLY TOTAL ###
+@yearly_total = @my_account.yearly_totals.of_year(Date.new(2015).year)
+@yearly_total.update_columns(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0)
+@yearly_total.monthly_totals.update_all(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0)
+@my_account.runs.of_year(Date.new(@yearly_total.year.to_i)).each do |run|
+  run.update_user_run_totals(run.monthly_total)
+  run.update_user_run_totals(run.monthly_total.yearly_total)
+end
 
 ### 2017 YEARLY TOTAL ###
 @yearly_total = @my_account.yearly_totals.of_year(Date.new(2017).year)
