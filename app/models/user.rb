@@ -89,40 +89,13 @@ class User < ApplicationRecord
 		end
 	end
 
-	### CREATE DEFAULT RUNS FOR CURRENT WEEK
-	def create_weeklong_default_runs
-		default_shoe_id = Gear.return_default_shoe.id
-		state_id = State.find_by_abbr("CA").id
-		run_type_id = RunType.default_run_type.id
-
-		# Current Date
-		current_date = DateTime.now
-		# Starts on a Monday
-		week_start_date = current_date.beginning_of_week
-		week_end_date = current_date.end_of_week
-		loop_week = week_start_date...week_end_date
-
-		loop_week.each_with_index do |date, index|
-			@existing_run = Run.of_day(date)
-
-			if not @existing_run.exists?
-				@monthly_total = self.monthly_totals.of_month
-				@run = Run.create(name: "Planned Run #{index+1}", start_time: date,
-											hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: "Los Angeles",
-											gear_id: default_shoe_id, planned_mileage: BigDecimal('0'),
-											elevation_gain: BigDecimal('0'), state_id: state_id, 
-											completed_run: false, active_run: true,
-											run_type_id: run_type_id, monthly_total_id: @monthly_total.id, user_id: self.id)
-			end
-		end
-	end
-
 	### CREATE RUNS FOR WEBSITE VIEWER WHEN THEY LOGIN ###
 	def create_website_viewer_runs
 		### UPDATE PREVIOUSLY UNCOMPLETED RUNS ###
-		self.runs.return_uncompleted_runs.each do |uncompleted_run|
+		self.runs.week.each do |uncompleted_run|
 			uncompleted_run.name = "Run"
 			uncompleted_run.start_time = Run.return_random_run_start_time(uncompleted_run.start_time)
+			uncompleted_run.planned_mileage = rand(2..20)
 			uncompleted_run.mileage_total = rand(2..20)
 			uncompleted_run.pace = Run.return_random_pace
 			uncompleted_run.hours = rand(0..3)
@@ -142,7 +115,7 @@ class User < ApplicationRecord
 		state_id = State.find_by_abbr("CA").id
 
 		### CREATE RUNS FROM LAST RUN TO CURRENT DAY ###
-		(@last_run_start_time..current_date).each do |date|
+		(@last_run_start_time..current_date-1.day).each do |date|
 			run_type_id = RunType.return_random_run_type_id
 			@monthly_total = self.monthly_totals.of_month(date)
 
@@ -151,10 +124,29 @@ class User < ApplicationRecord
 		end
 
 		### CREATE PLANNED RUNS FROM CURRENT DAY TO END OF WEEK  ###
-		(current_date..end_of_week).each do |date|
-			@monthly_total = self.monthly_totals.of_month(date)
+		self.create_weeklong_default_runs
+	end
 
-			Run.create_planned_run_record(Run.return_random_run_start_time(date), rand(4..12), gear_id, city, state_id, @monthly_total.id, self.id) unless @monthly_total
+	### CREATE DEFAULT RUNS FOR CURRENT WEEK
+	def create_weeklong_default_runs
+		default_shoe_id = Gear.return_default_shoe.id
+		state_id = State.find_by_abbr("CA").id
+		run_type_id = RunType.default_run_type.id
+
+		# Current Date
+		current_date = DateTime.now
+		# Starts on a Monday
+		week_start_date = current_date.beginning_of_week
+		week_end_date = current_date.end_of_week
+		loop_week = week_start_date...week_end_date
+
+		loop_week.each_with_index do |date, index|
+			@existing_run = self.runs.of_day(date)
+
+			if not @existing_run.any?
+				@monthly_total = self.monthly_totals.of_month
+				@run = Run.create_planned_run_record(date, BigDecimal('0'), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
+			end
 		end
 	end
 

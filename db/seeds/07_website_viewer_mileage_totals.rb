@@ -25,8 +25,15 @@ puts @all_time_total.inspect
     @monthly_total = MonthlyTotal.create_random_totals(@website_viewer.id, @yearly_total.id, month_start, month_end)
     puts @monthly_total.inspect
 
-    (1..21).each do |number|
-      run_date = DateTime.new(year, month, rand(1..1.week.ago.end_of_day.day))
+    number_of_runs = 21
+    #Check if month is current calendar month and determing number of runs
+    if (@monthly_total.month_start.beginning_of_day..@monthly_total.month_end.end_of_day).cover? DateTime.now
+      day_number = DateTime.now.day
+      number_of_runs = day_number <= 1 ? 1 : day_number-1
+    end
+
+    (1..number_of_runs).each do |number|
+      run_date = DateTime.new(year, month, number)
       california_state_id = State.find_by_abbr("CA").id
 
       run_type_id = RunType.return_random_run_type_id
@@ -35,11 +42,8 @@ puts @all_time_total.inspect
       gear_id = gears.offset(rand(gears.count)).first.id
 
       pace = rand(6..9).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
-      if not Run.of_user(@website_viewer).where(:start_time => run_date..run_date.end_of_day).any?
-        @run = Run.create(name: "LA Running", start_time: run_date.change(hour: rand(6..19), minute: rand(0..60), second: rand(0..60)), 
-          planned_mileage: BigDecimal(rand(10)), mileage_total: BigDecimal(rand(10)), hours: rand(0..2), minutes: rand(1..60), seconds: rand(1..60), pace: pace, 
-          elevation_gain: BigDecimal(rand(50..1000)), city: "Los Angeles", completed_run: true, active_run: true, 
-          gear_id: gear_id, state_id: california_state_id, run_type_id: run_type_id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
+      if not @website_viewer.runs.of_day(run_date)
+        @run = Run.create_random_run_record("Run", run_date.change(hour: rand(6..19), minute: rand(0..60), second: rand(0..60)), true, true, gear_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
         #puts @run.inspect
       end
     end
