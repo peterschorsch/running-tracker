@@ -92,7 +92,7 @@ class User < ApplicationRecord
 	### CREATE RUNS FOR WEBSITE VIEWER WHEN THEY LOGIN ###
 	def create_website_viewer_runs
 		### UPDATE PREVIOUSLY UNCOMPLETED RUNS ###
-		self.runs.week.each do |uncompleted_run|
+		self.runs.return_past_uncompleted_runs do |uncompleted_run|
 			uncompleted_run.name = "Run"
 			uncompleted_run.start_time = Run.return_random_run_start_time(uncompleted_run.start_time)
 			uncompleted_run.planned_mileage = rand(2..20)
