@@ -1,5 +1,6 @@
 class CalendarsController < ApplicationController
 	before_action :set_run, only: [:edit, :update, :destroy]
+	before_action :viewer_authorization, except: [:index]
 
 	def index
 		#@obligations = Obligation.all.includes(:state) 
@@ -111,6 +112,13 @@ class CalendarsController < ApplicationController
 
 		def run_params
 	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
+	    end
+
+	    def viewer_authorization
+	      if current_user.is_viewer?
+	        flash[:alert] = "You are not authorized to do said action."
+	        redirect_to calendars_path
+	      end
 	    end
 
 		def update_subsequent_tables

@@ -1,5 +1,6 @@
 class GearsController < ApplicationController
   before_action :set_gear, only: [:show, :edit, :update, :destroy]
+  before_action :viewer_authorization, only: [:create, :update]
 
   # GET /gears
   # GET /gears.json
@@ -55,6 +56,13 @@ class GearsController < ApplicationController
   end
 
   private
+    def viewer_authorization
+      if current_user.is_viewer?
+        flash[:alert] = "You are not authorized to do said action."
+        redirect_to gears_path
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_gear
       @gear = Gear.find(params[:id])

@@ -2,7 +2,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title" id="weeklyTotalEditModalLabel">Edit Weekly Total</h1>
+				<h1 class="modal-title" id="weeklyTotalEditModalLabel">Edit Weekly Total Goal</h1>
 			</div>
 			<div class="modal-body">
 				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
@@ -16,7 +16,7 @@
 			</div>
 			<div class="modal-footer">
 				<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#weeklyTotalEditModal" } %>
-				<%= f.submit "Save Changes", class: 'btn btn-success' %>
+				<%= f.submit "Save Changes", class: 'btn btn-success', :disabled => current_user.is_viewer? %>
 			</div>
 			<% end %>
 		</div>
