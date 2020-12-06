@@ -3,7 +3,7 @@
 	<hr />
 	<div class="row">
 		<% @race_counts.each do |race_distance, race_count| %>
-			<div class="col-md-3 text-center">
+			<div class="col-md-<%=12/@race_counts.count%> text-center">
 				<p><strong><%= race_distance %></strong> <span class="badge"><%= race_count %></span> </p>
 			</div>
 		<% end %>
