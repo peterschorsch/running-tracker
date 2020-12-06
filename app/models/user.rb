@@ -145,7 +145,7 @@ class User < ApplicationRecord
 
 			if not @existing_run.any?
 				@monthly_total = self.monthly_totals.of_month
-				@run = Run.create_planned_run_record(date, BigDecimal('0'), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
+				@run = Run.create_planned_run_record(date, rand(1..20), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
 			end
 		end
 	end

@@ -179,7 +179,7 @@ class Run < ApplicationRecord
 
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
-		Run.create_with(name: name, planned_mileage: BigDecimal(rand(10)), mileage_total: BigDecimal(rand(10)), 
+		Run.create_with(name: name, planned_mileage: BigDecimal(rand(1..10)), mileage_total: BigDecimal(rand(1..10)), 
 			hours: rand(0..2), minutes: rand(1..59), seconds: rand(1..59), pace: Run.return_random_pace, 
 			elevation_gain: BigDecimal(rand(50..1000)), city: city, completed_run: completed_run, active_run: active_run, 
 			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
