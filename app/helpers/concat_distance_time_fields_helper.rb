@@ -7,7 +7,7 @@ module ConcatDistanceTimeFieldsHelper
 
 	# 5 miles
 	def concat_distance_miles(mileage)
-		raw("<strong>#{number_precision(mileage, 3)}</strong> miles")
+		raw("<strong>#{number_precision(mileage, 3)}</strong>") + " mile".pluralize(mileage)
 	end
 
 	# 5:37:10
