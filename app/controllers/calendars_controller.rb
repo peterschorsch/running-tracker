@@ -1,6 +1,6 @@
 class CalendarsController < ApplicationController
 	before_action :set_run, only: [:edit, :update, :destroy]
-	before_action :viewer_authorization, except: [:index]
+	before_action :viewer_authorization, except: [:index, :edit]
 
 	def index
 		#@obligations = Obligation.all.includes(:state) 
