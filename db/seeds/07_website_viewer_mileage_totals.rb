@@ -43,8 +43,8 @@ puts @all_time_total.inspect
 
       pace = rand(6..9).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
 
-      if not @website_viewer.runs.of_day(run_date).any?
-        @run = Run.create_random_run_record("Run", run_date.change(hour: rand(6..19), minute: rand(0..60), second: rand(0..60)), true, true, gear_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
+      if @website_viewer.runs.of_day(run_date).empty?
+        @run = Run.create_random_run_record("Run", run_date.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), true, true, gear_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
         #puts @run.inspect
       end
     end
