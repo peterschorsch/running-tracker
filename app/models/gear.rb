@@ -75,6 +75,11 @@ class Gear < ApplicationRecord
 		end
 	end
 
+	def self.return_random_gear_id
+		gear = Gear.remove_default_shoe
+		return gear_id = gear.offset(rand(gear.count)).first.id
+	end
+
 	def set_new_default
 		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
 	end

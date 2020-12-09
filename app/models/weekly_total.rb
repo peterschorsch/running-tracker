@@ -57,9 +57,9 @@ class WeeklyTotal < ApplicationRecord
 	end
 
 	# Not used
-	def self.add_to_current_weekly_total(run)
+	def add_to_current_weekly_total(run)
 		current_date = Date.current
-		@weekly_total = run.user.weekly_totals.find_by(week_start: current_date.beginning_of_week.beginning_of_day, week_end: current_date.end_of_week.end_of_day)
+		@weekly_total = run.user.weekly_totals.return_newest_weekly_total
 
 		@weekly_total.mileage_total+=run.mileage_total
 		@weekly_total.met_goal = @weekly_total.check_if_met_goal

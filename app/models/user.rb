@@ -127,6 +127,10 @@ class User < ApplicationRecord
 		self.create_weeklong_default_runs
 	end
 
+	def check_past_planned_runs
+		self.runs.return_past_uncompleted_runs.each { |run| run.update_planned_run_record }
+	end
+
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK
 	def create_weeklong_default_runs
 		default_shoe_id = Gear.return_default_shoe.id
@@ -140,10 +144,10 @@ class User < ApplicationRecord
 		week_end_date = current_date.end_of_week
 		loop_week = week_start_date...week_end_date
 
-		loop_week.each_with_index do |date, index|
+		loop_week.each do |date|
 			@existing_run = self.runs.of_day(date)
 
-			if not @existing_run.any?
+			if @existing_run.empty?
 				@monthly_total = self.monthly_totals.of_month
 				@run = Run.create_planned_run_record(date, rand(1..20), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
 			end

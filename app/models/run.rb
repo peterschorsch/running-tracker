@@ -192,6 +192,30 @@ class Run < ApplicationRecord
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
+	def update_planned_run_record
+		mileage_total = BigDecimal(rand(1..10))
+		@run = self.update_columns(name: "Run", start_time: self.start_time.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), 
+			planned_mileage: BigDecimal(rand(1..10)), mileage_total: mileage_total, 
+			hours: rand(0..2), minutes: rand(1..59), seconds: rand(1..59), pace: Run.return_random_pace, 
+			elevation_gain: BigDecimal(rand(50..1000)), city: "Los Angeles", completed_run: true, active_run: true, 
+			gear_id: Gear.return_random_gear_id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
+
+		#Shoe
+		self.gear.add_mileage_to_shoe(mileage_total)
+
+		#Weekly
+		self.user.add_to_current_weekly_total(@run)
+
+		#Monthly
+		self.monthly_total.add_to_monthly_total(@run)
+
+		#Yearly
+		self.monthly_total.yearly_total.add_to_yearly_total(@run)
+
+		#All Time
+		self.user.all_time_total.add_to_all_time_total(@run)
+	end
+
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
 	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
 		Run.where(start_time: starting_day..ending_day)

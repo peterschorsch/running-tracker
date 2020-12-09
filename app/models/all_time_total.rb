@@ -14,6 +14,28 @@ class AllTimeTotal < ApplicationRecord
 		AllTimeTotal.create_with(mileage_total: BigDecimal(rand(3500..10000)), elevation_gain: rand(60000..150000), number_of_runs: rand(500..1000), hours: rand(250..500), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user_id)
 	end
 
+	def add_to_all_time_total(run)
+		self.mileage_total+=run.mileage_total
+		self.elevation_gain+=run.elevation_gain
+		self.number_of_runs = self.number_of_runs+=1
+
+		working_seconds = self.seconds += run.seconds
+		if working_seconds >= 60
+			self.minutes += 1
+			working_seconds -= 60
+		end
+		working_minutes = self.minutes += run.minutes
+		if working_minutes >= 60
+			self.hours += 1
+			working_minutes -= 60
+		end
+		self.hours = self.hours += run.hours
+		self.minutes = working_minutes
+		self.seconds = working_seconds
+
+		self.save(:validate => false)
+	end
+
 	### RECALCULATE MONTHLY TOTALS ###
 	def self.refresh_all_time_total(user)
 		@all_time_total = user.all_time_total

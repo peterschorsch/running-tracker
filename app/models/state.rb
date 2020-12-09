@@ -25,4 +25,5 @@ class State < ApplicationRecord
 	def self.select_state_id_abbr
 		self.all.map{ |state| [state.abbreviation, state.id] }
 	end
+
 end
