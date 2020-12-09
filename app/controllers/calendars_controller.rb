@@ -4,7 +4,7 @@ class CalendarsController < ApplicationController
 
 	def index
 		#@obligations = Obligation.all.includes(:state) 
-		@runs = Run.of_user(current_user).includes(:run_type, :gear)
+		@runs = current_user.runs.includes(:run_type, :gear)
 		@run_types = RunType.active_run_types.order_by_name
 	end
 
