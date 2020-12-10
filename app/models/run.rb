@@ -204,7 +204,7 @@ class Run < ApplicationRecord
 		self.gear.add_mileage_to_shoe(mileage_total)
 
 		#Weekly
-		self.user.add_to_current_weekly_total(@run)
+		self.user.weekly_totals.return_newest_weekly_total.add_to_current_weekly_total(@run)
 
 		#Monthly
 		self.monthly_total.add_to_monthly_total(@run)
