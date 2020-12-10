@@ -16,4 +16,5 @@
 //= require cocoon
 //= require chartkick
 //= require Chart.bundle
+//= require dataTables/jquery.dataTables
 //= require_tree .
