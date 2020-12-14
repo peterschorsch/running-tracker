@@ -13,6 +13,9 @@
   </head>
 
   <body>
+    <% if current_user %>
+      <%= auto_session_timeout_js %>
+    <% end %>
     <%= render "layouts/header" if logged_in? %>
     <div class="left-right-padding">
       <%= yield %>

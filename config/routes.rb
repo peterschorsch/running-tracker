@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   post "/sessions", to: "sessions#create"
   delete "/sessions", to: "sessions#destroy"
 
+  # For session timeout
+  get 'active'  => 'sessions#active'
+  get 'timeout' => 'sessions#timeout'
+
   ### HOME PAGE ###
   resources 'dashboards', path: "dashboard", only: [:index] do
     collection do

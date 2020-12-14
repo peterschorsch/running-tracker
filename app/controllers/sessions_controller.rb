@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   before_action :check_for_logged_in, only: [:root_page, :new]
+  auto_session_timeout_actions
 
   def root_page
     render layout: "root_screen"
@@ -36,6 +37,16 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     redirect_to login_path, notice: "You have been logged out!"
+  end
+
+  # For session timeout
+  def active
+    render_session_status
+  end
+
+  # For session timeout
+  def timeout
+    render_session_timeout
   end
 
   private
