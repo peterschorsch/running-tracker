@@ -73,19 +73,15 @@ class User < ApplicationRecord
 
 	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL
 	def check_current_weekly_total_record_upon_login
-		if not self.is_viewer?
-			@weekly_totals = self.weekly_totals
-			if @weekly_totals.empty?
-				WeeklyTotal.create_blank_four_totals(self.id)
-			else
-				if @weekly_totals.of_week.nil?
-					current_date = Date.current
-					@old_weekly_total = @weekly_totals.return_oldest_weekly_total
-					@old_weekly_total.update_attributes(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0, week_start: current_date.date.beginning_of_week, week_end: current_date.current.end_of_week, notes: nil)
-				end
-			end
+		@weekly_totals = self.weekly_totals
+		if @weekly_totals.empty?
+			WeeklyTotal.create_blank_four_totals(self.id)
 		else
-			WeeklyTotal.create_random_totals(self.id)
+			if @weekly_totals.of_week.nil?
+				current_date = Date.current
+				# Update oldest weekly run totals to zero and change date to current week
+				@weekly_totals.return_oldest_weekly_total.update_zeroed_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week)
+			end
 		end
 	end
 
@@ -103,6 +99,8 @@ class User < ApplicationRecord
 			uncompleted_run.seconds = rand(0..59)
 			uncompleted_run.elevation_gain = rand(0..1000)
 			uncompleted_run.completed_run = true
+			uncompleted_run.run_type_id = RunType.return_random_run_type_id
+			uncompleted_run.gear_id = Gear.return_random_gear_id
 			uncompleted_run.save(:validate => false)
 		end
 

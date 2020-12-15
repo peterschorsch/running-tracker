@@ -194,7 +194,7 @@ class Run < ApplicationRecord
 
 	def update_planned_run_record
 		mileage_total = BigDecimal(rand(1..10))
-		@run = self.update_columns(name: "Run", start_time: self.start_time.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), 
+		self.update_columns(name: "Run", start_time: self.start_time.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), 
 			planned_mileage: BigDecimal(rand(1..10)), mileage_total: mileage_total, 
 			hours: rand(0..2), minutes: rand(1..59), seconds: rand(1..59), pace: Run.return_random_pace, 
 			elevation_gain: BigDecimal(rand(50..1000)), city: "Los Angeles", completed_run: true, active_run: true, 
@@ -204,16 +204,16 @@ class Run < ApplicationRecord
 		self.gear.add_mileage_to_shoe(mileage_total)
 
 		#Weekly
-		self.user.weekly_totals.return_newest_weekly_total.add_to_current_weekly_total(@run)
+		self.user.weekly_totals.return_newest_weekly_total.add_to_current_weekly_total(self)
 
 		#Monthly
-		self.monthly_total.add_to_monthly_total(@run)
+		self.monthly_total.add_to_monthly_total(self)
 
 		#Yearly
-		self.monthly_total.yearly_total.add_to_yearly_total(@run)
+		self.monthly_total.yearly_total.add_to_yearly_total(self)
 
 		#All Time
-		self.user.all_time_total.add_to_all_time_total(@run)
+		self.user.all_time_total.add_to_all_time_total(self)
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
