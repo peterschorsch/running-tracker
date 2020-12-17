@@ -31,7 +31,7 @@ User.exclude_viewer_accounts.each do |user|
   end
 
   puts "----------CREATE MOST RECENT FOUR WEEKLY TOTALS FOR ACCOUNT----------"
-  WeeklyTotal.create_random_totals(user.id)
+  WeeklyTotal.create_blank_weekly_total_record(user.id)
 
   puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
   puts user.create_weeklong_default_runs

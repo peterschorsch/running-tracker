@@ -19,6 +19,10 @@ class WeeklyTotal < ApplicationRecord
 		where(user: user)
 	}
 
+	scope :of_week, -> (week = DateTime.current) {
+	    find_by("week_start >= ? AND week_end <= ?", week.beginning_of_week, week.end_of_week)
+	}
+
 	scope :return_oldest_weekly_total, -> {
 		order_by_oldest_week.first
 	}
@@ -26,10 +30,6 @@ class WeeklyTotal < ApplicationRecord
 	scope :return_newest_weekly_total, -> {
 	    order_by_recent_week.first
 	}
-
-	def self.of_week(week = DateTime.current)
-		find_by("week_start <= ?", week.beginning_of_week) || nil
-	end
 
 	def calculate_goal_percentage
 		@goal_percentage = (self.mileage_total/self.mileage_goal)*100
@@ -47,18 +47,18 @@ class WeeklyTotal < ApplicationRecord
 		return pie_chart_data
 	end
 
-	def check_if_met_goal
-		self.mileage_total >= self.mileage_goal
+	def met_weekly_goal?
+		self.met_goal
 	end
 
 	def update_met_goal_field
-		self.met_goal = self.check_if_met_goal
+		self.met_goal = self.met_weekly_goal?
 		self.save(:validate => false)
 	end
 
 	def add_to_current_weekly_total(run)
 		self.mileage_total+=run.mileage_total
-		self.met_goal = self.check_if_met_goal
+		self.met_goal = self.met_weekly_goal?
 		self.elevation_gain+=run.elevation_gain
 		self.number_of_runs = self.number_of_runs+=1
 
@@ -103,7 +103,7 @@ class WeeklyTotal < ApplicationRecord
 		end
 	end
 
-	### CREATE BLANK WEEKLY TOTAL RECORD ###
+	### CREATE WEEKLY TOTAL RECORD WITH ZEROED TOTALS ###
 	def self.create_blank_weekly_total_record(week_start, week_end, user_id)
 		WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end

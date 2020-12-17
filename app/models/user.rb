@@ -79,6 +79,7 @@ class User < ApplicationRecord
 		else
 			if @weekly_totals.of_week.nil?
 				current_date = Date.current
+
 				# Update oldest weekly run totals to zero and change date to current week
 				@weekly_totals.return_oldest_weekly_total.update_zeroed_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week)
 			end
