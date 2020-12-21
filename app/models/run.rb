@@ -98,8 +98,9 @@ class Run < ApplicationRecord
 	}
 
 	# Used on Current User's Runs
-	def self.find_next_run
-		return_uncompleted_runs.find_by("start_time > ?", DateTime.now) || nil
+	# Finds next uncompleted run
+	def self.find_next_uncompleted_run
+		return_uncompleted_runs.find_by("start_time >= ?", DateTime.now.beginning_of_day..DateTime.now.end_of_day) || nil
 	end
 
 	def was_completed?

@@ -11,7 +11,7 @@ class DashboardsController < ApplicationController
 		@last_run = @runs.find_last_completed_run
 
 		### NEXT RUN ###
-		@next_run = @runs.find_next_run
+		@next_run = @runs.find_next_uncompleted_run
 
 		### WEEKLY TOTALS ###
 		@weekly_total = current_user.weekly_totals.of_week
