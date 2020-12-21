@@ -77,7 +77,7 @@ class User < ApplicationRecord
 		if @weekly_totals.empty?
 			WeeklyTotal.create_blank_four_totals(self.id)
 		else
-			if @weekly_totals.of_week.nil?
+			if not @weekly_totals.of_week.one?
 				current_date = Date.current
 
 				# Update oldest weekly run totals to zero and change date to current week
