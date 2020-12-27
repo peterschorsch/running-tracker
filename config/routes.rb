@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
 
   ### HEADER ###
-  resources 'calendars', only: [:index] do
+  resources 'calendars', only: [:index], path: "calendar" do
     collection do
       get '/edit/:id', to: 'calendars#edit', as: "edit"
       patch '/edit/:id', to: 'calendars#update', as: "update"
