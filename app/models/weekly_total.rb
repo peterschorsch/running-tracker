@@ -19,9 +19,9 @@ class WeeklyTotal < ApplicationRecord
 		where(user: user)
 	}
 
-	scope :of_week, -> (week = DateTime.current) {
-	    find_by("week_start >= ? AND week_end <= ?", week.beginning_of_week, week.end_of_week)
-	}
+	def self.of_week(week = DateTime.current)
+		find_by("week_start >= ? AND week_end <= ?", week.beginning_of_week, week.end_of_week) || nil
+	end
 
 	scope :return_oldest_weekly_total, -> {
 		order_by_oldest_week.first
@@ -93,13 +93,23 @@ class WeeklyTotal < ApplicationRecord
 	end
 
 	### CREATE FOUR BLANK WEEKLY TOTAL RECORDS ###
-	def self.create_blank_four_totals(user_id)
+	def self.create_four_blank_weekly_totals(user_id)
 		current_date = DateTime.now
 		@weekly_total = WeeklyTotal.create_blank_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week, user_id)
 		puts @weekly_total.inspect
 
 		(1..3).each do |number|
 			@weekly_total = WeeklyTotal.create_blank_weekly_total_record(current_date.beginning_of_week-number.week, current_date.end_of_week-number.week, user_id)
+		end
+	end
+
+	### CREATE FOUR BLANK WEEKLY TOTAL RECORDS ###
+	def self.create_four_random_weekly_totals(user_id)
+		current_date = DateTime.now
+		@weekly_total = WeeklyTotal.create_random_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week, user_id)
+
+		(1..3).each do |number|
+			@weekly_total = WeeklyTotal.create_random_weekly_total_record(current_date.beginning_of_week-number.week, current_date.end_of_week-number.week, user_id)
 		end
 	end
 
@@ -110,12 +120,26 @@ class WeeklyTotal < ApplicationRecord
 
 	### CREATE SINGLE RANDOM WEEKLY TOTAL RECORD
 	def self.create_random_weekly_total_record(week_start, week_end, user_id)
-		WeeklyTotal.create_with(mileage_total: BigDecimal(rand(5..39)), mileage_goal: BigDecimal(mileage_goal), met_goal: false, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
+		mileage_total = BigDecimal(rand(5..39))
+		mileage_goal = BigDecimal(rand(5..39))
+		met_goal = mileage_total >= mileage_goal
+
+		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
 	### UPDATE WEEKLY TOTAL RECORD TO ZERO FOR A NEW/CURRENT WEEKLY TOTAL RECORD FOR CURRENT WEEK ###
 	def update_zeroed_weekly_total_record(week_start, week_end)
 		self.update_attributes(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0, notes: nil, week_start: week_start, week_end: week_end)
+	end
+
+	### FOR WEBSITE VIEWER ###
+	### UPDATE WEEKLY TOTAL RECORD TO RANDOM NUMBERS FOR A NEW/CURRENT WEEKLY TOTAL RECORD FOR CURRENT WEEK ###
+	def update_random_weekly_total_record(week_start, week_end)
+		mileage_total = BigDecimal(rand(5..39))
+		mileage_goal = BigDecimal(rand(5..39))
+		met_goal = mileage_total >= mileage_goal
+
+		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
 	end
 
 	### RECALCULATE WEEKLY TOTALS ###

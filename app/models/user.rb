@@ -71,17 +71,27 @@ class User < ApplicationRecord
 		@weekly_total = WeeklyTotal.create_random_totals(self.id)
 	end
 
-	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL
+	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL ###
 	def check_current_weekly_total_record_upon_login
 		@weekly_totals = self.weekly_totals
 		if @weekly_totals.empty?
-			WeeklyTotal.create_blank_four_totals(self.id)
+			if not self.is_viewer?
+				WeeklyTotal.create_four_blank_weekly_totals(self.id)
+			else
+				WeeklyTotal.create_four_random_weekly_totals(self.id)
+			end
 		else
-			if not @weekly_totals.of_week.one?
+			if @weekly_totals.of_week.nil?
 				current_date = Date.current
+				@oldest_weekly_total = @weekly_totals.return_oldest_weekly_total
 
-				# Update oldest weekly run totals to zero and change date to current week
-				@weekly_totals.return_oldest_weekly_total.update_zeroed_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week)
+				if not self.is_viewer?
+					# Update oldest weekly run totals to zero and change date to current week
+					@oldest_weekly_total.update_zeroed_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week)
+				else
+					# Update oldest weekly run totals to random numbers and change date to current week
+					@oldest_weekly_total.update_random_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week)
+				end
 			end
 		end
 	end
