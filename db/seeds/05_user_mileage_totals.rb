@@ -30,8 +30,8 @@ User.exclude_viewer_accounts.each do |user|
     puts ""
   end
 
-  puts "----------CREATE MOST RECENT FOUR WEEKLY TOTALS FOR ACCOUNT----------"
-  WeeklyTotal.create_blank_weekly_total_record(user.id)
+  #puts "----------CREATE MOST RECENT FOUR WEEKLY TOTALS FOR ACCOUNT----------"
+  #WeeklyTotal.create_four_random_weekly_totals(user.id)
 
   puts "----------CREATE DEFAULT RUNS FOR CURRENT WEEK----------"
   puts user.create_weeklong_default_runs
@@ -229,7 +229,7 @@ totals = [
   [166, 26, 4731, 20, 34, 40], #SEPT
   [163, 27, 4186, 20, 20, 56], #OCT
   [178.8, 21, 3589, 16, 45, 21], #NOV
-  [12.99, 2, 315, 1, 35, 54] #DEC AS OF DEC 2
+  [149.49, 23, 3950, 18, 25, 48] #DEC AS OF DEC 26
 ]
 @yearly_total = @my_account.yearly_totals.of_year(Date.new(2020).year)
 @monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month

@@ -110,7 +110,7 @@ model = "880v9"
 color_way = "Reflection with Outerspace & RGB Green"
 image_path = "#{Rails.root}/app/assets/images/shoes/880v9.png"
 image_file = File.new(image_path)
-@gear = Gear.create_with(:shoe_brand_id => ShoeBrand.named("New Balance").id, :model => model, :color_way => color_way, :forefoot_stack => 18, :heel_stack => 28, :heel_drop => 10, :mileage => BigDecimal('330.7'), :weight => 10.5, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 10, 9), :first_used_on => Date.new(2019, 10, 10), 
+@gear = Gear.create_with(:shoe_brand_id => ShoeBrand.named("New Balance").id, :model => model, :color_way => color_way, :forefoot_stack => 18, :heel_stack => 28, :heel_drop => 10, :mileage => BigDecimal('461'), :weight => 10.5, :size => 8.5, :shoe_type => "Neutral", :purchased_on => Date.new(2019, 10, 9), :first_used_on => Date.new(2019, 10, 10), 
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
@@ -204,5 +204,15 @@ image_file = File.new(image_path)
   )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
 puts @gear.inspect
 
+model = "Voyager"
+color_way = "Blue/White"
+image_path = "#{Rails.root}/app/assets/images/shoes/voyager.jpg"
+image_file = File.new(image_path)
+@gear = Gear.create_with(:shoe_brand_id => ShoeBrand.named("Atreyu").id, :model => model, :color_way => color_way, :forefoot_stack => 15.5, :heel_stack => 21.5, :heel_drop => 6, :weight => 6, :mileage => 25.8, :size => 8.5, :shoe_type => "Neutral", :purchased_on =>  Date.new(2020, 12, 1), :first_used_on => Date.new(2020, 12, 23),
+  :image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
+    # detect the image's mime type with MIME if you can't provide it yourself.
+    :type => MIME::Types.type_for(image_path).first.content_type
+  )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
+puts @gear.inspect
 puts ""
 puts ""
