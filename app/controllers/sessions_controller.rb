@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   before_action :check_for_logged_in, only: [:root_page, :new]
-  auto_session_timeout_actions
+  #auto_session_timeout_actions
 
   def root_page
     render layout: "root_screen"
@@ -13,6 +13,8 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:email])
+    puts "===================="
+    puts @user.inspect
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
