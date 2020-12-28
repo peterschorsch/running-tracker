@@ -20,19 +20,15 @@
 						<span class="glyphicon glyphicon-calendar"></span> Calendar
 					<% end %>
 				</li>
-				<li id="<%=runs_path%>">
-					<%= link_to runs_path do %>
-						<span class="glyphicon glyphicon-road"></span> My Runs
+				
+				<li id="<%=workout_pace_chart_path%>">
+					<%= link_to workout_pace_chart_path do %>
+						<span class="glyphicon glyphicon-tasks"></span> Workout Pace Chart
 					<% end %>
 				</li>
-				<li id="<%=gears_path%>">
-					<%= link_to gears_path do %>
-						<span class="glyphicon glyphicon-briefcase"></span> My Gear
-					<% end %>
-				</li>
-				<li id="<%=gears_path%>">
-					<%= link_to pace_chart_path do %>
-						<span class="glyphicon glyphicon-list-alt"></span> Pace Chart
+				<li id="<%=race_pace_chart_path%>">
+					<%= link_to race_pace_chart_path do %>
+						<span class="glyphicon glyphicon-list-alt"></span> Race Pace Chart
 					<% end %>
 				</li>
 				<% if current_user.is_admin? %>
@@ -63,6 +59,17 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.concat_name %> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li class="text-center">
+							<%= link_to runs_path, class: 'top-bottom-padding' do %>
+								<span class="glyphicon glyphicon-road"></span> My Runs
+							<% end %>
+						</li>
+						<li class="text-center">
+							<%= link_to gears_path, class: 'top-bottom-padding' do %>
+								<span class="glyphicon glyphicon-briefcase"></span> My Gear
+							<% end %>
+						</li>
+						<li role="separator" class="divider"></li>
+						<li class="text-center">
 							<%= link_to statistics_path, class: 'top-bottom-padding' do %>
 								<span class="glyphicon glyphicon-stats"></span> My Stats
 							<% end %>
@@ -72,14 +79,14 @@
 								<span class="glyphicon glyphicon-th-list"></span> Race Results
 							<% end %>
 						</li>
-						<% if not current_user.is_viewer? %>
-							<li role="separator" class="divider"></li>
+						<%# if not current_user.is_viewer? %>
+							<!--<li role="separator" class="divider"></li>
 							<li class="text-center">
-								<%= link_to obligations_path, class: 'top-bottom-padding' do %>
+								<%#= link_to obligations_path, class: 'top-bottom-padding' do %>
 									<span class="glyphicon glyphicon-calendar"></span> Edit Obligations
-								<% end %>
-							</li>
-						<% end %>
+								<%# end %>
+							</li>-->
+						<%# end %>
 						<li role="separator" class="divider"></li>
 						<li class="text-center">
 							<%= link_to edit_user_path(current_user), class: 'top-bottom-padding' do %>

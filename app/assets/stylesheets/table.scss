@@ -2,7 +2,8 @@ table thead tr th, table tbody tr{
 	text-align: center;
 }
 
-table tbody tr th, .table-bordered thead tr th:nth-child(2){
+table tbody tr th, .table-bordered thead tr th,
+table tfoot tr th, .table-bordered tfoot tr th{
 	text-align: center;
 	background-color: #ececec;
 }
