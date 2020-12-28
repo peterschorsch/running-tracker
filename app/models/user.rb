@@ -105,10 +105,10 @@ class User < ApplicationRecord
 			uncompleted_run.planned_mileage = rand(2..20)
 			uncompleted_run.mileage_total = rand(2..20)
 			uncompleted_run.pace = Run.return_random_pace
-			uncompleted_run.hours = rand(0..3)
-			uncompleted_run.minutes = rand(0..59)
-			uncompleted_run.seconds = rand(0..59)
-			uncompleted_run.elevation_gain = rand(0..1000)
+			uncompleted_run.hours = Run.return_random_hours
+			uncompleted_run.minutes = Run.return_random_minutes
+			uncompleted_run.seconds = Run.return_random_seconds
+			uncompleted_run.elevation_gain = Run.return_random_elevation_gain
 			uncompleted_run.completed_run = true
 			uncompleted_run.run_type_id = RunType.return_random_run_type_id
 			uncompleted_run.gear_id = Gear.return_random_gear_id

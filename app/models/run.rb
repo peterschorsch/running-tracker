@@ -122,7 +122,23 @@ class Run < ApplicationRecord
 	end
 
 	def self.return_random_pace
-		rand(6..10).to_s + ":" + rand(00..59).to_s
+		rand(6..10).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
+	end
+
+	def self.return_random_hours
+		rand(0..3)
+	end
+
+	def self.return_random_minutes
+		BigDecimal(rand(1..59).to_s.rjust(2, '0'))
+	end
+
+	def self.return_random_seconds
+		BigDecimal(rand(0..59).to_s.rjust(2, '0'))
+	end
+
+	def self.return_random_elevation_gain
+		BigDecimal(rand(50..1000))
 	end
 
 	def self.return_race_distance_counts
@@ -181,8 +197,8 @@ class Run < ApplicationRecord
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
 		Run.create_with(name: name, planned_mileage: BigDecimal(rand(1..10)), mileage_total: BigDecimal(rand(1..10)), 
-			hours: rand(0..2), minutes: rand(1..59), seconds: rand(1..59), pace: Run.return_random_pace, 
-			elevation_gain: BigDecimal(rand(50..1000)), city: city, completed_run: completed_run, active_run: active_run, 
+			hours: Run.return_random_hours, minutes: Run.return_random_minutes, seconds: Run.return_random_seconds, 
+			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
 			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
 	end
 
@@ -197,8 +213,8 @@ class Run < ApplicationRecord
 		mileage_total = BigDecimal(rand(1..10))
 		self.update_columns(name: "Run", start_time: self.start_time.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), 
 			planned_mileage: BigDecimal(rand(1..10)), mileage_total: mileage_total, 
-			hours: rand(0..2), minutes: rand(1..59), seconds: rand(1..59), pace: Run.return_random_pace, 
-			elevation_gain: BigDecimal(rand(50..1000)), city: "Los Angeles", completed_run: true, active_run: true, 
+			hours: Run.return_random_hours, minutes: Run.Run.return_random_minutes, seconds: Run.return_random_seconds, 
+			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			gear_id: Gear.return_random_gear_id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 
 		#Shoe
