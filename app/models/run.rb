@@ -213,7 +213,7 @@ class Run < ApplicationRecord
 		mileage_total = BigDecimal(rand(1..10))
 		self.update_columns(name: "Run", start_time: self.start_time.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), 
 			planned_mileage: BigDecimal(rand(1..10)), mileage_total: mileage_total, 
-			hours: Run.return_random_hours, minutes: Run.Run.return_random_minutes, seconds: Run.return_random_seconds, 
+			hours: Run.return_random_hours, minutes: Run.return_random_minutes, seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			gear_id: Gear.return_random_gear_id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 

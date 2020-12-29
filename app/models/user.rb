@@ -181,9 +181,4 @@ class User < ApplicationRecord
 	def concat_name
 		self.first_name + " " + self.last_name
 	end
-
-	def auto_timeout
-		1.minute
-		#15.minutes
-	end
 end
