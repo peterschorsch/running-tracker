@@ -31,9 +31,12 @@ class WeeklyTotal < ApplicationRecord
 	    order_by_recent_week.first
 	}
 
-	def calculate_goal_percentage
-		@goal_percentage = (self.mileage_total/self.mileage_goal)*100
-		@goal_percentage = @goal_percentage >= 100 ? 100 : @goal_percentage
+	def return_goal_percentage
+		self.percentage_calculation >= 100 ? 100 : self.percentage_calculation
+	end
+
+	def return_goal_percentage_over_one_hundred
+		self.percentage_calculation
 	end
 
 	def self.populate_pie_chart(user, date)
@@ -171,6 +174,16 @@ class WeeklyTotal < ApplicationRecord
 			end
 			weekly_total.save(:validate => false)
 		end
+	end
+
+	protected
+	### DOES NOT RETURN AS DECIMAL ###
+	def percentage_calculation
+		(self.mileage_total.to_f/self.mileage_goal)*100
+	end
+
+	def decimal_percentage_calculation
+		self.mileage_total/self.mileage_goal
 	end
 
 end
