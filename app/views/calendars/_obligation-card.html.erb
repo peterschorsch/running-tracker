@@ -1,0 +1,11 @@
+<div class="panel panel-default card padding" style="border-color: black">
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<div><small class="text-muted"><%= obligation.concat_city_state %></small></div>
+			<div><strong><%= obligation.name %></strong></div>
+			<div><small class="text-muted"><%= nil_end_time_check(obligation) %></small></div>
+			<%#= render edit_icon_btn_path, edit_path: edit_calendars_path(run.id) %>
+			<%#= render remove_icon_btn_path, object: destroy_calendars_path(run.id) %>
+		</div>
+	</div>
+</div>

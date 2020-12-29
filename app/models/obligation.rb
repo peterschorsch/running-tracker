@@ -1,23 +1,32 @@
 class Obligation < ApplicationRecord
 	belongs_to :state
+	belongs_to :user
 
-	validates :name, :start_datetime, :end_datetime, :city, presence: true
+	validates :name, :start_time, :city, presence: true
 
 	scope :order_by_newest_date_time, -> {
-		order('start_datetime ASC, end_datetime ASC')
+		order('start_time ASC, end_time ASC')
 	}
 
 	scope :order_by_oldest_date_time, -> {
-		order(:start_datetime, :end_datetime)
+		order(:start_time, :end_time)
 	}
 
-	#October 10, 2017
-	def return_formatted_date
-		self.start_datetime.strftime("%B %-d, %Y")
+	def is_end_time_nil?
+		self.end_time.nil?
 	end
 
-	# 4:38pm - 5:38pm
-	def return_formatted_time_period
-		self.start_datetime.strftime("%-I:%M%p") + " - " + self.end_datetime.strftime("%-I:%M%p")
+	# Chicago, IL
+	def concat_city_state
+		self.city + ", " + self.state.abbreviation
+	end
+
+	# Chicago, Illinois
+	def concat_city_state_name
+		self.city + ", " + self.state.name
+	end
+
+	def is_event?
+		self.event_flag
 	end
 end

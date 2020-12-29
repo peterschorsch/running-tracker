@@ -69,13 +69,16 @@ ActiveRecord::Schema.define(version: 2020_11_23_225922) do
 
   create_table "obligations", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "start_datetime", null: false
-    t.datetime "end_datetime", null: false
+    t.datetime "start_time", null: false
+    t.datetime "end_time"
     t.string "city", null: false
+    t.boolean "event_flag", default: true
     t.integer "state_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["state_id"], name: "index_obligations_on_state_id"
+    t.index ["user_id"], name: "index_obligations_on_user_id"
   end
 
   create_table "race_distances", force: :cascade do |t|
@@ -125,6 +128,7 @@ ActiveRecord::Schema.define(version: 2020_11_23_225922) do
     t.boolean "personal_best", default: false
     t.boolean "completed_run", default: false
     t.boolean "active_run", default: true
+    t.boolean "event_flag", default: false
     t.integer "run_type_id"
     t.integer "gear_id"
     t.integer "state_id"

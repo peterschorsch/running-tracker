@@ -19,4 +19,8 @@ module NilchecksHelper
 		File.file? Rails.public_path + "/news_page/#{news.image_file_name}"
 	end
 
+	def nil_end_time_check(obligation)
+		obligation.is_end_time_nil? ? formatTime(obligation.start_time) : formatTimeRange(obligation)
+	end
+
 end

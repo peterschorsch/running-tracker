@@ -5,6 +5,7 @@ class User < ApplicationRecord
 	has_many :weekly_totals, dependent: :destroy
 	has_many :gears, dependent: :destroy
 	has_many :runs, dependent: :destroy
+	has_many :obligations, dependent: :destroy
 
 	include EmailValidator
 

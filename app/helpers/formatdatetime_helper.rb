@@ -44,9 +44,14 @@ module FormatdatetimeHelper
   def formatCalendarDay(date)
     date.strftime("%-m/%-d")
   end
+
   # 4:38pm
   def formatTime(date)
     date.utc.strftime("%-I:%M%p")
+  end
+  # 4:38pm - 5:38pm
+  def formatTimeRange(record)
+    record.start_time.strftime("%-I:%M%p") + " - " + record.end_time.strftime("%-I:%M%p")
   end
 
   # Jul. 31 - Aug. 2, 2020

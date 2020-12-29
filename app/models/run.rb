@@ -112,6 +112,10 @@ class Run < ApplicationRecord
 		self.active_run
 	end
 
+	def is_event?
+		self.event_flag
+	end
+
 	def self.return_random_run_start_time(date = Date.current)
 		DateTime.new(date.year, date.month, date.day, rand(7..8), [0,30].sample, 0).in_time_zone("Pacific Time (US & Canada)")
 	end

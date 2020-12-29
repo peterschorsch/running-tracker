@@ -31,27 +31,16 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<%= month_calendar(attribute: :start_time, events: @runs) do |date, runs| %>
+		<%= month_calendar(attribute: :start_time, events: @runs+@obligations) do |date, events| %>
 			<h5><strong><%= date %></strong></h5>
-			<hr />
-			<% runs.each do |run| %>
-				<%= render run.was_completed? ? "completed-run-card" : "default-run-card", run: run %>
+
+			<% events.each do |event| %>
+				<% if event.is_event? %>
+					<%= render "obligation-card", obligation: event %>
+				<% else %>
+					<%= render event.was_completed? ? "completed-run-card" : "uncompleted-run-card", run: event %>
+				<% end %>
 			<% end %>
 		<% end %>
 	</div>
 </div>
-
-
-<!--<%#= month_calendar(attribute: :start_datetime, end_attribute: :end_datetime, events: @obligations) do |date, obligations| %>
-  <%#= date %>
-
-  <%# obligations.each do |obligation| %>
-    <div>
-      <strong><%#= obligation.name %></strong>
-      <br />
-      <i><%#= concat_city_state_abbreviation(obligation.city, obligation.state) %></i>
-      <br />
-      <%#= obligation.return_formatted_time_period %>
-    </div>
-  <%# end %>
-<%# end %>-->
