@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   root 'sessions#root_page'
   get "/login", to: "sessions#new"
   post "/sessions", to: "sessions#create"
-  delete "/sessions", to: "sessions#destroy"
+  #delete "/sessions", to: "sessions#destroy"
+  get 'sessions/destroy', to: 'sessions#destroy', as: 'logout'
 
   # For session timeout
   get 'active'  => 'sessions#active'
