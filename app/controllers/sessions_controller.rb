@@ -4,7 +4,6 @@ class SessionsController < ApplicationController
 
   def root_page
     render layout: "root_screen"
-    puts logged_in?
   end
 
   def new
@@ -13,8 +12,7 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:email])
-    puts "===================="
-    puts @user.inspect
+
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
