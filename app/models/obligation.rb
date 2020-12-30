@@ -5,7 +5,7 @@ class Obligation < ApplicationRecord
 	validates :name, :start_time, :city, presence: true
 
 	scope :order_by_newest_date_time, -> {
-		order('start_time ASC, end_time ASC')
+		order('start_time DESC, end_time ASC')
 	}
 
 	scope :order_by_oldest_date_time, -> {

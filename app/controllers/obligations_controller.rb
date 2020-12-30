@@ -5,7 +5,7 @@ class ObligationsController < ApplicationController
   # GET /obligations
   # GET /obligations.json
   def index
-    @obligations = Obligation.order_by_newest_date_time.includes(:state)
+    @obligations = current_user.obligations.order_by_newest_date_time.includes(:state)
   end
 
   # GET /obligations/new
@@ -22,6 +22,8 @@ class ObligationsController < ApplicationController
   def create
     @obligation = Obligation.new(obligation_params)
 
+    @obligation.end_time = nil if not params[:check_end_time].nil?
+
     respond_to do |format|
       if @obligation.save
         format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully created." }
@@ -36,6 +38,8 @@ class ObligationsController < ApplicationController
   # PATCH/PUT /obligations/1
   # PATCH/PUT /obligations/1.json
   def update
+    @obligation.end_time = nil if not params[:check_end_time].nil?
+
     respond_to do |format|
       if @obligation.update(obligation_params)
         format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully updated." }
@@ -60,12 +64,12 @@ class ObligationsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_obligation
-      @obligation = Obligation.find(params[:id])
+      @obligation = current_user.obligations.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def obligation_params
-      params.require(:obligation).permit(:name, :start_datetime, :end_datetime, :city, :state_id)
+      params.require(:obligation).permit(:name, :start_time, :end_time, :check_end_time, :city, :state_id)
     end
 
     def authorized?
