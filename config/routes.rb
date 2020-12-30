@@ -31,8 +31,7 @@ Rails.application.routes.draw do
       post '/copy_until_specific_date', to: 'calendars#copy_until_specific_date'
     end
   end
-  resources :runs, except: [:show]
-  resources :gears, path: "shoes", except: [:show, :destroy]
+
   get 'workout-pace-chart', to: 'dashboards#workout_pace_chart'
   get 'race-pace-chart', to: 'dashboards#race_pace_chart'
 
@@ -44,18 +43,23 @@ Rails.application.routes.draw do
     resources :race_distances, path: "race-distances", only: [:edit, :update]
   end
 
+  resources :runs, except: [:show]
+  resources :gears, path: "shoes", except: [:show, :destroy]
+  resources :obligations, except: [:show]
+
   ### USERS PAGE ###
   resources :users, except: [:index, :new, :create, :show, :destroy] do
     collection do
       patch 'update_password'
     end
   end
+
+  get 'race-results', to: 'race_results#index'
+
   resources :statistics, only: [:index] do
     collection do
       post :refresh, to: 'statistics#refresh_stats'
     end
   end
 
-  get 'race-results', to: 'race_results#index'
-  resources :obligations, except: [:show]
 end
