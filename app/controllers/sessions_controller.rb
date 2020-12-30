@@ -21,6 +21,7 @@ class SessionsController < ApplicationController
       if @user.is_viewer?
         @user.create_website_viewer_runs
         @user.check_past_planned_runs
+        @user.check_for_recent_obligations
       else
         @user.create_weeklong_default_runs
       end

@@ -47,7 +47,7 @@ module FormatdatetimeHelper
 
   # 4:38pm
   def formatTime(date)
-    date.utc.strftime("%-I:%M%p")
+    date.strftime("%-I:%M%p")
   end
   # 4:38pm - 5:38pm
   def formatTimeRange(record)

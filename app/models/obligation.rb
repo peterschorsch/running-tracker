@@ -13,6 +13,14 @@ class Obligation < ApplicationRecord
 		order(:start_time, :end_time)
 	}
 
+	scope :return_obligations_past_week, -> {
+		where(start_time: (DateTime.now-1.week).beginning_of_day..DateTime.now)
+	}
+
+	scope :of_user, -> (user) {
+	    where(user: user)
+	}
+
 	def is_end_time_nil?
 		self.end_time.nil?
 	end
@@ -33,5 +41,27 @@ class Obligation < ApplicationRecord
 
 	def hex_code
 		self.obligation_color.hex_code
+	end
+
+	### PICK RANDOM RECORD FROM OBLIGATION DATA ###
+	def self.get_random_obligation
+		Obligation.obligation_data.sample
+	end
+
+	protected
+	def self.obligation_data
+		pacific_time_zone = DateTime.now.in_time_zone("Pacific Time (US & Canada)")
+		central_time_zone = DateTime.now.in_time_zone("Central Time (US & Canada)")
+		eastern_time_zone = DateTime.now.in_time_zone("Eastern Time (US & Canada)")
+
+		return data = [
+			# NAME, STARTTIME, ENDTIME, CITY, STATE ABBREVIATION #
+			["Attend Wedding", eastern_time_zone.change(hour: 16, minute: 0, second: 0), eastern_time_zone.change(hour: 22, minute: 0, second: 0), "Miami", "FL"],
+			["Attend Meeting", central_time_zone.change(hour: 14, minute: 30, second: 0), central_time_zone.change(hour: 15, minute: 0, second: 0), "Chicago", "IL"],
+			["Go to Grocery Store", pacific_time_zone.change(hour: 10, minute: 15, second: 0), nil, "Los Angeles", "CA"] ,
+			["Go to Birthday Party", pacific_time_zone.change(hour: 14, minute: 0, second: 0), pacific_time_zone.change(hour: 18, minute: 0, second: 0), "Los Angeles", "CA"],
+			["Workout Class", pacific_time_zone.change(hour: 18, minute: 30, second: 0), nil, "Los Angeles", "CA"],
+			["Do Laundry", pacific_time_zone.change(hour: 13, minute: 0, second: 0), nil, "Los Angeles", "CA"]
+		]
 	end
 end

@@ -31,6 +31,16 @@ class User < ApplicationRecord
 		where.not(:role => "Viewer")
 	}
 
+	def self.return_website_viewer
+		User.find_user_by_name("Website","Viewer")
+	end
+
+
+	### DISPLAY METHODS ###
+	def concat_name
+		self.first_name + " " + self.last_name
+	end
+
 	def is_admin?
 		self.role == "Admin"
 	end
@@ -57,7 +67,7 @@ class User < ApplicationRecord
 		BCrypt::Password.create(string, cost: cost)
 	end
 
-	### FOR TESTING ###
+	### FOR TESTING - NOT BEING USED - TEMPORARY ###
 	def create_user_totals
 		### Create All Time Total if not yet currently created ###
 		@all_time_total = AllTimeTotal.create_random_totals(self.id)
@@ -141,7 +151,7 @@ class User < ApplicationRecord
 		self.runs.return_past_uncompleted_runs.each { |run| run.update_planned_run_record }
 	end
 
-	### CREATE DEFAULT RUNS FOR CURRENT WEEK
+	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
 	def create_weeklong_default_runs
 		default_shoe_id = Gear.return_default_shoe.id
 		state_id = State.find_by_abbr("CA").id
@@ -173,13 +183,11 @@ class User < ApplicationRecord
 		Gear.recalculate_mileage_of_shoe(self)
 	end
 
-	def self.return_website_viewer
-		User.find_user_by_name("Website","Viewer")
-	end
-
-
-	### DISPLAY METHODS ###
-	def concat_name
-		self.first_name + " " + self.last_name
+	### WEBSITE VIEWER - MAKE NECESSARY OBLIGATIONS FOR PAST WEEK IF NEEDED ###
+	def check_for_recent_obligations
+		if self.obligations.return_obligations_past_week.count < 2
+			random_obligation_data = Obligation.get_random_obligation
+			Obligation.find_or_create_by(name: random_obligation_data[0], start_time: random_obligation_data[1], end_time: random_obligation_data[2], city: random_obligation_data[3], state_id: State.find_by_abbr(random_obligation_data[4]).id, user_id: self.id, obligation_color_id: ObligationColor.default_record.id)
+		end
 	end
 end
