@@ -125,6 +125,10 @@ class Run < ApplicationRecord
 		self.save(:validate => false)
 	end
 
+	def hex_code
+		self.run_type.hex_code
+	end
+
 	def self.return_random_pace
 		rand(6..10).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
 	end

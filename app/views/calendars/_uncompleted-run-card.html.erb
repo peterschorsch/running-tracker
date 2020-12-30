@@ -1,7 +1,7 @@
-<div class="panel panel-default card padding" style="border-color: <%= run.run_type.hex_code %>">
+<div class="panel panel-default card padding" style="border-color: <%= run.hex_code %>">
 	<div class="row">
 		<div class="col-xs-12 text-center">
-			<div><small style="color: <%=run.run_type.hex_code%>"><%= run.run_type.name %></small></div>
+			<div><small style="color: <%=run.hex_code%>"><%= run.run_type.name %></small></div>
 			<div><strong><%= run.name %></strong></div>
 			<div>
 				<small>Planned: <%= concat_distance_miles(run.planned_mileage) %></small>

@@ -21,7 +21,7 @@
           <strong><%= run.name %></strong><br />
           <small><%= run.notes %></small>
         </td>
-        <td style="color: <%=run.run_type.hex_code%>"><%= run.run_type.name %></td>
+        <td style="color: <%=run.hex_code%>"><%= run.run_type.name %></td>
         <td><%= concat_distance_miles(run.mileage_total) %></td>
         <td><%= concat_elapsed_time(run) %></td>
         <td><%= concat_pace_min_miles(run.pace) %></td>
