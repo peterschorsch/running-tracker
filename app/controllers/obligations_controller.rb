@@ -22,7 +22,9 @@ class ObligationsController < ApplicationController
   def create
     @obligation = Obligation.new(obligation_params)
 
+    @obligation.user_id = current_user.id
     @obligation.end_time = nil if not params[:check_end_time].nil?
+    @obligation.obligation_color_id = ObligationColor.default_record.id
 
     respond_to do |format|
       if @obligation.save
