@@ -11,6 +11,7 @@ class CreateObligationsTable < ActiveRecord::Migration[5.2]
 
     	t.references :state, index: true, foreign_key: true
         t.references :user, index: true, foreign_key: true
+        t.references :obligation_color, index: true, foreign_key: true
 
     	t.timestamps
     end

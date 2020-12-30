@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_23_225922) do
+ActiveRecord::Schema.define(version: 2020_12_30_032257) do
 
   create_table "all_time_totals", force: :cascade do |t|
     t.decimal "mileage_total", null: false
@@ -67,6 +67,13 @@ ActiveRecord::Schema.define(version: 2020_11_23_225922) do
     t.index ["yearly_total_id"], name: "index_monthly_totals_on_yearly_total_id"
   end
 
+  create_table "obligation_colors", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "hex_code", limit: 7, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "obligations", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "start_time", null: false
@@ -75,8 +82,10 @@ ActiveRecord::Schema.define(version: 2020_11_23_225922) do
     t.boolean "event_flag", default: true
     t.integer "state_id"
     t.integer "user_id"
+    t.integer "obligation_color_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["obligation_color_id"], name: "index_obligations_on_obligation_color_id"
     t.index ["state_id"], name: "index_obligations_on_state_id"
     t.index ["user_id"], name: "index_obligations_on_user_id"
   end

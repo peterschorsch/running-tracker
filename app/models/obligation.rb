@@ -1,6 +1,7 @@
 class Obligation < ApplicationRecord
 	belongs_to :state
 	belongs_to :user
+	belongs_to :obligation_color
 
 	validates :name, :start_time, :city, presence: true
 
@@ -28,5 +29,9 @@ class Obligation < ApplicationRecord
 
 	def is_event?
 		self.event_flag
+	end
+
+	def hex_code
+		self.obligation_color.hex_code
 	end
 end
