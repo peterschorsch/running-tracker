@@ -3,7 +3,7 @@ class CalendarsController < ApplicationController
 	before_action :viewer_authorization, except: [:index, :edit]
 
 	def index
-		@obligations = current_user.obligations.includes(:state) 
+		@obligations = current_user.obligations.includes(:state, :obligation_color)
 		@runs = current_user.runs.includes(:run_type, :gear)
 		@run_types = RunType.active_run_types.order_by_name
 	end
