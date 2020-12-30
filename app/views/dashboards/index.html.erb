@@ -11,19 +11,17 @@
 			</div>
 			<div class="panel-body text-center">
 				<p>
-					<small class="text-muted"><%=formatTime(@last_run.start_time)%> | <%=formatDayofWeek(@last_run.start_time)%> | <%=format_date_month(@last_run.start_time)%></small>
+					<small class="text-muted"><%=formatTime(@last_run.start_time)%> | <%=formatDayofWeek(@last_run.start_time)%> | <%=format_date_month(@last_run.start_time)%> | <%= concat_city_state_abbreviation(@last_run.city, @last_run.state) %></small>
 				</p>
 				<p style="color: <%=@last_run.hex_code%>"><%= @last_run.run_type.name %></p>
 				<h3><strong><%= @last_run.name %></strong></h3>
+				<p><%= concat_distance_miles(@last_run.mileage_total) %> | <strong><%= concat_elapsed_time(@last_run) %></strong></p>
+				<p><%= concat_pace_min_miles(@last_run.pace) %> | <%= concat_elevation_gain(@last_run.elevation_gain) %></p>
+				<p><small class="text-muted"><%= @last_run.gear.return_full_shoe_name %> (<%= @last_run.gear.return_shoe_mileage %>)</small></p>
 				<% if not @last_run.run_type.is_race? %>
-					<p>(Planned) <%= concat_distance_miles(@last_run.planned_mileage) %>/<%= concat_distance_miles(@last_run.mileage_total) %> (Actual)</p>
-				<% else %>
-					<p><%= concat_distance_miles(@last_run.mileage_total) %></p>
+					<%= render colored_line_divider_path, hex_code: @last_run.hex_code %>
+					<p><small class="text-muted">Planned to run: <%= concat_distance_miles(@last_run.planned_mileage) %></small></p>
 				<% end %>
-				<p>
-					<strong><%= concat_elapsed_time(@last_run) %></strong> | <%= concat_pace_min_miles(@last_run.pace) %> | <%= concat_elevation_gain(@last_run.elevation_gain) %>
-				</p>
-				<p><%= @last_run.gear.return_full_shoe_name %> (<%= @last_run.gear.return_shoe_mileage %>)</p>
 			</div>
 		</div>
 	</div>
@@ -35,7 +33,7 @@
 				</div>
 				<div class="panel-body text-center">
 					<p>
-						<small class="text-muted"><%=formatTime(@next_run.start_time)%> | <%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%></small>
+						<small class="text-muted"><%=formatTime(@next_run.start_time.utc)%> | <%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%= concat_city_state_abbreviation(@last_run.city, @last_run.state) %></small>
 					</p>
 					<p style="color: <%=@next_run.hex_code%>"><%= @next_run.run_type.name %></p>
 					<h3><strong><%= @next_run.name %></strong></h3>
