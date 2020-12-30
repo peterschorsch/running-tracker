@@ -67,4 +67,8 @@ module PathHelper
 	def edit_header_path
 		"templates/edit-header"
 	end
+
+	def colored_line_divider_path
+		"templates/colored-line-divider"
+	end
 end

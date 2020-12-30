@@ -37,9 +37,10 @@
 
 			<% events.each do |event| %>
 				<% if event.is_event? %>
-					<%= render "obligation-card", obligation: event %>
+					<%= render "calendars/cards/obligation-card", obligation: event %>
 				<% else %>
-					<%= render event.was_completed? ? "completed-run-card" : "uncompleted-run-card", run: event %>
+					<% partial_name = event.was_completed? ? "completed-run-card" : "uncompleted-run-card" %>
+					<%= render "calendars/cards/" + partial_name, run: event %>
 				<% end %>
 			<% end %>
 		<% end %>

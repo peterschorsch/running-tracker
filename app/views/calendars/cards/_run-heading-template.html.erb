@@ -1,0 +1,9 @@
+<div><small style="color: <%=run.hex_code%>"><%= run.run_type.name %></small></div>
+	<%= render colored_line_divider_path, hex_code: run.hex_code %>
+	<div>
+		<p>
+			<strong><%= run.name %></strong><br />
+			<small class="text-muted"><%= concat_city_state_abbreviation(run.city, run.state) %></small><br />
+			<small class="text-muted text-center"><%= formatTime(run.start_time) %></small>
+		</p>
+</div>
