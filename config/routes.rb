@@ -32,8 +32,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'workout-pace-chart', to: 'dashboards#workout_pace_chart'
-  get 'race-pace-chart', to: 'dashboards#race_pace_chart'
+  get 'workout-pace-chart', to: 'pace_charts#workout_pace_chart'
+  get 'race-pace-chart', to: 'pace_charts#race_pace_chart'
 
   ### ADMIN FUNCTIONS ###
   namespace :admin do
