@@ -25,7 +25,7 @@ class Run < ApplicationRecord
 	    where(start_time: day.beginning_of_day..day.end_of_day)
 	}
 
-	scope :of_week, -> (week) {
+	scope :of_week, -> (week = Date.current) {
 	    where(start_time: week.beginning_of_week..week.end_of_week)
 	}
 

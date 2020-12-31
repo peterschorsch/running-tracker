@@ -65,6 +65,11 @@ class User < ApplicationRecord
 		runs.retrieve_personal_bests
 	end
 
+	### GET RUNS OF CURRENT WEEK ###
+	def current_runs_of_week
+		runs.of_week(Date.current)
+	end
+
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
 	                                                BCrypt::Engine.cost

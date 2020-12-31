@@ -39,15 +39,8 @@ class WeeklyTotal < ApplicationRecord
 		self.percentage_calculation
 	end
 
-	def self.populate_pie_chart(user, date)
-		@run_types = RunType.active_run_types
-		pie_chart_data = []
-
-		@run_types.each do |run_type|
-			run_type_count = run_type.runs.of_user(user).of_week(date).count
-			pie_chart_data << [run_type.name, run_type_count] if run_type_count > 0
-		end
-		return pie_chart_data
+	def self.populate_runtype_pie_chart(runs)
+		runs.group(:run_type_id).count.map{ |key, value| [RunType.find(key).name, value] }
 	end
 
 	def met_weekly_goal?
