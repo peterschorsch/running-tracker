@@ -1,0 +1,19 @@
+<div class="panel panel-default" style="border-color: <%=last_run.hex_code%>">
+	<div class="panel-heading text-center" style="border-color: <%=last_run.hex_code%>">
+		<h1>Last Run</h1>
+	</div>
+	<div class="panel-body text-center">
+		<p>
+			<small class="text-muted"><%=formatTime(last_run.start_time)%> | <%=formatDayofWeek(last_run.start_time)%> | <%=format_date_month(last_run.start_time)%> | <%= concat_city_state_abbreviation(last_run.city, last_run.state) %></small>
+		</p>
+		<p style="color: <%=last_run.hex_code%>"><%= last_run.run_type.name %></p>
+		<h3><strong><%= last_run.name %></strong></h3>
+		<p><%= concat_distance_miles(last_run.mileage_total) %> | <strong><%= concat_elapsed_time(last_run) %></strong></p>
+		<p><%= concat_pace_min_miles(last_run.pace) %> | <%= concat_elevation_gain(last_run.elevation_gain) %></p>
+		<p><small class="text-muted"><%= @last_run.gear.return_full_shoe_name %> (<%= last_run.gear.return_shoe_mileage %>)</small></p>
+		<% if not last_run.run_type.is_race? %>
+			<%= render colored_line_divider_path, hex_code: last_run.hex_code %>
+			<p><small class="text-muted">Planned to run: <%= concat_distance_miles(last_run.planned_mileage) %></small></p>
+		<% end %>
+	</div>
+</div>

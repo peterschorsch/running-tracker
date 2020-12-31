@@ -71,4 +71,9 @@ module PathHelper
 	def colored_line_divider_path
 		"templates/colored-line-divider"
 	end
+
+	def panel_mileage_totals_path
+		"templates/panel-mileage-totals"
+	end
+
 end

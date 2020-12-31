@@ -44,6 +44,14 @@ module FormatdatetimeHelper
   def formatCalendarDay(date)
     date.strftime("%-m/%-d")
   end
+  # 12/28-1/3/21
+  def formatDateRange(start_date, end_date)
+    formatMonthDayDate(start_date) + "-" + formatDate(end_date)
+  end
+  # December 2020
+  def formatMonthYear(start_date, end_date)
+    format_month(start_date) + " " + formatYear(end_date)
+  end
 
   # 4:38pm
   def formatTime(date)
@@ -60,7 +68,7 @@ module FormatdatetimeHelper
   end
 
   # July 31 - August 2, 2020
-  def formatDateRange(startdate, enddate)
+  def formatFullDateRange(startdate, enddate)
     startdate.strftime("%B %-d") + " - " + enddate.strftime("%B %-d, %Y")
   end
 

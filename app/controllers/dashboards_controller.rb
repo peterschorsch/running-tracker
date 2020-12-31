@@ -17,6 +17,9 @@ class DashboardsController < ApplicationController
 
 		### MONTHLY TOTALS ###
 		@monthly_total = current_user.monthly_totals.of_month
+
+		### YEARLY TOTALS ###
+		@yearly_total = current_user.yearly_totals.of_year
 	end
 
 	def update

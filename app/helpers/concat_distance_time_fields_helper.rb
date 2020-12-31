@@ -34,6 +34,9 @@ module ConcatDistanceTimeFieldsHelper
 	def concat_run_totals_line_two(record)
 		concat_total_time(record.hours, record.minutes, record.seconds)
 	end
+	def concat_date_range_run_total(date_range_helper, record)
+		raw(date_range_helper) + " | " + raw(concat_run_totals_line_one(record)) + " | " + raw(concat_run_totals_line_two(record))
+	end
 
 	# 7:30 min/mi
 	def concat_pace_min_miles(pace)

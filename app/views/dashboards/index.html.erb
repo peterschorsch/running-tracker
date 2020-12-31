@@ -5,99 +5,21 @@
 
 <div class="row">
 	<div class="col-md-4">
-		<div class="panel panel-default" style="border-color: <%=@last_run.hex_code%>">
-			<div class="panel-heading text-center" style="border-color: <%=@last_run.hex_code%>">
-				<h1>Last Run</h1>
-			</div>
-			<div class="panel-body text-center">
-				<p>
-					<small class="text-muted"><%=formatTime(@last_run.start_time)%> | <%=formatDayofWeek(@last_run.start_time)%> | <%=format_date_month(@last_run.start_time)%> | <%= concat_city_state_abbreviation(@last_run.city, @last_run.state) %></small>
-				</p>
-				<p style="color: <%=@last_run.hex_code%>"><%= @last_run.run_type.name %></p>
-				<h3><strong><%= @last_run.name %></strong></h3>
-				<p><%= concat_distance_miles(@last_run.mileage_total) %> | <strong><%= concat_elapsed_time(@last_run) %></strong></p>
-				<p><%= concat_pace_min_miles(@last_run.pace) %> | <%= concat_elevation_gain(@last_run.elevation_gain) %></p>
-				<p><small class="text-muted"><%= @last_run.gear.return_full_shoe_name %> (<%= @last_run.gear.return_shoe_mileage %>)</small></p>
-				<% if not @last_run.run_type.is_race? %>
-					<%= render colored_line_divider_path, hex_code: @last_run.hex_code %>
-					<p><small class="text-muted">Planned to run: <%= concat_distance_miles(@last_run.planned_mileage) %></small></p>
-				<% end %>
-			</div>
-		</div>
+		<%= render "dashboards/panels/last-run-panel", last_run: @last_run %>
 	</div>
 	<div class="col-md-4">
-		<% if not @next_run.nil? %>
-			<div class="panel panel-default" style="border-color: <%= @next_run.hex_code %>">
-				<div class="panel-heading text-center" style="border-color: <%= @next_run.hex_code %>">
-					<h1>Next Run</h1>
-				</div>
-				<div class="panel-body text-center">
-					<p>
-						<small class="text-muted"><%=formatTime(@next_run.start_time.utc)%> | <%=formatDayofWeek(@next_run.start_time)%> | <%=format_date_month(@next_run.start_time)%> | <%= concat_city_state_abbreviation(@last_run.city, @last_run.state) %></small>
-					</p>
-					<p style="color: <%=@next_run.hex_code%>"><%= @next_run.run_type.name %></p>
-					<h3><strong><%= @next_run.name %></strong></h3>
-					<p><%= concat_distance_miles(@next_run.planned_mileage) %></p>
-				</div>
-			</div>
-		<% else %>
-			<div class="panel panel-default">
-				<div class="panel-heading text-center">
-					<h1>Next Run</h1>
-				</div>
-				<div class="panel-body text-center">
-					<p class="text-muted"><i>Your next run is not scheduled yet.</i></p>
-				</div>
-			</div>
-		<% end %>
+		<%= render "dashboards/panels/next-run-panel", next_run: @next_run %>
 	</div>
 	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading text-center">
-				<div class="row">
-					<div class="col-md-12">
-						<h1>Weekly Totals</h1>
-					</div>
-				</div>
-			</div>
-			<div class="panel-body text-center">
-				<% if not @weekly_total.nil? %>
-					<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
-					<%= render weekly_mileage_progress_path, object: @weekly_total %>
-					<p><%= concat_run_totals_line_one(@weekly_total) %></p>
-					<p><%= concat_run_totals_line_two(@weekly_total) %></p>
-					<div class="row">
-						<div class="col-md-4 col-md-offset-4">
-							<%= render edit_btn_tag_path, target: "#weeklyTotalEditModal" %>
-							<%= render "edit-weekly-total-modal" %>
-						</div>
-					</div>
-				<% else %>
-					<p class="text-muted"><i>No data yet.</i></p>
-				<% end %>
-			</div>
-		</div>
+		<%= render "dashboards/panels/weekly-total-panel", weekly_total: @weekly_total %>
 	</div>
 </div>
 
 <div class="row">
 	<div class="col-md-8">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<%= render mileage_chart_path, title: "Mileage over the past 4 Weeks", data: @weekly_total_graph %>
-			</div>
-		</div>
+		<%= render "dashboards/panels/line-chart-panel", weekly_total_graph: @weekly_total_graph %>
 	</div>
 	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading text-center">
-				<h1><%= format_month(Date.current) %> Totals</h1>
-			</div>
-			<div class="panel-body text-center">
-				<p><small class="text-muted"><%= formatDateRange(Date.current.beginning_of_month, Date.current.end_of_month) %></small></p>
-				<p><%= concat_run_totals_line_one(@monthly_total) %></p>
-				<p><%= concat_run_totals_line_two(@monthly_total) %></p>
-			</div>
-		</div>
+		<%= render "dashboards/panels/monthly-yearly-totals-panel", monthly_total: @monthly_total, yearly_total: @yearly_total %>
 	</div>
 </div>
