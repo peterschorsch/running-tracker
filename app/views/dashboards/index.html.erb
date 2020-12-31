@@ -4,22 +4,24 @@
 <%= render alert_path %>
 
 <div class="row">
-	<div class="col-md-4">
-		<%= render "dashboards/panels/last-run-panel", last_run: @last_run %>
-	</div>
-	<div class="col-md-4">
-		<%= render "dashboards/panels/next-run-panel", next_run: @next_run %>
+	<div class="col-md-8">
+		<div class="row">
+			<div class="col-md-6">
+				<%= render "dashboards/panels/last-run-panel", last_run: @last_run %>
+			</div>
+			<div class="col-md-6">
+				<%= render "dashboards/panels/next-run-panel", next_run: @next_run %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<%= render "dashboards/panels/line-chart-panel", weekly_total_graph: @weekly_total_graph %>
+			</div>
+		</div>
 	</div>
 	<div class="col-md-4">
 		<%= render "dashboards/panels/weekly-total-panel", weekly_total: @weekly_total %>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-8">
-		<%= render "dashboards/panels/line-chart-panel", weekly_total_graph: @weekly_total_graph %>
-	</div>
-	<div class="col-md-4">
-		<%= render "dashboards/panels/monthly-yearly-totals-panel", monthly_total: @monthly_total, yearly_total: @yearly_total %>
+		<%= render "dashboards/panels/monthly-total-panel", monthly_total: @monthly_total %>
+		<%= render "dashboards/panels/yearly-total-panel", yearly_total: @yearly_total %>
 	</div>
 </div>
