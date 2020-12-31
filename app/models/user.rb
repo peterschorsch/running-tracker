@@ -61,6 +61,10 @@ class User < ApplicationRecord
 		!self.active
 	end
 
+	def personal_best_races
+		runs.retrieve_personal_bests
+	end
+
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
 	                                                BCrypt::Engine.cost

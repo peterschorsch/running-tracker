@@ -12,7 +12,7 @@ class Gear < ApplicationRecord
 	validates :forefoot_stack, :heel_stack, :heel_drop, length: { maximum: 2 }
 	validates :weight, :size, length: { maximum: 4 }
 
-	default_scope -> { includes(:shoe_brand).order("shoe_brands.brand, gears.model") }
+	#default_scope -> { includes(:shoe_brand).order("shoe_brands.brand, gears.model") }
 
 	scope :find_shoe, -> (shoe_model) {
 		find_by(model: shoe_model)

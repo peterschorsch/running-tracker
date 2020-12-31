@@ -9,7 +9,7 @@
 		<% end %>
 	</div>
 
-	<%= geo_chart @geo_chart, library: {region: 'US', resolution: 'provinces'} %>
+	<%= geo_chart @geo_chart_data, library: {region: 'US', resolution: 'provinces'} %>
 
 	<table class="table table-borderless">
 		<% @personal_bests.each do |personal_best| %>

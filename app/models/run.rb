@@ -45,10 +45,6 @@ class Run < ApplicationRecord
 	    group_by { |y| y.start_time.beginning_of_year }
 	}
 
-	scope :retrieve_personal_bests, -> {
-		joins(:run_type).where("run_types.name=? AND runs.personal_best=?", "Race", true).order(:mileage_total).includes(:state)
-	}
-
 	scope :return_completed_runs, -> {
 		where(:completed_run=>true)
 	}
@@ -77,25 +73,21 @@ class Run < ApplicationRecord
 		return_completed_runs.order_by_most_recent.first
 	}
 
+	### RACE RELATED SCOPES & METHODS ###
 	scope :return_races, -> {
 		joins(:run_type).where("run_types.name=?", "Race").return_completed_runs
 	}
 
-	scope :return_5k_results, -> {
-		where(mileage_total: BigDecimal('3.1')).return_completed_runs
+	scope :retrieve_personal_bests, -> {
+		return_races.where("runs.personal_best=?", true).order(:mileage_total).includes(:state)
 	}
 
-	scope :return_10k_results, -> {
-		where(mileage_total: BigDecimal('6.2')).return_completed_runs
-	}
-
-	scope :return_hm_results, -> {
-		where(mileage_total: BigDecimal('13.1')).return_completed_runs
-	}
-
-	scope :return_fm_results, -> {
-		where(mileage_total: BigDecimal('26.2')).return_completed_runs
-	}
+	def self.return_race_distance_counts
+		totals = self.group(:mileage_total).count
+		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
+		return totals.transform_keys(&mappings.method(:[]))
+	end
+	### END OF RACE RELATED SCOPES & METHODS ###
 
 	# Used on Current User's Runs
 	# Finds next uncompleted run
@@ -147,14 +139,6 @@ class Run < ApplicationRecord
 
 	def self.return_random_elevation_gain
 		BigDecimal(rand(50..1000))
-	end
-
-	def self.return_race_distance_counts
-		totals = self.group(:mileage_total).count
-		#totals = totals.reject { |k,v| k != BigDecimal('3.1') || k != BigDecimal('6.2') || k != BigDecimal('13.2') || k != BigDecimal('26.2') }
-		puts totals.inspect
-		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
-		return totals.transform_keys(&mappings.method(:[]))
 	end
 
 	def subtract_from_running_totals(total_record)
