@@ -69,10 +69,6 @@ class Run < ApplicationRecord
 		order('hours, minutes, seconds')
 	}
 
-	scope :find_last_completed_run, -> {
-		return_completed_runs.order_by_most_recent.first
-	}
-
 	### RACE RELATED SCOPES & METHODS ###
 	scope :return_races, -> {
 		joins(:run_type).where("run_types.name=?", "Race").return_completed_runs
@@ -94,6 +90,11 @@ class Run < ApplicationRecord
 	def self.find_next_uncompleted_run
 		return_uncompleted_runs.find_by("start_time >= ?", DateTime.now.beginning_of_day..DateTime.now.end_of_day) || nil
 	end
+
+	def self.find_last_completed_run
+		return_completed_runs.order_by_most_recent.first || nil
+	end
+
 
 	def was_completed?
 		self.completed_run

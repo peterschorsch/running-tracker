@@ -37,7 +37,7 @@ class DashboardsController < ApplicationController
 
 	private
 		def set_weekly_total
-			@weekly_total = WeeklyTotal.of_user(current_user).find(params[:id])
+			@weekly_total = current_user.weekly_totals.find(params[:id])
 		end
 
 		def weekly_total_params
