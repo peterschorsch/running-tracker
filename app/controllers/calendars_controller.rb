@@ -129,19 +129,18 @@ class CalendarsController < ApplicationController
 			@run.gear.update_mileage_of_shoe(params[:run][:mileage_total].to_f)
 
 			### Update Weekly Total
-			@weekly_total = @run.user.weekly_totals.find_by(week_start: Date.current.beginning_of_week.beginning_of_day)
+			@weekly_total = @run.user.current_weekly_total
 			@run.update_user_run_totals(@weekly_total)
 			@weekly_total.update_met_goal_field
 
 			### Update Monthly Total
-			@run.update_user_run_totals(current_user.monthly_totals.of_month)
+			@run.update_user_run_totals(current_user.current_monthly_total)
 
 			### Update Yearly Total
-			@run.update_user_run_totals(current_user.yearly_totals.of_current_year)
+			@run.update_user_run_totals(current_user.current_yearly_total)
 
 			### Update All Time Total
 			@run.update_user_run_totals(current_user.all_time_total)
-			#@run.user.all_time_total.update_all_time_totals(@run)
 		end
 
 end

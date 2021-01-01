@@ -59,17 +59,17 @@ class RunsController < ApplicationController
     @run.gear.subract_mileage_to_shoe(@run.mileage_total)
 
     ### Update Weekly Total
-    @weekly_total = @run.user.weekly_totals.find_by(week_start: @run.start_time.beginning_of_week.beginning_of_day)
+    @weekly_total = @run.user.current_weekly_total
     if not @weekly_total.nil?
       @run.subtract_from_running_totals(@weekly_total)
       @weekly_total.update_met_goal_field
     end
 
     ### Update Monthly Total
-    @run.subtract_from_running_totals(current_user.monthly_totals.of_month)
+    @run.subtract_from_running_totals(current_user.current_monthly_total)
 
     ### Update Yearly Total
-    @run.subtract_from_running_totals(current_user.yearly_totals.of_current_year)
+    @run.subtract_from_running_totals(current_user.current_yearly_total)
 
     ### Update All Time Total
     @run.subtract_from_running_totals(current_user.all_time_total)

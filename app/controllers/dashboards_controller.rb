@@ -11,15 +11,14 @@ class DashboardsController < ApplicationController
 		@next_run = @runs.find_next_uncompleted_run
 
 		### WEEKLY TOTALS ###
-		@weekly_total = current_user.weekly_totals.of_week
-
+		@weekly_total = current_user.current_weekly_total
 		@weekly_total_graph = current_user.weekly_totals.order_by_oldest_week.map { |wt| [wt.week_start.strftime("%-m/%-d").to_s + "-" + wt.week_end.strftime("%-m/%-d").to_s, wt.mileage_total.to_i] }
 
 		### MONTHLY TOTALS ###
-		@monthly_total = current_user.monthly_totals.of_month
+		@monthly_total = current_user.current_monthly_total
 
 		### YEARLY TOTALS ###
-		@yearly_total = current_user.yearly_totals.of_year
+		@yearly_total = current_user.current_yearly_total
 	end
 
 	def update

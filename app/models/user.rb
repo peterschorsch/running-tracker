@@ -67,7 +67,22 @@ class User < ApplicationRecord
 
 	### GET RUNS OF CURRENT WEEK ###
 	def current_runs_of_week
-		runs.of_week(Date.current)
+		runs.of_week
+	end
+
+	### GET CURRENT WEEKLY TOTAL ###
+	def current_weekly_total
+		weekly_totals.of_week
+	end
+
+	### GET CURRENT MONTHLY TOTAL ###
+	def current_monthly_total
+		monthly_totals.of_month
+	end
+
+	### GET CURRENT YEARLY TOTAL ###
+	def current_yearly_total
+		yearly_totals.of_year
 	end
 
 	def User.digest(string)

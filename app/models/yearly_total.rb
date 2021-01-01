@@ -23,10 +23,6 @@ class YearlyTotal < ApplicationRecord
 		find_by(:year => year)
 	}
 
-	scope :of_current_year, -> {
-		find_by(:year => Date.today.year)
-	}
-
 	scope :of_user, -> (user) {
 		where(:user => user)
 	}
