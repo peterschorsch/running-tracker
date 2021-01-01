@@ -67,43 +67,28 @@ class User < ApplicationRecord
 
 	### GET RUNS OF CURRENT WEEK ###
 	def current_runs_of_week
-		runs.of_week
+		runs.of_week(Date.current)
 	end
 
 	### GET CURRENT WEEKLY TOTAL ###
 	def current_weekly_total
-		weekly_totals.of_week
+		weekly_totals.of_week(Date.current)
 	end
 
 	### GET CURRENT MONTHLY TOTAL ###
 	def current_monthly_total
-		monthly_totals.of_month
+		monthly_totals.of_month(Date.current)
 	end
 
 	### GET CURRENT YEARLY TOTAL ###
 	def current_yearly_total
-		yearly_totals.of_year
+		yearly_totals.of_year(Date.current)
 	end
 
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
 	                                                BCrypt::Engine.cost
 		BCrypt::Password.create(string, cost: cost)
-	end
-
-	### FOR TESTING - NOT BEING USED - TEMPORARY ###
-	def create_user_totals
-		### Create All Time Total if not yet currently created ###
-		@all_time_total = AllTimeTotal.create_random_totals(self.id)
-
-		### Create Yearly Totals if not yet currently created ###
-		@yearly_total = YearlyTotal.create_random_totals(self.id, @all_time_total.id)
-
-		### Create Monthly Totals if not yet currently created ###
-		@monthly_total = MonthlyTotal.create_random_totals(self.id, @yearly_total.id, Date.current.beginning_of_month, Date.current.end_of_month) if MonthlyTotal.of_month.nil?
-
-		### Create Weekly Totals if not yet currently created ###
-		@weekly_total = WeeklyTotal.create_random_totals(self.id)
 	end
 
 	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL ###
@@ -127,6 +112,34 @@ class User < ApplicationRecord
 					# Update oldest weekly run totals to random numbers and change date to current week
 					@oldest_weekly_total.update_random_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week)
 				end
+			end
+		end
+	end
+
+	### CHECK IF USER HAS AN ALL TIME TOTAL ###
+	def check_all_time_total_record_upon_login
+		AllTimeTotal.create_with(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(user_id: self.id)
+	end
+
+	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
+	def create_weeklong_default_runs
+		default_shoe_id = Gear.return_default_shoe.id
+		state_id = State.find_by_abbr("CA").id
+		run_type_id = RunType.default_run_type.id
+
+		# Current Date
+		current_date = DateTime.now
+		# Starts on a Monday
+		week_start_date = current_date.beginning_of_week
+		week_end_date = current_date.end_of_week
+		loop_week = week_start_date...week_end_date
+
+		loop_week.each do |date|
+			@existing_run = self.runs.of_day(date)
+
+			if @existing_run.empty?
+				@monthly_total = self.current_monthly_total
+				@run = Run.create_planned_run_record(date, rand(1..20), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
 			end
 		end
 	end
@@ -173,29 +186,6 @@ class User < ApplicationRecord
 
 	def check_past_planned_runs
 		self.runs.return_past_uncompleted_runs.each { |run| run.update_planned_run_record }
-	end
-
-	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
-	def create_weeklong_default_runs
-		default_shoe_id = Gear.return_default_shoe.id
-		state_id = State.find_by_abbr("CA").id
-		run_type_id = RunType.default_run_type.id
-
-		# Current Date
-		current_date = DateTime.now
-		# Starts on a Monday
-		week_start_date = current_date.beginning_of_week
-		week_end_date = current_date.end_of_week
-		loop_week = week_start_date...week_end_date
-
-		loop_week.each do |date|
-			@existing_run = self.runs.of_day(date)
-
-			if @existing_run.empty?
-				@monthly_total = self.monthly_totals.of_month
-				@run = Run.create_planned_run_record(date, rand(1..20), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
-			end
-		end
 	end
 
 	def refresh_all_user_totals

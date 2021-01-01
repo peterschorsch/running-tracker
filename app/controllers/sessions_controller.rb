@@ -16,6 +16,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
+      @user.check_all_time_total_record_upon_login
       @user.check_current_weekly_total_record_upon_login
 
       if @user.is_viewer?
