@@ -77,12 +77,12 @@ class User < ApplicationRecord
 
 	### GET CURRENT MONTHLY TOTAL ###
 	def current_monthly_total
-		monthly_totals.of_month(Date.current)
+		monthly_totals.of_month
 	end
 
 	### GET CURRENT YEARLY TOTAL ###
 	def current_yearly_total
-		yearly_totals.of_year(Date.current)
+		yearly_totals.of_year
 	end
 
 	def User.digest(string)
@@ -123,7 +123,12 @@ class User < ApplicationRecord
 
 	### CHECK IF USER HAS AN YEARLY TOTAL RECORD ###
 	def check_yearly_total_record_upon_login
-		YearlyTotal.create(year: Date.current.year, year_start: DateTime.now.beginning_of_year, year_end: DateTime.now.beginning_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0, all_time_total_id: self.all_time_total.id, user_id: self.id) if not self.current_yearly_total.exists?
+		YearlyTotal.create_with(year_start: DateTime.now.beginning_of_year, year_end: DateTime.now.beginning_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
+	end
+
+	### CHECK IF USER HAS AN MONTHLY TOTAL RECORD ###
+	def check_monthly_total_record_upon_login
+		MonthlyTotal.create_zero_totals(self.id, self.current_yearly_total.id, DateTime.now.beginning_of_month, DateTime.now.end_of_month)
 	end
 
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###

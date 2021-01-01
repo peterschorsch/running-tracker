@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
 
       @user.check_all_time_total_record_upon_login
       @user.check_yearly_total_record_upon_login
+      @user.check_monthly_total_record_upon_login
       @user.check_current_weekly_total_record_upon_login
 
       if @user.is_viewer?
