@@ -145,7 +145,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 		current_datetime = DateTime.now
 		if start_time > current_datetime
 			month = (month-1)==0 ? 1 : month-1
-			day = (day-7)<=0 ? get_sunday_of_month(month, year, rand(1)).day : day-7
+			day = (day-7)<=0 ? get_sunday_of_month(month, year, 1).day : day-7
 			start_time = current_datetime - 1.week
 		end
 
@@ -173,8 +173,8 @@ puts ""
 @website_viewer_runs.return_races.update_all(:personal_best => false)
 @website_viewer_runs.return_5k_results.order_by_fastest.first.update_column('personal_best', true)
 @website_viewer_runs.return_10k_results.order_by_fastest.first.update_column('personal_best', true)
-@website_viewer_runs.return_hm_results.order_by_fastest.first.update_column('personal_best', true)
-@website_viewer_runs.return_fm_results.order_by_fastest.first.update_column('personal_best', true)
+@website_viewer_runs.return_half_marathon_results.order_by_fastest.first.update_column('personal_best', true)
+@website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 
 ### UPDATE SHOE TOTALS ###
 Gear.recalculate_mileage_of_shoe(@website_viewer)

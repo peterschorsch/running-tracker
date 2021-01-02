@@ -78,6 +78,22 @@ class Run < ApplicationRecord
 		return_races.where("runs.personal_best=?", true).order(:mileage_total).includes(:state)
 	}
 
+	scope :return_5k_results, -> {
+		where(mileage_total: BigDecimal('3.1')).return_completed_runs
+	}
+
+	scope :return_10k_results, -> {
+		where(mileage_total: BigDecimal('6.2')).return_completed_runs
+	}
+
+	scope :return_half_marathon_results, -> {
+		where(mileage_total: BigDecimal('13.1')).return_completed_runs
+	}
+
+	scope :return_marathon_results, -> {
+		where(mileage_total: BigDecimal('26.2')).return_completed_runs
+	}
+
 	def self.return_race_distance_counts
 		totals = self.group(:mileage_total).count
 		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
