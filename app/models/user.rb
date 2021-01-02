@@ -67,12 +67,12 @@ class User < ApplicationRecord
 
 	### GET RUNS OF CURRENT WEEK ###
 	def current_runs_of_week
-		runs.of_week(Date.current)
+		runs.of_week
 	end
 
 	### GET CURRENT WEEKLY TOTAL ###
 	def current_weekly_total
-		weekly_totals.of_week(Date.current)
+		weekly_totals.of_week
 	end
 
 	### GET CURRENT MONTHLY TOTAL ###
