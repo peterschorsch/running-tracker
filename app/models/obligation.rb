@@ -21,6 +21,10 @@ class Obligation < ApplicationRecord
 	    where(user: user)
 	}
 
+	scope :of_date, -> (date = DateTime.now) {
+		where(:start_time => date.beginning_of_day..date.end_of_day)
+	}
+
 	def is_end_time_nil?
 		self.end_time.nil?
 	end
