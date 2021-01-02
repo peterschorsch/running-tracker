@@ -1,4 +1,4 @@
-class Admin::RaceExamplesController < ApplicationController
+class Admin::RaceExamplesController < Admin::AdminController
   before_action :set_race_example, only: [:show, :edit, :update, :destroy]
 
   # GET /race_examples
