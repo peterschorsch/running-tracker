@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+	belongs_to :user_role
 	has_one :all_time_total, dependent: :destroy
 	has_many :yearly_totals, dependent: :destroy
 	has_many :monthly_totals, dependent: :destroy
@@ -28,7 +29,7 @@ class User < ApplicationRecord
 	}
 
 	scope :exclude_viewer_accounts, -> {
-		where.not(:role => "Viewer")
+		joins(:user_role).where("user_roles.website_viewer=?", false)
 	}
 
 	def self.return_website_viewer
@@ -42,15 +43,15 @@ class User < ApplicationRecord
 	end
 
 	def is_admin?
-		self.role == "Admin"
+		self.user_role.administrator == true
 	end
 
 	def is_user?
-		self.role == "User"
+		self.user_role.user == true
 	end
 
 	def is_viewer?
-		self.role == "Viewer"
+		self.user_role.website_viewer == true
 	end
 
 	def is_active?

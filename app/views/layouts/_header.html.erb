@@ -36,6 +36,11 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Functions <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="text-center">
+								<%= link_to admin_race_examples_path, class: 'top-bottom-padding' do %>
+									<span class="glyphicon glyphicon-list"></span> Edit Race Examples
+								<% end %>
+							</li>
+							<li class="text-center">
 								<%= link_to admin_run_types_path, class: 'top-bottom-padding' do %>
 									<span class="glyphicon glyphicon-tasks"></span> Edit Run Types
 								<% end %>
@@ -46,8 +51,8 @@
 								<% end %>
 							</li>
 							<li class="text-center">
-								<%= link_to admin_race_examples_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-list"></span> Edit Race Examples
+								<%= link_to admin_user_roles_path, class: 'top-bottom-padding' do %>
+									<span class="glyphicon glyphicon-user"></span> Edit User Roles
 								<% end %>
 							</li>
 						</ul>
