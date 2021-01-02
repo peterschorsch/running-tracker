@@ -1,0 +1,14 @@
+<%= render new_header_path, path: admin_user_roles_path, btn_text: "User Roles", heading_text: "User Role" %>
+
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<h1>Add New User Role</h1>
+			</div>
+			<div class="panel-body">
+				<%= render 'form', user_role: @user_role %>
+			</div>
+		</div>
+	</div>
+</div>

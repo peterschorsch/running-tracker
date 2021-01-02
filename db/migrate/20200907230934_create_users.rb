@@ -5,10 +5,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :last_name, :null => false
       t.string :email, :null => false
 
-      t.string :role, :null => false
       t.boolean :active, :default => true
 
       t.string :users, :password_digest
+
+      t.references :user_role, index: true, foreign_key: true
 
       t.timestamps
     end

@@ -165,18 +165,26 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_roles", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "administrator", default: false
+    t.boolean "user", default: false
+    t.boolean "website_viewer", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "email", null: false
-    t.string "role", null: false
     t.boolean "active", default: true
     t.string "users"
     t.string "password_digest"
+    t.integer "user_role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "all_time_totals_id"
-    t.index ["all_time_totals_id"], name: "index_users_on_all_time_totals_id"
+    t.index ["user_role_id"], name: "index_users_on_user_role_id"
   end
 
   create_table "weekly_totals", force: :cascade do |t|

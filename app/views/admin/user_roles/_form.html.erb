@@ -1,0 +1,23 @@
+<%= form_with(model: [:admin, user_role], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+  <%= render "templates/alerts/form-errors", model: user_role %>
+
+  <div class="row">
+    <div class="col-xs-2 col-xs-offset-3 text-right"><%= f.label :name, 'User Role Name:' %></div>
+    <div class="col-xs-3"><%= f.text_field :name, { class: 'form-control', placeholder: "User" } %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-1 col-xs-offset-3 text-right"><%= f.label :user, 'User:' %></div>
+    <div class="col-xs-1"><%= f.check_box :user, { class: 'form-control', placeholder: "#123456"} %></div>
+    <div class="col-xs-1 text-right"><%= f.label :administrator, 'Administrator?' %></div>
+    <div class="col-xs-1"><%= f.check_box :administrator, { class: 'form-control' } %></div>
+    <div class="col-xs-1 text-right"><%= f.label :website_viewer, 'Website Viewer' %></div>
+    <div class="col-xs-1"><%= f.check_box :website_viewer, { class: 'form-control' } %></div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+    </div>
+  </div>
+<% end %>

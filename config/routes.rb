@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     resources :run_types, path: "run-types", except: [:show]
     resources :race_examples, path: "race-examples", except: [:show, :destroy]
     resources :race_distances, path: "race-distances", only: [:edit, :update]
+    resources :user_roles, path: "user-roles", except: [:show, :destroy]
   end
 
   resources :runs, except: [:show]

@@ -1,0 +1,22 @@
+<%= render index_header_new_btn_path, new_path: new_admin_user_role_path, new_btn_text: "User Role", heading_text: "User Roles" %>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 col-xs-12">
+    <table class="table table-responsive table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @user_roles.each do |user_role| %>
+          <tr>
+            <td><%= user_role.name %></td>
+            <td><%= render edit_btn_path, edit_path: edit_admin_user_role_path(user_role) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
