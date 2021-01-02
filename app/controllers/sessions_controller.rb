@@ -16,15 +16,11 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
-      @user.check_all_time_total_record_upon_login
-      @user.check_yearly_total_record_upon_login
-      @user.check_monthly_total_record_upon_login
-      @user.check_current_weekly_total_record_upon_login
+      ### TOTAL RECORDS CHECK FOR ALL USERS###
+      @user.check_for_total_records_upon_login
 
       if @user.is_viewer?
-        @user.create_website_viewer_runs
-        @user.check_past_planned_runs
-        @user.check_for_recent_obligations
+        @user.website_viewer_methods_check_upon_login
       else
         @user.create_weeklong_default_runs
       end

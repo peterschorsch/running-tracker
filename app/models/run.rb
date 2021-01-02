@@ -122,6 +122,10 @@ class Run < ApplicationRecord
 		self.run_type.hex_code
 	end
 
+	def self.return_random_mileage
+		BigDecimal(rand(1..10))
+	end
+
 	def self.return_random_pace
 		rand(6..10).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
 	end
@@ -189,7 +193,7 @@ class Run < ApplicationRecord
 
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
-		Run.create_with(name: name, planned_mileage: BigDecimal(rand(1..10)), mileage_total: BigDecimal(rand(1..10)), 
+		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, 
 			hours: Run.return_random_hours, minutes: Run.return_random_minutes, seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
 			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
@@ -203,9 +207,10 @@ class Run < ApplicationRecord
 	end
 
 	def update_planned_run_record
-		mileage_total = BigDecimal(rand(1..10))
-		self.update_columns(name: "Run", start_time: self.start_time.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), 
-			planned_mileage: BigDecimal(rand(1..10)), mileage_total: mileage_total, 
+		mileage_total = Run.return_random_mileage
+
+		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
+			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, 
 			hours: Run.return_random_hours, minutes: Run.return_random_minutes, seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			gear_id: Gear.return_random_gear_id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)

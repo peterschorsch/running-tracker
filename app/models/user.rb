@@ -91,8 +91,32 @@ class User < ApplicationRecord
 		BCrypt::Password.create(string, cost: cost)
 	end
 
-	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL ###
-	def check_current_weekly_total_record_upon_login
+	### LOGIN METHODS - CHECKS FOR ALL APPROPRIATE TOTAL RECORDS FOR NORMAL AND ADMIN USERS ###
+	### ALL-TIME TOTAL, YEARLY TOTAL, MONTHLY TOTAL RECORDS ###
+	def check_for_total_records_upon_login
+		self.check_for_all_time_total_record
+		self.check_for_current_yearly_total_record
+		self.check_for_current_monthly_total_record
+		self.check_for_current_weekly_total_record
+	end
+
+	### CHECK IF USER HAS AN ALL TIME TOTAL RECORD ###
+	def check_for_all_time_total_record
+		AllTimeTotal.create_with(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(user_id: self.id)
+	end
+
+	### CHECK IF USER HAS AN YEARLY TOTAL RECORD ###
+	def check_for_current_yearly_total_record
+		YearlyTotal.create_with(year_start: DateTime.now.beginning_of_year, year_end: DateTime.now.beginning_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
+	end
+
+	### CHECK IF USER HAS AN MONTHLY TOTAL RECORD ###
+	def check_for_current_monthly_total_record
+		MonthlyTotal.create_zero_totals(self.id, self.current_yearly_total.id, DateTime.now.beginning_of_month, DateTime.now.end_of_month)
+	end
+
+	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL RECORD ###
+	def check_for_current_weekly_total_record
 		@weekly_totals = self.weekly_totals
 		if @weekly_totals.empty?
 			if not self.is_viewer?
@@ -116,19 +140,45 @@ class User < ApplicationRecord
 		end
 	end
 
-	### CHECK IF USER HAS AN ALL TIME TOTAL RECORD ###
-	def check_all_time_total_record_upon_login
-		AllTimeTotal.create_with(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(user_id: self.id)
+	### LOGIN METHODS - CHECKS FOR ALL APPROPRIATE TOTAL RECORDS FOR WEBSTIE VIEWER ###
+	### UPDATE PAST UNCOMPLETED RUNS & CREATE NEW RUNS IF NECESSARY, CREATE OBLIGATIONS IF NECESSARY ###
+	def website_viewer_methods_check_upon_login
+		self.update_website_viewer_runs_to_current_day
+        self.check_for_recent_obligations
 	end
 
-	### CHECK IF USER HAS AN YEARLY TOTAL RECORD ###
-	def check_yearly_total_record_upon_login
-		YearlyTotal.create_with(year_start: DateTime.now.beginning_of_year, year_end: DateTime.now.beginning_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
+	### CREATE RUNS FOR WEBSITE VIEWER WHEN THEY LOGIN ###
+	def update_website_viewer_runs_to_current_day
+		### UPDATE PREVIOUSLY UNCOMPLETED RUNS ###
+		self.runs.return_past_uncompleted_runs.each { |uncompleted_run| uncompleted_run.update_planned_run_record }
+
+		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
+		current_date = Date.current
+		end_of_week = current_date.end_of_week
+
+		gear_id = Gear.return_default_shoe.id
+		city = "Los Angeles"
+		state_id = State.find_by_abbr("CA").id
+
+		### CREATE RUNS FROM LAST RUN TO CURRENT DAY ###
+		(@last_run_start_time..current_date-1.day).each do |date|
+			run_type_id = RunType.return_random_run_type_id
+			@monthly_total = self.monthly_totals.of_month(date)
+
+			Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, gear_id, city, state_id, run_type_id, @monthly_total.id, self.id)
+			self.refresh_all_user_totals
+		end
+
+		### CREATE PLANNED RUNS FROM CURRENT DAY TO END OF WEEK  ###
+		self.create_weeklong_default_runs
 	end
 
-	### CHECK IF USER HAS AN MONTHLY TOTAL RECORD ###
-	def check_monthly_total_record_upon_login
-		MonthlyTotal.create_zero_totals(self.id, self.current_yearly_total.id, DateTime.now.beginning_of_month, DateTime.now.end_of_month)
+	### WEBSITE VIEWER - MAKE NECESSARY OBLIGATIONS FOR PAST WEEK IF NEEDED ###
+	def check_for_recent_obligations
+		if self.obligations.return_obligations_past_week.count < 2
+			random_obligation_data = Obligation.get_random_obligation
+			Obligation.find_or_create_by(name: random_obligation_data[0], start_time: random_obligation_data[1], end_time: random_obligation_data[2], city: random_obligation_data[3], state_id: State.find_by_abbr(random_obligation_data[4]).id, user_id: self.id, obligation_color_id: ObligationColor.default_record.id)
+		end
 	end
 
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
@@ -154,50 +204,6 @@ class User < ApplicationRecord
 		end
 	end
 
-	### CREATE RUNS FOR WEBSITE VIEWER WHEN THEY LOGIN ###
-	def create_website_viewer_runs
-		### UPDATE PREVIOUSLY UNCOMPLETED RUNS ###
-		self.runs.return_past_uncompleted_runs do |uncompleted_run|
-			uncompleted_run.name = "Run"
-			uncompleted_run.start_time = Run.return_random_run_start_time(uncompleted_run.start_time)
-			uncompleted_run.planned_mileage = rand(2..20)
-			uncompleted_run.mileage_total = rand(2..20)
-			uncompleted_run.pace = Run.return_random_pace
-			uncompleted_run.hours = Run.return_random_hours
-			uncompleted_run.minutes = Run.return_random_minutes
-			uncompleted_run.seconds = Run.return_random_seconds
-			uncompleted_run.elevation_gain = Run.return_random_elevation_gain
-			uncompleted_run.completed_run = true
-			uncompleted_run.run_type_id = RunType.return_random_run_type_id
-			uncompleted_run.gear_id = Gear.return_random_gear_id
-			uncompleted_run.save(:validate => false)
-		end
-
-		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
-		current_date = Date.current
-		end_of_week = current_date.end_of_week
-
-		gear_id = Gear.return_default_shoe.id
-		city = "Los Angeles"
-		state_id = State.find_by_abbr("CA").id
-
-		### CREATE RUNS FROM LAST RUN TO CURRENT DAY ###
-		(@last_run_start_time..current_date-1.day).each do |date|
-			run_type_id = RunType.return_random_run_type_id
-			@monthly_total = self.monthly_totals.of_month(date)
-
-			Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, gear_id, city, state_id, run_type_id, @monthly_total.id, self.id)
-			self.refresh_all_user_totals
-		end
-
-		### CREATE PLANNED RUNS FROM CURRENT DAY TO END OF WEEK  ###
-		self.create_weeklong_default_runs
-	end
-
-	def check_past_planned_runs
-		self.runs.return_past_uncompleted_runs.each { |run| run.update_planned_run_record }
-	end
-
 	def refresh_all_user_totals
 		WeeklyTotal.refresh_weekly_totals(self)
 		MonthlyTotal.refresh_monthly_totals(self)
@@ -205,13 +211,5 @@ class User < ApplicationRecord
 		AllTimeTotal.refresh_all_time_total(self)
 
 		Gear.recalculate_mileage_of_shoe(self)
-	end
-
-	### WEBSITE VIEWER - MAKE NECESSARY OBLIGATIONS FOR PAST WEEK IF NEEDED ###
-	def check_for_recent_obligations
-		if self.obligations.return_obligations_past_week.count < 2
-			random_obligation_data = Obligation.get_random_obligation
-			Obligation.find_or_create_by(name: random_obligation_data[0], start_time: random_obligation_data[1], end_time: random_obligation_data[2], city: random_obligation_data[3], state_id: State.find_by_abbr(random_obligation_data[4]).id, user_id: self.id, obligation_color_id: ObligationColor.default_record.id)
-		end
 	end
 end
