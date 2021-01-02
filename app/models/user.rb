@@ -107,7 +107,7 @@ class User < ApplicationRecord
 
 	### CHECK IF USER HAS AN YEARLY TOTAL RECORD ###
 	def check_for_current_yearly_total_record
-		YearlyTotal.create_with(year_start: DateTime.now.beginning_of_year, year_end: DateTime.now.beginning_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
+		YearlyTotal.create_with(year_start: DateTime.now.beginning_of_year, year_end: DateTime.now.end_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
 	end
 
 	### CHECK IF USER HAS AN MONTHLY TOTAL RECORD ###
