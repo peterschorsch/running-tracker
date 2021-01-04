@@ -154,20 +154,20 @@ class User < ApplicationRecord
 		self.runs.return_past_uncompleted_runs.each { |uncompleted_run| uncompleted_run.update_planned_run_record }
 
 		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
-		current_date = Date.current
-		end_of_week = current_date.end_of_week
 
 		gear_id = Gear.return_default_shoe.id
 		city = "Los Angeles"
 		state_id = State.find_by_abbr("CA").id
 
 		### CREATE RUNS FROM LAST RUN TO CURRENT DAY ###
-		(@last_run_start_time..current_date-1.day).each do |date|
-			run_type_id = RunType.return_random_run_type_id
-			@monthly_total = self.monthly_totals.of_month(date)
+		(@last_run_start_time..Date.current-1.day).each do |date|
+			if self.current_runs_of_week.count < 6
+				run_type_id = RunType.return_random_run_type_id
+				@monthly_total = self.monthly_totals.of_month(date)
 
-			Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, gear_id, city, state_id, run_type_id, @monthly_total.id, self.id)
-			self.refresh_all_user_totals
+				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, gear_id, city, state_id, run_type_id, @monthly_total.id, self.id)
+				self.refresh_all_user_totals
+			end
 		end
 
 		### CREATE PLANNED RUNS FROM CURRENT DAY TO END OF WEEK  ###
@@ -190,17 +190,20 @@ class User < ApplicationRecord
 
 		# Current Date
 		current_date = DateTime.now
-		# Starts on a Monday
+		# Starts on a Monday, Ends on a Sunday
 		week_start_date = current_date.beginning_of_week
 		week_end_date = current_date.end_of_week
-		loop_week = week_start_date...week_end_date
+		date_array = (week_start_date...week_end_date).to_a
 
-		loop_week.each do |date|
+		2.times { date_array.to_a.delete_at(rand(date_array.count)) } if self.is_viewer?
+
+		date_array.each do |date|
 			@existing_run = self.runs.of_day(date)
 
 			if @existing_run.empty?
 				@monthly_total = self.current_monthly_total
-				@run = Run.create_planned_run_record(date, rand(1..20), default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
+				mileage = self.is_viewer? ? rand(1..20) : 0
+				@run = Run.create_planned_run_record(date, mileage, default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
 			end
 		end
 	end
