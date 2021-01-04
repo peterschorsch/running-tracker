@@ -123,9 +123,27 @@ class WeeklyTotal < ApplicationRecord
 		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
-	### UPDATE WEEKLY TOTAL RECORD TO ZERO FOR A NEW/CURRENT WEEKLY TOTAL RECORD FOR CURRENT WEEK ###
-	def update_zeroed_weekly_total_record(week_start, week_end)
-		self.update_attributes(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0, notes: nil, week_start: week_start, week_end: week_end)
+	def update_weekly_total(week_start, week_end)
+		completed_runs_of_week = self.user.current_runs_of_week.return_completed_runs
+		met_goal = completed_runs_of_week.sum(:mileage_total) >= self.mileage_goal
+
+		wt_hours = wt_minutes = wt_seconds = 0
+
+		working_seconds = completed_runs_of_week.sum(:seconds)
+		if working_seconds >= 60
+			self.minutes += 1
+			working_seconds -= 60
+		end
+		working_minutes = completed_runs_of_week.sum(:minutes)
+		if working_minutes >= 60
+			wt_hours += 1
+			working_minutes -= 60
+		end
+		wt_hours = wt_hours += completed_runs_of_week.sum(:hours)
+		wt_minutes = working_minutes
+		wt_seconds = working_seconds
+
+		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, hours: wt_hours, minutes: wt_minutes, seconds: wt_seconds, number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
 	end
 
 	### FOR WEBSITE VIEWER ###
