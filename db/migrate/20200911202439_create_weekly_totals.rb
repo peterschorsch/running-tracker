@@ -8,13 +8,10 @@ class CreateWeeklyTotals < ActiveRecord::Migration[5.2]
       t.decimal :mileage_goal, :default => 0, :precision => 5, :scale => 5
       t.boolean :met_goal, :default => false
 
-      t.integer :hours, :null => false
-      t.integer :minutes, :null => false, :limit => 3
-      t.integer :seconds, :null => false, :limit => 2
+      t.integer :seconds, :null => false
+
       t.integer :number_of_runs, :null => false
       t.integer :elevation_gain, :null => false
-
-      t.text :notes
 
       t.references :user, index: true, foreign_key: true
 

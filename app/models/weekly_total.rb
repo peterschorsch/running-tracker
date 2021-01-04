@@ -1,11 +1,9 @@
 class WeeklyTotal < ApplicationRecord
 	belongs_to :user
 
-	validates :week_start, :week_end, :mileage_total, :minutes, :seconds, :elevation_gain, presence: true
+	validates :week_start, :week_end, :mileage_total, :seconds, :elevation_gain, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
-	validates :hours, numericality: true, length: { maximum: 3 }, allow_nil: true
-	validates :minutes, numericality: true, length: { in: 0..2 }
-	validates :seconds, numericality: true, length: { in: 1..2 }
+	validates :seconds, numericality: true
 
 	scope :order_by_oldest_week, -> {
 		order(:week_start)
@@ -111,7 +109,7 @@ class WeeklyTotal < ApplicationRecord
 
 	### CREATE WEEKLY TOTAL RECORD WITH ZEROED TOTALS ###
 	def self.create_blank_weekly_total_record(week_start, week_end, user_id)
-		WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, hours: 0, minutes: 0, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
+		WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
 	### CREATE SINGLE RANDOM WEEKLY TOTAL RECORD
@@ -120,7 +118,7 @@ class WeeklyTotal < ApplicationRecord
 		mileage_goal = BigDecimal(rand(5..39))
 		met_goal = mileage_total >= mileage_goal
 
-		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
+		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
 	def update_weekly_total(week_start, week_end)

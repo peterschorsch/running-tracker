@@ -16,9 +16,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.decimal "mileage_total", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
-    t.integer "hours", null: false
-    t.integer "minutes", limit: 3, null: false
-    t.integer "seconds", limit: 2, null: false
+    t.integer "seconds", null: false
     t.integer "user_id"
     t.index ["user_id"], name: "index_all_time_totals_on_user_id"
   end
@@ -54,9 +52,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.datetime "month_start", null: false
     t.datetime "month_end", null: false
     t.decimal "mileage_total", null: false
-    t.integer "hours", null: false
-    t.integer "minutes", limit: 3, null: false
-    t.integer "seconds", limit: 2, null: false
+    t.integer "seconds", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
     t.integer "yearly_total_id"
@@ -128,9 +124,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.decimal "planned_mileage", null: false
     t.decimal "mileage_total", default: "0.0"
     t.string "pace", null: false
-    t.integer "hours"
-    t.integer "minutes", limit: 3, null: false
-    t.integer "seconds", limit: 2, null: false
+    t.integer "seconds", null: false
     t.integer "elevation_gain", null: false
     t.string "city", null: false
     t.text "notes"
@@ -193,12 +187,9 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.decimal "mileage_total", default: "0.0", null: false
     t.decimal "mileage_goal", precision: 5, scale: 5, default: "0.0"
     t.boolean "met_goal", default: false
-    t.integer "hours", null: false
-    t.integer "minutes", limit: 3, null: false
-    t.integer "seconds", limit: 2, null: false
+    t.integer "seconds", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
-    t.text "notes"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -212,9 +203,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.decimal "mileage_total", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
-    t.integer "hours", null: false
-    t.integer "minutes", limit: 3, null: false
-    t.integer "seconds", limit: 2, null: false
+    t.integer "seconds", null: false
     t.integer "all_time_total_id"
     t.integer "user_id"
     t.datetime "created_at", null: false

@@ -11,16 +11,19 @@ module ConcatDistanceTimeFieldsHelper
 	end
 
 	# 5:37:10
-	def concat_elapsed_time(record)
-		time = ""
-		time += (record.hours.to_s + ":") if record.hours.to_i != 0 || record.hours.nil?
-		time += record.minutes.to_s.rjust(2, '0') + ":" + record.seconds.to_s.rjust(2, '0')
-		raw("<strong>#{time}</strong>")
-	end
+	def concat_elapsed_time(seconds)
+        parse_string = seconds < 3600 ? '%M:%S' : '%k:%M:%S'
 
-	# 5h 37m 10s
-	def concat_total_time(hours, minutes, seconds)
-		raw("<strong>#{hours}</strong>h <strong>#{minutes}</strong>m <strong>#{seconds}</strong>s")
+        Time.at(seconds).utc.strftime(parse_string)
+    end
+
+    # 5h 37m 10s
+    def concat_total_time(seconds)
+	  minutes, seconds = seconds.divmod(60)
+	  hours, minutes = minutes.divmod(60)
+	  days, hours = hours.divmod(24)
+
+	  raw("<strong>#{hours.to_s.rjust(2)}</strong>h <strong>#{minutes.to_s.rjust(2)}</strong>m <strong>#{seconds}</strong>s")
 	end
 
 	# 25 miles/30 miles
@@ -32,10 +35,10 @@ module ConcatDistanceTimeFieldsHelper
 		concat_number_of_runs(record.number_of_runs) + " | " + concat_distance_miles(record.mileage_total) + " | " + concat_elevation_gain(record.elevation_gain)
 	end
 	def concat_run_totals_line_two(record)
-		concat_total_time(record.hours, record.minutes, record.seconds)
+		concat_total_time(record.seconds)
 	end
 	def concat_date_range_run_total(date_range_helper, record)
-		raw(date_range_helper) + " | " + raw(concat_run_totals_line_one(record)) + " | " + raw(concat_run_totals_line_two(record))
+		raw(date_range_helper) + " | " + raw(concat_run_totals_line_one(record)) + " | " + raw(concat_run_totals_line_two(record.seconds))
 	end
 
 	# 7:30 min/mi

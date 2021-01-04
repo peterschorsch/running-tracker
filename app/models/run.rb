@@ -5,11 +5,9 @@ class Run < ApplicationRecord
 	belongs_to :state
 	belongs_to :run_type
 
-	validates :name, :start_time, :mileage_total, :minutes, :seconds, :elevation_gain, :city, presence: true
+	validates :name, :start_time, :mileage_total, :seconds, :elevation_gain, :city, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
-	validates :hours, numericality: true, length: { maximum: 3 }, allow_nil: true
-	validates :minutes, numericality: true, length: { in: 0..2 }
-	validates :seconds, numericality: true, length: { in: 1..2 }
+	validates :seconds, numericality: true
 
 
 	scope :of_user, -> (user) {
@@ -66,7 +64,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_fastest, -> {
-		order('hours, minutes, seconds')
+		order('seconds ASC')
 	}
 
 	### RACE RELATED SCOPES & METHODS ###
@@ -151,11 +149,12 @@ class Run < ApplicationRecord
 	end
 
 	def self.return_random_minutes
-		BigDecimal(rand(1..59).to_s.rjust(2, '0'))
+		rand(1..59).to_s.rjust(2, '0')
 	end
 
 	def self.return_random_seconds
-		BigDecimal(rand(0..59).to_s.rjust(2, '0'))
+		#rand(0..59).to_s.rjust(2, '0'))
+		rand(21600..115200)
 	end
 
 	def self.return_random_elevation_gain
@@ -209,15 +208,14 @@ class Run < ApplicationRecord
 
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
-		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, 
-			hours: Run.return_random_hours, minutes: Run.return_random_minutes, seconds: Run.return_random_seconds, 
+		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
 			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
 	end
 
 	### CREATE PLANNED RUN ###
 	def self.create_planned_run_record(start_time, planned_mileage, gear_id, city, state_id, monthly_total_id, user_id)
-		Run.create_with(name: "Planned Run", hours: 0, minutes: 0, seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
+		Run.create_with(name: "Planned Run", seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
@@ -226,8 +224,7 @@ class Run < ApplicationRecord
 		mileage_total = Run.return_random_mileage
 
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
-			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, 
-			hours: Run.return_random_hours, minutes: Run.return_random_minutes, seconds: Run.return_random_seconds, 
+			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			gear_id: Gear.return_random_gear_id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 
@@ -269,7 +266,7 @@ class Run < ApplicationRecord
 			start_time = run.start_time+1.week
 			monthly_total_id = MonthlyTotal.of_month(start_time).id
 			@run = Run.find_or_create_by(name: run.name, start_time: start_time,
-										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
+										seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: default_run_type_id,
 										user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
@@ -291,7 +288,7 @@ class Run < ApplicationRecord
 			start_time = run.start_time+1.week
 			monthly_total_id = MonthlyTotal.of_month(start_time).id
 			@run = Run.find_or_create_by(name: run.name, start_time: start_time,
-										hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
+										seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
 										user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
@@ -326,7 +323,7 @@ class Run < ApplicationRecord
 					running_date = run.start_time + number.week
 
 					@run = Run.find_or_create_by(name: run.name, start_time: running_date,
-											hours: BigDecimal('0'), minutes: BigDecimal('0'), seconds: BigDecimal('0'), pace: "0:00", city: run.city,
+											seconds: BigDecimal('0'), pace: "0:00", city: run.city,
 											gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
 											elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
 											user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)

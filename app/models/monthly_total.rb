@@ -3,11 +3,9 @@ class MonthlyTotal < ApplicationRecord
 	has_many :runs
 	belongs_to :yearly_total
 
-	validates :month_start, :month_end, :mileage_total, :minutes, :seconds, :elevation_gain, presence: true
+	validates :month_start, :month_end, :mileage_total, :seconds, :elevation_gain, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
-	validates :hours, numericality: true, length: { maximum: 3 }, allow_nil: true
-	validates :minutes, numericality: true, length: { in: 0..2 }
-	validates :seconds, numericality: true, length: { in: 1..2 }
+	validates :seconds, numericality: true
 
 	scope :order_by_oldest_month, -> {
 	    order(:month_start)
@@ -30,11 +28,11 @@ class MonthlyTotal < ApplicationRecord
 	}
 
 	def self.create_zero_totals(user_id, yearly_total_id, month_start, month_end)
-		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
+		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
 	end
 
 	def self.create_random_totals(user_id, yearly_total_id, month_start, month_end)
-		MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), hours: rand(12..50), minutes: rand(1..59), seconds: rand(1..59)).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
+		MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), seconds: rand(21600..115200)).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
 	end
 
 

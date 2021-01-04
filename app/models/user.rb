@@ -120,6 +120,7 @@ class User < ApplicationRecord
 	def check_for_current_weekly_total_record
 		@weekly_totals = self.weekly_totals
 		if not @weekly_totals.empty?
+			current_date = DateTime.now
 			self.current_weekly_total.update_weekly_total(current_date.beginning_of_week, current_date.end_of_week)
 		else
 			if not self.is_viewer?

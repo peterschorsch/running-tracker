@@ -42,8 +42,8 @@ five_k_races = [
 ]
 five_k_races.each do |five_k_race|
 	state_id = State.find_by_abbr(five_k_race[2]).id
-	@race_example = RaceExample.find_or_create_by(name: five_k_race[0], city: five_k_race[1], state_id: state_id, hours: five_k_race[3], minutes: five_k_race[4], seconds: five_k_race[5], pace: five_k_race[6], elevation_gain: five_k_race[7], race_distance_id: @five_k.id)
-	puts @race_example.inspect
+	#@race_example = RaceExample.find_or_create_by(name: five_k_race[0], city: five_k_race[1], state_id: state_id, hours: five_k_race[3], minutes: five_k_race[4], seconds: five_k_race[5], pace: five_k_race[6], elevation_gain: five_k_race[7], race_distance_id: @five_k.id)
+	#puts @race_example.inspect
 end
 puts ""
 
@@ -68,8 +68,8 @@ ten_k_races = [
 ]
 ten_k_races.each do |ten_k_race|
 	state_id = State.find_by_abbr(ten_k_races[2]).id
-	@race_example = RaceExample.find_or_create_by(name: ten_k_race[0], city: ten_k_race[1], state_id: state_id, hours: ten_k_race[3], minutes: ten_k_race[4], seconds: ten_k_race[5], pace: ten_k_race[6], elevation_gain: ten_k_race[7], race_distance_id: @ten_k.id)
-	puts @race_example.inspect
+	#@race_example = RaceExample.find_or_create_by(name: ten_k_race[0], city: ten_k_race[1], state_id: state_id, hours: ten_k_race[3], minutes: ten_k_race[4], seconds: ten_k_race[5], pace: ten_k_race[6], elevation_gain: ten_k_race[7], race_distance_id: @ten_k.id)
+	#puts @race_example.inspect
 end
 puts ""
 
@@ -120,8 +120,8 @@ marathon_races = [
 ]
 marathon_races.each do |marathon_race|
 	state_id = State.find_by_abbr(marathon_race[2]).id
-	@race_example = RaceExample.find_or_create_by(name: marathon_race[0], city: marathon_race[1], state_id: state_id, hours: marathon_race[3], minutes: marathon_race[4], seconds: marathon_race[5], pace: marathon_race[6], elevation_gain: marathon_race[7], race_distance_id: @marathon.id)
-	puts @race_example.inspect
+	#@race_example = RaceExample.find_or_create_by(name: marathon_race[0], city: marathon_race[1], state_id: state_id, hours: marathon_race[3], minutes: marathon_race[4], seconds: marathon_race[5], pace: marathon_race[6], elevation_gain: marathon_race[7], race_distance_id: @marathon.id)
+	#puts @race_example.inspect
 end
 puts ""
 
@@ -156,12 +156,12 @@ puts "----------WEBSITE VIEWER RACES----------"
 		end
 
 		if @website_viewer.runs.of_year(yearly_total.year_end).return_races.count <= 6
-			new_start_time = start_time.change(hour: rand(7..8), minute: [0,30].sample, second: 0)
-			@race = Run.create_with(planned_mileage: race_distance.numeric_distance, mileage_total: race_distance.numeric_distance, 
-					hours: race_example.hours, minutes: race_example.minutes, seconds: race_example.seconds, pace: race_example.pace, 
-			        elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, active_run: true, 
-			        gear_id: gear.id, state_id: race_example.state_id).find_or_create_by(name: race_example.name, start_time: new_start_time, run_type_id: race_run_type.id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
-			puts @race.inspect
+			#new_start_time = start_time.change(hour: rand(7..8), minute: [0,30].sample, second: 0)
+			#@race = Run.create_with(planned_mileage: race_distance.numeric_distance, mileage_total: race_distance.numeric_distance, 
+					#seconds: race_example.seconds, pace: race_example.pace, 
+			        #elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, active_run: true, 
+			        #gear_id: gear.id, state_id: race_example.state_id).find_or_create_by(name: race_example.name, start_time: new_start_time, run_type_id: race_run_type.id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
+			#puts @race.inspect
 			puts ""
 		end
 	end
@@ -171,10 +171,10 @@ puts ""
 ### WEBSITE VIEWER ACCOUNT - PERSONAL BEST TIMES ###
 @website_viewer_runs = @website_viewer.runs
 @website_viewer_runs.return_races.update_all(:personal_best => false)
-@website_viewer_runs.return_5k_results.order_by_fastest.first.update_column('personal_best', true)
-@website_viewer_runs.return_10k_results.order_by_fastest.first.update_column('personal_best', true)
-@website_viewer_runs.return_half_marathon_results.order_by_fastest.first.update_column('personal_best', true)
-@website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
+#@website_viewer_runs.return_5k_results.order_by_fastest.first.update_column('personal_best', true)
+#@website_viewer_runs.return_10k_results.order_by_fastest.first.update_column('personal_best', true)
+#@website_viewer_runs.return_half_marathon_results.order_by_fastest.first.update_column('personal_best', true)
+#@website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 
 ### UPDATE SHOE TOTALS ###
 Gear.recalculate_mileage_of_shoe(@website_viewer)
