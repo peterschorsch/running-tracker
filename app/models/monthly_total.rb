@@ -59,33 +59,15 @@ class MonthlyTotal < ApplicationRecord
 	end
 
 	### RECALCULATE MONTHLY TOTALS ###
+	def update_monthly_total_numbers(mileage_total, elevation_gain, number_of_runs, seconds)
+		self.update_columns(:mileage_total => mileage_total, :elevation_gain => elevation_gain, :number_of_runs => number_of_runs, :seconds => seconds)
+	end
+
+	### REFRESHES ALL MONTHLY TOTALS ###
 	def self.refresh_monthly_totals(user)
 		user.monthly_totals.each do |monthly_total|
-			@runs = monthly_total.runs.return_completed_runs
-
-			monthly_total.mileage_total = monthly_total.elevation_gain = monthly_total.number_of_runs = 0
-
-			monthly_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
-			monthly_total.elevation_gain = @runs.sum(&:elevation_gain)
-			monthly_total.number_of_runs = @runs.count
-
-			@runs.each do |run|
-				monthly_total.hours = monthly_total.minutes = monthly_total.seconds = 0
-				working_seconds = monthly_total.seconds += run.seconds
-				if working_seconds >= 60
-					monthly_total.minutes += 1
-					working_seconds -= 60
-				end
-				working_minutes = monthly_total.minutes += run.minutes
-				if working_minutes >= 60
-					monthly_total.hours += 1
-					working_minutes -= 60
-				end
-				monthly_total.hours = monthly_total.hours += run.hours
-				monthly_total.minutes = working_minutes
-				monthly_total.seconds = working_seconds
-			end
-			monthly_total.save(:validate => false)
+			@completed_runs = monthly_total.runs.return_completed_runs
+			monthly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(&:seconds))
 		end
 	end
 end

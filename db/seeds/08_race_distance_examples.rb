@@ -177,4 +177,4 @@ puts ""
 #@website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 
 ### UPDATE SHOE TOTALS ###
-Gear.recalculate_mileage_of_shoe(@website_viewer)
+Gear.recalculate_mileage_of_shoes(@website_viewer)

@@ -6,7 +6,6 @@
 <br />
 
 <div class="row">
-	<%= content_tag(:p, content_tag(:i, "No data available."), :class => "text-center") if @personal_bests.empty? %>
 	<%= render "race-results" %>
-	<%= render "personal-bests" unless @personal_bests.empty? %>
+	<%= render "personal-bests" %>
 </div>

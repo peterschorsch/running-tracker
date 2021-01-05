@@ -12,18 +12,18 @@ module ConcatDistanceTimeFieldsHelper
 
 	# 5:37:10
 	def concat_elapsed_time(seconds)
-        parse_string = seconds < 3600 ? '%M:%S' : '%k:%M:%S'
+		parse_string = seconds < 3600 ? '%M:%S' : '%k:%M:%S'
 
-        Time.at(seconds).utc.strftime(parse_string)
-    end
+		Time.at(seconds).utc.strftime(parse_string)
+	end
 
-    # 5h 37m 10s
-    def concat_total_time(seconds)
-	  minutes, seconds = seconds.divmod(60)
-	  hours, minutes = minutes.divmod(60)
-	  days, hours = hours.divmod(24)
+	# 5h 37m 10s
+	def concat_total_time(seconds)
+		minutes, seconds = seconds.divmod(60)
+		hours, minutes = minutes.divmod(60)
+		days, hours = hours.divmod(24)
 
-	  raw("<strong>#{hours.to_s.rjust(2)}</strong>h <strong>#{minutes.to_s.rjust(2)}</strong>m <strong>#{seconds}</strong>s")
+		raw("<strong>#{hours.to_s.rjust(2)}</strong>h <strong>#{minutes.to_s.rjust(2)}</strong>m <strong>#{seconds}</strong>s")
 	end
 
 	# 25 miles/30 miles

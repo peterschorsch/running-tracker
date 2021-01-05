@@ -144,16 +144,7 @@ class Run < ApplicationRecord
 		rand(6..10).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
 	end
 
-	def self.return_random_hours
-		rand(0..3)
-	end
-
-	def self.return_random_minutes
-		rand(1..59).to_s.rjust(2, '0')
-	end
-
 	def self.return_random_seconds
-		#rand(0..59).to_s.rjust(2, '0'))
 		rand(21600..115200)
 	end
 
@@ -185,6 +176,8 @@ class Run < ApplicationRecord
 
 	### UPDATE TOTALS WHILE WITH TOTAL RECORD PARAMS USING RUN RECORD ###
 	def update_user_run_totals(total_record)
+		total_record.mileage_total = 
+
 		total_record.mileage_total+=self.mileage_total
 		total_record.elevation_gain+=self.elevation_gain
 		total_record.number_of_runs = total_record.number_of_runs+=1

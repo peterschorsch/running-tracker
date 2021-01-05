@@ -199,11 +199,11 @@ class User < ApplicationRecord
 	end
 
 	def refresh_all_user_totals
-		WeeklyTotal.refresh_weekly_totals(self)
-		MonthlyTotal.refresh_monthly_totals(self)
-		YearlyTotal.refresh_yearly_totals(self)
 		AllTimeTotal.refresh_all_time_total(self)
-
-		Gear.recalculate_mileage_of_shoe(self)
+		YearlyTotal.refresh_yearly_totals(self)
+		MonthlyTotal.refresh_monthly_totals(self)
+		WeeklyTotal.refresh_weekly_totals(self)
+		Gear.recalculate_mileage_of_shoes(self)
 	end
+
 end

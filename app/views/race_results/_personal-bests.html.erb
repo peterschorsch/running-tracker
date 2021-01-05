@@ -1,6 +1,4 @@
 <div class="col-md-4 text-center">
-	<h1 class="display-2">Personal Bests</h1>
-	<hr />
 	<div class="row">
 		<% @race_distance_counts.each do |race_distance, race_count| %>
 			<div class="col-md-<%=@rd_counts_column_spacing%> text-center">
@@ -12,6 +10,8 @@
 	<%= geo_chart @geo_chart_data, library: {region: 'US', resolution: 'provinces'} %>
 
 	<table class="table table-borderless">
+		<h1 class="display-2">Personal Bests</h1>
+		<hr />
 		<% @personal_bests.each do |personal_best| %>
 			<thead>
 				<tr>
@@ -23,9 +23,9 @@
 			</thead>
 			<body>
 				<tr>
-					<td class="col-md-4 text-right"><%= concat_elevation_gain(personal_best.elevation_gain) %></td>
-					<td class="col-md-4">
-						<%= concat_elapsed_time(personal_best) %><br />
+					<td class="col-md-3 text-right"><%= concat_elevation_gain(personal_best.elevation_gain) %></td>
+					<td class="col-md-5">
+						<%= concat_elapsed_time(personal_best.seconds) %><br />
 						<small class="text-muted"><%= concat_pace_min_miles(personal_best.pace) %></small>
 					</td>
 					<td class="col-md-4">

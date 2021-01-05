@@ -16,7 +16,7 @@
 		<%= render mileage_chart_path, title: "Runs this Week (#{formatshortenedDateRange(Date.current.beginning_of_week, Date.current.end_of_week)})", data: @current_week_graph %>
 		<% @current_week_runs.each do |run| %>
 			<p>
-				<%= formateDateTimeWithAt(run.start_time.utc) %> | <span style="color: <%=run.hex_code%>"><%= run.run_type.name %></span> | <%= concat_distance_miles(run.mileage_total) %> | <%= concat_elapsed_time(run) %> | <%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %> | <small class="text-muted"><%= run.gear.return_full_shoe_name %></small>
+				<%= formateDateTimeWithAt(run.start_time.utc) %> | <span style="color: <%=run.hex_code%>"><%= run.run_type.name %></span> | <%= concat_distance_miles(run.mileage_total) %> | <%= concat_elapsed_time(run.seconds) %> | <%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %> | <small class="text-muted"><%= run.gear.return_full_shoe_name %></small>
 			</p>
 		<% end %>
 	</div>

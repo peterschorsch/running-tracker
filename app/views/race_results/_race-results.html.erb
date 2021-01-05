@@ -13,7 +13,7 @@
 						</td>
 						<td><%= concat_distance_miles(race.mileage_total) %></td>
 						<td>
-							<%= concat_elapsed_time(race) %><br />
+							<%= concat_elapsed_time(race.seconds) %><br />
 							<small class="text-muted"><%= concat_pace_min_miles(race.pace) %></small>
 						</td>
 						<td><%= concat_elevation_gain(race.elevation_gain) %></td>

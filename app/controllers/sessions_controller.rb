@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
-      ### TOTAL RECORDS CHECK FOR ALL USERS###
+      ### TOTAL RECORDS CHECK FOR ALL USERS ###
       @user.check_for_total_records_upon_login
 
       if @user.is_viewer?

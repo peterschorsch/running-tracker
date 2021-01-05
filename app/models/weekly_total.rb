@@ -125,23 +125,7 @@ class WeeklyTotal < ApplicationRecord
 		completed_runs_of_week = self.user.current_runs_of_week.return_completed_runs
 		met_goal = completed_runs_of_week.sum(:mileage_total) >= self.mileage_goal
 
-		wt_hours = wt_minutes = wt_seconds = 0
-
-		working_seconds = completed_runs_of_week.sum(:seconds)
-		if working_seconds >= 60
-			self.minutes += 1
-			working_seconds -= 60
-		end
-		working_minutes = completed_runs_of_week.sum(:minutes)
-		if working_minutes >= 60
-			wt_hours += 1
-			working_minutes -= 60
-		end
-		wt_hours = wt_hours += completed_runs_of_week.sum(:hours)
-		wt_minutes = working_minutes
-		wt_seconds = working_seconds
-
-		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, hours: wt_hours, minutes: wt_minutes, seconds: wt_seconds, number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
+		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, seconds: completed_runs_of_week.sum(:seconds), number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
 	end
 
 	### FOR WEBSITE VIEWER ###
@@ -154,34 +138,11 @@ class WeeklyTotal < ApplicationRecord
 		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
 	end
 
-	### RECALCULATE WEEKLY TOTALS ###
+	### REFRESHES USER'S FOUR WEEKLY TOTALS ###
 	def self.refresh_weekly_totals(user)
 		user.weekly_totals.each do |weekly_total|
-			@runs = Run.of_week(weekly_total.week_start).return_completed_runs
-
-			weekly_total.mileage_total = weekly_total.elevation_gain = weekly_total.number_of_runs = 0
-
-			weekly_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
-			weekly_total.elevation_gain = @runs.sum(&:elevation_gain)
-			weekly_total.number_of_runs = @runs.count
-
-			@runs.each do |run|
-				weekly_total.hours = weekly_total.minutes = weekly_total.seconds = 0
-				working_seconds = weekly_total.seconds += run.seconds
-				if working_seconds >= 60
-					weekly_total.minutes += 1
-					working_seconds -= 60
-				end
-				working_minutes = weekly_total.minutes += run.minutes
-				if working_minutes >= 60
-					weekly_total.hours += 1
-					working_minutes -= 60
-				end
-				weekly_total.hours = weekly_total.hours += run.hours
-				weekly_total.minutes = working_minutes
-				weekly_total.seconds = working_seconds
-			end
-			weekly_total.save(:validate => false)
+			@completed_runs = user.runs.of_week(weekly_total.week_start).return_completed_runs
+			weekly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(&:seconds))
 		end
 	end
 

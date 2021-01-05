@@ -46,33 +46,11 @@ class YearlyTotal < ApplicationRecord
 		self.save(:validate => false)
 	end
 
-	### RECALCULATE YEARLY TOTALS ###
+	### REFRESHES ALL YEARLY TOTALS ###
 	def self.refresh_yearly_totals(user)
 		user.yearly_totals.each do |yearly_total|
-			yearly_total.mileage_total = yearly_total.elevation_gain = yearly_total.number_of_runs = yearly_total.hours = yearly_total.minutes = yearly_total.seconds = 0
-
-			@runs = user.runs.of_year(yearly_total.year_start).return_completed_runs
-
-			yearly_total.mileage_total = BigDecimal(@runs.sum(&:mileage_total))
-			yearly_total.elevation_gain = @runs.sum(&:elevation_gain)
-			yearly_total.number_of_runs = @runs.count
-
-			@runs.each do |run|
-				working_seconds = yearly_total.seconds += run.seconds
-				if working_seconds >= 60
-					yearly_total.minutes += 1
-					working_seconds -= 60
-				end
-				working_minutes = yearly_total.minutes += run.minutes
-				if working_minutes >= 60
-					yearly_total.hours += 1
-					working_minutes -= 60
-				end
-				yearly_total.hours = yearly_total.hours += run.hours
-				yearly_total.minutes = working_minutes
-				yearly_total.seconds = working_seconds
-			end
-			yearly_total.save(:validate => false)
+			@completed_runs = user.runs.of_year(yearly_total.year_end).return_completed_runs
+			yearly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(&:seconds))
 		end
 	end
 
