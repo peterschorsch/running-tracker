@@ -56,7 +56,7 @@ class RunsController < ApplicationController
   # DELETE /runs/1
   # DELETE /runs/1.json
   def destroy
-    @run.gear.subract_mileage_to_shoe(@run.mileage_total)
+    @run.gear.subract_mileage_from_shoe(@run.mileage_total)
 
     ### Update Weekly Total
     @weekly_total = @run.user.current_weekly_total

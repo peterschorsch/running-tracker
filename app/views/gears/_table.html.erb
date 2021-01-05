@@ -18,15 +18,14 @@
     </thead>
     <tbody>
       <% gears.each do |shoe| %>
-        <%= shoe.default ? "<tr class='bold-text'>".html_safe : "<tr>".html_safe %>
-          <td scope="row"><%= image_tag(shoe.image.url, alt: "#{shoe.return_full_shoe_name} Icon", class: "shoe-icon") %></td>
-          <td scope="row"><%= shoe.return_full_shoe_name %></td>
-          <td scope="row"><%= shoe.return_shoe_weight %></td>
-          <td scope="row"><%= shoe.return_shoe_stack_height %></td>
-          <td scope="row"><%= shoe.return_shoe_drop %></td>
+          <td scope="row"><%= image_tag(shoe.image.url, alt: "#{return_full_shoe_name(shoe)} Icon", class: "shoe-icon") %></td>
+          <td scope="row" <%= "class=bold-text" if shoe.is_default_shoe? %>><%= return_full_shoe_name(shoe) %></td>
+          <td scope="row"><%= return_shoe_weight(shoe.weight) %></td>
+          <td scope="row"><%= return_shoe_stack_height(shoe) %></td>
+          <td scope="row"><%= return_shoe_drop(shoe.heel_drop) %></td>
           <td scope="row"><%= formatDateDots(shoe.purchased_on) %></td>
           <td scope="row"><%= date_nil_check(shoe.first_used_on) %></td>
-          <td scope="row"><%= shoe.return_shoe_mileage %></td>
+          <td scope="row"><%= return_shoe_mileage(shoe.mileage) %></td>
           <% if shoe.is_retired? %>
             <td scope="row"><%= formatDateDots(shoe.retired_on) %></td>
           <% end %>

@@ -29,7 +29,7 @@
 						<small class="text-muted"><%= concat_pace_min_miles(personal_best.pace) %></small>
 					</td>
 					<td class="col-md-4">
-						<%= personal_best.gear.return_full_shoe_name %><br />
+						<%= return_full_shoe_name(personal_best.gear) %><br />
 						<small class="text-muted"><%= personal_best.gear.color_way %></small>
 					</td>
 				</tr>

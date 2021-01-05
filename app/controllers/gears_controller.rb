@@ -74,7 +74,7 @@ class GearsController < ApplicationController
 
     def set_gear_fields
       @gear.user_id = current_user.id
-      @gear.set_new_default if gear_params[:default]=="1"
+      @gear.remove_other_default_shoes if gear_params[:default]=="1"
     end
 
     def check_for_retired_shoe

@@ -26,7 +26,7 @@
         <td><%= concat_elapsed_time(run.seconds) %></td>
         <td><%= concat_pace_min_miles(run.pace) %></td>
         <td><%= concat_elevation_gain(run.elevation_gain) %></td>
-        <td><%= run.gear.return_full_shoe_name %> (<%= run.gear.return_shoe_mileage %>)</td>
+        <td><%= return_full_shoe_name(run.gear) %> (<%= return_shoe_mileage(run.gear.mileage) %>)</td>
         <td><%= render remove_icon_btn_path, object: run %></td>
       </tr>
     <% end %>

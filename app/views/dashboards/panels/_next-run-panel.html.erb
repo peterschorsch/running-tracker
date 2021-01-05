@@ -4,9 +4,7 @@
 			<h1>Next Run</h1>
 		</div>
 		<div class="panel-body text-center">
-			<p>
-				<small class="text-muted"><%=formatTime(next_run.start_time.utc)%> | <%=formatDayofWeek(next_run.start_time)%> | <%=format_date_month(next_run.start_time)%> | <%= concat_city_state_abbreviation(next_run.city, next_run.state) %></small>
-			</p>
+			<p><%=concat_small_date_panel(next_run.start_time.utc, next_run.city, next_run.state) %></p>
 			<p style="color: <%=next_run.hex_code%>"><%= next_run.run_type.name %></p>
 			<h3><strong><%= next_run.name %></strong></h3>
 			<p><%= concat_distance_miles(next_run.planned_mileage) %></p>

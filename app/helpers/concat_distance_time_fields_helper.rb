@@ -40,6 +40,9 @@ module ConcatDistanceTimeFieldsHelper
 	def concat_date_range_run_total(date_range_helper, record)
 		raw(date_range_helper) + " | " + raw(concat_run_totals_line_one(record)) + " | " + raw(concat_run_totals_line_two(record.seconds))
 	end
+	def concat_small_date_panel(start_time, city, state)
+		raw("<small class='text-muted'>#{formatTime(start_time)} | #{formatDayofWeek(start_time)} | #{format_date_month(start_time)} | #{concat_city_state_abbreviation(city, state)}</small>")
+	end
 
 	# 7:30 min/mi
 	def concat_pace_min_miles(pace)

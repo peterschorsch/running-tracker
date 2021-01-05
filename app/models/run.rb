@@ -219,7 +219,7 @@ class Run < ApplicationRecord
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
 			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
-			gear_id: Gear.return_random_gear_id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
+			gear_id: Gear.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 
 		#Shoe
 		self.gear.add_mileage_to_shoe(mileage_total)
