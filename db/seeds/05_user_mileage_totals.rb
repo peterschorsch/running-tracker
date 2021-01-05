@@ -171,40 +171,40 @@ puts "----------RACES FOR MY ACCOUNT----------"
 @yearly_total = @my_account.yearly_totals.of_year(Date.new(2019).year)
 @monthly_totals = @yearly_total.monthly_totals
 
-#@april = @monthly_totals.of_month(Date.new(2019,4,1)).update_columns(mileage_total: BigDecimal('26.2'), number_of_runs: 1, elevation_gain: 655, hours: 2, minutes: 57, seconds: 8)
-#@july = @monthly_totals.of_month(Date.new(2019,7,1)).update_columns(mileage_total: BigDecimal('13.1'), number_of_runs: 1, elevation_gain: 0, hours: 1, minutes: 19, seconds: 44)
-#@august = @monthly_totals.of_month(Date.new(2019,8,1)).update_columns(mileage_total: BigDecimal('55.03'), number_of_runs: 8, elevation_gain: 882, hours: 6, minutes: 32, seconds: 48)
-#@september = @monthly_totals.of_month(Date.new(2019,9,1)).update_columns(mileage_total: BigDecimal('197.34'), number_of_runs: 25, elevation_gain: 2670, hours: 24, minutes: 06, seconds: 23)
-#@october = @monthly_totals.of_month(Date.new(2019,10,1)).update_columns(mileage_total: BigDecimal('131.87'), number_of_runs: 22, elevation_gain: 726, hours: 13, minutes: 25, seconds: 28)
-#@november = @monthly_totals.of_month(Date.new(2019,11,1)).update_columns(mileage_total: BigDecimal('70.34'), number_of_runs: 13, elevation_gain: 858, hours: 8, minutes: 30, seconds: 13)
-#@december = @monthly_totals.of_month(Date.new(2019,12,1)).update_columns(mileage_total: BigDecimal('150.82'), number_of_runs: 28, elevation_gain: 6709, hours: 17, minutes: 11, seconds: 41)
+@april = @monthly_totals.of_month(Date.new(2019,4,1)).update_columns(mileage_total: BigDecimal('26.2'), number_of_runs: 1, elevation_gain: 655, seconds: 10628)
+@july = @monthly_totals.of_month(Date.new(2019,7,1)).update_columns(mileage_total: BigDecimal('13.1'), number_of_runs: 1, elevation_gain: 0, seconds: 4784)
+@august = @monthly_totals.of_month(Date.new(2019,8,1)).update_columns(mileage_total: BigDecimal('55.03'), number_of_runs: 8, elevation_gain: 882, seconds: 23568)
+@september = @monthly_totals.of_month(Date.new(2019,9,1)).update_columns(mileage_total: BigDecimal('197.34'), number_of_runs: 25, elevation_gain: 2670, seconds: 86783)
+@october = @monthly_totals.of_month(Date.new(2019,10,1)).update_columns(mileage_total: BigDecimal('131.87'), number_of_runs: 22, elevation_gain: 726, seconds: 48328)
+@november = @monthly_totals.of_month(Date.new(2019,11,1)).update_columns(mileage_total: BigDecimal('70.34'), number_of_runs: 13, elevation_gain: 858, seconds: 32413)
+@december = @monthly_totals.of_month(Date.new(2019,12,1)).update_columns(mileage_total: BigDecimal('150.82'), number_of_runs: 28, elevation_gain: 6709, seconds: 61901)
 
-#@yearly_total = @yearly_total.update_columns(mileage_total: @monthly_totals.sum(:mileage_total), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), hours: 73, minutes: 6, seconds: 0)
+@yearly_total = @yearly_total.update_columns(mileage_total: @monthly_totals.sum(:mileage_total), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), seconds: 263160)
 
 
-### 2020 YEARLY TOTAL [UPDATED: NOVEMBER 27, 2020] ###
+### 2020 YEARLY TOTAL ###
 totals = [
   # MILES, NUMBER OF RUNS, ELEVATION GAIN, HOURS, MINUTES, SECONDS
-  [229.05, 29, 12992, 27, 11, 11], #JAN
-  [288.14, 29, 15925, 35, 04, 38], #FEB
-  [151.50, 24, 4265, 17, 40, 37], #MAR
-  [198.1, 27, 4944, 23, 57, 06], #APR
-  [189.23, 27, 5171, 23, 35, 35], #MAY
-  [170.49, 24, 4882, 21, 05, 40], #JUNE
-  [133.31, 21, 3662, 16, 41, 22], #JULY
-  [181.12, 27, 4511, 22, 40, 10], #AUG
-  [166, 26, 4731, 20, 34, 40], #SEPT
-  [163, 27, 4186, 20, 20, 56], #OCT
-  [178.8, 21, 3589, 16, 45, 21], #NOV
-  [149.49, 23, 3950, 18, 25, 48] #DEC AS OF DEC 26
+  [229.05, 29, 12992, 97871], #JAN
+  [288.14, 29, 15925, 126278], #FEB
+  [151.50, 24, 4265, 63637], #MAR
+  [198.1, 27, 4944, 86226], #APR
+  [189.23, 27, 5171, 84935], #MAY
+  [170.49, 24, 4882, 75940], #JUNE
+  [133.31, 21, 3662, 60082], #JULY
+  [181.12, 27, 4511, 81610], #AUG
+  [166, 26, 4731, 74080], #SEPT
+  [163, 27, 4186, 73256], #OCT
+  [178.8, 21, 3589, 70873], #NOV
+  [175.46, 27, 4636, 77798] #DEC
 ]
-#@yearly_total = @my_account.yearly_totals.of_year(Date.new(2020).year)
-#@monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
+@yearly_total = @my_account.yearly_totals.of_year(Date.new(2020).year)
+@monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
 
-#@monthly_totals.each_with_index do |monthly_total, index|
-  #monthly_total.update_columns(mileage_total: BigDecimal("#{totals[index][0]}"), number_of_runs: totals[index][1], elevation_gain: totals[index][2], hours: totals[index][3], minutes: totals[index][4], seconds: totals[index][5])
-#end
-#@yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), hours: 245, minutes: 37, seconds: 26)
+@monthly_totals.each_with_index do |monthly_total, index|
+  monthly_total.update_columns(mileage_total: BigDecimal("#{totals[index][0]}"), number_of_runs: totals[index][1], elevation_gain: totals[index][2], seconds: totals[index][3])
+end
+@yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), seconds: 884246)
 
 ### ALL TIME TOTAL ###
-#@all_time = @my_account.all_time_total.update_columns(mileage_total: @my_account.yearly_totals.sum(:mileage_total), number_of_runs: @my_account.yearly_totals.sum(:number_of_runs), elevation_gain: @my_account.yearly_totals.sum(:elevation_gain), hours: 319, minutes: 40, seconds: 52)
+@all_time = @my_account.all_time_total.update_columns(mileage_total: @my_account.yearly_totals.sum(:mileage_total), number_of_runs: @my_account.yearly_totals.sum(:number_of_runs), elevation_gain: @my_account.yearly_totals.sum(:elevation_gain), seconds: @my_account.yearly_totals.sum(:seconds))

@@ -107,7 +107,7 @@ class CalendarsController < ApplicationController
 
 	private
 		def set_run
-			@run = Run.of_user(current_user).find(params[:id])
+			@run = current_user.runs.find(params[:id])
 		end
 
 		def run_params

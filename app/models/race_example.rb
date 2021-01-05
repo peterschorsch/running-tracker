@@ -2,12 +2,10 @@ class RaceExample < ApplicationRecord
 	belongs_to :state
 	belongs_to :race_distance
 
-	validates :name, :minutes, :seconds, :elevation_gain, :city, presence: true
+	validates :name, :seconds, :elevation_gain, :city, presence: true
 	validates :name, uniqueness: true
 	validates :elevation_gain, numericality: true
-	validates :hours, numericality: true, length: { maximum: 3 }, allow_nil: true
-	validates :minutes, numericality: true, length: { in: 0..2 }
-	validates :seconds, numericality: true, length: { in: 1..2 }
+	validates :seconds, numericality: true
 
 
 	scope :named, -> (name) {
@@ -15,7 +13,7 @@ class RaceExample < ApplicationRecord
 	}
 
 	scope :order_by_fastest, -> {
-		order('hours, minutes, seconds')
+		order('seconds ASC')
 	}
 
 	scope :group_by_distance, -> {

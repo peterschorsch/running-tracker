@@ -9,7 +9,8 @@ class RaceResultsController < ApplicationController
 		### COUNTS OF RACE DISTANCES ###
 		@race_distance_counts = @races.return_race_distance_counts
 		### COLUMN WIDTH DEPENDING ON NUMBER DIFFERENT OF RACES DISTANCE ###
-		#@rd_counts_column_spacing = 12/@race_distance_counts.count
+		race_count = @race_distance_counts.count
+		@rd_counts_column_spacing = 12/(race_count == 0 ? 1 : race_count)
 		### DATA TO POPULATE MAP OF U.S.A. ###
 		@geo_chart_data = @geo_chart_hash.map{ |key, value| [State.find(key).name, value] }
 		### PERSONAL BESTS ARRAY ###
