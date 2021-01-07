@@ -16,6 +16,14 @@ class Gear < ApplicationRecord
 	    where(user: user)
 	}
 
+	scope :find_shoe, -> (shoe_model) {
+		find_by(model: shoe_model)
+	}
+
+	scope :find_shoe_with_color, -> (shoe_model, color_way) {
+		find_by(model: shoe_model, color_way: color_way)
+	}
+
 	scope :active_shoes, -> {
 		where(:retired => false)
 	}
@@ -28,6 +36,15 @@ class Gear < ApplicationRecord
 		find_by(:default => true)
 	}
 
+	scope :remove_default_shoe, -> {
+		where(:default => false)
+	}
+
+	### DISPLAY METHODS ###
+	def return_full_shoe_name
+		self.shoe_brand.brand + " " + self.model
+	end
+
 	def is_default_shoe?
 		self.default
 	end
@@ -37,7 +54,7 @@ class Gear < ApplicationRecord
 	end
 
 	def self.select_gear_id_name
-		self.unscoped.active_shoes.includes(:shoe_brand).order(default: :desc, brand: :asc).map{ |gear| [gear.return_full_shoe_name, gear.id] }
+		self.active_shoes.includes(:shoe_brand).order(default: :desc, brand: :asc).map{ |gear| [gear.return_full_shoe_name, gear.id] }
 	end
 
 	### ADDING NEW MILEAGE TO A SHOE ###

@@ -8,7 +8,7 @@ class CreateWeeklyTotals < ActiveRecord::Migration[5.2]
       t.decimal :mileage_goal, :default => 0, :precision => 5, :scale => 5
       t.boolean :met_goal, :default => false
 
-      t.integer :seconds, :null => false
+      t.integer :time_in_seconds, :null => false
 
       t.integer :number_of_runs, :null => false
       t.integer :elevation_gain, :null => false

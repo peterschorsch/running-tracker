@@ -42,7 +42,7 @@ five_k_races = [
 ]
 five_k_races.each do |five_k_race|
 	state_id = State.find_by_abbr(five_k_race[2]).id
-	@race_example = RaceExample.find_or_create_by(name: five_k_race[0], city: five_k_race[1], state_id: state_id, seconds: five_k_race[3], pace: five_k_race[4], elevation_gain: five_k_race[5], race_distance_id: @five_k.id)
+	@race_example = RaceExample.find_or_create_by(name: five_k_race[0], city: five_k_race[1], state_id: state_id, time_in_seconds: five_k_race[3], pace: five_k_race[4], elevation_gain: five_k_race[5], race_distance_id: @five_k.id)
 	puts @race_example.inspect
 end
 puts ""
@@ -68,7 +68,7 @@ ten_k_races = [
 ]
 ten_k_races.each do |ten_k_race|
 	state_id = State.find_by_abbr(ten_k_races[2]).id
-	@race_example = RaceExample.find_or_create_by(name: ten_k_race[0], city: ten_k_race[1], state_id: state_id, seconds: ten_k_race[3], pace: ten_k_race[4], elevation_gain: ten_k_race[5], race_distance_id: @ten_k.id)
+	@race_example = RaceExample.find_or_create_by(name: ten_k_race[0], city: ten_k_race[1], state_id: state_id, time_in_seconds: ten_k_race[3], pace: ten_k_race[4], elevation_gain: ten_k_race[5], race_distance_id: @ten_k.id)
 	puts @race_example.inspect
 end
 puts ""
@@ -94,7 +94,7 @@ half_marathon_races = [
 ]
 half_marathon_races.each do |half_marathon_race|
 	state_id = State.find_by_abbr(half_marathon_race[2]).id
-	@race_example = RaceExample.find_or_create_by(name: half_marathon_race[0], city: half_marathon_race[1], state_id: state_id, seconds: half_marathon_race[3], pace: half_marathon_race[4], elevation_gain: half_marathon_race[5], race_distance_id: @half_marathon.id)
+	@race_example = RaceExample.find_or_create_by(name: half_marathon_race[0], city: half_marathon_race[1], state_id: state_id, time_in_seconds: half_marathon_race[3], pace: half_marathon_race[4], elevation_gain: half_marathon_race[5], race_distance_id: @half_marathon.id)
 	puts @race_example.inspect
 end
 puts ""
@@ -120,7 +120,7 @@ marathon_races = [
 ]
 marathon_races.each do |marathon_race|
 	state_id = State.find_by_abbr(marathon_race[2]).id
-	@race_example = RaceExample.find_or_create_by(name: marathon_race[0], city: marathon_race[1], state_id: state_id, seconds: marathon_race[3], pace: marathon_race[4], elevation_gain: marathon_race[5], race_distance_id: @marathon.id)
+	@race_example = RaceExample.find_or_create_by(name: marathon_race[0], city: marathon_race[1], state_id: state_id, time_in_seconds: marathon_race[3], pace: marathon_race[4], elevation_gain: marathon_race[5], race_distance_id: @marathon.id)
 	puts @race_example.inspect
 end
 puts ""
@@ -158,7 +158,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 		if @website_viewer.runs.of_year(yearly_total.year_end).return_races.count <= 6
 			new_start_time = start_time.change(hour: rand(7..8), minute: [0,30].sample, second: 0)
 			@race = Run.create_with(planned_mileage: race_distance.numeric_distance, mileage_total: race_distance.numeric_distance, 
-					seconds: race_example.seconds, pace: race_example.pace, 
+					time_in_seconds: race_example.time_in_seconds, pace: race_example.pace, 
 			        elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, active_run: true, 
 			        gear_id: gear.id, state_id: race_example.state_id).find_or_create_by(name: race_example.name, start_time: new_start_time, run_type_id: race_run_type.id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
 			puts @race.inspect

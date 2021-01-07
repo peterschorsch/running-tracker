@@ -1,9 +1,9 @@
 class WeeklyTotal < ApplicationRecord
 	belongs_to :user
 
-	validates :week_start, :week_end, :mileage_total, :seconds, :elevation_gain, presence: true
+	validates :week_start, :week_end, :mileage_total, :time_in_seconds, :elevation_gain, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
-	validates :seconds, numericality: true
+	validates :time_in_seconds, numericality: true
 
 	scope :order_by_oldest_week, -> {
 		order(:week_start)
@@ -109,7 +109,7 @@ class WeeklyTotal < ApplicationRecord
 
 	### CREATE WEEKLY TOTAL RECORD WITH ZEROED TOTALS ###
 	def self.create_blank_weekly_total_record(week_start, week_end, user_id)
-		WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
+		WeeklyTotal.create_with(mileage_total: 0, mileage_goal: 0, met_goal: false, time_in_seconds: 0, number_of_runs: 0, elevation_gain: 0).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
 	### CREATE SINGLE RANDOM WEEKLY TOTAL RECORD
@@ -118,14 +118,14 @@ class WeeklyTotal < ApplicationRecord
 		mileage_goal = BigDecimal(rand(5..39))
 		met_goal = mileage_total >= mileage_goal
 
-		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
+		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, time_in_seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
 	def update_weekly_total(week_start, week_end)
 		completed_runs_of_week = self.user.current_runs_of_week.return_completed_runs
 		met_goal = completed_runs_of_week.sum(:mileage_total) >= self.mileage_goal
 
-		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, seconds: completed_runs_of_week.sum(:seconds), number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
+		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, time_in_seconds: completed_runs_of_week.sum(:time_in_seconds), number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
 	end
 
 	### FOR WEBSITE VIEWER ###
@@ -135,14 +135,14 @@ class WeeklyTotal < ApplicationRecord
 		mileage_goal = BigDecimal(rand(5..39))
 		met_goal = mileage_total >= mileage_goal
 
-		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
+		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), time_in_seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
 	end
 
 	### REFRESHES USER'S FOUR WEEKLY TOTALS ###
 	def self.refresh_weekly_totals(user)
 		user.weekly_totals.each do |weekly_total|
 			@completed_runs = user.runs.of_week(weekly_total.week_start).return_completed_runs
-			weekly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(&:seconds))
+			weekly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end
 

@@ -23,11 +23,14 @@
         </td>
         <td style="color: <%=run.hex_code%>"><%= run.run_type.name %></td>
         <td><%= concat_distance_miles(run.mileage_total) %></td>
-        <td><%= concat_elapsed_time(run.seconds) %></td>
+        <td><%= concat_elapsed_time(run.time_in_seconds) %></td>
         <td><%= concat_pace_min_miles(run.pace) %></td>
         <td><%= concat_elevation_gain(run.elevation_gain) %></td>
         <td><%= return_full_shoe_name(run.gear) %> (<%= return_shoe_mileage(run.gear.mileage) %>)</td>
-        <td><%= render remove_icon_btn_path, object: run %></td>
+        <td>
+          <%= render edit_icon_btn_path, edit_path: edit_run_path(run) %>
+          <%= render remove_icon_btn_path, object: run %>
+        </td>
       </tr>
     <% end %>
   </tbody>

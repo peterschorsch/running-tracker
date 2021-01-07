@@ -128,19 +128,22 @@ class CalendarsController < ApplicationController
 			### Update Shoe Mileage Total
 			@run.gear.update_mileage_of_shoe(params[:run][:mileage_total].to_f)
 
+			### Convert and set hours, minutes, seconds to just seconds ###
+			@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+
 			### Update Weekly Total
-			@weekly_total = @run.user.current_weekly_total
-			@run.update_user_run_totals(@weekly_total)
-			@weekly_total.update_met_goal_field
+			#@weekly_total = @run.user.current_weekly_total
+			#@run.update_user_run_totals(@weekly_total)
+			#@weekly_total.update_met_goal_field
 
 			### Update Monthly Total
-			@run.update_user_run_totals(current_user.current_monthly_total)
+			#@run.update_user_run_totals(current_user.current_monthly_total)
 
 			### Update Yearly Total
-			@run.update_user_run_totals(current_user.current_yearly_total)
+			#@run.update_user_run_totals(current_user.current_yearly_total)
 
 			### Update All Time Total
-			@run.update_user_run_totals(current_user.all_time_total)
+			#@run.update_user_run_totals(current_user.all_time_total)
 		end
 
 end

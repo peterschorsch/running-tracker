@@ -7,7 +7,7 @@
 			<p><%= concat_small_date_panel(last_run.start_time, last_run.city, last_run.state) %></p>
 			<p style="color: <%=last_run.hex_code%>"><%= last_run.run_type.name %></p>
 			<h3><strong><%= last_run.name %></strong></h3>
-			<p><%= concat_distance_miles(last_run.mileage_total) %> | <strong><%= concat_elapsed_time(last_run.seconds) %></strong></p>
+			<p><%= concat_distance_miles(last_run.mileage_total) %> | <strong><%= concat_elapsed_time(last_run.time_in_seconds) %></strong></p>
 			<p><%= concat_pace_min_miles(last_run.pace) %> | <%= concat_elevation_gain(last_run.elevation_gain) %></p>
 			<p><small class="text-muted"><%= return_full_shoe_name(@last_run.gear) %> (<%= return_shoe_mileage(last_run.gear.mileage) %>)</small></p>
 			<% if not last_run.run_type.is_race? %>

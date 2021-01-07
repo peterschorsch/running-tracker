@@ -9,7 +9,7 @@ class CreateYearlyTotals < ActiveRecord::Migration[5.2]
       t.integer :number_of_runs, :null => false
       t.integer :elevation_gain, :null => false
 
-      t.integer :seconds, :null => false
+      t.integer :time_in_seconds, :null => false
 
       t.references :all_time_total, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true

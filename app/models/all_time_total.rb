@@ -7,11 +7,11 @@ class AllTimeTotal < ApplicationRecord
 	}
 
 	def self.create_zero_totals(user_id)
-		AllTimeTotal.create_with(mileage_total: BigDecimal(0), elevation_gain: 0, number_of_runs: 0, seconds: 0).find_or_create_by(user_id: user_id)
+		AllTimeTotal.create_with(mileage_total: BigDecimal(0), elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id)
 	end
 
 	def self.create_random_totals(user_id)
-		AllTimeTotal.create_with(mileage_total: BigDecimal(rand(3500..10000)), elevation_gain: rand(60000..150000), number_of_runs: rand(500..1000), seconds: rand(21600..115200)).find_or_create_by(user_id: user_id)
+		AllTimeTotal.create_with(mileage_total: BigDecimal(rand(3500..10000)), elevation_gain: rand(60000..150000), number_of_runs: rand(500..1000), time_in_seconds: rand(21600..115200)).find_or_create_by(user_id: user_id)
 	end
 
 	def add_to_all_time_total(run)

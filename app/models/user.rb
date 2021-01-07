@@ -103,7 +103,7 @@ class User < ApplicationRecord
 
 	### CHECK IF USER HAS AN ALL TIME TOTAL RECORD ###
 	def check_for_all_time_total_record
-		AllTimeTotal.create_with(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(user_id: self.id)
+		AllTimeTotal.create_with(mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, seconds: 0).find_or_create_by(user_id: self.id)
 	end
 
 	### CHECK IF USER HAS AN YEARLY TOTAL RECORD ###
@@ -199,11 +199,11 @@ class User < ApplicationRecord
 	end
 
 	def refresh_all_user_totals
-		AllTimeTotal.refresh_all_time_total(self)
-		YearlyTotal.refresh_yearly_totals(self)
-		MonthlyTotal.refresh_monthly_totals(self)
-		WeeklyTotal.refresh_weekly_totals(self)
-		Gear.recalculate_mileage_of_shoes(self)
+		#AllTimeTotal.refresh_all_time_total(self)
+		#YearlyTotal.refresh_yearly_totals(self)
+		#MonthlyTotal.refresh_monthly_totals(self)
+		#WeeklyTotal.refresh_weekly_totals(self)
+		#Gear.recalculate_mileage_of_shoes(self)
 	end
 
 end

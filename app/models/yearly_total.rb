@@ -3,10 +3,10 @@ class YearlyTotal < ApplicationRecord
 	belongs_to :all_time_total
 	has_many :monthly_totals, dependent: :destroy
 
-	validates :year, :mileage_total, :number_of_runs, :elevation_gain, :seconds, presence: true
+	validates :year, :mileage_total, :number_of_runs, :elevation_gain, :time_in_seconds, presence: true
 	validates_uniqueness_of :year, :scope => [:all_time_total_id, :user_id]
 
-	validates_numericality_of :seconds
+	validates_numericality_of :time_in_seconds
 
 	scope :order_by_oldest_year, -> {
 	    order(:year)
@@ -50,7 +50,7 @@ class YearlyTotal < ApplicationRecord
 	def self.refresh_yearly_totals(user)
 		user.yearly_totals.each do |yearly_total|
 			@completed_runs = user.runs.of_year(yearly_total.year_end).return_completed_runs
-			yearly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(&:seconds))
+			yearly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end
 
@@ -58,7 +58,7 @@ class YearlyTotal < ApplicationRecord
 		year_start = year.beginning_of_year.in_time_zone("Pacific Time (US & Canada)")
 		year_end = year.end_of_year.in_time_zone("Pacific Time (US & Canada)")
 
-		YearlyTotal.create_with(mileage_total: BigDecimal('0'), elevation_gain: 0, number_of_runs: 0, seconds: 0).find_or_create_by(year: year.year, year_start: year_start, 
+		YearlyTotal.create_with(mileage_total: BigDecimal('0'), elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(year: year.year, year_start: year_start, 
 			year_end: year_end, user_id: user_id, all_time_total_id: all_time_total_id)
 	end
 
@@ -67,7 +67,7 @@ class YearlyTotal < ApplicationRecord
 		year_end = year.end_of_year.in_time_zone("Pacific Time (US & Canada)")
 
 		YearlyTotal.create_with(mileage_total: BigDecimal(rand(1000..2500)), elevation_gain: rand(22000..60000), number_of_runs: rand(220..310), 
-			seconds: rand(21600..115200)).find_or_create_by(year: year.year, year_start: year_start, 
+			time_in_seconds: rand(21600..115200)).find_or_create_by(year: year.year, year_start: year_start, 
 			year_end: year_end, user_id: user_id, all_time_total_id: all_time_total_id)
 	end
 

@@ -3,9 +3,9 @@ class MonthlyTotal < ApplicationRecord
 	has_many :runs
 	belongs_to :yearly_total
 
-	validates :month_start, :month_end, :mileage_total, :seconds, :elevation_gain, presence: true
+	validates :month_start, :month_end, :mileage_total, :time_in_seconds, :elevation_gain, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
-	validates :seconds, numericality: true
+	validates :time_in_seconds, numericality: true
 
 	scope :order_by_oldest_month, -> {
 	    order(:month_start)
@@ -28,11 +28,11 @@ class MonthlyTotal < ApplicationRecord
 	}
 
 	def self.create_zero_totals(user_id, yearly_total_id, month_start, month_end)
-		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
+		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
 	end
 
 	def self.create_random_totals(user_id, yearly_total_id, month_start, month_end)
-		MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), seconds: rand(21600..115200)).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
+		MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), time_in_seconds: rand(21600..115200)).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
 	end
 
 
@@ -59,15 +59,15 @@ class MonthlyTotal < ApplicationRecord
 	end
 
 	### RECALCULATE MONTHLY TOTALS ###
-	def update_monthly_total_numbers(mileage_total, elevation_gain, number_of_runs, seconds)
-		self.update_columns(:mileage_total => mileage_total, :elevation_gain => elevation_gain, :number_of_runs => number_of_runs, :seconds => seconds)
+	def update_monthly_total_numbers(mileage_total, elevation_gain, number_of_runs, time_in_seconds)
+		self.update_columns(:mileage_total => mileage_total, :elevation_gain => elevation_gain, :number_of_runs => number_of_runs, :time_in_seconds => time_in_seconds)
 	end
 
 	### REFRESHES ALL MONTHLY TOTALS ###
 	def self.refresh_monthly_totals(user)
 		user.monthly_totals.each do |monthly_total|
 			@completed_runs = monthly_total.runs.return_completed_runs
-			monthly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(&:seconds))
+			monthly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end
 end

@@ -5,10 +5,23 @@ class Run < ApplicationRecord
 	belongs_to :state
 	belongs_to :run_type
 
-	validates :name, :start_time, :mileage_total, :seconds, :elevation_gain, :city, presence: true
+	validates :name, :start_time, :mileage_total, :time_in_seconds, :elevation_gain, :city, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
-	validates :seconds, numericality: true
+	validates :time_in_seconds, numericality: true
+	attr_accessor :hours, :minutes, :seconds
 
+	def form_convert_elapsed_time(hours=0, minutes=0, seconds=0)
+		(hours.to_i*60*60) + (minutes.to_i*60) + seconds.to_i
+	end
+
+	def form_convert_and_save_elapsed_time(hours=0, minutes=0, seconds=0)
+		elapsed_time = self.form_convert_elapsed_time(hours, minutes, seconds)
+		self.update_columns(:time_in_seconds => elapsed_time)
+	end
+
+	def set_time_in_seconds(hours, minutes, seconds)
+		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
+	end
 
 	scope :of_user, -> (user) {
 	    where(user: user)
@@ -64,7 +77,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_fastest, -> {
-		order('seconds ASC')
+		order('time_in_seconds ASC')
 	}
 
 	### RACE RELATED SCOPES & METHODS ###
@@ -201,14 +214,14 @@ class Run < ApplicationRecord
 
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
-		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, seconds: Run.return_random_seconds, 
+		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
 			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
 	end
 
 	### CREATE PLANNED RUN ###
 	def self.create_planned_run_record(start_time, planned_mileage, gear_id, city, state_id, monthly_total_id, user_id)
-		Run.create_with(name: "Planned Run", seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
+		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
@@ -217,7 +230,7 @@ class Run < ApplicationRecord
 		mileage_total = Run.return_random_mileage
 
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
-			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, seconds: Run.return_random_seconds, 
+			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, time_in_seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			gear_id: Gear.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 
