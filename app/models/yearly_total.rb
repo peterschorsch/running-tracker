@@ -28,7 +28,7 @@ class YearlyTotal < ApplicationRecord
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
 	def update_yearly_total 
 		# Returns monthly total records in order to sum totals
-		@monthly_totals = self.user.monthly_totals
+		@monthly_totals = self.user.monthly_totals.of_year(self.start_time)
 		self.update_columns(:mileage_total => @monthly_totals.sum(:mileage_total), :time_in_seconds => @monthly_totals.sum(:time_in_seconds), :number_of_runs => @monthly_totals.count, :elevation_gain => @monthly_totals.sum(:elevation_gain))
 	end
 
