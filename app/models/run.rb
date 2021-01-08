@@ -258,6 +258,13 @@ class Run < ApplicationRecord
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
+	### CREATE BLANK RUN WITH A PROVIDED NAME ###
+	def self.create_blank_run_record(name, start_time, planned_mileage, gear_id, city, state_id, monthly_total_id, user_id)
+		Run.create_with(name: name, time_in_seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
+			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
+			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
+	end
+
 	def update_planned_run_record
 		mileage_total = Run.return_random_mileage
 
@@ -299,15 +306,12 @@ class Run < ApplicationRecord
 		default_shoe_id = Gear.return_default_shoe.id
 		default_run_type_id = RunType.default_run_type.id
 
-		@last_weeks_runs = Run.of_user(current_user).where(:start_time => week_start_date..week_end_date)
+		@last_weeks_runs = current_user.runs.where(:start_time => week_start_date..week_end_date)
 		@last_weeks_runs.each do |run|
 			start_time = run.start_time+1.week
 			monthly_total_id = MonthlyTotal.of_month(start_time).id
-			@run = Run.find_or_create_by(name: run.name, start_time: start_time,
-										seconds: BigDecimal('0'), pace: "0:00", city: run.city,
-										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
-										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: default_run_type_id,
-										user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
+
+			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, default_shoe_id, run.city, run.state_id, monthly_total_id, current_user.id)
 		end
 	end
 
@@ -325,11 +329,8 @@ class Run < ApplicationRecord
 		@current_weeks_runs.each do |run|
 			start_time = run.start_time+1.week
 			monthly_total_id = MonthlyTotal.of_month(start_time).id
-			@run = Run.find_or_create_by(name: run.name, start_time: start_time,
-										seconds: BigDecimal('0'), pace: "0:00", city: run.city,
-										gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
-										elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
-										user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
+
+			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, default_shoe_id, run.city, run.state_id, monthly_total_id, current_user.id)
 		end
 	end
 
@@ -360,11 +361,7 @@ class Run < ApplicationRecord
 				(1..number_of_weeks+1).each do |number|
 					running_date = run.start_time + number.week
 
-					@run = Run.find_or_create_by(name: run.name, start_time: running_date,
-											seconds: BigDecimal('0'), pace: "0:00", city: run.city,
-											gear_id: default_shoe_id, planned_mileage: run.planned_mileage,
-											elevation_gain: BigDecimal('0'), state_id: run.state_id, run_type_id: run.run_type.id,
-											user_id: current_user.id, monthly_total_id: monthly_total_id, completed_run: false, active_run: false)
+					Run.create_blank_run_record(run.name, running_date, run.planned_mileage, default_shoe_id, run.city, run.state_id, monthly_total_id, current_user.id)
 				end
 			end
 		end

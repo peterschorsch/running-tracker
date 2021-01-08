@@ -62,11 +62,11 @@ class CalendarsController < ApplicationController
 		end
 	end
 
-	### CREATE DEFAULT RUNS FOR CURRENT WEEK
-	def create_current_week_runs
+	### CREATE PLANNED RUNS FOR CURRENT WEEK
+	def create_current_week_planned_runs
 		respond_to do |format|
 			if current_user.create_weeklong_default_runs
-				format.html { redirect_to request.referrer, notice: "<strong>Default Runs</strong> were created for the week starting <strong>#{DateTime.now.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
+				format.html { redirect_to request.referrer, notice: "<strong>Planned Runs</strong> were created for the week starting <strong>#{DateTime.now.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
 				format.html { redirect_to request.referrer, errors: @usergroup.errors }
 			end
@@ -88,7 +88,7 @@ class CalendarsController < ApplicationController
 	def copy_current_week_runs
 		respond_to do |format|
 			if Run.copy_current_weeks_runs(current_user)
-				format.html { redirect_to request.referrer, notice: "<strong>Last Week's</strong> runs were copied to the current week starting <strong>#{(DateTime.now+1.week).beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
+				format.html { redirect_to request.referrer, notice: "<strong>This Week's</strong> runs were copied to the next week starting <strong>#{(DateTime.now+1.week).beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
 				format.html { redirect_to request.referrer, errors: @usergroup.errors }
 			end

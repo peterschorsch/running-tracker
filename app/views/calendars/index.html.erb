@@ -3,7 +3,7 @@
 		<%= link_to "Add a Run on Specific Date", new_calendars_path, { class: "btn btn-info btn-block", :disabled => current_user.is_viewer? } %>
 	</div>
 	<div class="col-md-2 col-xs-12">
-		<%= button_to "Create this Week's Default Runs", create_current_week_runs_calendars_path, { class: "btn btn-primary btn-block", :disabled => current_user.is_viewer? } %>
+		<%= button_to "Create this Week's Planned Runs", create_current_week_runs_calendars_path, { class: "btn btn-primary btn-block", :disabled => current_user.is_viewer? } %>
 	</div>
 	<div class="col-md-2 col-xs-12">
 		<%= button_to "Copy Last Week's Runs to This Week", copy_past_week_runs_calendars_path, { class: "btn btn-danger btn-block", :disabled => current_user.is_viewer? } %>
