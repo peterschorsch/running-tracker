@@ -26,8 +26,8 @@
 			<%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
 		</div>
 		<div class="col-xs-3">
-			<%= f.label :gear_id, 'Shoes:' %>
-			<%= f.select(:gear_id, Gear.of_user(current_user).select_gear_id_name, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+			<%= f.label :shoe_id, 'Shoes:' %>
+			<%= f.select(:shoe_id, Shoe.of_user(current_user).select_shoe_id_name, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
 		</div>
 	</div>
 	<br />

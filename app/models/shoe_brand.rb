@@ -1,5 +1,5 @@
 class ShoeBrand < ApplicationRecord
-	has_many :gears, dependent: :destroy
+	has_many :shoes, dependent: :destroy
 
 	validates :brand, presence: true, uniqueness: true
 

@@ -34,8 +34,8 @@ module ConcatDistanceTimeFieldsHelper
 	def concat_run_totals_line_one(record)
 		concat_number_of_runs(record.number_of_runs) + " | " + concat_distance_miles(record.mileage_total) + " | " + concat_elevation_gain(record.elevation_gain)
 	end
-	def concat_run_totals_line_two(record)
-		concat_total_time(record.time_in_seconds)
+	def concat_run_totals_line_two(time_in_seconds)
+		concat_total_time(time_in_seconds)
 	end
 	def concat_date_range_run_total(date_range_helper, record)
 		raw(date_range_helper) + " | " + raw(concat_run_totals_line_one(record)) + " | " + raw(concat_run_totals_line_two(record.time_in_seconds))

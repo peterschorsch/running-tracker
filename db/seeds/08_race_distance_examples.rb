@@ -132,7 +132,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 	@race_distances.each do |race_distance|
 		race_example = race_distance.race_examples.order("RANDOM()").first
 		race_run_type = RunType.named("Race")
-		gear = Gear.return_default_shoe
+		shoe = Shoe.return_default_shoe
 
 		year = yearly_total.year.to_i
 		month = rand(1..Date.current.month)
@@ -160,7 +160,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 			@race = Run.create_with(planned_mileage: race_distance.numeric_distance, mileage_total: race_distance.numeric_distance, 
 					time_in_seconds: race_example.time_in_seconds, pace: race_example.pace, 
 			        elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, active_run: true, 
-			        gear_id: gear.id, state_id: race_example.state_id).find_or_create_by(name: race_example.name, start_time: new_start_time, run_type_id: race_run_type.id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
+			        shoe_id: shoe.id, state_id: race_example.state_id).find_or_create_by(name: race_example.name, start_time: new_start_time, run_type_id: race_run_type.id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
 			puts @race.inspect
 			puts ""
 		end
@@ -177,4 +177,4 @@ puts ""
 @website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 
 ### UPDATE SHOE TOTALS ###
-Gear.recalculate_mileage_of_shoes(@website_viewer)
+Shoe.recalculate_mileage_of_shoes(@website_viewer)

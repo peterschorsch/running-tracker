@@ -42,11 +42,11 @@ class Admin::ShoeBrandsController < Admin::AdminController
   # DELETE /admin/shoe_brands/1.json
   def destroy
     @default_shoe = Gear.return_default_shoe
-    @admin_shoe_brand.gears.each do |shoe|
+    @admin_shoe_brand.shoes.each do |shoe|
       shoe.runs.each do |run|
         @default_shoe.add_mileage_to_shoe(run.mileage_total)
-        run.gear_id = @default_shoe.id
-        run.gear.save(:validate => false)
+        run.shoe_id = @default_shoe.id
+        run.shoe.save(:validate => false)
         run.save(:validate => false)
       end
     end

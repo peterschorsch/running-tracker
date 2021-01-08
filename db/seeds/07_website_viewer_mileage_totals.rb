@@ -38,13 +38,13 @@ puts @all_time_total.inspect
 
       run_type_id = RunType.return_random_run_type_id
 
-      gears = @website_viewer.gears.remove_default_shoe.active_shoes
-      gear_id = gears.offset(rand(gears.count)).first.id
+      shoes = @website_viewer.shoes.remove_default_shoe.active_shoes
+      shoe_id = shoes.offset(rand(shoes.count)).first.id
 
       pace = Run.return_random_pace
 
       if @website_viewer.runs.of_day(run_date).empty?
-        @run = Run.create_random_run_record("Run", run_date.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), true, true, gear_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
+        @run = Run.create_random_run_record("Run", run_date.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), true, true, shoe_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
         #puts @run.inspect
       end
     end

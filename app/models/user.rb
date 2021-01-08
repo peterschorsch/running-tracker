@@ -4,7 +4,7 @@ class User < ApplicationRecord
 	has_many :yearly_totals, dependent: :destroy
 	has_many :monthly_totals, dependent: :destroy
 	has_many :weekly_totals, dependent: :destroy
-	has_many :gears, dependent: :destroy
+	has_many :shoes, dependent: :destroy
 	has_many :runs, dependent: :destroy
 	has_many :obligations, dependent: :destroy
 
@@ -67,7 +67,7 @@ class User < ApplicationRecord
 	end
 
 	### GET RUNS OF CURRENT WEEK ###
-	def current_runs_of_week
+	def runs_of_current_week
 		runs.of_week
 	end
 
@@ -145,7 +145,7 @@ class User < ApplicationRecord
 
 		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
 
-		gear_id = Gear.return_default_shoe.id
+		shoe_id = Gear.return_default_shoe.id
 		city = "Los Angeles"
 		state_id = State.find_by_abbr("CA").id
 
@@ -155,7 +155,7 @@ class User < ApplicationRecord
 				run_type_id = RunType.return_random_run_type_id
 				@monthly_total = self.monthly_totals.of_month(date)
 
-				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, gear_id, city, state_id, run_type_id, @monthly_total.id, self.id)
+				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
 				self.refresh_all_user_totals
 			end
 		end
@@ -174,7 +174,7 @@ class User < ApplicationRecord
 
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
 	def create_weeklong_default_runs
-		default_shoe_id = Gear.return_default_shoe.id
+		default_shoe_id = Shoe.return_default_shoe.id
 		state_id = State.find_by_abbr("CA").id
 		run_type_id = RunType.default_run_type.id
 
@@ -203,7 +203,7 @@ class User < ApplicationRecord
 		#YearlyTotal.refresh_yearly_totals(self)
 		#MonthlyTotal.refresh_monthly_totals(self)
 		#WeeklyTotal.refresh_weekly_totals(self)
-		#Gear.recalculate_mileage_of_shoes(self)
+		#Shoe.recalculate_mileage_of_shoes(self)
 	end
 
 end

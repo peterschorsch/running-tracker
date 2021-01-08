@@ -1,7 +1,7 @@
 class Run < ApplicationRecord
 	belongs_to :user
 	belongs_to :monthly_total
-	belongs_to :gear
+	belongs_to :shoe
 	belongs_to :state
 	belongs_to :run_type
 
@@ -169,7 +169,7 @@ class Run < ApplicationRecord
 	def update_subsequent_tables
 		if self.was_completed?
 			### Update Shoe Mileage Total - FIX ###
-			#@run.gear.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
+			#@run.shoe.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
 
 			self.update_weekly_total
 
@@ -245,22 +245,22 @@ class Run < ApplicationRecord
 	end
 
 	### CREATE RANDOM COMPLETED RUN ###
-	def self.create_random_run_record(name, start_time, completed_run, active_run, gear_id, city, state_id, run_type_id, monthly_total_id, user_id)
+	def self.create_random_run_record(name, start_time, completed_run, active_run, shoe_id, city, state_id, run_type_id, monthly_total_id, user_id)
 		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
-			gear_id: gear_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
+			shoe_id: shoe_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
 	end
 
 	### CREATE PLANNED RUN ###
-	def self.create_planned_run_record(start_time, planned_mileage, gear_id, city, state_id, monthly_total_id, user_id)
-		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
+	def self.create_planned_run_record(start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
+		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace: "0:00", city: city, shoe_id: shoe_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### CREATE BLANK RUN WITH A PROVIDED NAME ###
-	def self.create_blank_run_record(name, start_time, planned_mileage, gear_id, city, state_id, monthly_total_id, user_id)
-		Run.create_with(name: name, time_in_seconds: 0, pace: "0:00", city: city, gear_id: gear_id, 
+	def self.create_blank_run_record(name, start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
+		Run.create_with(name: name, time_in_seconds: 0, pace: "0:00", city: city, shoe_id: shoe_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
@@ -271,10 +271,10 @@ class Run < ApplicationRecord
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
 			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, time_in_seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
-			gear_id: Gear.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
+			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 
 		#Shoe
-		self.gear.add_mileage_to_shoe(mileage_total)
+		self.shoe.add_mileage_to_shoe(mileage_total)
 
 		#Weekly
 		self.user.weekly_totals.return_newest_weekly_total.add_to_current_weekly_total(self)

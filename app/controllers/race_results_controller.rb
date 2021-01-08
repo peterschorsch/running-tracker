@@ -19,7 +19,7 @@ class RaceResultsController < ApplicationController
 
 	private
 	def set_current_user_races
-		@races = current_user.runs.return_races.includes(gear: :shoe_brand)
+		@races = current_user.runs.return_races.includes(shoe: :shoe_brand)
 	end
 
 	def set_geo_chart_hash

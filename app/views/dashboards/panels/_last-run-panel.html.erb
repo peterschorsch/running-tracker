@@ -9,7 +9,7 @@
 			<h3><strong><%= last_run.name %></strong></h3>
 			<p><%= concat_distance_miles(last_run.mileage_total) %> | <strong><%= concat_elapsed_time(last_run.time_in_seconds) %></strong></p>
 			<p><%= concat_pace_min_miles(last_run.pace) %> | <%= concat_elevation_gain(last_run.elevation_gain) %></p>
-			<p><small class="text-muted"><%= return_full_shoe_name(@last_run.gear) %> (<%= return_shoe_mileage(last_run.gear.mileage) %>)</small></p>
+			<p><small class="text-muted"><%= return_full_shoe_name(@last_run.shoe) %> (<%= return_shoe_mileage(last_run.shoe.mileage) %>)</small></p>
 			<% if not last_run.run_type.is_race? %>
 				<%= render colored_line_divider_path, hex_code: last_run.hex_code %>
 				<p><small class="text-muted">Planned to run: <%= concat_distance_miles(last_run.planned_mileage) %></small></p>

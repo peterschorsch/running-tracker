@@ -4,7 +4,7 @@ class CalendarsController < ApplicationController
 
 	def index
 		@obligations = current_user.obligations.includes(:state, :obligation_color)
-		@runs = current_user.runs.includes(:run_type, [gear: :shoe_brand], :state)
+		@runs = current_user.runs.includes(:run_type, [shoe: :shoe_brand], :state)
 		@run_types = RunType.active_run_types.order_by_name
 	end
 
@@ -116,7 +116,7 @@ class CalendarsController < ApplicationController
 		end
 
 		def run_params
-	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
+	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
 	    end
 
 	    def viewer_authorization

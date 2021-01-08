@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   end
 
   resources :runs, except: [:show]
-  resources :gears, path: "shoes", except: [:show, :destroy]
+  resources :shoes, path: "shoes", except: [:show, :destroy]
   resources :obligations, except: [:show]
 
   ### USERS PAGE ###

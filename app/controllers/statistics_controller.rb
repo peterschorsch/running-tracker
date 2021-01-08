@@ -3,7 +3,7 @@ class StatisticsController < ApplicationController
 
 	def index
 		### THIS WEEK TOTALS ###
-		@current_week_runs = @current_week_runs_master.includes(gear: :shoe_brand).order_by_most_recent
+		@current_week_runs = @current_week_runs_master.includes(shoe: :shoe_brand).order_by_most_recent
 		@current_week_graph = @current_week_runs_master.order_by_oldest.map { |cwr| [cwr.start_time.strftime("%A"), cwr.mileage_total.to_i] }
 		@weekly_runtype_counts_data = WeeklyTotal.populate_runtype_pie_chart(@current_week_runs)
 
@@ -38,7 +38,7 @@ class StatisticsController < ApplicationController
 	private
 	def set_master_totals
 		### THIS WEEK TOTALS ###
-		@current_week_runs_master = current_user.current_runs_of_week.includes(:run_type)
+		@current_week_runs_master = current_user.runs_of_current_week.includes(:run_type)
 
 		### WEEKLY TOTALS ###
 		@weekly_totals_master = current_user.weekly_totals

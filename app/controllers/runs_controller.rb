@@ -5,7 +5,7 @@ class RunsController < ApplicationController
   # GET /runs
   # GET /runs.json
   def index
-    @runs = current_user.runs.return_completed_runs.includes(:run_type, gear: :shoe_brand).order_by_most_recent
+    @runs = current_user.runs.return_completed_runs.includes(:run_type, shoe: :shoe_brand).order_by_most_recent
   end
 
   # GET /runs/new
@@ -59,7 +59,7 @@ class RunsController < ApplicationController
   # DELETE /runs/1
   # DELETE /runs/1.json
   def destroy
-    @run.gear.subract_mileage_from_shoe(@run.mileage_total)
+    @run.shoe.subract_mileage_from_shoe(@run.mileage_total)
 
     ### Update Weekly Total
     @weekly_total = @run.user.current_weekly_total
@@ -102,12 +102,12 @@ class RunsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def run_params
-      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
+      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
     end
 
     def update_subsequent_tables
       ### Update Shoe Mileage Total - FIX ###
-      #@run.gear.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
+      #@run.shoe.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
 
       ### Convert and set hours, minutes, seconds to just seconds ###
       @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
