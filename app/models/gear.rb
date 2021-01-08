@@ -74,7 +74,7 @@ class Gear < ApplicationRecord
 		user.runs.return_completed_runs.each { |run| run.gear.update_columns(:mileage => run.gear.runs.sum(:mileage_total)) }
 	end
 
-	### UPDATING MILEAGE FROM A RUN OF SHOE ###
+	### UPDATING TOTAL MILEAGE FROM A RUN OF SHOE ###
 	def update_mileage_of_shoe(updated_total_mileage)
 		self.update_columns(:mileage => updated_total_mileage)
 	end

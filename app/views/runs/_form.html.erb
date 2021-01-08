@@ -55,13 +55,16 @@
       <div class="col-md-4 mb-3">
         <%= number_field_tag 'seconds', '', class: 'form-control', placeholder: "s", disabled: current_user.is_viewer? %>
       </div>
-      <p class="text-center">Current Time: <strong><%= concat_elapsed_time(@run.time_in_seconds) %></strong></p>
+      <% if not @run.new_record? %>
+        <p class="text-center">Current Time: <strong><%= concat_elapsed_time(@run.time_in_seconds) %></strong></p>
+      <% end %>
     </div>
     <div class="col-xs-2">
       <%= f.label :elevation_gain, 'Elevation:' %>
       <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "100", :disabled => current_user.is_viewer? } %>
     </div>
   </div>
+  <br />
   <div class="row">
     <div class="col-xs-2 col-sm-offset-1">
       <%= f.label :city, 'City:' %>

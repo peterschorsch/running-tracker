@@ -35,6 +35,14 @@ class MonthlyTotal < ApplicationRecord
 		MonthlyTotal.create_with(mileage_total: BigDecimal(rand(100..250)), elevation_gain: rand(2500..10000), number_of_runs: rand(20..30), time_in_seconds: rand(21600..115200)).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
 	end
 
+	### UPDATE MONTHLY TOTAL WITH RUN TOTALS ###
+	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
+	def update_monthly_total
+		# Return completed runs of the month
+		@runs = self.user.runs.of_month(self.month_end).return_completed_runs
+		self.update_columns(:mileage_total => @runs.sum(:mileage_total), :time_in_seconds => @runs.sum(:time_in_seconds), :number_of_runs => @runs.count, :elevation_gain => @runs.sum(:elevation_gain))
+	end 
+
 
 	def add_to_monthly_total(run)
 		self.mileage_total+=run.mileage_total

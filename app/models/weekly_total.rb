@@ -17,8 +17,8 @@ class WeeklyTotal < ApplicationRecord
 		where(user: user)
 	}
 
-	def self.of_week(week = DateTime.current)
-		find_by("week_start >= ? AND week_end <= ?", week.beginning_of_week, week.end_of_week) || nil
+	def self.of_week(date = DateTime.current)
+		find_by("week_start >= ? AND week_end <= ?", date.beginning_of_week, date.end_of_week) || nil
 	end
 
 	scope :return_oldest_weekly_total, -> {
@@ -43,11 +43,6 @@ class WeeklyTotal < ApplicationRecord
 
 	def met_weekly_goal?
 		self.met_goal
-	end
-
-	def update_met_goal_field
-		self.met_goal = self.met_weekly_goal?
-		self.save(:validate => false)
 	end
 
 	def add_to_current_weekly_total(run)

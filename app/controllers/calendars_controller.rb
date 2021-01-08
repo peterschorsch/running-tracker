@@ -18,10 +18,12 @@ class CalendarsController < ApplicationController
 	def create
 		@run = Run.new(run_params)
 
-		update_subsequent_tables if @run.was_completed?
+		@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
 
 		respond_to do |format|
 			if @run.save
+				@run.update_subsequent_tables
+
 				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
 				format.json { render :new, status: :created, location: @run }
 			else
@@ -32,10 +34,13 @@ class CalendarsController < ApplicationController
 	end
 
 	def update
-		update_subsequent_tables if @run.was_completed?
+		### Convert and set hours, minutes, seconds to just seconds ###
+		@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
 
 		respond_to do |format|
 			if @run.update(run_params)
+				@run.update_subsequent_tables
+
 				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
 				format.json { render :index, status: :ok, location: @run }
 			else
@@ -120,30 +125,4 @@ class CalendarsController < ApplicationController
 	        redirect_to calendars_path
 	      end
 	    end
-
-		def update_subsequent_tables
-			@run.user_id = current_user.id
-			#@run.monthly_total_id = MonthlyTotal.of_month(params[:run][:start_time])
-
-			### Update Shoe Mileage Total
-			@run.gear.update_mileage_of_shoe(params[:run][:mileage_total].to_f)
-
-			### Convert and set hours, minutes, seconds to just seconds ###
-			@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
-
-			### Update Weekly Total
-			#@weekly_total = @run.user.current_weekly_total
-			#@run.update_user_run_totals(@weekly_total)
-			#@weekly_total.update_met_goal_field
-
-			### Update Monthly Total
-			#@run.update_user_run_totals(current_user.current_monthly_total)
-
-			### Update Yearly Total
-			#@run.update_user_run_totals(current_user.current_yearly_total)
-
-			### Update All Time Total
-			#@run.update_user_run_totals(current_user.all_time_total)
-		end
-
 end

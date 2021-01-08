@@ -40,7 +40,7 @@ class Run < ApplicationRecord
 	    where(start_time: week.beginning_of_week..week.end_of_week)
 	}
 
-	scope :of_month, -> (month) {
+	scope :of_month, -> (month = Date.current) {
 	    where(start_time: month.beginning_of_month..month.end_of_month)
 	}
 
@@ -163,6 +163,38 @@ class Run < ApplicationRecord
 
 	def self.return_random_elevation_gain
 		BigDecimal(rand(50..1000))
+	end
+
+	### UPDATE RELATED TABLES THAT DEPEND ON RUN ###
+	def update_subsequent_tables
+		if self.was_completed?
+			### Update Shoe Mileage Total - FIX ###
+			#@run.gear.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
+
+			self.update_weekly_total
+
+			### Update Monthly Total ###
+			self.monthly_total.update_monthly_total
+
+			### Update Yearly Total ###
+			self.monthly_total.yearly_total.update_yearly_total
+
+			### Update All Time Total ###
+			self.user.all_time_total.update_all_time_total
+		end
+	end
+
+	### UPDATE WEEKLY TOTAL WITH RUN TOTALS IF IT EXISTS ###
+	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
+	def update_weekly_total
+		@weekly_total = self.user.weekly_totals.of_week(self.start_time)
+
+		# Find out if run falls within one of the four weekly total records time frame. If so, update the weekly total record
+		if not @weekly_total.nil?
+			@runs = self.user.runs.of_week(self.start_time).return_completed_runs
+			mileage_total = @runs.sum(:mileage_total)
+			@weekly_total.update_columns(:mileage_total => mileage_total, :met_goal => mileage_total>=@weekly_total.mileage_goal, :time_in_seconds => @runs.sum(:time_in_seconds), :number_of_runs => @runs.count, :elevation_gain => @runs.sum(:elevation_gain))
+		end
 	end
 
 	def subtract_from_running_totals(total_record)

@@ -22,11 +22,13 @@ class RunsController < ApplicationController
   def create
     @run = Run.new(run_params)
     @run.user_id = current_user.id
-
-    @run.gear.add_mileage_to_shoe(@run.mileage_total)
+    @run.monthly_total_id = current_user.current_monthly_total.id
+    @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
 
     respond_to do |format|
       if @run.save
+        @run.update_subsequent_tables
+
         format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
         format.json { render :new, status: :created, location: @run }
       else
@@ -39,11 +41,12 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1
   # PATCH/PUT /runs/1.json
   def update
-    @run.user_id = current_user.id
-    @run.gear.update_mileage_of_shoe(params[:run][:mileage_total].to_f)
+    @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
 
     respond_to do |format|
       if @run.update(run_params)
+        @run.update_subsequent_tables
+
         format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
         format.json { render :index, status: :ok, location: @run }
       else
@@ -62,7 +65,6 @@ class RunsController < ApplicationController
     @weekly_total = @run.user.current_weekly_total
     if not @weekly_total.nil?
       @run.subtract_from_running_totals(@weekly_total)
-      @weekly_total.update_met_goal_field
     end
 
     ### Update Monthly Total
@@ -100,6 +102,26 @@ class RunsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def run_params
-      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
+      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :gear_id, :state_id, :run_type_id)
+    end
+
+    def update_subsequent_tables
+      ### Update Shoe Mileage Total - FIX ###
+      #@run.gear.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
+
+      ### Convert and set hours, minutes, seconds to just seconds ###
+      @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+
+      ### Update Weekly Total ###
+      @run.update_weekly_total
+
+      ### Update Monthly Total ###
+      @run.monthly_total.update_monthly_total
+
+      ### Update Yearly Total ###
+      @run.monthly_total.yearly_total.update_yearly_total
+
+      ### Update All Time Total ###
+      @run.user.all_time_total.update_all_time_total
     end
 end

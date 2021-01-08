@@ -36,53 +36,18 @@ class AllTimeTotal < ApplicationRecord
 		self.save(:validate => false)
 	end
 
+	### UPDATE ALL TIME TOTAL WITH RUN TOTALS ###
+	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
+	def update_all_time_total
+		# Returns yearly total records in order to sum totals
+		@yearly_totals = self.user.yearly_totals
+		self.update_columns(:mileage_total => @yearly_totals.sum(:mileage_total), :time_in_seconds => @yearly_totals.sum(:time_in_seconds), :number_of_runs => @yearly_totals.count, :elevation_gain => @yearly_totals.sum(:elevation_gain))
+	end
+
 	### REFRESH ALL TIME TOTALS ###
 	def self.refresh_all_time_total(user)
 		@completed_runs = user.runs.return_completed_runs
-		user.all_time_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(:seconds))
-	end
-
-	def update_all_time_totals(run)
-		@old_run = Run.find_by(:id => run.id)
-		@new_run = run
-
-		self.mileage_total += (@new_run.mileage_total - @old_run.mileage_total) if @new_run.mileage_total != @old_run.mileage_total
-		self.number_of_runs += self.user.runs.count
-
-		self.elevation_gain += (@new_run.elevation_gain - @old_run.elevation_gain) if @new_run.elevation_gain != @old_run.elevation_gain
-
-		working_seconds += (@new_run.seconds - @old_run.seconds) if @new_run.seconds != @old_run.seconds
-		if @new_run.seconds != @old_run.seconds
-			working_seconds += (@new_run.seconds - @old_run.seconds)
-		else
-			working_seconds = @new_run.seconds
-		end
-		#working_seconds = self.seconds + run.seconds
-		if working_seconds >= 60
-			self.minute += 1
-			self.seconds = working_seconds-60
-		else
-			self.seconds = working_seconds
-		end
-		working_minutes += (@new_run.minutes - @old_run.minutes) if @new_run.minutes != @old_run.minutes
-		#working_minutes = self.minutes + run.minutes
-
-		if @new_run.minutes != @old_run.minutes
-			working_minutes += (@new_run.minutes - @old_run.minutes)
-		else
-			working_minutes = @new_run.minutes
-		end
-		if working_minutes >= 60
-			self.hours += 1
-			self.minutes = working_minutes-60
-		else
-			self.minutes = working_minutes
-		end
-		#working_hours += (@new_run.hours - @old_run.hours) if @new_run.hours != @old_run.hours
-		self.hours += (@new_run.hours - @old_run.hours) if @new_run.hours != @old_run.hours
-
-		self.user_id = self.user.id
-		self.save
+		user.all_time_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(:time_in_seconds))
 	end
 
 end
