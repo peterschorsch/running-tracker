@@ -12,7 +12,9 @@ class CreateShoeTable < ActiveRecord::Migration[5.2]
 		t.string :size, :null => false, :limit => 4
 		t.string :shoe_type, :null => false
 
-		t.decimal :mileage, :default => 0
+		t.decimal :previous_mileage, :default => 0
+		t.decimal :new_mileage, :default => 0
+		t.decimal :total_mileage, :default => 0
 
 		t.boolean :default, :default => false
 

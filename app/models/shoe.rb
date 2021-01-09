@@ -59,24 +59,24 @@ class Shoe < ApplicationRecord
 
 	### ADDING NEW MILEAGE TO A SHOE ###
 	def add_mileage_to_shoe(mileage)
-		self.mileage += mileage
+		self.total_mileage += mileage
 		self.save(:validate => false)
 	end
 
 	### SUBRACT MILEAGE FROM A SHOE ###
 	def subract_mileage_from_shoe(mileage)
-		self.mileage -= mileage
+		self.total_mileage -= mileage
 		self.save(:validate => false)
 	end
 
 	### UPDATING MILEAGE FROM A RUN OF SHOE ###
 	def self.recalculate_mileage_of_shoes(user)
-		user.runs.return_completed_runs.each { |run| run.shoe.update_columns(:mileage => run.shoe.runs.sum(:mileage_total)) }
+		user.runs.return_completed_runs.each { |run| run.shoe.update_columns(:total_mileage => run.shoe.runs.sum(:mileage_total)) }
 	end
 
 	### UPDATING TOTAL MILEAGE FROM A RUN OF SHOE ###
 	def update_mileage_of_shoe(updated_total_mileage)
-		self.update_columns(:mileage => updated_total_mileage)
+		self.update_columns(:total_mileage => updated_total_mileage)
 	end
 
 	def remove_other_default_shoes

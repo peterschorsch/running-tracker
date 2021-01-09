@@ -83,6 +83,6 @@ class ShoesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shoe_params
-      params.require(:shoe).permit(:model, :color_way, :image, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :mileage, :default, :purchased_on, :first_used_on, :retired, :retired_on, :shoe_brand_id)
+      params.require(:shoe).permit(:model, :color_way, :image, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :previous_mileage, :new_mileage, :default, :purchased_on, :first_used_on, :retired, :retired_on, :shoe_brand_id)
     end
 end
