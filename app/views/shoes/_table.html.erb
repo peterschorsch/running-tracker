@@ -25,7 +25,7 @@
           <td scope="row"><%= return_shoe_drop(shoe.heel_drop) %></td>
           <td scope="row"><%= formatDateDots(shoe.purchased_on) %></td>
           <td scope="row"><%= date_nil_check(shoe.first_used_on) %></td>
-          <td scope="row"><%= return_shoe_mileage(shoe.mileage) %></td>
+          <td scope="row"><%= return_shoe_mileage(shoe.total_mileage) %></td>
           <% if shoe.is_retired? %>
             <td scope="row"><%= formatDateDots(shoe.retired_on) %></td>
           <% end %>

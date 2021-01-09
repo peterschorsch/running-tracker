@@ -8,57 +8,92 @@
   <% end %>
   <br />
   <% if f.object.new_record? %>
-    <div class="row vertical-align-middle">
-      <div class="col-xs-2 text-right"><%= f.label :image, 'Shoe Image:' %></div>
-      <div class="col-xs-9"><%= f.file_field :image, class: 'form-control', :disabled => current_user.is_viewer? %></div>
+    <div class="row">
+      <div class="col-xs-4 col-sm-offset-4 text-center">
+        <%= f.label :image, 'Shoe Image:' %>
+        <%= f.file_field :image, class: 'form-control', :disabled => current_user.is_viewer? %>
+      </div>
     </div>
   <% else %>
     <div class="row">
       <div class="col-xs-1 col-xs-offset-5"><%= image_tag(f.object.image.url, class: "shoe-icon", alt: f.object.image_file_name) %></div>
     </div>
     <br />
-    <div class="row vertical-align-middle">
-      <div class="col-xs-2 col-xs-offset-1 text-right"><%= f.label :image, 'Change Image:' %></div>
-      <div class="col-xs-4"><%= f.file_field :image, { class: 'form-control', :disabled => current_user.is_viewer? } %></div>
+    <div class="row">
+      <div class="col-xs-4 col-sm-offset-4 text-center">
+        <%= f.label :image, 'Change Image:' %>
+        <%= f.file_field :image, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+      </div>
     </div>
   <% end %>
   <br />
   <hr />
-  <div class="row vertical-align-middle">
-    <div class="col-xs-1 text-right"><%= f.label :shoe_brand_id, 'Brand:' %></div>
-    <div class="col-xs-2"><%= f.select(:shoe_brand_id, ShoeBrand.select_shoe_id_name, { :include_blank => "Please Select a Brand" }, { :class => "form-control", :disabled => current_user.is_viewer? })%></div>
-    <div class="col-xs-1 text-right"><%= f.label :model, 'Model:' %></div>
-    <div class="col-xs-2"><%= f.text_field :model, { class: 'form-control', placeholder: "Pegasus 37", :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :color_way, 'Color:' %></div>
-    <div class="col-xs-2"><%= f.text_field :color_way, { class: 'form-control', placeholder: "Black", :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :shoe_type, 'Type:' %></div>
-    <div class="col-xs-2"><%= f.select(:shoe_type, ["Neutral", "Stability"], { :include_blank => "Please Select a Type" }, { :class => "form-control", :disabled => current_user.is_viewer? })%></div>
+  <div class="row text-center">
+    <div class="col-xs-2">
+      <%= f.label :shoe_brand_id, 'Brand:' %>
+      <%= f.select(:shoe_brand_id, ShoeBrand.select_shoe_id_name, { :include_blank => "Please Select a Brand" }, { :class => "form-control", :disabled => current_user.is_viewer? })%></div>
+    <div class="col-xs-2">
+      <%= f.label :model, 'Model:' %>
+      <%= f.text_field :model, { class: 'form-control', placeholder: "Pegasus 37", :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-4">
+      <%= f.label :color_way, 'Color Way:' %>
+      <%= f.text_field :color_way, { class: 'form-control', placeholder: "Black", :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :shoe_type, 'Type:' %>
+      <%= f.select(:shoe_type, ["Neutral", "Stability"], { :include_blank => "Please Select a Type" }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :size, 'Size (US):' %>
+      <%= f.number_field :size, { min: 0, step: 0.5, placeholder: "8.5", class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
   </div>
   <hr />
-  <div class="row vertical-align-middle">
-    <div class="col-xs-1 text-right"><%= f.label :forefoot_stack, 'Forefoot Stack (mm):' %></div>
-    <div class="col-xs-2"><%= f.number_field :forefoot_stack, { min: 0, step: 1, placeholder: "15", class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :heel_stack, 'Heel Stack (mm):' %></div>
-    <div class="col-xs-2"><%= f.number_field :heel_stack, { min: 0, step: 1, placeholder: "25", class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :heel_drop, 'Drop (mm):' %></div>
-    <div class="col-xs-2"><%= f.number_field :heel_drop, { min: 0, step: 1, placeholder: "25", class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :weight, 'Weight (oz):' %></div>
-    <div class="col-xs-2"><%= f.number_field :weight, { min: 0, step: 0.1, placeholder: "10", class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :size, 'Size (US):' %></div>
-    <div class="col-xs-2"><%= f.number_field :size, { min: 0, step: 0.5, placeholder: "8.5", class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :mileage, 'Mileage:' %></div>
-    <div class="col-xs-2"><%= f.number_field :mileage, { min: 0, step: 1, class: 'form-control', :disabled => current_user.is_viewer? } %></div>
+  <div class="row text-center">
+    <div class="col-xs-2 col-sm-offset-1">
+      <%= f.label :weight, 'Weight (oz):' %>
+      <%= f.number_field :weight, { min: 0, step: 0.1, placeholder: "10", class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :forefoot_stack, 'Forefoot Stack (mm):' %>
+      <%= f.number_field :forefoot_stack, { min: 0, step: 1, placeholder: "15", class: 'form-control', :disabled => current_user.is_viewer? } %>
+      <br />
+      <p class="text-right">Heel Drop:</p>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :heel_stack, 'Heel Stack (mm):' %>
+      <%= f.number_field :heel_stack, { min: 0, step: 1, placeholder: "25", class: 'form-control', :disabled => current_user.is_viewer? } %>
+      <br />
+      <p class="text-left"><%= return_shoe_drop(shoe.heel_drop) %></p>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :previous_mileage, 'Previous Mileage:' %>
+      <%= f.number_field :previous_mileage, { min: 0, step: 1, class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :new_mileage, 'New Mileage:' %>
+      <%= f.number_field :new_mileage, { min: 0, step: 1, class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
   </div>
   <hr />
-  <div class="row vertical-align-middle">
-    <div class="col-xs-1 text-right"><%= f.label :purchased_on, 'Purchased:' %></div>
-    <div class="col-xs-2"><%= f.date_field :purchased_on, { class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :first_used_on, 'First Used:' %></div>
-    <div class="col-xs-2"><%= f.date_field :first_used_on, { class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-2 text-right"><%= f.label :retired, 'Retire Shoe?' %></div>
-    <div class="col-xs-1"><%= f.check_box :retired, { class: 'form-control', :disabled => current_user.is_viewer? } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :retired_on, 'Retired:' %></div>
-    <div class="col-xs-2"><%= f.date_field :retired_on, { class: 'form-control', :disabled => current_user.is_viewer? } %></div>
+  <div class="row text-center">
+    <div class="col-xs-2 col-sm-offset-2">
+      <%= f.label :purchased_on, 'Purchased:' %>
+      <%= f.date_field :purchased_on, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :first_used_on, 'First Used:' %>
+      <%= f.date_field :first_used_on, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :retired, 'Retire Shoe?' %>
+      <%= f.check_box :retired, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :retired_on, 'Retired:' %>
+      <%= f.date_field :retired_on, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+    </div>
   </div>
   <br /><br />
   <div class="row">

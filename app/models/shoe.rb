@@ -3,6 +3,9 @@ class Shoe < ApplicationRecord
 	belongs_to :shoe_brand
 	has_many :runs
 
+	before_save :calculate_heel_drop, if: ->(obj){ obj.forefoot_stack_changed? or obj.heel_stack_changed? }
+	before_save :calculate_total_mileage
+
 	has_attached_file :image
 	validates_attachment_presence :image
 	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
@@ -80,7 +83,7 @@ class Shoe < ApplicationRecord
 	end
 
 	def remove_other_default_shoes
-		Gear.select(:id, :default).where.not(:id => self.id).update_all(default: false)
+		Shoe.select(:id, :default).where.not(:id => self.id).update_all(default: false)
 	end
 
 	def unretire_shoe
@@ -91,9 +94,20 @@ class Shoe < ApplicationRecord
 
 	def retire_shoe
 		self.default = false
-		@active_default_shoes = Gear.active_shoes.where(:default => true)
-		Gear.return_default_shoe.update_attribute("default", true) if @active_default_shoes.empty?
+		@active_default_shoes = Shoe.active_shoes.where(:default => true)
+		Shoe.return_default_shoe.update_attribute("default", true) if @active_default_shoes.empty?
 		self.save(:validate => false)
+	end
+
+	private
+	### SUBTRACT FOREFOOT STACK HEIGHT FROM HEEL STACK HEIGHT TO CALCULATE HEEL DROP ###
+	def calculate_heel_drop
+		self.heel_drop = self.heel_stack - self.forefoot_stack
+	end
+
+	### ADD MILEAGE FIELDS TOGETHER ###
+	def calculate_total_mileage
+		self.total_mileage = self.previous_mileage + self.new_mileage
 	end
 
 end
