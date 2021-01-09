@@ -39,7 +39,7 @@ class MonthlyTotal < ApplicationRecord
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
 	def update_monthly_total
 		# Return completed runs of the month
-		@runs = self.user.runs.of_month(self.month_end).return_completed_runs
+		@runs = self.user.runs.of_month(self.month_end).completed_runs
 		self.update_columns(:mileage_total => @runs.sum(:mileage_total), :time_in_seconds => @runs.sum(:time_in_seconds), :number_of_runs => @runs.count, :elevation_gain => @runs.sum(:elevation_gain))
 	end 
 
@@ -74,7 +74,7 @@ class MonthlyTotal < ApplicationRecord
 	### REFRESHES ALL MONTHLY TOTALS ###
 	def self.refresh_monthly_totals(user)
 		user.monthly_totals.each do |monthly_total|
-			@completed_runs = monthly_total.runs.return_completed_runs
+			@completed_runs = monthly_total.runs.completed_runs
 			monthly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end

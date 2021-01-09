@@ -57,7 +57,7 @@ class YearlyTotal < ApplicationRecord
 	### REFRESHES ALL YEARLY TOTALS ###
 	def self.refresh_yearly_totals(user)
 		user.yearly_totals.each do |yearly_total|
-			@completed_runs = user.runs.of_year(yearly_total.year_end).return_completed_runs
+			@completed_runs = user.return_completed_runs.of_year(yearly_total.year_end)
 			yearly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end

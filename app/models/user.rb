@@ -86,6 +86,11 @@ class User < ApplicationRecord
 		yearly_totals.of_year
 	end
 
+	### RETURN COMPLETED RUNS ON USER RECORD ###
+	def return_completed_runs
+		runs.completed_runs
+	end
+
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
 	                                                BCrypt::Engine.cost

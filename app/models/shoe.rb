@@ -74,7 +74,7 @@ class Shoe < ApplicationRecord
 
 	### UPDATING MILEAGE FROM A RUN OF SHOE ###
 	def self.recalculate_mileage_of_shoes(user)
-		user.runs.return_completed_runs.each { |run| run.shoe.update_columns(:total_mileage => run.shoe.runs.sum(:mileage_total)) }
+		user.return_completed_runs.each { |run| run.shoe.update_columns(:total_mileage => run.shoe.runs.sum(:mileage_total)) }
 	end
 
 	### UPDATING TOTAL MILEAGE FROM A RUN OF SHOE ###

@@ -56,7 +56,7 @@ class Run < ApplicationRecord
 	    group_by { |y| y.start_time.beginning_of_year }
 	}
 
-	scope :return_completed_runs, -> {
+	scope :completed_runs, -> {
 		where(:completed_run=>true)
 	}
 
@@ -82,7 +82,7 @@ class Run < ApplicationRecord
 
 	### RACE RELATED SCOPES & METHODS ###
 	scope :return_races, -> {
-		joins(:run_type).where("run_types.name=?", "Race").return_completed_runs
+		joins(:run_type).where("run_types.name=?", "Race").completed_runs
 	}
 
 	scope :retrieve_personal_bests, -> {
@@ -90,19 +90,19 @@ class Run < ApplicationRecord
 	}
 
 	scope :return_5k_results, -> {
-		where(mileage_total: BigDecimal('3.1')).return_completed_runs
+		where(mileage_total: BigDecimal('3.1')).completed_runs
 	}
 
 	scope :return_10k_results, -> {
-		where(mileage_total: BigDecimal('6.2')).return_completed_runs
+		where(mileage_total: BigDecimal('6.2')).completed_runs
 	}
 
 	scope :return_half_marathon_results, -> {
-		where(mileage_total: BigDecimal('13.1')).return_completed_runs
+		where(mileage_total: BigDecimal('13.1')).completed_runs
 	}
 
 	scope :return_marathon_results, -> {
-		where(mileage_total: BigDecimal('26.2')).return_completed_runs
+		where(mileage_total: BigDecimal('26.2')).completed_runs
 	}
 
 	def self.return_race_distance_counts
@@ -119,7 +119,7 @@ class Run < ApplicationRecord
 	end
 
 	def self.find_last_completed_run
-		return_completed_runs.order_by_most_recent.first || nil
+		completed_runs.order_by_most_recent.first || nil
 	end
 
 

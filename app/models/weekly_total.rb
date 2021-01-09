@@ -117,7 +117,7 @@ class WeeklyTotal < ApplicationRecord
 	end
 
 	def update_weekly_total(week_start, week_end)
-		completed_runs_of_week = self.user.runs_of_current_week.return_completed_runs
+		completed_runs_of_week = self.user.runs_of_current_week.completed_runs
 		met_goal = completed_runs_of_week.sum(:mileage_total) >= self.mileage_goal
 
 		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, time_in_seconds: completed_runs_of_week.sum(:time_in_seconds), number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
@@ -136,7 +136,7 @@ class WeeklyTotal < ApplicationRecord
 	### REFRESHES USER'S FOUR WEEKLY TOTALS ###
 	def self.refresh_weekly_totals(user)
 		user.weekly_totals.each do |weekly_total|
-			@completed_runs = user.runs.of_week(weekly_total.week_start).return_completed_runs
+			@completed_runs = user.runs.of_week(weekly_total.week_start).completed_runs
 			weekly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end

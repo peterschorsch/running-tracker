@@ -46,7 +46,7 @@ class AllTimeTotal < ApplicationRecord
 
 	### REFRESH ALL TIME TOTALS ###
 	def self.refresh_all_time_total(user)
-		@completed_runs = user.runs.return_completed_runs
+		@completed_runs = user.return_completed_runs
 		user.all_time_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :seconds => @completed_runs.sum(:time_in_seconds))
 	end
 

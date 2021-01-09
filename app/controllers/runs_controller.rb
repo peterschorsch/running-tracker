@@ -5,7 +5,7 @@ class RunsController < ApplicationController
   # GET /runs
   # GET /runs.json
   def index
-    @runs = current_user.runs.return_completed_runs.includes(:run_type, shoe: :shoe_brand).order_by_most_recent
+    @runs = current_user.return_completed_runs.includes(:run_type, shoe: :shoe_brand).order_by_most_recent
   end
 
   # GET /runs/new
