@@ -5,6 +5,8 @@ class Run < ApplicationRecord
 	belongs_to :state
 	belongs_to :run_type
 
+	after_save :update_subsequent_tables
+
 	validates :name, :start_time, :mileage_total, :time_in_seconds, :elevation_gain, :city, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
 	validates :time_in_seconds, numericality: true
@@ -191,7 +193,7 @@ class Run < ApplicationRecord
 
 		# Find out if run falls within one of the four weekly total records time frame. If so, update the weekly total record
 		if not @weekly_total.nil?
-			@runs = self.user.runs.of_week(self.start_time).return_completed_runs
+			@runs = self.user.return_completed_runs.of_week(self.start_time)
 			mileage_total = @runs.sum(:mileage_total)
 			@weekly_total.update_columns(:mileage_total => mileage_total, :met_goal => mileage_total>=@weekly_total.mileage_goal, :time_in_seconds => @runs.sum(:time_in_seconds), :number_of_runs => @runs.count, :elevation_gain => @runs.sum(:elevation_gain))
 		end

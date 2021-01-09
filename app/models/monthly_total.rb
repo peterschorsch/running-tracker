@@ -67,7 +67,7 @@ class MonthlyTotal < ApplicationRecord
 	end
 
 	### RECALCULATE MONTHLY TOTALS ###
-	def update_monthly_total_numbers(mileage_total, elevation_gain, number_of_runs, time_in_seconds)
+	def recalculate_monthly_total_numbers(mileage_total, elevation_gain, number_of_runs, time_in_seconds)
 		self.update_columns(:mileage_total => mileage_total, :elevation_gain => elevation_gain, :number_of_runs => number_of_runs, :time_in_seconds => time_in_seconds)
 	end
 

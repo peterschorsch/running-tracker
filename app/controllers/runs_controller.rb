@@ -23,7 +23,8 @@ class RunsController < ApplicationController
     @run = Run.new(run_params)
     @run.user_id = current_user.id
     @run.monthly_total_id = current_user.current_monthly_total.id
-    @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+
+    set_time_in_seconds
 
     respond_to do |format|
       if @run.save
@@ -41,7 +42,7 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1
   # PATCH/PUT /runs/1.json
   def update
-    @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+    set_time_in_seconds
 
     respond_to do |format|
       if @run.update(run_params)
@@ -105,23 +106,8 @@ class RunsController < ApplicationController
       params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
     end
 
-    def update_subsequent_tables
-      ### Update Shoe Mileage Total - FIX ###
-      #@run.shoe.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
-
+    def set_time_in_seconds
       ### Convert and set hours, minutes, seconds to just seconds ###
       @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
-
-      ### Update Weekly Total ###
-      @run.update_weekly_total
-
-      ### Update Monthly Total ###
-      @run.monthly_total.update_monthly_total
-
-      ### Update Yearly Total ###
-      @run.monthly_total.yearly_total.update_yearly_total
-
-      ### Update All Time Total ###
-      @run.user.all_time_total.update_all_time_total
     end
 end
