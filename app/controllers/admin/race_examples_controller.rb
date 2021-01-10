@@ -21,6 +21,8 @@ class Admin::RaceExamplesController < Admin::AdminController
   def create
     @race_example = RaceExample.new(race_example_params)
 
+    set_time_in_seconds
+
     respond_to do |format|
       if @race_example.save
         format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
@@ -35,6 +37,8 @@ class Admin::RaceExamplesController < Admin::AdminController
   # PATCH/PUT /race_examples/1
   # PATCH/PUT /race_examples/1.json
   def update
+    set_time_in_seconds
+
     respond_to do |format|
       if @race_example.update(race_example_params)
         format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
@@ -54,6 +58,11 @@ class Admin::RaceExamplesController < Admin::AdminController
 
     # Only allow a list of trusted parameters through.
     def race_example_params
-      params.require(:race_example).permit(:name, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :state_id, :race_distance_id)
+      params.require(:race_example).permit(:name, :hours, :minutes, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :state_id, :race_distance_id)
+    end
+
+    def set_time_in_seconds
+      ### Convert and set hours, minutes, seconds to just seconds ###
+      @race_example.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
     end
 end

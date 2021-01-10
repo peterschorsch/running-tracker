@@ -1,32 +1,54 @@
 <%= form_with(model: [:admin , race_example], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
   <%= render "templates/alerts/form-errors", model: race_example %>
 
-  <div class="row vertical-align-middle">
-    <div class="col-xs-2 text-right"><%= f.label :name, 'Name:' %></div>
-    <div class="col-xs-4"><%= f.text_field :name, { class: 'form-control', placeholder: "Example Race" } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :race_distance_id, 'Distance:' %></div>
-    <div class="col-xs-2"><%= f.select(:race_distance_id, RaceDistance.select_race_distance_id_name, { :include_blank => "Select a Race Distance" }, { :class => "form-control" })%></div>
+  <div class="row text-center">
+    <div class="col-xs-2 col-sm-offset-1">
+      <%= f.label :race_distance_id, 'Distance:' %>
+      <%= f.select(:race_distance_id, RaceDistance.select_race_distance_id_name, { :include_blank => "Select a Race Distance" }, { :class => "form-control", disabled: current_user.is_viewer? })%>
+    </div>
+    <div class="col-xs-4">
+      <%= f.label :name, 'Name:' %>
+      <%= f.text_field :name, { class: 'form-control', placeholder: "Example Race", disabled: current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :city, 'City:' %>
+      <%= f.text_field :city, { class: 'form-control', placeholder: "Los Angeles", disabled: current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :state_id, 'State:' %>
+      <%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Select a State" }, { :class => "form-control", disabled: current_user.is_viewer? }) %>
+    </div>
   </div>
   <br />
-  <div class="row vertical-align-middle">
-    <div class="col-xs-2 text-right"><%= f.label :hours, 'Elasped Time:' %></div>
-    <div class="col-xs-1"><%= f.number_field :hours, { class: 'form-control', min: 0, step: 1, placeholder: "hours" } %></div>
-    <div class="col-xs-1"><%= f.number_field :minutes, { class: 'form-control', min: 0, step: 1, placeholder: "minutes" } %></div>
-    <div class="col-xs-1"><%= f.number_field :seconds, { class: 'form-control',  min: 0, step: 1, placeholder: "seconds" } %></div>
-    <div class="col-xs-2 text-right"><%= f.label :elevation_gain, 'Elevation Gain:' %></div>
-    <div class="col-xs-2"><%= f.number_field :elevation_gain, { class: 'form-control', min: 0, step: 1, placeholder: "200" } %></div>
-  </div>
-  <br />
-  <div class="row vertical-align-middle">
-    <div class="col-xs-2 text-right"><%= f.label :city, 'City:' %></div>
-    <div class="col-xs-3"><%= f.text_field :city, { class: 'form-control', placeholder: "Los Angeles" } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :state_id, 'State:' %></div>
-    <div class="col-xs-2"><%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Select a State" }, { :class => "form-control" })%></div>
+  <div class="row text-center">
+    <div class="col-xs-4 col-md-offset-2">
+      <div class="col-md-12"><%= f.label :hours, 'Elapsed Time:' %></div>
+      <div class="col-md-4 mb-3">
+        <%= number_field_tag 'hours', '', class: 'form-control', placeholder: "h", disabled: current_user.is_viewer? %>
+      </div>
+      <div class="col-md-4 mb-3">
+        <%= number_field_tag 'minutes', '', class: 'form-control', placeholder: "m", disabled: current_user.is_viewer? %>
+      </div>
+      <div class="col-md-4 mb-3">
+        <%= number_field_tag 'seconds', '', class: 'form-control', placeholder: "s", disabled: current_user.is_viewer? %>
+      </div>
+      <% if not race_example.new_record? %>
+        <p>Current Time: <strong><%= concat_elapsed_time(race_example.time_in_seconds) %></strong></p>
+      <% end %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :pace, 'Pace:' %>
+      <%= f.text_field :pace, { class: 'form-control', placeholder: "8:00", :disabled => current_user.is_viewer? } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :elevation_gain, 'Elevation:' %>
+      <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "100", :disabled => current_user.is_viewer? } %>
+    </div>
   </div>
   <br />
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block", disabled: current_user.is_viewer? %>
     </div>
   </div>
 <% end %>

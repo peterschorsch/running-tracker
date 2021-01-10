@@ -15,13 +15,13 @@
     <% @race_distances.each do |race_distance, race_examples| %>
       <tr>
         <th colspan="5" class="text-left"><%= race_distance[1] %></th>
-        <th><%= render edit_icon_btn_path, edit_path: edit_admin_race_distance_path(race_distance[0]) %></th>
+        <th><%= render edit_btn_path, edit_path: edit_admin_race_distance_path(race_distance[0]) %></th>
       </tr>
       <% race_examples.each do |race_example| %>
         <tr class="text-center">
           <td></td>
           <td><%= race_example.name %></td>
-          <td><%= concat_elapsed_time(race_example.seconds.to_i) %></td>
+          <td><%= concat_elapsed_time(race_example.time_in_seconds) %></td>
           <td><%= concat_pace_min_miles(race_example.pace) %></td>
           <td><%= concat_elevation_gain(race_example.elevation_gain) %></td>
           <td><%= render edit_icon_btn_path, edit_path: edit_admin_race_example_path(race_example) %></td>

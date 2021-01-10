@@ -3,7 +3,7 @@ class CreateRaceExample < ActiveRecord::Migration[5.2]
     create_table :race_examples do |t|
       t.string :name, :null => false
 
-      t.string :time_in_seconds, :null => false
+      t.integer :time_in_seconds, :null => false
       t.string :pace, :null => false
       t.string :elevation_gain, :null => false
 

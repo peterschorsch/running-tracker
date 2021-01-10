@@ -1,4 +1,4 @@
-class Admin::RaceDistancesController < Admin::AdminControllers
+class Admin::RaceDistancesController < Admin::AdminController
   before_action :set_race_distance, only: [:edit, :update]
 
   def edit
