@@ -142,7 +142,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 		@monthly_total = yearly_total.monthly_totals.of_month(start_time)
 
 		# Change start time if the race has not happened yet as of current DateTime of seeding
-		current_datetime = DateTime.now
+		current_datetime = DateTime.current
 		if start_time > current_datetime
 			month = (month-1)==0 ? 1 : month-1
 			day = (day-7)<=0 ? get_sunday_of_month(month, year, 1).day : day-7

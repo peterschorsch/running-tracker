@@ -117,7 +117,7 @@ class Run < ApplicationRecord
 	# Used on Current User's Runs
 	# Finds next uncompleted run
 	def self.find_next_uncompleted_run
-		return_uncompleted_runs.find_by("start_time >= ?", DateTime.now.beginning_of_day..DateTime.now.end_of_day) || nil
+		return_uncompleted_runs.find_by("start_time >= ?", DateTime.current.beginning_of_day..DateTime.current.end_of_day) || nil
 	end
 
 	def self.find_last_completed_run
@@ -139,7 +139,7 @@ class Run < ApplicationRecord
 	end
 
 	def self.return_random_run_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(7..8), [0,30].sample, 0).in_time_zone("Pacific Time (US & Canada)")
+		DateTime.new(date.year, date.month, date.day, rand(7..8), [0,30].sample, 0).localtime
 	end
 
 	def make_run_inactive
@@ -292,7 +292,7 @@ class Run < ApplicationRecord
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
-	def self.retrieve_specific_runs(starting_day = DateTime.now.change(hour: 0)-7.days, ending_day = DateTime.now.end_of_day)
+	def self.retrieve_specific_runs(starting_day = DateTime.current.change(hour: 0)-7.days, ending_day = DateTime.current.end_of_day)
 		Run.where(start_time: starting_day..ending_day)
 	end
 
@@ -300,7 +300,7 @@ class Run < ApplicationRecord
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_last_weeks_runs(current_user)
 		# Last week's Date
-		last_week_date = DateTime.now-1.week
+		last_week_date = DateTime.current-1.week
 		# Starts on a Monday
 		week_start_date = last_week_date.beginning_of_week
 		week_end_date = last_week_date.end_of_week
@@ -320,7 +320,7 @@ class Run < ApplicationRecord
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_current_weeks_runs(current_user)
 		# Current week's Date
-		current_week_date = DateTime.now
+		current_week_date = DateTime.current
 		# Starts on a Monday
 		current_start_date = current_week_date.beginning_of_week
 		current_end_date = current_week_date.end_of_week
@@ -339,7 +339,7 @@ class Run < ApplicationRecord
 	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
 	def self.copy_until_specific_date(current_user, end_week_date)
 		# Current Week's Date
-		current_week_date = DateTime.now
+		current_week_date = DateTime.current
 		# Current Week's Start & End Dates
 		current_week_start_date = current_week_date.beginning_of_week
 		current_week_end_date = current_week_date.end_of_week

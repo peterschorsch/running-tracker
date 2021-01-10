@@ -70,7 +70,7 @@ class WeeklyTotal < ApplicationRecord
 
 	### CREATE RANDOM TOTALS FOR LAST FOUR WEEKS ###
 	def self.create_random_totals(user_id)
-		current_date = DateTime.now
+		current_date = DateTime.current
 		mileage_total = rand(15..75)
 		mileage_goal = 40
 		met_goal = mileage_total >= mileage_goal
@@ -83,7 +83,7 @@ class WeeklyTotal < ApplicationRecord
 
 	### CREATE FOUR BLANK WEEKLY TOTAL RECORDS ###
 	def self.create_four_blank_weekly_totals(user_id)
-		current_date = DateTime.now
+		current_date = DateTime.current
 		@weekly_total = WeeklyTotal.create_blank_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week, user_id)
 		puts @weekly_total.inspect
 
@@ -94,7 +94,7 @@ class WeeklyTotal < ApplicationRecord
 
 	### CREATE FOUR BLANK WEEKLY TOTAL RECORDS ###
 	def self.create_four_random_weekly_totals(user_id)
-		current_date = DateTime.now
+		current_date = DateTime.current
 		@weekly_total = WeeklyTotal.create_random_weekly_total_record(current_date.beginning_of_week, current_date.end_of_week, user_id)
 
 		(1..3).each do |number|

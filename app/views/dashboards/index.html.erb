@@ -1,8 +1,10 @@
-<p class="text-right"><%= formatFullDate(DateTime.now) %></p>
+<p class="text-right"><%= formatFullDate(DateTime.current) %></p>
 <hr />
 <%= render notice_path %>
 <%= render alert_path %>
 
+
+<%= Run.return_random_run_start_time(date = Date.current) %>
 <div class="row">
 	<div class="col-md-8">
 		<div class="row">
@@ -20,6 +22,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
+		<%= @weekly_total.inspect %>
 		<%= render "dashboards/panels/weekly-total-panel", weekly_total: @weekly_total %>
 		<%= render "dashboards/panels/monthly-total-panel", monthly_total: @monthly_total %>
 		<%= render "dashboards/panels/yearly-total-panel", yearly_total: @yearly_total %>

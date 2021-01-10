@@ -14,14 +14,14 @@ class Obligation < ApplicationRecord
 	}
 
 	scope :return_obligations_past_week, -> {
-		where(start_time: (DateTime.now-1.week).beginning_of_day..DateTime.now)
+		where(start_time: (DateTime.current-1.week).beginning_of_day..DateTime.current)
 	}
 
 	scope :of_user, -> (user) {
 	    where(user: user)
 	}
 
-	scope :of_date, -> (date = DateTime.now) {
+	scope :of_date, -> (date = DateTime.current) {
 		where(:start_time => date.beginning_of_day..date.end_of_day)
 	}
 
@@ -54,9 +54,9 @@ class Obligation < ApplicationRecord
 
 	protected
 	def self.obligation_data
-		pacific_time_zone = DateTime.now.in_time_zone("Pacific Time (US & Canada)")
-		central_time_zone = DateTime.now.in_time_zone("Central Time (US & Canada)")
-		eastern_time_zone = DateTime.now.in_time_zone("Eastern Time (US & Canada)")
+		pacific_time_zone = DateTime.current.in_time_zone("Pacific Time (US & Canada)")
+		central_time_zone = DateTime.current.in_time_zone("Central Time (US & Canada)")
+		eastern_time_zone = DateTime.current.in_time_zone("Eastern Time (US & Canada)")
 
 		return data = [
 			# NAME, STARTTIME, ENDTIME, CITY, STATE ABBREVIATION #

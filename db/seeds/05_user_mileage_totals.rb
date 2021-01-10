@@ -21,7 +21,7 @@ User.exclude_viewer_accounts.each do |user|
 
     puts "----------#{user.concat_name} | #{year} MONTHLY TOTALS----------"
     (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
-      month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.now.zone).end_of_day
+      month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.current.zone).end_of_day
       month_start = month_end.beginning_of_month
       
       @monthly_total = MonthlyTotal.create_zero_totals(user.id, @yearly_total.id, month_start, month_end)

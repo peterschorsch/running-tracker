@@ -3,6 +3,8 @@ class YearlyTotal < ApplicationRecord
 	belongs_to :all_time_total
 	has_many :monthly_totals, dependent: :destroy
 
+	before_create :set_datetime
+
 	validates :year, :mileage_total, :number_of_runs, :elevation_gain, :time_in_seconds, presence: true
 	validates_uniqueness_of :year, :scope => [:all_time_total_id, :user_id]
 
@@ -16,13 +18,18 @@ class YearlyTotal < ApplicationRecord
 	    order(year: :desc)
 	}
 
-	scope :of_year, -> (year = Date.today.year) {
+	scope :of_year, -> (year = Date.current.year) {
 		find_by(:year => year)
 	}
 
 	scope :of_user, -> (user) {
 		where(:user => user)
 	}
+
+	def set_datetime
+		self.year_start = DateTime.
+		self.year_end = 
+	end
 
 	### UPDATE YEARLY TOTAL WITH RUN TOTALS ###
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###

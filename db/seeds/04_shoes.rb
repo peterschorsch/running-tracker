@@ -21,7 +21,7 @@ model = "RUNNING SHOE"
 color_way = "White"
 image_path = "#{Rails.root}/app/assets/images/shoes/stock_shoe.png"
 image_file = File.new(image_path)
-@shoe = Shoe.create_with(:shoe_brand_id => ShoeBrand.named("DEFAULT").id, :model => model, :color_way => color_way, :forefoot_stack => 0, :heel_stack => 0, :heel_drop => 0, :weight => 0, :size => 8.5, :shoe_type => "Neutral", :default => true, :purchased_on => Date.today, :first_used_on => Date.today,
+@shoe = Shoe.create_with(:shoe_brand_id => ShoeBrand.named("DEFAULT").id, :model => model, :color_way => color_way, :forefoot_stack => 0, :heel_stack => 0, :heel_drop => 0, :weight => 0, :size => 8.5, :shoe_type => "Neutral", :default => true, :purchased_on => Date.current, :first_used_on => Date.current,
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
