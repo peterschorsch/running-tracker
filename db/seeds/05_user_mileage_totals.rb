@@ -6,7 +6,7 @@ User.exclude_viewer_accounts.each do |user|
 
   puts "----------#{user.concat_name} YEARLY TOTALS----------"
   (2017..Date.current.year).each do |year|
-    year_date = DateTime.new(year)
+    year_date = Date.new(year)
     @yearly_total = YearlyTotal.create_zero_totals(user.id, @alltime.id, year_date)
     puts @yearly_total.inspect
 
@@ -14,14 +14,14 @@ User.exclude_viewer_accounts.each do |user|
       @last_month_of_year = Date.current
       @first_month_of_year = @last_month_of_year.beginning_of_year
     else
-      @last_month_of_year = year_date.end_of_year.end_of_month.in_time_zone("Pacific Time (US & Canada)")
+      @last_month_of_year = year_date.end_of_year#.end_of_month#.in_time_zone("Pacific Time (US & Canada)")
       @first_month_of_year = @last_month_of_year.beginning_of_year
     end
     puts ""
 
     puts "----------#{user.concat_name} | #{year} MONTHLY TOTALS----------"
     (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
-      month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.current.zone).end_of_day
+      month_end = Date.new(year, month).end_of_month#, Time.days_in_month(month, year), 0, 0, 0).end_of_day
       month_start = month_end.beginning_of_month
       
       @monthly_total = MonthlyTotal.create_zero_totals(user.id, @yearly_total.id, month_start, month_end)

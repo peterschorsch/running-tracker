@@ -4,7 +4,7 @@
 puts @all_time_total.inspect
 
 (2019..Date.current.year).each do |year|
-  year_date = DateTime.new(year)
+  year_date = Date.new(year)
   @yearly_total = YearlyTotal.create_random_totals(@website_viewer.id, @all_time_total.id, year_date)
   puts @yearly_total.inspect
 
@@ -12,14 +12,15 @@ puts @all_time_total.inspect
     @last_month_of_year = Date.current
     @first_month_of_year = @last_month_of_year.beginning_of_year
   else
-    @last_month_of_year = year_date.end_of_year.end_of_month.in_time_zone("Pacific Time (US & Canada)")
+    @last_month_of_year = year_date.end_of_year#.end_of_month.in_time_zone("Pacific Time (US & Canada)")
     @first_month_of_year = @last_month_of_year.beginning_of_year
   end
   puts ""
 
   puts "----------#{@website_viewer.concat_name} | #{year} MONTHLY TOTALS----------"
   (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
-    month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.current.zone).end_of_day
+    #month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.current.zone).end_of_day
+    month_end = Date.new(year, month).end_of_month#, Time.days_in_month(month, year), 0, 0, 0).end_of_day
     month_start = month_end.beginning_of_month
       
     @monthly_total = MonthlyTotal.create_random_totals(@website_viewer.id, @yearly_total.id, month_start, month_end)
@@ -27,8 +28,8 @@ puts @all_time_total.inspect
 
     number_of_runs = 21
     #Check if month is current calendar month and determing number of runs
-    if (@monthly_total.month_start.beginning_of_day..@monthly_total.month_end.end_of_day).cover? DateTime.current
-      day_number = DateTime.current.day
+    if (@monthly_total.month_start.beginning_of_day..@monthly_total.month_end.end_of_day).cover? Date.current
+      day_number = Date.current.day
       number_of_runs = day_number <= 1 ? 1 : day_number-1
     end
 

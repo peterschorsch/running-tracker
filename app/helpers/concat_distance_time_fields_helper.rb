@@ -14,7 +14,7 @@ module ConcatDistanceTimeFieldsHelper
 	def concat_elapsed_time(seconds)
 		parse_string = seconds < 3600 ? '%M:%S' : '%k:%M:%S'
 
-		Time.at(seconds).utc.strftime(parse_string)
+		raw("<strong>#{Time.at(seconds).utc.strftime(parse_string)}</strong>")
 	end
 
 	# 5h 37m 10s

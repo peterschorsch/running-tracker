@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
   end
 
   create_table "monthly_totals", force: :cascade do |t|
-    t.datetime "month_start", null: false
-    t.datetime "month_end", null: false
+    t.date "month_start", null: false
+    t.date "month_end", null: false
     t.decimal "mileage_total", null: false
     t.integer "time_in_seconds", null: false
     t.integer "number_of_runs", null: false
@@ -182,8 +182,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
   end
 
   create_table "weekly_totals", force: :cascade do |t|
-    t.datetime "week_start", null: false
-    t.datetime "week_end", null: false
+    t.date "week_start", null: false
+    t.date "week_end", null: false
     t.decimal "mileage_total", default: "0.0", null: false
     t.decimal "mileage_goal", precision: 5, scale: 5, default: "0.0"
     t.boolean "met_goal", default: false
@@ -198,8 +198,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
 
   create_table "yearly_totals", force: :cascade do |t|
     t.string "year", limit: 4, null: false
-    t.datetime "year_start", null: false
-    t.datetime "year_end", null: false
+    t.date "year_start", null: false
+    t.date "year_end", null: false
     t.decimal "mileage_total", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false

@@ -113,19 +113,20 @@ class User < ApplicationRecord
 
 	### CHECK IF USER HAS AN YEARLY TOTAL RECORD ###
 	def check_for_current_yearly_total_record
-		YearlyTotal.create_with(year_start: DateTime.current.beginning_of_year, year_end: DateTime.current.end_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
+		YearlyTotal.create_with(year_start: Date.current.beginning_of_year, year_end: Date.current.end_of_year, mileage_total: BigDecimal('0'), number_of_runs: 0, elevation_gain: 0, hours: 0, minutes: 0, seconds: 0).find_or_create_by(year: Date.current.year, all_time_total_id: self.all_time_total.id, user_id: self.id)
 	end
 
 	### CHECK IF USER HAS AN MONTHLY TOTAL RECORD ###
 	def check_for_current_monthly_total_record
-		MonthlyTotal.create_zero_totals(self.id, self.current_yearly_total.id, DateTime.current.beginning_of_month, DateTime.current.end_of_month)
+		MonthlyTotal.create_zero_totals(self.id, self.current_yearly_total.id, Date.current.beginning_of_month, Date.current.end_of_month)
 	end
 
 	### CHECK IF USER HAS A CURRENT WEEKLY TOTAL RECORD ###
 	def check_for_current_weekly_total_record
 		@weekly_totals = self.weekly_totals
+
 		if not @weekly_totals.empty?
-			current_date = DateTime.current
+			current_date = Date.current
 			self.current_weekly_total.update_weekly_total(current_date.beginning_of_week, current_date.end_of_week)
 		else
 			if not self.is_viewer?
@@ -184,7 +185,7 @@ class User < ApplicationRecord
 		run_type_id = RunType.default_run_type.id
 
 		# Current Date
-		current_date = DateTime.current
+		current_date = Date.current
 		# Starts on a Monday, Ends on a Sunday
 		week_start_date = current_date.beginning_of_week
 		week_end_date = current_date.end_of_week

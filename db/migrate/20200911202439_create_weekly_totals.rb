@@ -1,8 +1,8 @@
 class CreateWeeklyTotals < ActiveRecord::Migration[5.2]
   def change
     create_table :weekly_totals do |t|
-      t.datetime :week_start, :null => false
-      t.datetime :week_end, :null => false
+      t.date :week_start, :null => false
+      t.date :week_end, :null => false
 
       t.decimal :mileage_total, :default => 0, :null => false
       t.decimal :mileage_goal, :default => 0, :precision => 5, :scale => 5

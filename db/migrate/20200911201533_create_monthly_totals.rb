@@ -1,8 +1,8 @@
 class CreateMonthlyTotals < ActiveRecord::Migration[5.2]
   def change
     create_table :monthly_totals do |t|
-      t.datetime :month_start, :null => false
-      t.datetime :month_end, :null => false
+      t.date :month_start, :null => false
+      t.date :month_end, :null => false
 
       t.decimal :mileage_total, :null => false
 
