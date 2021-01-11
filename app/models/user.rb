@@ -125,10 +125,14 @@ class User < ApplicationRecord
 	def check_for_current_weekly_total_record
 		@weekly_totals = self.weekly_totals
 
+		# If all 4 weekly totals have already been created
 		if not @weekly_totals.empty?
-			current_date = Date.current
-			self.current_weekly_total.update_weekly_total(current_date.beginning_of_week, current_date.end_of_week)
+			if self.current_weekly_total.nil?
+				current_date = Date.current
+				self.weekly_totals.return_oldest_weekly_total.update_weekly_total(current_date.beginning_of_week, current_date.end_of_week)
+			end
 		else
+			# If 4 weekly totals have NOT already been created
 			if not self.is_viewer?
 				WeeklyTotal.create_four_blank_weekly_totals(self.id)
 			else
@@ -151,13 +155,13 @@ class User < ApplicationRecord
 
 		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
 
-		shoe_id = Gear.return_default_shoe.id
+		shoe_id = Shoe.return_default_shoe.id
 		city = "Los Angeles"
 		state_id = State.find_by_abbr("CA").id
 
 		### CREATE RUNS FROM LAST RUN TO CURRENT DAY ###
 		(@last_run_start_time..Date.current-1.day).each do |date|
-			if self.current_runs_of_week.count < 6
+			if self.runs_of_current_week.count < 6
 				run_type_id = RunType.return_random_run_type_id
 				@monthly_total = self.monthly_totals.of_month(date)
 
