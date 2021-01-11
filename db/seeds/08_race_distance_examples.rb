@@ -151,12 +151,10 @@ puts "----------WEBSITE VIEWER RACES----------"
 
 		# Check if there are any runs on the day and delete them if necessary
 		@runs_on_date = @website_viewer.runs.return_runs_on_date(month, day, year)
-		if @runs_on_date.any?
-			@runs_on_date.delete_all
-		end
+		@runs_on_date.delete_all if @runs_on_date.any?
 
 		if @website_viewer.runs.of_year(yearly_total.year_end).return_races.count <= 6
-			new_start_time = start_time.change(hour: rand(7..8), minute: [0,30].sample, second: 0)
+			new_start_time = Run.return_random_race_start_time(start_time)
 			@race = Run.create_with(planned_mileage: race_distance.numeric_distance, mileage_total: race_distance.numeric_distance, 
 					time_in_seconds: race_example.time_in_seconds, pace: race_example.pace, 
 			        elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, active_run: true, 

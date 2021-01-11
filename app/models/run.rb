@@ -140,6 +140,10 @@ class Run < ApplicationRecord
 	end
 
 	def self.return_random_run_start_time(date = Date.current)
+		DateTime.new(date.year, date.month, date.day, rand(14..23), rand(0..59), 0).localtime
+	end
+
+	def self.return_random_race_start_time(date = Date.current)
 		DateTime.new(date.year, date.month, date.day, rand(14..15), [0,30].sample, 0).localtime
 	end
 
@@ -272,6 +276,7 @@ class Run < ApplicationRecord
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
+	### FOR WEBSITE VIEWER TO UPDATE PLANNED RUNS BETWEEN LAST LOGIN AND CURRENT LOGIN DATE ###
 	def update_planned_run_record
 		mileage_total = Run.return_random_mileage
 

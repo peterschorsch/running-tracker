@@ -45,7 +45,7 @@ puts @all_time_total.inspect
       pace = Run.return_random_pace
 
       if @website_viewer.runs.of_day(run_date).empty?
-        @run = Run.create_random_run_record("Run", run_date.change(hour: rand(8..13), minute: rand(0..60), second: rand(0..60)), true, true, shoe_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
+        @run = Run.create_random_run_record("Run", Run.return_random_run_start_time(run_date), true, true, shoe_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)
         #puts @run.inspect
       end
     end
