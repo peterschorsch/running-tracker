@@ -11,7 +11,7 @@ module RunningTracker
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
-    config.time_zone = 'Pacific Time (US & Canada)'
+    config.time_zone = "UTC"
 
     config.beginning_of_week = :monday
     WeekOfMonth.configuration.monday_active = true

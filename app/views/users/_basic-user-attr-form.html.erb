@@ -11,6 +11,11 @@
     <div class="col-md-9 col-xs-12"><%= form.text_field :email, class: 'form-control', :disabled => current_user.is_viewer? %></div>
   </div>
   <br />
+  <div class="row vertical-align-middle">
+    <div class="col-md-3 col-xs-12 text-right"><%= form.label :time_zone, 'Time Zone:' %></div>
+    <div class="col-md-9 col-xs-12"><%= form.time_zone_select :time_zone, nil, {}, { :class => 'form-control', :disabled => current_user.is_viewer?} %></div>
+  </div>
+  <br />
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
       <%= form.submit "Save", class: "btn btn-success btn-block", :disabled => current_user.is_viewer? %>

@@ -140,11 +140,11 @@ class Run < ApplicationRecord
 	end
 
 	def self.return_random_run_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(14..23), rand(0..59), 0).localtime
+		DateTime.new(date.year, date.month, date.day, rand(6..19), rand(0..59), 0).localtime
 	end
 
 	def self.return_random_race_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(14..15), [0,30].sample, 0).localtime
+		DateTime.new(date.year, date.month, date.day, rand(6..8), [0,30].sample, 0).localtime
 	end
 
 	def self.return_planned_run_start_time(date = Date.current)

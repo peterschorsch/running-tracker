@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "email", null: false
+    t.string "time_zone", default: "UTC"
     t.boolean "active", default: true
     t.string "users"
     t.string "password_digest"
