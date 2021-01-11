@@ -5,6 +5,7 @@ class Run < ApplicationRecord
 	belongs_to :state
 	belongs_to :run_type
 
+	before_save :set_start_time
 	after_save :update_subsequent_tables
 
 	validates :name, :start_time, :mileage_total, :time_in_seconds, :elevation_gain, :city, presence: true
@@ -139,7 +140,11 @@ class Run < ApplicationRecord
 	end
 
 	def self.return_random_run_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(7..8), [0,30].sample, 0).localtime
+		DateTime.new(date.year, date.month, date.day, rand(14..15), [0,30].sample, 0).localtime
+	end
+
+	def self.return_planned_run_start_time(date = Date.current)
+		DateTime.new(date.year, date.month, date.day, 16, 0, 0).localtime
 	end
 
 	def make_run_inactive
@@ -367,5 +372,10 @@ class Run < ApplicationRecord
 				end
 			end
 		end
+	end
+
+	private
+	def set_start_time
+		self.start_time = self.start_time.utc
 	end
 end

@@ -17,7 +17,7 @@
     <% @runs.each do |run| %>
       <tr class="text-center">
         <td>
-          <small class="text-muted"><%= formateDateTimeWithAt(run.start_time.utc) %></small><br />
+          <small class="text-muted"><%= formateDateTimeWithAt(run.start_time) %></small><br />
           <strong><%= run.name %></strong><br />
           <small><%= run.notes %></small>
         </td>

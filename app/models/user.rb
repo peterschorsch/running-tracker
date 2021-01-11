@@ -199,7 +199,7 @@ class User < ApplicationRecord
 			if @existing_run.empty?
 				@monthly_total = self.current_monthly_total
 				mileage = self.is_viewer? ? rand(1..20) : 0
-				@run = Run.create_planned_run_record(date, mileage, default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
+				@run = Run.create_planned_run_record(Run.return_planned_run_start_time(date), mileage, default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
 			end
 		end
 	end
