@@ -136,7 +136,7 @@ class WeeklyTotal < ApplicationRecord
 	### REFRESHES USER'S FOUR WEEKLY TOTALS ###
 	def self.refresh_weekly_totals(user)
 		user.weekly_totals.each do |weekly_total|
-			@completed_runs = user.runs.of_week(weekly_total.week_start).completed_runs
+			@completed_runs = user.return_completed_runs.of_week(weekly_total.week_start)
 			weekly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
 		end
 	end

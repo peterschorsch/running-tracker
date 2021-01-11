@@ -72,14 +72,18 @@ class Shoe < ApplicationRecord
 		self.save(:validate => false)
 	end
 
-	### UPDATING MILEAGE FROM A RUN OF SHOE ###
-	def self.recalculate_mileage_of_shoes(user)
-		user.return_completed_runs.each { |run| run.shoe.update_columns(:total_mileage => run.shoe.runs.sum(:mileage_total)) }
+	### UPDATING MILEAGE OF A SUNGULAR SHOE ###
+	def recalculate_new_mileage_singlular_shoe
+		new_mileage_of_shoe = self.runs.completed_runs.sum(:mileage_total)
+		self.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => self.previous_mileage + new_mileage_of_shoe)
 	end
 
-	### UPDATING TOTAL MILEAGE FROM A RUN OF SHOE ###
-	def update_mileage_of_shoe(updated_total_mileage)
-		self.update_columns(:total_mileage => updated_total_mileage)
+	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
+	def self.recalculate_new_mileage_of_all_user_shoes(user)
+		user.shoes.each do |shoe|
+			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
+			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
+		end
 	end
 
 	def remove_other_default_shoes

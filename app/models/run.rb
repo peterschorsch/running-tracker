@@ -179,9 +179,10 @@ class Run < ApplicationRecord
 	### UPDATE RELATED TABLES THAT DEPEND ON RUN ###
 	def update_subsequent_tables
 		if self.was_completed?
-			### Update Shoe Mileage Total - FIX ###
-			#@run.shoe.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
+			### Update Shoe Mileage Total ###
+			self.shoe.recalculate_new_mileage_singlular_shoe
 
+			### Update Weekly Total ###
 			self.update_weekly_total
 
 			### Update Monthly Total ###

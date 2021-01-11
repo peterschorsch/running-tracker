@@ -98,7 +98,7 @@ class User < ApplicationRecord
 	end
 
 	### LOGIN METHODS - CHECKS FOR ALL APPROPRIATE TOTAL RECORDS FOR NORMAL AND ADMIN USERS ###
-	### ALL-TIME TOTAL, YEARLY TOTAL, MONTHLY TOTAL RECORDS ###
+	### ALL-TIME TOTAL, YEARLY TOTAL, MONTHLY TOTAL, WEEKLY TOTAL RECORDS ###
 	def check_for_total_records_upon_login
 		self.check_for_all_time_total_record
 		self.check_for_current_yearly_total_record
@@ -209,11 +209,11 @@ class User < ApplicationRecord
 	end
 
 	def refresh_all_user_totals
-		#AllTimeTotal.refresh_all_time_total(self)
-		#YearlyTotal.refresh_yearly_totals(self)
-		#MonthlyTotal.refresh_monthly_totals(self)
-		#WeeklyTotal.refresh_weekly_totals(self)
-		#Shoe.recalculate_mileage_of_shoes(self)
+		AllTimeTotal.refresh_all_time_total(self)
+		YearlyTotal.refresh_yearly_totals(self)
+		MonthlyTotal.refresh_monthly_totals(self)
+		WeeklyTotal.refresh_weekly_totals(self)
+		Shoe.recalculate_new_mileage_of_all_user_shoes(self)
 	end
 
 end
