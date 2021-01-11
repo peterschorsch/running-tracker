@@ -69,11 +69,11 @@
     </div>
     <div class="col-xs-2">
       <%= f.label :previous_mileage, 'Previous Mileage:' %>
-      <%= f.number_field :previous_mileage, { min: 0, step: 1, class: 'form-control', :disabled => current_user.is_viewer? } %>
+      <%= f.number_field :previous_mileage, { min: 0, step: 0.1, class: 'form-control', :disabled => current_user.is_viewer? } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :new_mileage, 'New Mileage:' %>
-      <%= f.number_field :new_mileage, { min: 0, step: 1, class: 'form-control', :disabled => current_user.is_viewer? } %>
+      <%= f.number_field :new_mileage, { min: 0, step: 0.1, class: 'form-control', :disabled => current_user.is_viewer? } %>
     </div>
   </div>
   <hr />

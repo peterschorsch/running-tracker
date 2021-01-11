@@ -27,7 +27,7 @@
     </div>
     <div class="col-xs-3">
       <%= f.label :shoe_id, 'Shoes:' %>
-      <%= f.select(:shoe_id, Shoe.of_user(current_user).select_shoe_id_name, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+      <%= f.select(:shoe_id, Shoe.of_user(current_user).select_shoe_id_name, { :selected => true }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
     </div>
   </div>
   <br />
@@ -55,7 +55,7 @@
       <div class="col-md-4 mb-3">
         <%= number_field_tag 'seconds', '', class: 'form-control', placeholder: "s", disabled: current_user.is_viewer? %>
       </div>
-      <% if not @run.new_record? %>
+      <% if run.was_completed? %>
         <p class="text-center">Current Time: <strong><%= concat_elapsed_time(@run.time_in_seconds) %></strong></p>
       <% end %>
     </div>
