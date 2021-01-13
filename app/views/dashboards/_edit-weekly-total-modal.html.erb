@@ -11,7 +11,7 @@
 					<div class="row">
 						<div class="col-xs-4 col-sm-offset-4">
 							<%= f.label :mileage_goal, 'Mileage Goal:' %>
-							<%= f.select(:mileage_goal, (0..100).step(0.25).map {|i| [i.to_s + " miles", i.to_d] }, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+							<%= f.select(:mileage_goal, Run.run_weekly_mileage_select, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
 						</div>
 		          	</div>
 		          	<br />

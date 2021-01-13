@@ -5,6 +5,7 @@ ruby '2.6.3'
 
 gem 'bootstrap-sass'
 gem 'jquery-rails'
+gem 'chosen-rails'
 gem 'bcrypt'#, '~> 3.1.7' for user passwords
 gem 'pry-rails'
 gem 'awesome_print'

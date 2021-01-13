@@ -396,6 +396,10 @@ class Run < ApplicationRecord
 		(0..30).step(0.01.to_d).map {|i| [i.to_d, i] }
 	end
 
+	def self.run_weekly_mileage_select
+		(0..100).step(0.5).map {|i| [i.to_s + " miles", i.to_d] }
+	end
+
 	protected
 	def set_time_in_seconds(hours, minutes, seconds)
 		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0

@@ -35,7 +35,7 @@
       <%= f.label :planned_mileage, 'Planned Mileage:' %>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-8">
-          <%= f.select(:planned_mileage, Run.run_planned_mileage_select, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+          <%= f.select(:planned_mileage, Run.run_planned_mileage_select, {}, { :class =>'form-control chosen-select', :disabled => current_user.is_viewer? }) %>
         </div>
         <div class="col-md-4">
           <%= f.label :planned_mileage, 'miles' %>
@@ -46,7 +46,7 @@
       <%= f.label :mileage_total, 'Actual Mileage:' %>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-8">
-          <%= f.select(:mileage_total, Run.run_actual_mileage_select, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+          <%= f.select(:mileage_total, Run.run_actual_mileage_select, {}, { :class =>'form-control chosen-select', :disabled => current_user.is_viewer? }) %>
         </div>
         <div class="col-md-4">
           <%= f.label :mileage_total, 'miles' %>

@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require chosen-jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require cocoon
@@ -18,3 +19,7 @@
 //= require Chart.bundle
 //= require dataTables/jquery.dataTables
 //= require_tree .
+
+$(function() {
+	$('.chosen-select').chosen();
+});
