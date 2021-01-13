@@ -164,7 +164,7 @@ puts "----------RACES FOR MY ACCOUNT----------"
   puts ""
 
 ### REFRESH MY USER TOTALS ###
-@my_account.refresh_all_user_totals
+@my_account.recalculate_all_user_totals_and_shoes
 
 
 ### 2019 YEARLY TOTAL ###

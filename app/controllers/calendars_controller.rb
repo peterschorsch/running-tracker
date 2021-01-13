@@ -18,7 +18,7 @@ class CalendarsController < ApplicationController
 	def create
 		@run = Run.new(run_params)
 
-		@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+		set_related_fields
 
 		respond_to do |format|
 			if @run.save
@@ -34,8 +34,7 @@ class CalendarsController < ApplicationController
 	end
 
 	def update
-		### Convert and set hours, minutes, seconds to just seconds ###
-		@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+		set_related_fields
 
 		respond_to do |format|
 			if @run.update(run_params)
@@ -125,4 +124,12 @@ class CalendarsController < ApplicationController
 	        redirect_to calendars_path
 	      end
 	    end
+
+	    def set_related_fields
+	    	@run.user_id = current_user.id
+	    	@run.set_corresponding_monthly_total_id
+
+		    ### Convert and set hours, minutes, seconds to just seconds ###
+		    @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+		end
 end

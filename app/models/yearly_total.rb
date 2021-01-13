@@ -31,12 +31,11 @@ class YearlyTotal < ApplicationRecord
 		self.year_end = self.year_end.end_of_year
 	end
 
-	### UPDATE YEARLY TOTAL WITH RUN TOTALS ###
+	### RECALCULATES ALL YEARLY TOTALS ###
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
-	def update_yearly_total 
-		# Returns monthly total records in order to sum totals
-		@monthly_totals = self.user.monthly_totals.of_year(self.year_end)
-		self.update_columns(:mileage_total => @monthly_totals.sum(:mileage_total), :time_in_seconds => @monthly_totals.sum(:time_in_seconds), :number_of_runs => @monthly_totals.count, :elevation_gain => @monthly_totals.sum(:elevation_gain))
+	def recalculate_yearly_total
+		@completed_runs_of_year = self.user.return_completed_runs.of_year(self.year_start)
+		self.update_columns(:mileage_total => BigDecimal(@completed_runs_of_year.sum(&:mileage_total)), :elevation_gain => @completed_runs_of_year.sum(&:elevation_gain), :number_of_runs => @completed_runs_of_year.count, :time_in_seconds => @completed_runs_of_year.sum(&:time_in_seconds))
 	end
 
 	def add_to_yearly_total(run)
@@ -59,14 +58,6 @@ class YearlyTotal < ApplicationRecord
 		self.seconds = working_seconds
 
 		self.save(:validate => false)
-	end
-
-	### REFRESHES ALL YEARLY TOTALS ###
-	def self.refresh_yearly_totals(user)
-		user.yearly_totals.each do |yearly_total|
-			@completed_runs = user.return_completed_runs.of_year(yearly_total.year_end)
-			yearly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
-		end
 	end
 
 	def self.create_zero_totals(user_id, all_time_total_id, year = Date.current)

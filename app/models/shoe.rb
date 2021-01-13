@@ -78,14 +78,6 @@ class Shoe < ApplicationRecord
 		self.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => self.previous_mileage + new_mileage_of_shoe)
 	end
 
-	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
-	def self.recalculate_new_mileage_of_all_user_shoes(user)
-		user.shoes.each do |shoe|
-			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
-			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
-		end
-	end
-
 	def remove_other_default_shoes
 		Shoe.select(:id, :default).where.not(:id => self.id).update_all(default: false)
 	end

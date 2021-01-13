@@ -36,18 +36,12 @@ class AllTimeTotal < ApplicationRecord
 		self.save(:validate => false)
 	end
 
-	### UPDATE ALL TIME TOTAL WITH RUN TOTALS ###
-	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
-	def update_all_time_total
-		# Returns yearly total records in order to sum totals
-		@yearly_totals = self.user.yearly_totals
-		self.update_columns(:mileage_total => @yearly_totals.sum(:mileage_total), :time_in_seconds => @yearly_totals.sum(:time_in_seconds), :number_of_runs => @yearly_totals.count, :elevation_gain => @yearly_totals.sum(:elevation_gain))
-	end
-
 	### REFRESH ALL TIME TOTALS ###
-	def self.refresh_all_time_total(user)
-		@completed_runs = user.return_completed_runs.select(:id, :mileage_total, :elevation_gain, :time_in_seconds)
-		user.all_time_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.size, :time_in_seconds => @completed_runs.sum(:time_in_seconds))
+	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
+	def recalculate_all_time_total
+		# Returns yearly total records in order to sum totals
+		@yearly_totals = self.yearly_totals
+		self.update_columns(:mileage_total => @yearly_totals.sum(:mileage_total), :time_in_seconds => @yearly_totals.sum(:time_in_seconds), :number_of_runs => @yearly_totals.count, :elevation_gain => @yearly_totals.sum(:elevation_gain))
 	end
 
 end

@@ -176,37 +176,43 @@ class Run < ApplicationRecord
 		BigDecimal(rand(50..1000))
 	end
 
-	### UPDATE RELATED TABLES THAT DEPEND ON RUN ###
+	### UPDATE RELATED TABLES THAT DEPEND ON A SINGULAR RUN ###
 	def update_subsequent_tables
 		if self.was_completed?
+			@user = self.user
+			@shoe = self.shoe
+
 			### Update Shoe Mileage Total ###
-			self.shoe.recalculate_new_mileage_singlular_shoe
+			@shoe.recalculate_new_mileage_singlular_shoe
 
-			### Update Weekly Total ###
-			self.update_weekly_total
+			### RECALCULATE ALL Total Records Except all Shoes ###
+			@user.recalculate_user_all_time_total
 
-			### Update Monthly Total ###
-			self.monthly_total.update_monthly_total
+			### RECALCULATE YEARLY TOTAL RECORD ###
+			@user.current_yearly_total.recalculate_yearly_total
 
-			### Update Yearly Total ###
-			self.monthly_total.yearly_total.update_yearly_total
+			### RECALCULATE MONTHLY TOTAL RECORD ###
+			@user.current_monthly_total.recalculate_monthly_total
 
-			### Update All Time Total ###
-			self.user.all_time_total.update_all_time_total
+			### RECALCULATE WEEKLY TOTAL RECORD IF IT EXISTS ###
+			@weekly_total = @user.weekly_totals.of_week(self.start_time.to_date)
+			@weekly_total.recalculate_weekly_total if not @weekly_total.nil?
 		end
 	end
 
-	### UPDATE WEEKLY TOTAL WITH RUN TOTALS IF IT EXISTS ###
-	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
-	def update_weekly_total
-		@weekly_total = self.user.weekly_totals.of_week(self.start_time)
+	### SETS MONTHLY TOTAL ID DEPENDING ON START TIME ###
+	### CREATES NEW MONTHLY TOTAL IF NEEDDED ###
+	def set_corresponding_monthly_total_id
+		start_date = self.start_time.to_date
+		user = self.user
+		@monthly_total = user.monthly_totals.of_month(start_date)
 
-		# Find out if run falls within one of the four weekly total records time frame. If so, update the weekly total record
-		if not @weekly_total.nil?
-			@runs = self.user.return_completed_runs.of_week(self.start_time)
-			mileage_total = @runs.sum(:mileage_total)
-			@weekly_total.update_columns(:mileage_total => mileage_total, :met_goal => mileage_total>=@weekly_total.mileage_goal, :time_in_seconds => @runs.sum(:time_in_seconds), :number_of_runs => @runs.count, :elevation_gain => @runs.sum(:elevation_gain))
+		if @monthly_total.nil?
+			@yearly_total = YearlyTotal.create_zero_totals(user.id, user.all_time_total.id, start_date)
+			@monthly_total = MonthlyTotal.create_zero_totals(user.id, @yearly_total.id, start_date.beginning_of_month, start_date.end_of_month)
 		end
+
+		self.monthly_total_id = @monthly_total.id
 	end
 
 	def subtract_from_running_totals(total_record)
@@ -231,30 +237,6 @@ class Run < ApplicationRecord
 		total_record.save(:validate => false)
 	end
 
-	### UPDATE TOTALS WHILE WITH TOTAL RECORD PARAMS USING RUN RECORD ###
-	def update_user_run_totals(total_record)
-		total_record.mileage_total = 
-
-		total_record.mileage_total+=self.mileage_total
-		total_record.elevation_gain+=self.elevation_gain
-		total_record.number_of_runs = total_record.number_of_runs+=1
-
-		working_seconds = total_record.seconds += self.seconds
-		if working_seconds >= 60
-			total_record.minutes += 1
-			working_seconds -= 60
-		end
-		working_minutes = total_record.minutes += self.minutes
-		if working_minutes >= 60
-			total_record.hours += 1
-			working_minutes -= 60
-		end
-		total_record.hours = total_record.hours += self.hours
-		total_record.minutes = working_minutes
-		total_record.seconds = working_seconds
-
-		total_record.save(:validate => false)
-	end
 
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, shoe_id, city, state_id, run_type_id, monthly_total_id, user_id)
@@ -279,27 +261,10 @@ class Run < ApplicationRecord
 
 	### FOR WEBSITE VIEWER TO UPDATE PLANNED RUNS BETWEEN LAST LOGIN AND CURRENT LOGIN DATE ###
 	def update_planned_run_record
-		mileage_total = Run.return_random_mileage
-
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
-			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, time_in_seconds: Run.return_random_seconds, 
+			planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_seconds, 
 			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
-
-		#Shoe
-		self.shoe.add_mileage_to_shoe(mileage_total)
-
-		#Weekly
-		self.user.weekly_totals.return_newest_weekly_total.add_to_current_weekly_total(self)
-
-		#Monthly
-		self.monthly_total.add_to_monthly_total(self)
-
-		#Yearly
-		self.monthly_total.yearly_total.add_to_yearly_total(self)
-
-		#All Time
-		self.user.all_time_total.add_to_all_time_total(self)
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###

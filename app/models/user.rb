@@ -129,7 +129,7 @@ class User < ApplicationRecord
 		if not @weekly_totals.empty?
 			if self.current_weekly_total.nil?
 				current_date = Date.current
-				self.weekly_totals.return_oldest_weekly_total.update_weekly_total(current_date.beginning_of_week, current_date.end_of_week)
+				self.weekly_totals.return_oldest_weekly_total.recalculate_weekly_total
 			end
 		else
 			# If 4 weekly totals have NOT already been created
@@ -166,9 +166,10 @@ class User < ApplicationRecord
 				@monthly_total = self.monthly_totals.of_month(date)
 
 				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
-				self.refresh_all_user_totals
 			end
 		end
+
+		self.recalculate_all_user_totals_and_shoes
 
 		### CREATE PLANNED RUNS FROM CURRENT DAY TO END OF WEEK  ###
 		self.create_weeklong_default_runs
@@ -208,12 +209,42 @@ class User < ApplicationRecord
 		end
 	end
 
-	def refresh_all_user_totals
-		AllTimeTotal.refresh_all_time_total(self)
-		YearlyTotal.refresh_yearly_totals(self)
-		MonthlyTotal.refresh_monthly_totals(self)
-		WeeklyTotal.refresh_weekly_totals(self)
-		Shoe.recalculate_new_mileage_of_all_user_shoes(self)
+	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
+	def recalculate_mileage_of_a_specified_users_shoes
+		self.shoes.each do |shoe|
+			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
+			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
+		end
+	end
+
+	### RECALCULATES ALL USER TOTAL RECORDS - DOES NOT INCLUDE SHOE RELATED RECORDS ###
+	def recalculate_all_user_totals
+		self.recalculate_user_all_time_total
+		self.recalculate_user_yearly_totals
+		self.recalculate_user_monthly_totals
+		self.recalculate_user_weekly_totals
+	end
+
+	### RECALCULATES ALL USER TOTAL RECORDS - DOES INCLUDE SHOE RELATED RECORDS ###
+	def recalculate_all_user_totals_and_shoes
+		self.recalculate_all_user_totals
+		self.recalculate_mileage_of_a_specified_users_shoes
+	end
+
+	def recalculate_user_all_time_total
+		self.all_time_total.recalculate_all_time_total
+	end
+
+	def recalculate_user_yearly_totals
+		self.yearly_totals.each { |yearly_total| yearly_total.recalculate_yearly_total }
+	end
+
+	def recalculate_user_monthly_totals
+		self.monthly_totals.each { |monthly_total| monthly_total.recalculate_monthly_total }
+	end
+
+	def recalculate_user_weekly_totals
+		self.weekly_totals.each { |weekly_total| weekly_total.recalculate_weekly_total }
 	end
 
 end

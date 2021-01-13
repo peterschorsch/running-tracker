@@ -116,11 +116,12 @@ class WeeklyTotal < ApplicationRecord
 		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, time_in_seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
-	def update_weekly_total(week_start, week_end)
-		completed_runs_of_week = self.user.runs_of_current_week.completed_runs
-		met_goal = completed_runs_of_week.sum(:mileage_total) >= self.mileage_goal
+	### RECALCULATES USER'S FOUR WEEKLY TOTALS ###
+	def recalculate_weekly_total
+		@completed_runs_of_week = self.user.return_completed_runs.of_week(self.week_start)
+		met_goal = @completed_runs_of_week.sum(:mileage_total) >= self.mileage_goal
 
-		self.update_attributes(mileage_total: completed_runs_of_week.sum(:mileage_total), mileage_goal: self.mileage_goal, met_goal: met_goal, time_in_seconds: completed_runs_of_week.sum(:time_in_seconds), number_of_runs: completed_runs_of_week.count, elevation_gain: completed_runs_of_week.sum(:elevation_gain), week_start: week_start, week_end: week_end)
+		self.update_columns(:mileage_total => BigDecimal(@completed_runs_of_week.sum(&:mileage_total)), met_goal: met_goal, :elevation_gain => @completed_runs_of_week.sum(&:elevation_gain), :number_of_runs => @completed_runs_of_week.count, :time_in_seconds => @completed_runs_of_week.sum(&:time_in_seconds))
 	end
 
 	### FOR WEBSITE VIEWER ###
@@ -131,14 +132,6 @@ class WeeklyTotal < ApplicationRecord
 		met_goal = mileage_total >= mileage_goal
 
 		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), time_in_seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
-	end
-
-	### REFRESHES USER'S FOUR WEEKLY TOTALS ###
-	def self.refresh_weekly_totals(user)
-		user.weekly_totals.each do |weekly_total|
-			@completed_runs = user.return_completed_runs.of_week(weekly_total.week_start)
-			weekly_total.update_columns(:mileage_total => BigDecimal(@completed_runs.sum(&:mileage_total)), :elevation_gain => @completed_runs.sum(&:elevation_gain), :number_of_runs => @completed_runs.count, :time_in_seconds => @completed_runs.sum(&:time_in_seconds))
-		end
 	end
 
 	protected

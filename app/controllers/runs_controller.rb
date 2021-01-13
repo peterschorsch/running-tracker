@@ -21,10 +21,8 @@ class RunsController < ApplicationController
   # POST /runs.json
   def create
     @run = Run.new(run_params)
-    @run.user_id = current_user.id
-    @run.monthly_total_id = current_user.current_monthly_total.id
 
-    set_time_in_seconds
+    set_related_fields
 
     respond_to do |format|
       if @run.save
@@ -42,7 +40,7 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1
   # PATCH/PUT /runs/1.json
   def update
-    set_time_in_seconds
+    set_related_fields
 
     respond_to do |format|
       if @run.update(run_params)
@@ -98,7 +96,7 @@ class RunsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_run
-      @run = Run.find(params[:id])
+      @run = current_user.runs.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
@@ -106,7 +104,10 @@ class RunsController < ApplicationController
       params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
     end
 
-    def set_time_in_seconds
+    def set_related_fields
+      @run.user_id = current_user.id
+      @run.set_corresponding_monthly_total_id
+
       ### Convert and set hours, minutes, seconds to just seconds ###
       @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
     end
