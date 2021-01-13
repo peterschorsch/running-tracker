@@ -8,9 +8,11 @@
 				<p><small class="text-muted"><%= formatFullDateRange(Date.current.beginning_of_week, Date.current.end_of_week) %></small></p>
 				<br />
 				<%= form_with(model: @weekly_total, url: update_dashboards_path(@weekly_total.id), method: "patch", local: true, :validate => true, html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
-					<div class="row vertical-align-middle">
-						<div class="col-xs-3 text-right"><%= f.label :mileage_goal, 'Mileage Goal:' %></div>
-		          		<div class="col-xs-3"><%= f.number_field :mileage_goal, { class: 'form-control', step: 1 } %></div>
+					<div class="row">
+						<div class="col-xs-4 col-sm-offset-4">
+							<%= f.label :mileage_goal, 'Mileage Goal:' %>
+							<%= f.select(:mileage_goal, (0..100).step(0.25).map {|i| [i.to_s + " miles", i.to_d] }, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+						</div>
 		          	</div>
 		          	<br />
 			</div>
