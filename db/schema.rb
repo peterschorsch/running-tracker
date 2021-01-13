@@ -69,7 +69,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
   create_table "race_examples", force: :cascade do |t|
     t.string "name", null: false
     t.integer "time_in_seconds", null: false
-    t.string "pace", null: false
+    t.string "pace_minutes", limit: 2, null: false
+    t.string "pace_seconds", limit: 2, null: false
     t.string "elevation_gain", null: false
     t.string "city", null: false
     t.integer "state_id"

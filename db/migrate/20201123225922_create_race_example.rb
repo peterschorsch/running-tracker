@@ -4,7 +4,8 @@ class CreateRaceExample < ActiveRecord::Migration[5.2]
       t.string :name, :null => false
 
       t.integer :time_in_seconds, :null => false
-      t.string :pace, :null => false
+      t.string :pace_minutes, :null => false, :limit => 2
+      t.string :pace_seconds, :null => false, :limit => 2
       t.string :elevation_gain, :null => false
 
       t.string :city, :null => false
