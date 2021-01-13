@@ -2,23 +2,32 @@
   <%= render "templates/alerts/form-errors", model: obligation %>
 
   <div class="row">
-    <div class="col-xs-2 col-xs-offset-2 text-right"><%= f.label :name, 'Name:' %></div>
-    <div class="col-xs-5"><%= f.text_field :name, { class: 'form-control', placeholder: "Event Name" } %></div>
+    <div class="col-xs-6 col-xs-offset-3 text-center">
+      <%= f.label :name, 'Name:' %>
+      <%= f.text_field :name, { class: 'form-control', placeholder: "Event Name" } %>
+    </div>
   </div>
   <br />
-  <div class="row">
-    <div class="col-xs-1 col-xs-offset-2 text-right"><%= f.label :start_time, 'Start Time:' %></div>
-    <div class="col-xs-3"><%= f.datetime_field :start_time, { class: 'form-control' } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :end_time, 'End Time:' %></div>
-    <div class="col-xs-3"><%= f.datetime_field :end_time, { class: 'form-control' } %></div>
-    <div class="col-xs-1"><%= check_box_tag 'check_end_time', true, false, class: 'form-control' %></div>
+  <div class="row text-center">
+    <div class="col-xs-3 col-xs-offset-3">
+      <%= f.label :start_time, 'Start Time:' %>
+      <%= f.datetime_field :start_time, { class: 'form-control' } %>
+    </div>
+    <div class="col-xs-3">
+      <%= f.label :end_time, 'End Time:' %>
+      <%= f.datetime_field :end_time, { class: 'form-control' } %>
+    </div>
   </div>
   <br />
-  <div class="row">
-    <div class="col-xs-1 col-xs-offset-2 text-right"><%= f.label :city, 'City:' %></div>
-    <div class="col-xs-2"><%= f.text_field :city, { class: 'form-control', placeholder: 'Anytown' } %></div>
-    <div class="col-xs-1 text-right"><%= f.label :state, 'State:' %></div>
-    <div class="col-xs-3"><%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Please Select a State" }, { :class => "form-control" })%></div>
+  <div class="row text-center">
+    <div class="col-xs-3 col-xs-offset-3">
+      <%= f.label :city, 'City:' %>
+      <%= f.text_field :city, { class: 'form-control' } %>
+    </div>
+    <div class="col-xs-3">
+      <%= f.label :state_id, 'State:' %>
+      <%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Please Select a State" }, { :class => "form-control" })%>
+    </div>
   </div>
   <br />
   <div class="row">
