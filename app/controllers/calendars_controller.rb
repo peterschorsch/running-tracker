@@ -18,7 +18,7 @@ class CalendarsController < ApplicationController
 	def create
 		@run = Run.new(run_params)
 
-		@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+		set_run_fields
 
 		respond_to do |format|
 			if @run.save
@@ -34,8 +34,7 @@ class CalendarsController < ApplicationController
 	end
 
 	def update
-		### Convert and set hours, minutes, seconds to just seconds ###
-		@run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+		set_run_fields
 
 		respond_to do |format|
 			if @run.update(run_params)
@@ -111,18 +110,20 @@ class CalendarsController < ApplicationController
 	end
 
 	private
-		def set_run
-			@run = current_user.runs.find(params[:id])
-		end
-
-		def run_params
-	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
+	    # Use callbacks to share common setup or constraints between actions.
+	    def set_run
+	      @run = current_user.runs.return_active_runs.find(params[:id])
+	      rescue ActiveRecord::RecordNotFound
+	      flash[:alert] = "You are not authorized to view specified run."
+	      redirect_to calendars_path
 	    end
 
-	    def viewer_authorization
-	      if current_user.is_viewer?
-	        flash[:alert] = "You are not authorized to do said action."
-	        redirect_to calendars_path
-	      end
+	    # Only allow a list of trusted parameters through.
+	    def run_params
+	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :pace_minutes, :pace_seconds, :hours, :minutes, :seconds, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
+	    end
+
+	    def set_run_fields
+	      @run.set_necessary_run_fields(params[:run][:pace_minutes], params[:run][:pace_seconds], params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
 	    end
 end

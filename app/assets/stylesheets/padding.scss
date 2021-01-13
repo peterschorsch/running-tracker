@@ -16,6 +16,20 @@
 	padding-right: 15px;
 }
 
+.slim-padding div{
+	padding: 5px !important;
+}
+.no-padding{
+	padding: 0px !important;
+}
+.no-left-padding{
+	padding-left: 0px !important;
+}
+
+.no-right-padding{
+	padding-right: 0px !important;
+}
+
 .calendar-card-hr{
 	margin: 10px 0px;
 }

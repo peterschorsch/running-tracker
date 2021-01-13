@@ -24,7 +24,7 @@ class RunsController < ApplicationController
     @run.user_id = current_user.id
     @run.monthly_total_id = current_user.current_monthly_total.id
 
-    set_time_in_seconds
+    set_run_fields
 
     respond_to do |format|
       if @run.save
@@ -42,7 +42,7 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1
   # PATCH/PUT /runs/1.json
   def update
-    set_time_in_seconds
+    set_run_fields
 
     respond_to do |format|
       if @run.update(run_params)
@@ -98,16 +98,18 @@ class RunsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_run
-      @run = Run.find(params[:id])
+      @run = current_user.runs.return_active_runs.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+      flash[:alert] = "You are not authorized to view specified run."
+      redirect_to runs_path
     end
 
     # Only allow a list of trusted parameters through.
     def run_params
-      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
+      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :pace_minutes, :pace_seconds, :hours, :minutes, :seconds, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
     end
 
-    def set_time_in_seconds
-      ### Convert and set hours, minutes, seconds to just seconds ###
-      @run.set_time_in_seconds(params[:hours], params[:minutes], params[:seconds])
+    def set_run_fields
+      @run.set_necessary_run_fields(params[:run][:pace_minutes], params[:run][:pace_seconds], params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
     end
 end

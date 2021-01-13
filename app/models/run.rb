@@ -11,7 +11,15 @@ class Run < ApplicationRecord
 	validates :name, :start_time, :mileage_total, :time_in_seconds, :elevation_gain, :city, presence: true
 	validates :mileage_total, :elevation_gain, numericality: true
 	validates :time_in_seconds, numericality: true
-	attr_accessor :hours, :minutes, :seconds
+	attr_accessor :pace_minutes, :pace_seconds, :hours, :minutes, :seconds
+
+	def set_necessary_run_fields(pace_minutes, pace_seconds, time_hours, time_minutes, time_seconds)
+		### Concat Pace Minutes and Pace Seconds ###
+		self.set_pace(pace_minutes, pace_seconds)
+
+		### Convert and set hours, minutes, seconds to just seconds ###
+		self.set_time_in_seconds(time_hours, time_minutes,time_seconds)
+	end
 
 	def form_convert_elapsed_time(hours=0, minutes=0, seconds=0)
 		(hours.to_i*60*60) + (minutes.to_i*60) + seconds.to_i
@@ -24,6 +32,10 @@ class Run < ApplicationRecord
 
 	def set_time_in_seconds(hours, minutes, seconds)
 		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
+	end
+
+	def set_pace(pace_minutes, pace_seconds)
+		self.pace = pace_minutes.to_s + ":" + pace_seconds.to_s
 	end
 
 	scope :of_user, -> (user) {
@@ -65,6 +77,10 @@ class Run < ApplicationRecord
 
 	scope :return_uncompleted_runs, -> {
 		where(:completed_run=>false)
+	}
+
+	scope :return_active_runs, -> {
+		where(:active_run=>true)
 	}
 
 	scope :return_past_uncompleted_runs, -> {
@@ -124,7 +140,6 @@ class Run < ApplicationRecord
 	def self.find_last_completed_run
 		completed_runs.order_by_most_recent.first || nil
 	end
-
 
 	def was_completed?
 		self.completed_run
@@ -377,6 +392,14 @@ class Run < ApplicationRecord
 				end
 			end
 		end
+	end
+
+	def self.run_planned_mileage_select
+		(0..30).step(0.25.to_d).map {|i| [i.to_d, i] }
+	end
+
+	def self.run_actual_mileage_select
+		(0..30).step(0.01.to_d).map {|i| [i.to_d, i] }
 	end
 
 	private

@@ -15,7 +15,7 @@
     </div>
   </div>
   <br />
-  <div class="row">
+  <div class="row text-center">
     <div class="col-xs-5 col-sm-offset-1">
       <%= f.label :name, 'Name:' %>
       <%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run", :disabled => current_user.is_viewer? } %>
@@ -31,51 +31,105 @@
     </div>
   </div>
   <br />
-  <div class="row">
+  <div class="row text-center">
     <div class="col-xs-2 col-sm-offset-1">
       <%= f.label :planned_mileage, 'Planned Mileage:' %>
-      <%= f.number_field :planned_mileage, { class: 'form-control', step: 0.1, :disabled => current_user.is_viewer? } %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-md-8">
+          <%= f.select(:planned_mileage, Run.run_planned_mileage_select, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :planned_mileage, 'miles' %>
+        </div>
+      </div>
     </div>
     <div class="col-xs-2">
       <%= f.label :mileage_total, 'Actual Mileage:' %>
-      <%= f.number_field :mileage_total, { class: 'form-control', step: 0.1, :disabled => current_user.is_viewer? } %>
-    </div>
-    <div class="col-xs-1">
-      <%= f.label :pace, 'Pace:' %>
-      <%= f.text_field :pace, { class: 'form-control', placeholder: "8:00", :disabled => current_user.is_viewer? } %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-md-8">
+          <%= f.select(:mileage_total, Run.run_actual_mileage_select, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :mileage_total, 'miles' %>
+        </div>
+      </div>
     </div>
     <div class="col-xs-3">
-      <div class="col-md-12"><%= f.label :hours, 'Elapsed Time:' %></div>
-      <div class="col-md-4 mb-3">
-        <%= number_field_tag 'hours', '', class: 'form-control', placeholder: "h", disabled: current_user.is_viewer? %>
+      <div class="row">
+        <div class="col-md-12"><%= f.label :pace, 'Pace:' %></div>
       </div>
-      <div class="col-md-4 mb-3">
-        <%= number_field_tag 'minutes', '', class: 'form-control', placeholder: "m", disabled: current_user.is_viewer? %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-md-4 col-sm-offset-2">
+          <%= f.select('pace_minutes', (4..20), {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
+        <div class="col-md-4">
+          <%= f.select('pace_seconds', (0..59).map {|n| "%02d" % n}, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
+        <div class="col-md-2">
+          <%= f.label :pace, 'min/mile' %>
+        </div>
       </div>
-      <div class="col-md-4 mb-3">
-        <%= number_field_tag 'seconds', '', class: 'form-control', placeholder: "s", disabled: current_user.is_viewer? %>
+    </div>
+    <div class="col-xs-3">
+      <div class="row">
+        <div class="col-md-12"><%= f.label :time_in_seconds, 'Elapsed Time:' %></div>
+      </div>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-md-3">
+          <%= f.select('hours', (0..10), {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
+        <div class="col-md-1">
+          <%= f.label :time_in_seconds, ':' %>
+        </div>
+        <div class="col-md-3">
+          <%= f.select('minutes', (0..59), {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
+        <div class="col-md-1">
+          <%= f.label :time_in_seconds, ':' %>
+        </div>
+        <div class="col-md-3">
+          <%= f.select('seconds', (0..59), {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+        </div>
       </div>
       <% if run.was_completed? %>
         <p class="text-center">Current Time: <strong><%= concat_elapsed_time(@run.time_in_seconds) %></strong></p>
       <% end %>
     </div>
-    <div class="col-xs-2">
-      <%= f.label :elevation_gain, 'Elevation:' %>
-      <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "100", :disabled => current_user.is_viewer? } %>
-    </div>
   </div>
   <br />
-  <div class="row">
-    <div class="col-xs-2 col-sm-offset-1">
-      <%= f.label :city, 'City:' %>
-      <%= f.text_field :city, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+  <div class="row text-center">
+    <div class="row">
+      <div class="col-xs-2 col-sm-offset-2">
+        <%= f.label :elevation_gain, 'Elevation:' %>
+      </div>
+      <div class="col-xs-3 col-sm-offset-3">
+        <%= f.label :notes, 'Notes:' %>
+      </div>
     </div>
-    <div class="col-xs-2">
-      <%= f.label :state_id, 'State:' %>
-      <%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+    <div class="col-sm-6">
+      <div class="row no-padding">
+        <div class="slim-padding">
+          <div class="col-md-2 col-sm-offset-5">
+            <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "0", :min => 0, :disabled => current_user.is_viewer? } %>
+          </div>
+          <div class="col-md-1 text-left">
+            <%= f.label :elevation_gain, 'ft.' %>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row slim-padding">
+        <div class="col-xs-4 col-sm-offset-2">
+          <%= f.label :city, 'City:' %>
+          <%= f.text_field :city, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+        </div>
+        <div class="col-xs-4">
+          <%= f.label :state_id, 'State:' %>
+          <%= f.select(:state_id, State.select_state_id_name, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-6">
-      <%= f.label :notes, 'Notes:' %>
+    <div class="col-xs-5">
       <%= f.text_area :notes, { class: 'form-control', rows: 6, :disabled => current_user.is_viewer? } %>
     </div>
   </div>
