@@ -60,14 +60,18 @@
     <div class="col-xs-2">
       <%= f.label :forefoot_stack, 'Forefoot Stack (mm):' %>
        <%= f.select(:forefoot_stack, Shoe.forefoot_stack_select, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
-      <br />
-      <p class="text-right">Heel Drop:</p>
+      <% if not shoe.new_record? %>
+        <br />
+        <p class="text-right">Heel Drop:</p>
+      <% end %>
     </div>
     <div class="col-xs-2">
       <%= f.label :heel_stack, 'Heel Stack (mm):' %>
       <%= f.select(:heel_stack, Shoe.heel_stack_select, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
-      <br />
-      <p class="text-left"><%= return_shoe_drop(shoe.heel_drop) %></p>
+      <% if not shoe.new_record? %>
+        <br />
+        <p class="text-left"><%= return_shoe_drop(shoe.heel_drop) %></p>
+      <% end %>
     </div>
     <div class="col-xs-2">
       <%= f.label :planned_mileage, 'Previous Mileage:' %>
