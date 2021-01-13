@@ -4,11 +4,11 @@ module ShoeHelper
 	end
 
 	def return_shoe_stack_height(shoe)
-		raw("<strong>#{shoe.forefoot_stack}</strong>") + "/" + raw("<strong>#{shoe.heel_stack}</strong>") + "mm"
+		raw("<strong>#{number_precision(shoe.forefoot_stack, 3)}</strong>") + "/" + raw("<strong>#{number_precision(shoe.heel_stack, 3)}</strong>") + "mm"
 	end
 
 	def return_shoe_drop(shoe_heel_drop)
-		raw("<strong>#{shoe_heel_drop}</strong>") + "mm"
+		raw("<strong>#{number_precision(shoe_heel_drop, 3)}</strong>") + "mm"
 	end
 
 	def return_shoe_weight(shoe_weight)

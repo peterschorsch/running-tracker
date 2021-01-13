@@ -30,14 +30,6 @@ class Run < ApplicationRecord
 		self.update_columns(:time_in_seconds => elapsed_time)
 	end
 
-	def set_time_in_seconds(hours, minutes, seconds)
-		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
-	end
-
-	def set_pace(pace_minutes, pace_seconds)
-		self.pace = pace_minutes.to_s + ":" + pace_seconds.to_s
-	end
-
 	scope :of_user, -> (user) {
 	    where(user: user)
 	}
@@ -405,5 +397,13 @@ class Run < ApplicationRecord
 	private
 	def set_start_time
 		self.start_time = self.start_time.utc
+	end
+
+	def set_time_in_seconds(hours, minutes, seconds)
+		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
+	end
+
+	def set_pace(pace_minutes, pace_seconds)
+		self.pace = pace_minutes.to_s + ":" + pace_seconds.to_s
 	end
 end

@@ -12,8 +12,8 @@ class Shoe < ApplicationRecord
 
 	validates :model, :color_way, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :purchased_on, presence: true
 	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way, :user_id] }, :if => :model_changed?
-	validates :forefoot_stack, :heel_stack, :heel_drop, length: { maximum: 2 }
-	validates :weight, :size, length: { maximum: 4 }
+	validates :forefoot_stack, :heel_stack, numericality: true
+	validates :heel_drop, :weight, :size, length: { maximum: 4 }
 
 	scope :of_user, -> (user) {
 	    where(user: user)
@@ -58,6 +58,23 @@ class Shoe < ApplicationRecord
 
 	def self.select_shoe_id_name
 		self.active_shoes.includes(:shoe_brand).order(default: :desc, brand: :asc).map{ |shoe| [shoe.return_full_shoe_name, shoe.id] }
+	end
+
+	### FORM SELECTS ###
+	def self.shoe_size_select
+		(7..12).step(0.5).map {|i| ["M " + i.to_s, i] }
+	end
+
+	def self.weight_select
+		(4..12).step(0.1.to_d).map {|i| [i.to_s + " oz", i] }
+	end
+
+	def self.forefoot_stack_select
+		(10..40).step(0.5.to_d).map {|i| [i.to_s + " mm", i] }
+	end
+
+	def self.heel_stack_select
+		(15..40).step(0.5.to_d).map {|i| [i.to_s + " mm", i] }
 	end
 
 	### ADDING NEW MILEAGE TO A SHOE ###

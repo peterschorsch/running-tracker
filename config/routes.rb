@@ -20,9 +20,9 @@ Rails.application.routes.draw do
   ### HEADER ###
   resources 'calendars', only: [:index], path: "calendar" do
     collection do
-      get '/edit/:id', to: 'calendars#edit', as: "edit"
-      patch '/edit/:id', to: 'calendars#update', as: "update"
-      delete '/destroy/:id', to: 'calendars#destroy', as: "destroy"
+      get ':id/edit', to: 'calendars#edit', as: "edit"
+      patch ':id/edit', to: 'calendars#update', as: "update"
+      delete ':id/destroy', to: 'calendars#destroy', as: "destroy"
       get '/new', to: 'calendars#new'
       post '/new', to: 'calendars#create'
       post '/create_current_week_runs', to: 'calendars#create_current_week_planned_runs'
