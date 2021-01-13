@@ -18,8 +18,7 @@ class Admin::ShoeBrandsController < Admin::AdminController
         format.html { redirect_to admin_shoe_brands_path, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully created." }
         format.json { render :index, status: :created, location: @admin_shoe_brand }
       else
-        format.html { render :new }
-        format.json { render json: @admin_shoe_brand.errors, status: :unprocessable_entity }
+        format.html { redirect_to admin_shoe_brands_path, alert: "You <strong>MUST</strong> provide a brand name." }
       end
     end
   end
@@ -32,8 +31,7 @@ class Admin::ShoeBrandsController < Admin::AdminController
         format.html { redirect_to admin_shoe_brands_path, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully updated." }
         format.json { render :index, status: :ok, location: @admin_shoe_brand }
       else
-        format.html { render :edit }
-        format.json { render json: @admin_shoe_brand.errors, status: :unprocessable_entity }
+        format.html { redirect_to admin_shoe_brands_path, alert: "Validation Error" }
       end
     end
   end
@@ -53,7 +51,7 @@ class Admin::ShoeBrandsController < Admin::AdminController
 
     @admin_shoe_brand.destroy
     respond_to do |format|
-      format.html { redirect_to admin_shoe_brands_url, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully removed." }
+      format.html { redirect_to admin_shoe_brands_path, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully removed." }
       format.json { head :no_content }
     end
   end

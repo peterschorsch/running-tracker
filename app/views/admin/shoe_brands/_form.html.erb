@@ -2,9 +2,11 @@
 	<%= form_with(model: [:admin, admin_shoe_brand], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
 		<%= render "templates/alerts/form-errors", model: admin_shoe_brand %>
 
-		<div class="row vertical-align-middle">
-		    <div class="col-xs-2 text-right"><%= f.label :brand, 'Brand:' %></div>
-		    <div class="col-xs-4"><%= f.text_field :brand, { class: 'form-control', placeholder: "ASICS" } %></div>
+		<div class="row text-center">
+		    <div class="col-xs-4 col-sm-offset-4">
+		    	<%= f.label :brand, 'Brand Name:' %>
+		    	<%= f.text_field :brand, { class: 'form-control', placeholder: "Brand Name Here" } %>
+		   	</div>
 		</div>
 </div>
 <div class="modal-footer">
