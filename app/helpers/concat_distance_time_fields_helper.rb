@@ -45,8 +45,8 @@ module ConcatDistanceTimeFieldsHelper
 	end
 
 	# 7:30 min/mi
-	def concat_pace_min_miles(pace)
-		raw("<strong>#{pace}</strong> min/mi")
+	def concat_pace_min_miles(record)
+		raw("<strong>#{record.pace_minutes}:#{record.pace_seconds}</strong> min/mi")
 	end
 
 	# 1,000 ft

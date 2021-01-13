@@ -110,6 +110,13 @@ class CalendarsController < ApplicationController
 	end
 
 	private
+		def viewer_authorization
+	      if current_user.is_viewer?
+	        flash[:alert] = "You are not authorized to do said action."
+	        redirect_to runs_path
+	      end
+	    end
+
 	    # Use callbacks to share common setup or constraints between actions.
 	    def set_run
 	      @run = current_user.runs.return_active_runs.find(params[:id])
@@ -124,6 +131,6 @@ class CalendarsController < ApplicationController
 	    end
 
 	    def set_run_fields
-	      @run.set_necessary_run_fields(params[:run][:pace_minutes], params[:run][:pace_seconds], params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
+	      @run.set_necessary_run_fields(params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
 	    end
 end

@@ -12,22 +12,21 @@ puts @all_time_total.inspect
     @last_month_of_year = Date.current
     @first_month_of_year = @last_month_of_year.beginning_of_year
   else
-    @last_month_of_year = year_date.end_of_year#.end_of_month.in_time_zone("Pacific Time (US & Canada)")
+    @last_month_of_year = year_date.end_of_year
     @first_month_of_year = @last_month_of_year.beginning_of_year
   end
   puts ""
 
   puts "----------#{@website_viewer.concat_name} | #{year} MONTHLY TOTALS----------"
   (@first_month_of_year.month...@last_month_of_year.month+1).each do |month|
-    #month_end = DateTime.new(year, month, Time.days_in_month(month, year), 0, 0, 0, DateTime.current.zone).end_of_day
-    month_end = Date.new(year, month).end_of_month#, Time.days_in_month(month, year), 0, 0, 0).end_of_day
+    month_end = Date.new(year, month).end_of_month
     month_start = month_end.beginning_of_month
       
     @monthly_total = MonthlyTotal.create_random_totals(@website_viewer.id, @yearly_total.id, month_start, month_end)
     puts @monthly_total.inspect
 
     number_of_runs = 21
-    #Check if month is current calendar month and determing number of runs
+    # Check if month is current calendar month and determing number of runs
     if (@monthly_total.month_start.beginning_of_day..@monthly_total.month_end.end_of_day).cover? Date.current
       day_number = Date.current.day
       number_of_runs = day_number <= 1 ? 1 : day_number-1
@@ -41,8 +40,6 @@ puts @all_time_total.inspect
 
       shoes = @website_viewer.shoes.remove_default_shoe.active_shoes
       shoe_id = shoes.offset(rand(shoes.count)).first.id
-
-      pace = Run.return_random_pace
 
       if @website_viewer.runs.of_day(run_date).empty?
         @run = Run.create_random_run_record("Run", Run.return_random_run_start_time(run_date), true, true, shoe_id, "Los Angeles", california_state_id, run_type_id, @monthly_total.id, @website_viewer.id)

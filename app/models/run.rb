@@ -5,18 +5,16 @@ class Run < ApplicationRecord
 	belongs_to :state
 	belongs_to :run_type
 
-	before_save :set_start_time
+	before_save :set_start_time, :set_blank_notes_field
 	after_save :update_subsequent_tables
 
-	validates :name, :start_time, :mileage_total, :time_in_seconds, :elevation_gain, :city, presence: true
-	validates :mileage_total, :elevation_gain, numericality: true
-	validates :time_in_seconds, numericality: true
-	attr_accessor :pace_minutes, :pace_seconds, :hours, :minutes, :seconds
+	validates :name, :start_time, :mileage_total, :pace_minutes, :pace_seconds, :time_in_seconds, :elevation_gain, :city, presence: true
+	validates :mileage_total, :elevation_gain, :time_in_seconds, numericality: true
+	validates :pace_minutes, :pace_seconds, length: { maximum: 2 }
 
-	def set_necessary_run_fields(pace_minutes, pace_seconds, time_hours, time_minutes, time_seconds)
-		### Concat Pace Minutes and Pace Seconds ###
-		self.set_pace(pace_minutes, pace_seconds)
+	attr_accessor :hours, :minutes, :seconds
 
+	def set_necessary_run_fields(time_hours, time_minutes, time_seconds)
 		### Convert and set hours, minutes, seconds to just seconds ###
 		self.set_time_in_seconds(time_hours, time_minutes,time_seconds)
 	end
@@ -171,8 +169,12 @@ class Run < ApplicationRecord
 		BigDecimal(rand(1..10))
 	end
 
-	def self.return_random_pace
-		rand(6..10).to_s + ":" + rand(0..59).to_s.rjust(2, '0')
+	def self.return_random_pace_minutes
+		rand(6..10).to_s
+	end
+
+	def self.return_random_pace_seconds
+		rand(0..59).to_s.rjust(2, '0')
 	end
 
 	def self.return_random_seconds
@@ -265,20 +267,20 @@ class Run < ApplicationRecord
 	### CREATE RANDOM COMPLETED RUN ###
 	def self.create_random_run_record(name, start_time, completed_run, active_run, shoe_id, city, state_id, run_type_id, monthly_total_id, user_id)
 		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_seconds, 
-			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
+			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
 			shoe_id: shoe_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
 	end
 
 	### CREATE PLANNED RUN ###
 	def self.create_planned_run_record(start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
-		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace: "0:00", city: city, shoe_id: shoe_id, 
+		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace_minutes: "0", pace_seconds: "00", city: city, shoe_id: shoe_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### CREATE BLANK RUN WITH A PROVIDED NAME ###
 	def self.create_blank_run_record(name, start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
-		Run.create_with(name: name, time_in_seconds: 0, pace: "0:00", city: city, shoe_id: shoe_id, 
+		Run.create_with(name: name, time_in_seconds: 0, pace_minutes: "0", pace_seconds: "00", city: city, shoe_id: shoe_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
 			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
@@ -289,7 +291,7 @@ class Run < ApplicationRecord
 
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
 			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, time_in_seconds: Run.return_random_seconds, 
-			pace: Run.return_random_pace, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
+			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
 			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
 
 		#Shoe
@@ -387,11 +389,16 @@ class Run < ApplicationRecord
 	end
 
 	def self.run_planned_mileage_select
-		(0..30).step(0.25.to_d).map {|i| [i.to_d, i] }
+		(0..30).step(0.1.to_d).map {|i| [i.to_d, i] }
 	end
 
 	def self.run_actual_mileage_select
 		(0..30).step(0.01.to_d).map {|i| [i.to_d, i] }
+	end
+
+	protected
+	def set_time_in_seconds(hours, minutes, seconds)
+		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
 	end
 
 	private
@@ -399,11 +406,7 @@ class Run < ApplicationRecord
 		self.start_time = self.start_time.utc
 	end
 
-	def set_time_in_seconds(hours, minutes, seconds)
-		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
-	end
-
-	def set_pace(pace_minutes, pace_seconds)
-		self.pace = pace_minutes.to_s + ":" + pace_seconds.to_s
+	def set_blank_notes_field
+		self.notes = nil if self.notes == ""
 	end
 end

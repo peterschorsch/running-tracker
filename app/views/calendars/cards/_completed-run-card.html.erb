@@ -6,7 +6,7 @@
 				<%= concat_distance_miles(run.mileage_total) %> |
 				<strong><%= concat_elapsed_time(run.time_in_seconds) %></strong>
 				<br />
-				<%= concat_pace_min_miles(run.pace) %> | <%= concat_elevation_gain(run.elevation_gain) %>
+				<%= concat_pace_min_miles(run) %> | <%= concat_elevation_gain(run.elevation_gain) %>
 			</div>
 			<div><small class="text-muted"><%= return_full_shoe_name(run.shoe) %> (<%= return_shoe_mileage(run.shoe.total_mileage) %>)</small></div>
 			<% if not run.run_type.is_race? %>

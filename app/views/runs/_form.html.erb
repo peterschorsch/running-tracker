@@ -2,10 +2,10 @@
   <%= render "templates/alerts/form-errors", model: run %>
 
   <div class="row">
-    <div class="col-xs-3 col-xs-offset-2">
-      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => current_user.is_viewer? } %>
+    <div class="col-xs-2 col-sm-offset-2">
+      <%= f.time_field :start_time, { class: 'form-control', :disabled => current_user.is_viewer? } %>
     </div>
-    <div class="col-xs-2 col-xs-offset-1 col-sm-offset-2 text-right">
+    <div class="col-xs-2 col-sm-offset-4 text-right">
       <%= f.label :personal_best, 'Personal Best?', { class: "pointer-cursor make-text-unselectable" } %>
       <%= f.check_box :personal_best, { :disabled => current_user.is_viewer? } %>
     </div>
@@ -20,7 +20,6 @@
       <%= f.label :name, 'Name:' %>
       <%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run", :disabled => current_user.is_viewer? } %>
     </div>
-    
     <div class="col-xs-2">
       <%= f.label :run_type_id, 'Run Type:' %>
       <%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
@@ -102,24 +101,22 @@
       <div class="col-xs-2 col-sm-offset-2">
         <%= f.label :elevation_gain, 'Elevation:' %>
       </div>
-      <div class="col-xs-3 col-sm-offset-3">
+      <div class="col-xs-2 col-sm-offset-3">
         <%= f.label :notes, 'Notes:' %>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="row no-padding">
-        <div class="slim-padding">
-          <div class="col-md-2 col-sm-offset-5">
+    <div class="col-sm-5">
+      <div class="row vertical-align-middle no-padding">
+          <div class="col-md-3 col-sm-offset-2 slim-padding">
             <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "0", :min => 0, :disabled => current_user.is_viewer? } %>
           </div>
-          <div class="col-md-1 text-left">
+          <div class="col-md-1 text-left no-padding">
             <%= f.label :elevation_gain, 'ft.' %>
           </div>
-        </div>
       </div>
       <br />
       <div class="row slim-padding">
-        <div class="col-xs-4 col-sm-offset-2">
+        <div class="col-xs-4 col-sm-offset-3">
           <%= f.label :city, 'City:' %>
           <%= f.text_field :city, { class: 'form-control', :disabled => current_user.is_viewer? } %>
         </div>
@@ -129,7 +126,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-5">
+    <div class="col-xs-6">
       <%= f.text_area :notes, { class: 'form-control', rows: 6, :disabled => current_user.is_viewer? } %>
     </div>
   </div>

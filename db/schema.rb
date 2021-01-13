@@ -95,7 +95,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.datetime "start_time", null: false
     t.decimal "planned_mileage", null: false
     t.decimal "mileage_total", default: "0.0"
-    t.string "pace", null: false
+    t.string "pace_minutes", limit: 2, null: false
+    t.string "pace_seconds", limit: 2, null: false
     t.integer "time_in_seconds", null: false
     t.integer "elevation_gain", null: false
     t.string "city", null: false

@@ -22,7 +22,7 @@ class RunsController < ApplicationController
   def create
     @run = Run.new(run_params)
     @run.user_id = current_user.id
-    @run.monthly_total_id = current_user.current_monthly_total.id
+    @run.monthly_total_id = current_user.current_monthly_total.id ### FIX SO THAT MONTHLY TOTAL IS THAT OF START DATE, CREATE NEW MONTHLY TOTAL IF NECESSARY
 
     set_run_fields
 
@@ -110,6 +110,6 @@ class RunsController < ApplicationController
     end
 
     def set_run_fields
-      @run.set_necessary_run_fields(params[:run][:pace_minutes], params[:run][:pace_seconds], params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
+      @run.set_necessary_run_fields(params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
     end
 end

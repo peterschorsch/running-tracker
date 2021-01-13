@@ -22,7 +22,7 @@
           <td></td>
           <td><%= race_example.name %></td>
           <td><%= concat_elapsed_time(race_example.time_in_seconds) %></td>
-          <td><%= concat_pace_min_miles(race_example.pace) %></td>
+          <td><%= concat_pace_min_miles(race_example) %></td>
           <td><%= concat_elevation_gain(race_example.elevation_gain) %></td>
           <td><%= render edit_icon_btn_path, edit_path: edit_admin_race_example_path(race_example) %></td>
         </tr>
