@@ -37,6 +37,10 @@ class RunType < ApplicationRecord
 		self.name == "Race"
 	end
 
+	def is_default?
+		self.default
+	end
+
 	def self.return_random_run_type_id
 		race_type = RunType.exclude_race_type
 		return run_type_id = race_type.offset(rand(race_type.count)).first.id
