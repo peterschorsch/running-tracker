@@ -3,7 +3,7 @@
 
   <div class="row">
     <div class="col-xs-3 col-xs-offset-2">
-      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => run.can_modify_run_record? } %>
+      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => run.cannot_modify_run_record? } %>
     </div>
     <div class="col-xs-2 col-xs-offset-1 col-sm-offset-2 text-right">
       <%= f.label :personal_best, 'Personal Best?', { class: "pointer-cursor make-text-unselectable" } %>
@@ -11,7 +11,7 @@
     </div>
     <div class="col-xs-2 text-right">
       <%= f.label :completed_run, 'Completed?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :completed_run, { :disabled => run.can_modify_run_record? } %>
+      <%= f.check_box :completed_run, { :disabled => run.cannot_modify_run_record? } %>
     </div>
   </div>
   <br />
@@ -34,11 +34,11 @@
   <div class="row">
     <div class="col-xs-2 col-sm-offset-1">
       <%= f.label :planned_mileage, 'Planned Mileage:' %>
-      <%= f.number_field :planned_mileage, { class: 'form-control', step: 0.1, :disabled => run.can_modify_run_record? } %>
+      <%= f.number_field :planned_mileage, { class: 'form-control', step: 0.1, :disabled => run.cannot_modify_run_record? } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :mileage_total, 'Actual Mileage:' %>
-      <%= f.number_field :mileage_total, { class: 'form-control', step: 0.1, :disabled => run.can_modify_run_record? } %>
+      <%= f.number_field :mileage_total, { class: 'form-control', step: 0.1, :disabled => run.cannot_modify_run_record? } %>
     </div>
     <div class="col-xs-1">
       <%= f.label :pace, 'Pace:' %>
@@ -47,13 +47,13 @@
     <div class="col-xs-3">
       <div class="col-md-12"><%= f.label :hours, 'Elapsed Time:' %></div>
       <div class="col-md-4 mb-3">
-        <%= number_field_tag 'hours', '', class: 'form-control', placeholder: "h", disabled: run.can_modify_run_record? %>
+        <%= number_field_tag 'hours', '', class: 'form-control', placeholder: "h", disabled: run.cannot_modify_run_record? %>
       </div>
       <div class="col-md-4 mb-3">
-        <%= number_field_tag 'minutes', '', class: 'form-control', placeholder: "m", disabled: run.can_modify_run_record? %>
+        <%= number_field_tag 'minutes', '', class: 'form-control', placeholder: "m", disabled: run.cannot_modify_run_record? %>
       </div>
       <div class="col-md-4 mb-3">
-        <%= number_field_tag 'seconds', '', class: 'form-control', placeholder: "s", disabled: run.can_modify_run_record? %>
+        <%= number_field_tag 'seconds', '', class: 'form-control', placeholder: "s", disabled: run.cannot_modify_run_record? %>
       </div>
       <% if not @run.new_record? %>
         <p class="text-center">Current Time: <strong><%= concat_elapsed_time(@run.time_in_seconds) %></strong></p>
@@ -61,7 +61,7 @@
     </div>
     <div class="col-xs-2">
       <%= f.label :elevation_gain, 'Elevation:' %>
-      <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "100", :disabled => run.can_modify_run_record? } %>
+      <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "100", :disabled => run.cannot_modify_run_record? } %>
     </div>
   </div>
   <br />

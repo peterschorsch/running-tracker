@@ -130,8 +130,12 @@ class Run < ApplicationRecord
 	end
 
 	### FOR RUN FORMS - DETERMINE IF USER CAN MODIFY RUN RECORD - FROZEN YEARLY & MONTHLY TOTAL ###
-	def can_modify_run_record?
-		self.user.is_viewer? || self.cannot_be_modified?
+	def cannot_modify_run_record?
+		if self.user.nil?
+			self.cannot_be_modified?
+		else
+			self.user.is_viewer? || self.cannot_be_modified?
+		end
 	end
 
 	def is_event?
