@@ -51,7 +51,7 @@ class CalendarsController < ApplicationController
 
 	def destroy
 		respond_to do |format|
-			if @run.make_run_inactive
+			if @run.destroy
 				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
 				format.json { render :index, status: :ok, location: @run }
 			else

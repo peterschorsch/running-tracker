@@ -101,7 +101,6 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.text "notes"
     t.boolean "personal_best", default: false
     t.boolean "completed_run", default: false
-    t.boolean "active_run", default: true
     t.boolean "event_flag", default: false
     t.integer "run_type_id"
     t.integer "shoe_id"

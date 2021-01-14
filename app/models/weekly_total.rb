@@ -45,36 +45,17 @@ class WeeklyTotal < ApplicationRecord
 		self.met_goal
 	end
 
-	def add_to_current_weekly_total(run)
-		self.mileage_total+=run.mileage_total
-		self.met_goal = self.met_weekly_goal?
-		self.elevation_gain+=run.elevation_gain
-		self.number_of_runs = self.number_of_runs+=1
-
-		working_seconds = self.seconds += run.seconds
-		if working_seconds >= 60
-			self.minutes += 1
-			working_seconds -= 60
-		end
-		working_minutes = self.minutes += run.minutes
-		if working_minutes >= 60
-			self.hours += 1
-			working_minutes -= 60
-		end
-		self.hours = self.hours += run.hours
-		self.minutes = working_minutes
-		self.seconds = working_seconds
-
-		self.save(:validate => false)
+	def self.set_oldest_weekly_total_to_zero(date = Date.current)
+		return_oldest_weekly_total.set_weekly_total_to_zero(date)
 	end
 
 	### CREATE RANDOM TOTALS FOR LAST FOUR WEEKS ###
-	def self.create_random_totals(user_id)
+	def self.create_random_totals(user_id) # FIX
 		current_date = Date.current
 		mileage_total = rand(15..75)
 		mileage_goal = 40
 		met_goal = mileage_total >= mileage_goal
-		@weekly_total = WeeklyTotal.create_with(mileage_total: BigDecimal(mileage_total), mileage_goal: BigDecimal(mileage_goal), met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user_id)
+		@weekly_total = WeeklyTotal.create_with(mileage_total: BigDecimal(mileage_total), mileage_goal: BigDecimal(mileage_goal), met_goal: met_goal, time_in_seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: current_date.beginning_of_week, week_end: current_date.end_of_week, user_id: user_id)
 
 		(1..3).each do |number|
 			@weekly_total = WeeklyTotal.create_random_weekly_total_record(current_date.beginning_of_week-number.week, current_date.end_of_week-number.week, user_id)
@@ -116,6 +97,16 @@ class WeeklyTotal < ApplicationRecord
 		WeeklyTotal.create_with(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, time_in_seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000)).find_or_create_by(week_start: week_start, week_end: week_end, user_id: user_id)
 	end
 
+	### FOR WEBSITE VIEWER ###
+	### UPDATE WEEKLY TOTAL RECORD TO RANDOM NUMBERS FOR A NEW/CURRENT WEEKLY TOTAL RECORD FOR CURRENT WEEK ###
+	def update_random_weekly_total_record(week_start, week_end)
+		mileage_total = BigDecimal(rand(5..39))
+		mileage_goal = BigDecimal(rand(5..39))
+		met_goal = mileage_total >= mileage_goal
+
+		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, time_in_seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
+	end
+
 	### RECALCULATES USER'S FOUR WEEKLY TOTALS ###
 	def recalculate_weekly_total
 		@completed_runs_of_week = self.user.return_completed_runs.of_week(self.week_start)
@@ -124,14 +115,10 @@ class WeeklyTotal < ApplicationRecord
 		self.update_columns(:mileage_total => BigDecimal(@completed_runs_of_week.sum(&:mileage_total)), met_goal: met_goal, :elevation_gain => @completed_runs_of_week.sum(&:elevation_gain), :number_of_runs => @completed_runs_of_week.count, :time_in_seconds => @completed_runs_of_week.sum(&:time_in_seconds))
 	end
 
-	### FOR WEBSITE VIEWER ###
-	### UPDATE WEEKLY TOTAL RECORD TO RANDOM NUMBERS FOR A NEW/CURRENT WEEKLY TOTAL RECORD FOR CURRENT WEEK ###
-	def update_random_weekly_total_record(week_start, week_end)
-		mileage_total = BigDecimal(rand(5..39))
-		mileage_goal = BigDecimal(rand(5..39))
-		met_goal = mileage_total >= mileage_goal
-
-		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, hours: rand(5..20), minutes: rand(1..59), time_in_seconds: rand(1..59), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
+	### SET OLDEST WEEKLY TOTAL TO ZERO ###
+	def set_weekly_total_to_zero(date = Date.current)
+		mileage_goal = self.user.weekly_totals.return_newest_weekly_total.mileage_goal
+		self.update_attributes(mileage_total: BigDecimal('0'), mileage_goal: mileage_goal, met_goal: false, time_in_seconds: 0, number_of_runs: 0, elevation_gain: 0, notes: nil, week_start: date.start_of_week, week_end: date.end_of_week)
 	end
 
 	protected

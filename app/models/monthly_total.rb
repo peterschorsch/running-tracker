@@ -43,27 +43,4 @@ class MonthlyTotal < ApplicationRecord
 		self.update_columns(:mileage_total => @completed_runs_of_month.sum(:mileage_total), :time_in_seconds => @completed_runs_of_month.sum(:time_in_seconds), :number_of_runs => @completed_runs_of_month.count, :elevation_gain => @completed_runs_of_month.sum(:elevation_gain))
 	end 
 
-
-	def add_to_monthly_total(run)
-		self.mileage_total+=run.mileage_total
-		self.elevation_gain+=run.elevation_gain
-		self.number_of_runs = self.number_of_runs+=1
-
-		working_seconds = self.seconds += run.seconds
-		if working_seconds >= 60
-			self.minutes += 1
-			working_seconds -= 60
-		end
-		working_minutes = self.minutes += run.minutes
-		if working_minutes >= 60
-			self.hours += 1
-			working_minutes -= 60
-		end
-		self.hours = self.hours += run.hours
-		self.minutes = working_minutes
-		self.seconds = working_seconds
-
-		self.save(:validate => false)
-	end
-
 end

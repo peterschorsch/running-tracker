@@ -127,10 +127,7 @@ class User < ApplicationRecord
 
 		# If all 4 weekly totals have already been created
 		if not @weekly_totals.empty?
-			if self.current_weekly_total.nil?
-				current_date = Date.current
-				self.weekly_totals.return_oldest_weekly_total.recalculate_weekly_total
-			end
+			self.weekly_totals.set_oldest_weekly_total_to_zero if self.current_weekly_total.nil?
 		else
 			# If 4 weekly totals have NOT already been created
 			if not self.is_viewer?
@@ -165,7 +162,7 @@ class User < ApplicationRecord
 				run_type_id = RunType.return_random_run_type_id
 				@monthly_total = self.monthly_totals.of_month(date)
 
-				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
+				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
 			end
 		end
 
