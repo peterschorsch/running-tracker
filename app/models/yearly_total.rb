@@ -26,16 +26,26 @@ class YearlyTotal < ApplicationRecord
 		where(:user => user)
 	}
 
-	scope :unfrozen_months, -> {
+	scope :unfrozen_years, -> {
 		where(:frozen_flag => false)
 	}
 
-	scope :frozen_months, -> {
+	scope :frozen_years, -> {
 		where(:frozen_flag => true)
+	}
+
+	### USED UPON LOGIN TO FREEZE YEARLY TOTALS THAT ARE NOT CURRENT YEARLY ###
+	scope :return_unfrozen_years_except_current_year, -> {
+		unfrozen_years.where.not(:year => Date.current.year)
 	}
 
 	def has_been_frozen?
 		self.frozen_flag
+	end
+
+	### USED UPON LOGIN TO FREEZE YEARLY TOTALS THAT ARE NOT CURRENT YEARLY ###
+	def self.freeze_yearly_total_collection
+		self.update_all(frozen_flag: true)
 	end
 
 	### RECALCULATES ALL YEARLY TOTALS ###

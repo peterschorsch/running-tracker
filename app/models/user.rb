@@ -104,6 +104,12 @@ class User < ApplicationRecord
 		self.check_for_current_yearly_total_record
 		self.check_for_current_monthly_total_record
 		self.check_for_current_weekly_total_record
+		self.check_on_frozen_total_records
+	end
+
+	def check_on_frozen_total_records
+		self.yearly_totals.return_unfrozen_years_except_current_year.freeze_yearly_total_collection
+		self.monthly_totals.return_unfrozen_months_except_current_month.freeze_monthly_total_collection
 	end
 
 	### CHECK IF USER HAS AN ALL TIME TOTAL RECORD ###

@@ -35,8 +35,18 @@ class MonthlyTotal < ApplicationRecord
 		where(:frozen_flag => true)
 	}
 
+	### USED UPON LOGIN TO FREEZE MONTHLY TOTALS THAT ARE NOT CURRENT MONTH ###
+	scope :return_unfrozen_months_except_current_month, -> {
+		unfrozen_months.where.not(:month_start => Date.current.beginning_of_month)
+	}
+
 	def has_been_frozen?
 		self.frozen_flag
+	end
+
+	### USED UPON LOGIN TO FREEZE MONTHLY TOTALS THAT ARE NOT CURRENT MONTH ###
+	def self.freeze_monthly_total_collection
+		self.update_all(frozen_flag: true)
 	end
 
 	def self.create_zero_totals(user_id, yearly_total_id, month_start, month_end)
