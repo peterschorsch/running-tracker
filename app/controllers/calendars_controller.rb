@@ -18,7 +18,8 @@ class CalendarsController < ApplicationController
 	def create
 		@run = Run.new(run_params)
 
-		set_run_fields
+		### Also, converts and sets hours, minutes, seconds to just seconds ###
+    	@run.set_necessary_run_fields(current_user, params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
 
 		respond_to do |format|
 			if @run.save
@@ -34,7 +35,8 @@ class CalendarsController < ApplicationController
 	end
 
 	def update
-		set_run_fields
+		### Also, converts and sets hours, minutes, seconds to just seconds ###
+   		@run.set_necessary_run_fields(current_user, params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
 
 		respond_to do |format|
 			if @run.update(run_params)
@@ -51,7 +53,7 @@ class CalendarsController < ApplicationController
 
 	def destroy
 		respond_to do |format|
-			if @run.make_run_inactive
+			if @run.destroy
 				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
 				format.json { render :index, status: :ok, location: @run }
 			else
@@ -110,19 +112,18 @@ class CalendarsController < ApplicationController
 	end
 
 	private
-		def viewer_authorization
+	    def viewer_authorization
 	      if current_user.is_viewer?
 	        flash[:alert] = "You are not authorized to do said action."
 	        redirect_to runs_path
 	      end
 	    end
 
-	    # Use callbacks to share common setup or constraints between actions.
 	    def set_run
-	      @run = current_user.runs.return_active_runs.find(params[:id])
-	      rescue ActiveRecord::RecordNotFound
-	      flash[:alert] = "You are not authorized to view specified run."
-	      redirect_to calendars_path
+			@run = current_user.runs.return_uncompleted_runs.find(params[:id])
+			rescue ActiveRecord::RecordNotFound
+			flash[:alert] = "You are not authorized to view specified run."
+			redirect_to calendars_path
 	    end
 
 	    # Only allow a list of trusted parameters through.
@@ -130,7 +131,4 @@ class CalendarsController < ApplicationController
 	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :pace_minutes, :pace_seconds, :hours, :minutes, :seconds, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)
 	    end
 
-	    def set_run_fields
-	      @run.set_necessary_run_fields(params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
-	    end
 end

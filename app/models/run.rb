@@ -5,28 +5,15 @@ class Run < ApplicationRecord
 	belongs_to :state
 	belongs_to :run_type
 
-	before_save :set_start_time, :set_blank_notes_field
+	before_save :set_start_time, :set_blank_notes_field, :set_corresponding_monthly_total_id
 	after_save :update_subsequent_tables
+	after_destroy :update_subsequent_tables
 
 	validates :name, :start_time, :mileage_total, :pace_minutes, :pace_seconds, :time_in_seconds, :elevation_gain, :city, presence: true
 	validates :mileage_total, :elevation_gain, :time_in_seconds, numericality: true
 	validates :pace_minutes, :pace_seconds, length: { maximum: 2 }
 
 	attr_accessor :hours, :minutes, :seconds
-
-	def set_necessary_run_fields(time_hours, time_minutes, time_seconds)
-		### Convert and set hours, minutes, seconds to just seconds ###
-		self.set_time_in_seconds(time_hours, time_minutes,time_seconds)
-	end
-
-	def form_convert_elapsed_time(hours=0, minutes=0, seconds=0)
-		(hours.to_i*60*60) + (minutes.to_i*60) + seconds.to_i
-	end
-
-	def form_convert_and_save_elapsed_time(hours=0, minutes=0, seconds=0)
-		elapsed_time = self.form_convert_elapsed_time(hours, minutes, seconds)
-		self.update_columns(:time_in_seconds => elapsed_time)
-	end
 
 	scope :of_user, -> (user) {
 	    where(user: user)
@@ -75,6 +62,10 @@ class Run < ApplicationRecord
 
 	scope :return_past_uncompleted_runs, -> {
 		where("start_time < ?", Date.current).return_uncompleted_runs
+	}
+
+	scope :return_past_uncompleted_runs_except_for_current_month, -> {
+		where("start_time <= ?", (Date.current-1.month).end_of_month).return_uncompleted_runs
 	}
 
 	scope :order_by_most_recent, -> {
@@ -135,179 +126,95 @@ class Run < ApplicationRecord
 		self.completed_run
 	end
 
-	### AN ACTIVE RUN COUNTS ON TOTALS, WHILE AN INACTIVE RUN IS ONE THAT HAS BEEN "REMOVED" BY THE USER
-	def is_active?
-		self.active_run
+	def can_be_modified?
+		!self.cannot_be_modified?
+	end
+
+	def cannot_be_modified?
+		self.was_completed? && self.monthly_total.has_been_frozen? && self.monthly_total.yearly_total.has_been_frozen?
+	end
+
+	### FOR RUN FORMS - DETERMINE IF USER CAN MODIFY RUN RECORD - FROZEN YEARLY & MONTHLY TOTAL ###
+	def cannot_modify_run_record?
+		if self.user.nil?
+			self.cannot_be_modified?
+		else
+			self.user.is_viewer? || self.cannot_be_modified?
+		end
 	end
 
 	def is_event?
 		self.event_flag
 	end
 
-	def self.return_random_run_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(6..19), rand(0..59), 0).localtime
-	end
-
-	def self.return_random_race_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(6..8), [0,30].sample, 0).localtime
-	end
-
-	def self.return_planned_run_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, 16, 0, 0).localtime
-	end
-
-	def make_run_inactive
-		self.active_run = false
-		self.save(:validate => false)
-	end
-
 	def hex_code
 		self.run_type.hex_code
 	end
 
-	def self.return_random_mileage
-		BigDecimal(rand(1..10))
+	## CALL THIS METHOD WHEN CREATING?/UPDATING RUN IN CONTROLLER ###
+	def set_necessary_run_fields(user, time_hours, time_minutes, time_seconds)
+		self.user_id = user.id
+		self.set_corresponding_monthly_total_id
+		### Convert and set hours, minutes, seconds to just seconds ###
+		self.set_time_in_seconds(time_hours, time_minutes,time_seconds)
 	end
 
-	def self.return_random_pace_minutes
-		rand(6..10).to_s
-	end
-
-	def self.return_random_pace_seconds
-		rand(0..59).to_s.rjust(2, '0')
-	end
-
-	def self.return_random_seconds
-		rand(21600..115200)
-	end
-
-	def self.return_random_elevation_gain
-		BigDecimal(rand(50..1000))
-	end
-
-	### UPDATE RELATED TABLES THAT DEPEND ON RUN ###
+	### UPDATE RELATED TABLES THAT DEPEND ON A SINGULAR RUN ###
 	def update_subsequent_tables
 		if self.was_completed?
-			### Update Shoe Mileage Total - FIX ###
-			#@run.shoe.recalculate_mileage_of_shoes(params[:run][:mileage_total].to_f)
+			@user = self.user
+			@shoe = self.shoe
+			start_date = self.start_time.to_date
 
-			self.update_weekly_total
+			### Update Shoe Mileage Total ###
+			@shoe.recalculate_new_mileage_singlular_shoe
 
-			### Update Monthly Total ###
-			self.monthly_total.update_monthly_total
+			### RECALCULATE ALL Total Records Except all Shoes ###
+			@user.recalculate_user_all_time_total
 
-			### Update Yearly Total ###
-			self.monthly_total.yearly_total.update_yearly_total
+			### RECALCULATE YEARLY TOTAL RECORD ###
+			@yearly_total = @user.yearly_totals.of_year(start_date)
+			@yearly_total = YearlyTotal.create_zero_totals(@user.id, @user.all_time_total.id, start_date.year) if @yearly_total.nil?
+			@yearly_total.recalculate_yearly_total unless @yearly_total.has_been_frozen?
 
-			### Update All Time Total ###
-			self.user.all_time_total.update_all_time_total
+			### RECALCULATE MONTHLY TOTAL RECORD ###
+			@monthly_total = @user.monthly_totals.of_month(start_date)
+			@monthly_total = MonthlyTotal.create_zero_totals(@user.id, @yearly_total.id, start_date.beginning_of_month, start_date.end_of_month) if @monthly_total.nil?
+			@monthly_total.recalculate_monthly_total unless @monthly_total.has_been_frozen?
+
+			### RECALCULATE WEEKLY TOTAL RECORD IF IT EXISTS ###
+			@weekly_total = @user.weekly_totals.of_week(start_date)
+			@weekly_total.recalculate_weekly_total if not @weekly_total.nil?
 		end
-	end
-
-	### UPDATE WEEKLY TOTAL WITH RUN TOTALS IF IT EXISTS ###
-	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
-	def update_weekly_total
-		@weekly_total = self.user.weekly_totals.of_week(self.start_time)
-
-		# Find out if run falls within one of the four weekly total records time frame. If so, update the weekly total record
-		if not @weekly_total.nil?
-			@runs = self.user.return_completed_runs.of_week(self.start_time)
-			mileage_total = @runs.sum(:mileage_total)
-			@weekly_total.update_columns(:mileage_total => mileage_total, :met_goal => mileage_total>=@weekly_total.mileage_goal, :time_in_seconds => @runs.sum(:time_in_seconds), :number_of_runs => @runs.count, :elevation_gain => @runs.sum(:elevation_gain))
-		end
-	end
-
-	def subtract_from_running_totals(total_record)
-		total_record.mileage_total-=self.mileage_total
-		total_record.elevation_gain-=self.elevation_gain
-		total_record.number_of_runs = total_record.number_of_runs-=1
-
-		working_seconds = total_record.seconds -= self.seconds
-		if working_seconds < 0
-			total_record.minutes -= 1
-			working_seconds = working_seconds * -1
-		end
-		working_minutes = total_record.minutes -= self.minutes
-		if working_minutes >= 60
-			total_record.hours -= 1
-			working_minutes -= 60
-		end
-		total_record.hours = total_record.hours -= self.hours
-		total_record.minutes = working_minutes
-		total_record.seconds = working_seconds
-
-		total_record.save(:validate => false)
-	end
-
-	### UPDATE TOTALS WHILE WITH TOTAL RECORD PARAMS USING RUN RECORD ###
-	def update_user_run_totals(total_record)
-		total_record.mileage_total = 
-
-		total_record.mileage_total+=self.mileage_total
-		total_record.elevation_gain+=self.elevation_gain
-		total_record.number_of_runs = total_record.number_of_runs+=1
-
-		working_seconds = total_record.seconds += self.seconds
-		if working_seconds >= 60
-			total_record.minutes += 1
-			working_seconds -= 60
-		end
-		working_minutes = total_record.minutes += self.minutes
-		if working_minutes >= 60
-			total_record.hours += 1
-			working_minutes -= 60
-		end
-		total_record.hours = total_record.hours += self.hours
-		total_record.minutes = working_minutes
-		total_record.seconds = working_seconds
-
-		total_record.save(:validate => false)
 	end
 
 	### CREATE RANDOM COMPLETED RUN ###
-	def self.create_random_run_record(name, start_time, completed_run, active_run, shoe_id, city, state_id, run_type_id, monthly_total_id, user_id)
-		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_seconds, 
-			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, active_run: active_run, 
+	def self.create_random_run_record(name, start_time, completed_run, shoe_id, city, state_id, run_type_id, monthly_total_id, user_id)
+		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
+			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, 
 			shoe_id: shoe_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
 	end
 
 	### CREATE PLANNED RUN ###
 	def self.create_planned_run_record(start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
 		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace_minutes: "0", pace_seconds: "00", city: city, shoe_id: shoe_id, 
-			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
-			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
+			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, 
+			completed_run: false).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### CREATE BLANK RUN WITH A PROVIDED NAME ###
 	def self.create_blank_run_record(name, start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
 		Run.create_with(name: name, time_in_seconds: 0, pace_minutes: "0", pace_seconds: "00", city: city, shoe_id: shoe_id, 
-			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, completed_run: false, 
-			active_run: true).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
+			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, 
+			completed_run: false).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### FOR WEBSITE VIEWER TO UPDATE PLANNED RUNS BETWEEN LAST LOGIN AND CURRENT LOGIN DATE ###
 	def update_planned_run_record
-		mileage_total = Run.return_random_mileage
-
-		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time), 
-			planned_mileage: Run.return_random_mileage, mileage_total: mileage_total, time_in_seconds: Run.return_random_seconds, 
-			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, active_run: true, 
+		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time),
+			planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
+			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, 
 			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
-
-		#Shoe
-		self.shoe.add_mileage_to_shoe(mileage_total)
-
-		#Weekly
-		self.user.weekly_totals.return_newest_weekly_total.add_to_current_weekly_total(self)
-
-		#Monthly
-		self.monthly_total.add_to_monthly_total(self)
-
-		#Yearly
-		self.monthly_total.yearly_total.add_to_yearly_total(self)
-
-		#All Time
-		self.user.all_time_total.add_to_all_time_total(self)
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
@@ -388,6 +295,7 @@ class Run < ApplicationRecord
 		end
 	end
 
+	### START OF RANDOMLY GENERATED FIELD NUMBERS FOR FORMS ###
 	def self.run_planned_mileage_select
 		(0..30).step(0.1.to_d).map {|i| [i.to_d, i] }
 	end
@@ -400,9 +308,47 @@ class Run < ApplicationRecord
 		(0..100).step(0.5).map {|i| [i.to_s + " miles", i.to_d] }
 	end
 
-	protected
-	def set_time_in_seconds(hours, minutes, seconds)
-		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
+	### RANDOMLY GENERATED FIELD NUMBERS ###
+	def self.return_random_run_start_time(date = Date.current)
+		DateTime.new(date.year, date.month, date.day, rand(6..19), rand(0..59), 0).localtime
+	end
+
+	def self.return_random_race_start_time(date = Date.current)
+		DateTime.new(date.year, date.month, date.day, rand(6..8), [0,30].sample, 0).localtime
+	end
+
+	def self.return_planned_run_start_time(date = Date.current)
+		DateTime.new(date.year, date.month, date.day, 16, 0, 0).localtime
+	end
+
+	def self.return_random_mileage
+		BigDecimal(rand(1..10))
+	end
+
+	def self.return_random_pace_minutes
+		rand(6..10).to_s
+	end
+
+	def self.return_random_pace_seconds
+		rand(0..59).to_s.rjust(2, '0')
+	end
+
+	def self.return_random_time_in_seconds
+		rand(21600..115200)
+	end
+
+	def self.return_random_elevation_gain
+		BigDecimal(rand(50..1000))
+	end
+	### END OF RANDOMLY GENERATED FIELD NUMBERS FOR FORMS ###
+
+	def form_convert_elapsed_time(hours=0, minutes=0, seconds=0)
+		(hours.to_i*60*60) + (minutes.to_i*60) + seconds.to_i
+	end
+
+	def form_convert_and_save_elapsed_time(hours=0, minutes=0, seconds=0)
+		elapsed_time = self.form_convert_elapsed_time(hours, minutes, seconds)
+		self.update_columns(:time_in_seconds => elapsed_time)
 	end
 
 	private
@@ -412,5 +358,24 @@ class Run < ApplicationRecord
 
 	def set_blank_notes_field
 		self.notes = nil if self.notes == ""
+	end
+
+	def set_time_in_seconds(hours, minutes, seconds)
+		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
+	end
+
+	### SETS MONTHLY TOTAL ID DEPENDING ON START TIME ###
+	### CREATES NEW MONTHLY TOTAL IF NEEDDED ###
+	def set_corresponding_monthly_total_id
+		start_date = self.start_time.to_date
+		user = self.user
+		@monthly_total = user.monthly_totals.of_month(start_date)
+
+		if @monthly_total.nil?
+			@yearly_total = YearlyTotal.create_zero_totals(user.id, user.all_time_total.id, start_date)
+			@monthly_total = MonthlyTotal.create_zero_totals(user.id, @yearly_total.id, start_date.beginning_of_month, start_date.end_of_month)
+		end
+
+		self.monthly_total_id = @monthly_total.id
 	end
 end

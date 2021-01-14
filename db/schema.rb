@@ -25,9 +25,10 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.date "month_start", null: false
     t.date "month_end", null: false
     t.decimal "mileage_total", null: false
-    t.integer "time_in_seconds", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
+    t.integer "time_in_seconds", null: false
+    t.boolean "frozen_flag", default: false
     t.integer "yearly_total_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -103,7 +104,6 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.text "notes"
     t.boolean "personal_best", default: false
     t.boolean "completed_run", default: false
-    t.boolean "active_run", default: true
     t.boolean "event_flag", default: false
     t.integer "run_type_id"
     t.integer "shoe_id"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
     t.integer "time_in_seconds", null: false
+    t.boolean "frozen_flag", default: false
     t.integer "all_time_total_id"
     t.integer "user_id"
     t.datetime "created_at", null: false

@@ -157,7 +157,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 			new_start_time = Run.return_random_race_start_time(start_time)
 			@race = Run.create_with(planned_mileage: race_distance.numeric_distance, mileage_total: race_distance.numeric_distance, 
 					time_in_seconds: race_example.time_in_seconds, pace_minutes: race_example.pace_minutes, pace_seconds: race_example.pace_seconds,
-			        elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, active_run: true, 
+			        elevation_gain: race_example.elevation_gain, city: race_example.city, completed_run: true, 
 			        shoe_id: shoe.id, state_id: race_example.state_id).find_or_create_by(name: race_example.name, start_time: new_start_time, run_type_id: race_run_type.id, user_id: @website_viewer.id, monthly_total_id: @monthly_total.id)
 			puts @race.inspect
 			puts ""
@@ -175,4 +175,4 @@ puts ""
 @website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 
 ### UPDATE SHOE TOTALS ###
-Shoe.recalculate_mileage_of_shoes(@website_viewer)
+@website_viewer.recalculate_mileage_of_a_specified_users_shoes

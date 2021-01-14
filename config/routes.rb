@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
   resources :statistics, only: [:index] do
     collection do
-      post :refresh, to: 'statistics#refresh_stats'
+      post :recalculate, to: 'statistics#recalculate_stats'
     end
   end
 

@@ -23,9 +23,9 @@ class StatisticsController < ApplicationController
 		@all_time_stats = current_user.all_time_total
 	end
 
-	def refresh_stats
+	def recalculate_stats
 		respond_to do |format|
-			if current_user.refresh_all_user_totals
+			if current_user.recalculate_all_user_totals_and_shoes
 				format.html { redirect_to statistics_path, notice: "<strong>#{current_user.concat_name}'s</strong> totals were successfully updated." }
 				format.json { render :new, status: :created, location: @run }
 			else

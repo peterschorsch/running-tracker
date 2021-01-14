@@ -19,11 +19,14 @@ module ConcatDistanceTimeFieldsHelper
 
 	# 5h 37m 10s
 	def concat_total_time(time_in_seconds)
-		minutes, time_in_seconds = time_in_seconds.divmod(60)
+		minutes, seconds = time_in_seconds.divmod(60)
 		hours, minutes = minutes.divmod(60)
 		days, hours = hours.divmod(24)
 
-		raw("<strong>#{hours.to_s.rjust(2)}</strong>h <strong>#{minutes.to_s.rjust(2)}</strong>m <strong>#{time_in_seconds}</strong>s")
+		time = ""
+		time += "<strong>#{days}</strong>d " if days != 0
+		time += "<strong>#{hours}</strong>h <strong>#{minutes}</strong>m <strong>#{seconds}</strong>s"
+		return raw(time)
 	end
 
 	# 25 miles/30 miles

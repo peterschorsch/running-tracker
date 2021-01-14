@@ -98,12 +98,24 @@ class User < ApplicationRecord
 	end
 
 	### LOGIN METHODS - CHECKS FOR ALL APPROPRIATE TOTAL RECORDS FOR NORMAL AND ADMIN USERS ###
-	### ALL-TIME TOTAL, YEARLY TOTAL, MONTHLY TOTAL RECORDS ###
+	### ALL-TIME TOTAL, YEARLY TOTAL, MONTHLY TOTAL, WEEKLY TOTAL RECORDS ###
 	def check_for_total_records_upon_login
 		self.check_for_all_time_total_record
 		self.check_for_current_yearly_total_record
 		self.check_for_current_monthly_total_record
 		self.check_for_current_weekly_total_record
+		self.check_on_frozen_total_records
+	end
+
+	### FREEZE YEARLY AND MONTHLY TOTAL RECORDS THAT AREN'T CURRENT YEAR AND/OR MONTH ###
+	def check_on_frozen_total_records
+		self.yearly_totals.return_unfrozen_years_except_current_year.freeze_yearly_total_collection
+		self.monthly_totals.return_unfrozen_months_except_current_month.freeze_monthly_total_collection
+	end
+
+	### DESTROY PLANNED RUNS THAT ARE NOT IN CURRENT MONTH ###
+	def check_for_previous_planned_runs
+		self.runs.return_past_uncompleted_runs_except_for_current_month.destroy_all
 	end
 
 	### CHECK IF USER HAS AN ALL TIME TOTAL RECORD ###
@@ -127,10 +139,7 @@ class User < ApplicationRecord
 
 		# If all 4 weekly totals have already been created
 		if not @weekly_totals.empty?
-			if self.current_weekly_total.nil?
-				current_date = Date.current
-				self.weekly_totals.return_oldest_weekly_total.update_weekly_total(current_date.beginning_of_week, current_date.end_of_week)
-			end
+			self.weekly_totals.set_oldest_weekly_total_to_zero if self.current_weekly_total.nil?
 		else
 			# If 4 weekly totals have NOT already been created
 			if not self.is_viewer?
@@ -165,10 +174,11 @@ class User < ApplicationRecord
 				run_type_id = RunType.return_random_run_type_id
 				@monthly_total = self.monthly_totals.of_month(date)
 
-				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
-				self.refresh_all_user_totals
+				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
 			end
 		end
+
+		self.recalculate_all_user_totals_and_shoes
 
 		### CREATE PLANNED RUNS FROM CURRENT DAY TO END OF WEEK  ###
 		self.create_weeklong_default_runs
@@ -208,12 +218,42 @@ class User < ApplicationRecord
 		end
 	end
 
-	def refresh_all_user_totals
-		#AllTimeTotal.refresh_all_time_total(self)
-		#YearlyTotal.refresh_yearly_totals(self)
-		#MonthlyTotal.refresh_monthly_totals(self)
-		#WeeklyTotal.refresh_weekly_totals(self)
-		#Shoe.recalculate_mileage_of_shoes(self)
+	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
+	def recalculate_mileage_of_a_specified_users_shoes
+		self.shoes.each do |shoe|
+			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
+			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
+		end
+	end
+
+	### RECALCULATES ALL USER TOTAL RECORDS - DOES NOT INCLUDE SHOE RELATED RECORDS ###
+	def recalculate_all_user_totals
+		self.recalculate_user_all_time_total
+		self.recalculate_user_yearly_totals
+		self.recalculate_user_monthly_totals
+		self.recalculate_user_weekly_totals
+	end
+
+	### RECALCULATES ALL USER TOTAL RECORDS - DOES INCLUDE SHOE RELATED RECORDS ###
+	def recalculate_all_user_totals_and_shoes
+		self.recalculate_all_user_totals
+		self.recalculate_mileage_of_a_specified_users_shoes
+	end
+
+	def recalculate_user_all_time_total
+		self.all_time_total.recalculate_all_time_total
+	end
+
+	def recalculate_user_yearly_totals
+		self.yearly_totals.unfrozen_years.each { |yearly_total| yearly_total.recalculate_yearly_total }
+	end
+
+	def recalculate_user_monthly_totals
+		self.monthly_totals.unfrozen_months.each { |monthly_total| monthly_total.recalculate_monthly_total }
+	end
+
+	def recalculate_user_weekly_totals
+		self.weekly_totals.each { |weekly_total| weekly_total.recalculate_weekly_total }
 	end
 
 end
