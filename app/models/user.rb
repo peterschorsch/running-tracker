@@ -107,9 +107,15 @@ class User < ApplicationRecord
 		self.check_on_frozen_total_records
 	end
 
+	### FREEZE YEARLY AND MONTHLY TOTAL RECORDS THAT AREN'T CURRENT YEAR AND/OR MONTH ###
 	def check_on_frozen_total_records
 		self.yearly_totals.return_unfrozen_years_except_current_year.freeze_yearly_total_collection
 		self.monthly_totals.return_unfrozen_months_except_current_month.freeze_monthly_total_collection
+	end
+
+	### DESTROY PLANNED RUNS THAT ARE NOT IN CURRENT MONTH ###
+	def check_for_previous_planned_runs
+		self.runs.return_past_uncompleted_runs_except_for_current_month.destroy_all
 	end
 
 	### CHECK IF USER HAS AN ALL TIME TOTAL RECORD ###
@@ -239,7 +245,7 @@ class User < ApplicationRecord
 	end
 
 	def recalculate_user_yearly_totals
-		self.yearly_totals.unfrozen_months.each { |yearly_total| yearly_total.recalculate_yearly_total }
+		self.yearly_totals.unfrozen_years.each { |yearly_total| yearly_total.recalculate_yearly_total }
 	end
 
 	def recalculate_user_monthly_totals

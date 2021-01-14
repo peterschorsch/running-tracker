@@ -59,6 +59,10 @@ class Run < ApplicationRecord
 		where("start_time < ?", Date.current).return_uncompleted_runs
 	}
 
+	scope :return_past_uncompleted_runs_except_for_current_month, -> {
+		where("start_time <= ?", (Date.current-1.month).end_of_month).return_uncompleted_runs
+	}
+
 	scope :order_by_most_recent, -> {
 		order('start_time DESC')
 	}

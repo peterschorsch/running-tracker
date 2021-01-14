@@ -20,8 +20,12 @@ class SessionsController < ApplicationController
       @user.check_for_total_records_upon_login
 
       if @user.is_viewer?
+        ### CREATE/UPDATE RUNS FOR WEBSITE VIEWER ###
         @user.website_viewer_methods_check_upon_login
       else
+        ### DELETE PLANNED RUNS FROM PREVIOUS MONTHS ###
+        @user.check_for_previous_planned_runs
+        ### CREATE PLANNED RUNS FOR THIS WEEK - TESTING ###
         @user.create_weeklong_default_runs
       end
 
