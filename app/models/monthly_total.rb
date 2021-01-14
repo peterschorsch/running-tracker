@@ -24,8 +24,20 @@ class MonthlyTotal < ApplicationRecord
 	end
 
 	scope :of_year, -> (year = Date.current) {
-	    where("month_start >= ? AND month_end <= ?", year.beginning_of_year, year.end_of_year)
+		where("month_start >= ? AND month_end <= ?", year.beginning_of_year, year.end_of_year)
 	}
+
+	scope :unfrozen_months, -> {
+		where(:frozen_flag => false)
+	}
+
+	scope :frozen_months, -> {
+		where(:frozen_flag => true)
+	}
+
+	def has_been_frozen?
+		self.frozen_flag
+	end
 
 	def self.create_zero_totals(user_id, yearly_total_id, month_start, month_end)
 		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)

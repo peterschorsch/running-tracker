@@ -111,8 +111,11 @@ class CalendarsController < ApplicationController
 
 	private
 		def set_run
-			@run = current_user.runs.find(params[:id])
-		end
+			@run = current_user.runs.return_uncompleted_runs.find(params[:id])
+			rescue ActiveRecord::RecordNotFound
+			flash[:alert] = "You are not authorized to view specified run."
+			redirect_to calendars_path
+	    end
 
 		def run_params
 	      params.require(:run).permit(:name, :completed_run, :planned_mileage, :mileage_total, :start_time, :hours, :minutes, :seconds, :pace, :elevation_gain, :city, :notes, :personal_best, :shoe_id, :state_id, :run_type_id)

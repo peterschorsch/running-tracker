@@ -26,6 +26,18 @@ class YearlyTotal < ApplicationRecord
 		where(:user => user)
 	}
 
+	scope :unfrozen_months, -> {
+		where(:frozen_flag => false)
+	}
+
+	scope :frozen_months, -> {
+		where(:frozen_flag => true)
+	}
+
+	def has_been_frozen?
+		self.frozen_flag
+	end
+
 	### RECALCULATES ALL YEARLY TOTALS ###
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
 	def recalculate_yearly_total

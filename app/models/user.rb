@@ -233,11 +233,11 @@ class User < ApplicationRecord
 	end
 
 	def recalculate_user_yearly_totals
-		self.yearly_totals.each { |yearly_total| yearly_total.recalculate_yearly_total }
+		self.yearly_totals.unfrozen_months.each { |yearly_total| yearly_total.recalculate_yearly_total }
 	end
 
 	def recalculate_user_monthly_totals
-		self.monthly_totals.each { |monthly_total| monthly_total.recalculate_monthly_total }
+		self.monthly_totals.unfrozen_months.each { |monthly_total| monthly_total.recalculate_monthly_total }
 	end
 
 	def recalculate_user_weekly_totals
