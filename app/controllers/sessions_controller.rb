@@ -33,8 +33,11 @@ class SessionsController < ApplicationController
         format.html { redirect_to dashboards_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }
       end
     else
-      flash.now[:alert] = @user.blank? ? "Email or password is invalid" : @user.is_archived? ? "Your account has been marked as inactive" : "Email or password is invalid"
-      render "new"
+      alert_message = "Email and/or Password is invalid."
+      alert_message = "Your Account has been marked as inactive." if not @user.blank? and @user.is_archived?
+      flash[:alert] = alert_message
+
+      redirect_to login_path
     end
   end
 
