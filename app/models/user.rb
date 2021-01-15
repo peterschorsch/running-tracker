@@ -231,12 +231,10 @@ class User < ApplicationRecord
 		end
 	end
 
-	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
-	def recalculate_mileage_of_a_specified_users_shoes
-		self.shoes.each do |shoe|
-			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
-			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
-		end
+	### RECALCULATES ALL USER TOTAL RECORDS - DOES INCLUDE SHOE RELATED RECORDS ###
+	def recalculate_all_user_totals_and_shoes
+		self.recalculate_all_user_totals
+		self.recalculate_mileage_of_a_specified_users_shoes
 	end
 
 	### RECALCULATES ALL USER TOTAL RECORDS - DOES NOT INCLUDE SHOE RELATED RECORDS ###
@@ -247,10 +245,12 @@ class User < ApplicationRecord
 		self.recalculate_user_weekly_totals
 	end
 
-	### RECALCULATES ALL USER TOTAL RECORDS - DOES INCLUDE SHOE RELATED RECORDS ###
-	def recalculate_all_user_totals_and_shoes
-		self.recalculate_all_user_totals
-		self.recalculate_mileage_of_a_specified_users_shoes
+	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
+	def recalculate_mileage_of_a_specified_users_shoes
+		self.shoes.each do |shoe|
+			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
+			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
+		end
 	end
 
 	def recalculate_user_all_time_total
