@@ -165,8 +165,8 @@ class User < ApplicationRecord
 		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
 
 		shoe_id = Shoe.return_default_shoe.id
-		city = "Los Angeles"
-		state_id = State.find_by_abbr("CA").id
+		city = self.default_city
+		state_id = State.find_by_name(self.default_state).id
 
 		### CREATE RUNS FROM LAST RUN TO CURRENT DAY ###
 		(@last_run_start_time..Date.current-1.day).each do |date|
@@ -195,7 +195,8 @@ class User < ApplicationRecord
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
 	def create_weeklong_default_runs
 		default_shoe_id = Shoe.return_default_shoe.id
-		state_id = State.find_by_abbr("CA").id
+		city = self.default_city
+		state_id = State.find_by_name(self.default_state).id
 		run_type_id = RunType.default_run_type.id
 
 		# Current Date
@@ -213,7 +214,7 @@ class User < ApplicationRecord
 			if @existing_run.empty?
 				@monthly_total = self.current_monthly_total
 				mileage = self.is_viewer? ? rand(1..20) : 0
-				@run = Run.create_planned_run_record(Run.return_planned_run_start_time(date), mileage, default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
+				@run = Run.create_planned_run_record(Run.return_planned_run_start_time(date), mileage, default_shoe_id, city, state_id, @monthly_total.id, self.id)
 			end
 		end
 	end

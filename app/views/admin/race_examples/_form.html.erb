@@ -12,7 +12,7 @@
     </div>
     <div class="col-xs-2">
       <%= f.label :city, 'City:' %>
-      <%= f.text_field :city, { class: 'form-control', placeholder: "Los Angeles", disabled: current_user.is_viewer? } %>
+      <%= f.text_field :city, { class: 'form-control', placeholder: current_user.default_city, disabled: current_user.is_viewer? } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :state_id, 'State:' %>
