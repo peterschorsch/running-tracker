@@ -22,6 +22,10 @@ class YearlyTotal < ApplicationRecord
 		find_by(:year => date.year) || nil
 	end
 
+	scope :exclude_current_year, -> {
+		where.not(:year => Date.current.year)
+	}
+
 	scope :of_user, -> (user) {
 		where(:user => user)
 	}

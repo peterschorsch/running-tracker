@@ -218,6 +218,35 @@ class User < ApplicationRecord
 		end
 	end
 
+	### DYNAMICALLY CREATES RACES FOR WEBSITE VIEWER ACCOUNT ###
+	## BASED ON IF ANY RACES ARE RETURN WITHIN THE LAST TWO MONTHS ##
+	def dynamically_create_website_viewer_races
+		@runs = self.runs
+		@races = @runs.return_races
+		@recent_races = @races.of_month + @races.of_month(Date.current-1.month)
+
+		# See if any races have occured in the past two months
+		if @recent_races.empty?
+			start_date = Date.current.prev_occurring(:sunday).beginning_of_day
+			@sundays_runs = @runs.of_day(start_date) # Find all runs of the previous sunday
+			@sundays_runs.delete_all # Remove runs of the previous sunday
+
+			# Create a Race
+			@race_distance = RaceDistance.order("RANDOM()").first
+			@race_example = @race_distance.race_examples.order("RANDOM()").first
+			@monthly_total = self.monthly_totals.of_month(start_date)
+
+			race_run_type = RunType.named("Race")
+			shoe = self.shoes.return_default_shoe
+			start_time = Run.return_random_race_start_time(start_date)
+
+			@race = Run.create_with(planned_mileage: @race_distance.numeric_distance, mileage_total: @race_distance.numeric_distance, 
+				time_in_seconds: @race_example.time_in_seconds, pace_minutes: @race_example.pace_minutes, pace_seconds: @race_example.pace_seconds,
+				elevation_gain: @race_example.elevation_gain, city: @race_example.city, completed_run: true, 
+				shoe_id: shoe.id, state_id: @race_example.state_id).find_or_create_by(name: @race_example.name, start_time: start_time, run_type_id: race_run_type.id, user_id: self.id, monthly_total_id: @monthly_total.id)
+		end
+	end
+
 	### UPDATING MILEAGE OF ALL OF A SPECIFIC USER"S SHOES ###
 	def recalculate_mileage_of_a_specified_users_shoes
 		self.shoes.each do |shoe|

@@ -60,6 +60,10 @@ class Shoe < ApplicationRecord
 		self.active_shoes.includes(:shoe_brand).order(default: :desc, brand: :asc).map{ |shoe| [shoe.return_full_shoe_name, shoe.id] }
 	end
 
+	def self.return_random_shoe
+		active_shoes.order("RANDOM()").first
+	end
+
 	### FORM SELECTS ###
 	def self.shoe_size_select
 		(7..12).step(0.5).map {|i| ["M " + i.to_s, i] }
