@@ -164,7 +164,7 @@ class User < ApplicationRecord
 
 		@last_run_start_time = self.runs.order_by_most_recent.first.start_time.to_date
 
-		shoe_id = Shoe.return_default_shoe.id
+		shoe_id = self.shoes.return_default_shoe.id
 		city = "Los Angeles"
 		state_id = State.find_by_abbr("CA").id
 
@@ -194,7 +194,7 @@ class User < ApplicationRecord
 
 	### CREATE DEFAULT RUNS FOR CURRENT WEEK ###
 	def create_weeklong_default_runs
-		default_shoe_id = Shoe.return_default_shoe.id
+		default_shoe_id = self.shoes.return_default_shoe.id
 		state_id = State.find_by_abbr("CA").id
 		run_type_id = RunType.default_run_type.id
 
@@ -203,7 +203,7 @@ class User < ApplicationRecord
 		# Starts on a Monday, Ends on a Sunday
 		week_start_date = current_date.beginning_of_week
 		week_end_date = current_date.end_of_week
-		date_array = (week_start_date...week_end_date).to_a
+		date_array = (week_start_date...week_end_date+1.day).to_a
 
 		2.times { date_array.to_a.delete_at(rand(date_array.count)) } if self.is_viewer?
 
@@ -215,6 +215,19 @@ class User < ApplicationRecord
 				mileage = self.is_viewer? ? rand(1..20) : 0
 				@run = Run.create_planned_run_record(Run.return_planned_run_start_time(date), mileage, default_shoe_id, "Los Angeles", state_id, @monthly_total.id, self.id)
 			end
+		end
+	end
+
+	### CREATE YEARLY AND MONTHLY TOTAL RECORD IF IT DOESN'T EXIST (depending on start_time) ###
+	def create_future_yearly_monthly_total(start_time)
+		start_date = start_time.to_date
+		@monthly_total = self.monthly_totals.of_month(start_date)
+
+		if @monthly_total.nil?
+			@yearly_total = self.yearly_totals.of_year(start_date)
+			@yearly_total = YearlyTotal.create_zero_totals(self.id, self.all_time_total.id, start_date) if @yearly_total.nil?
+
+			@monthly_total = MonthlyTotal.create_zero_totals(self.id, @yearly_total.id, start_date.beginning_of_month, start_date.end_of_month)
 		end
 	end
 

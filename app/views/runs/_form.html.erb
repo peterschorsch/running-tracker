@@ -2,16 +2,19 @@
   <%= render "templates/alerts/form-errors", model: run %>
 
   <div class="row">
-    <div class="col-xs-2 col-sm-offset-2">
-      <%= f.time_field :start_time, { class: 'form-control', :disabled => run.cannot_modify_run_record? } %>
-    </div>
-    <div class="col-xs-2 col-sm-offset-3 text-right">
+    <div class="col-xs-2 col-sm-offset-8 text-right">
       <%= f.label :personal_best, 'Personal Best?', { class: "pointer-cursor make-text-unselectable" } %>
       <%= f.check_box :personal_best, { :disabled => current_user.is_viewer? } %>
     </div>
     <div class="col-xs-2 text-right">
       <%= f.label :completed_run, 'Completed?', { class: "pointer-cursor make-text-unselectable" } %>
       <%= f.check_box :completed_run, { :disabled => run.cannot_modify_run_record? } %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-sm-offset-2">
+      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => run.cannot_modify_run_record? } if run.new_record? %>
+      <%= f.time_field :start_time, { class: 'form-control', :disabled => run.cannot_modify_run_record? } unless run.new_record? %>
     </div>
   </div>
   <br />
