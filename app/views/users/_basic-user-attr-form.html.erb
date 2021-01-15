@@ -1,19 +1,26 @@
 <%= form_with(model: current_user, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |form| %>
   <div class="row vertical-align-middle">
-    <div class="col-md-3 col-xs-12 text-right"><%= form.label :first_name, 'First Name:' %></div>
-    <div class="col-md-3 col-xs-12"><%= form.text_field :first_name, class: 'form-control', :disabled => current_user.is_viewer? %></div>
-    <div class="col-md-3 col-xs-12 text-right"><%= form.label :last_name, 'Last Name:' %></div>
-    <div class="col-md-3 col-xs-12"><%= form.text_field :last_name, class: 'form-control', :disabled => current_user.is_viewer? %></div>
+    <div class="col-md-2 col-xs-12 text-right"><%= form.label :first_name, 'First Name:' %></div>
+    <div class="col-md-4 col-xs-12"><%= form.text_field :first_name, class: 'form-control', :disabled => current_user.is_viewer? %></div>
+    <div class="col-md-2 col-xs-12 text-right"><%= form.label :last_name, 'Last Name:' %></div>
+    <div class="col-md-4 col-xs-12"><%= form.text_field :last_name, class: 'form-control', :disabled => current_user.is_viewer? %></div>
   </div>
   <br />
   <div class="row vertical-align-middle">
-    <div class="col-md-3 col-xs-12 text-right"><%= form.label :email, 'Email:' %></div>
-    <div class="col-md-9 col-xs-12"><%= form.text_field :email, class: 'form-control', :disabled => current_user.is_viewer? %></div>
+    <div class="col-md-2 col-xs-12 text-right"><%= form.label :email, 'Email:' %></div>
+    <div class="col-md-10 col-xs-12"><%= form.text_field :email, class: 'form-control', :disabled => current_user.is_viewer? %></div>
   </div>
   <br />
   <div class="row vertical-align-middle">
-    <div class="col-md-3 col-xs-12 text-right"><%= form.label :time_zone, 'Time Zone:' %></div>
-    <div class="col-md-9 col-xs-12"><%= form.time_zone_select :time_zone, nil, {}, { :class => 'form-control', :disabled => current_user.is_viewer?} %></div>
+    <div class="col-md-2 col-xs-12 text-right"><%= form.label :default_city, 'City:' %></div>
+    <div class="col-md-4 col-xs-12"><%= form.text_field :default_city, class: 'form-control', :disabled => current_user.is_viewer? %></div>
+    <div class="col-md-2 col-xs-12 text-right"><%= form.label :default_state, 'State:' %></div>
+    <div class="col-md-4 col-xs-12"><%= form.select(:default_state, State.select_state_name, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %></div>
+  </div>
+  <br />
+  <div class="row vertical-align-middle">
+    <div class="col-md-2 col-xs-12 text-right"><%= form.label :time_zone, 'Time Zone:' %></div>
+    <div class="col-md-10 col-xs-12"><%= form.time_zone_select :time_zone, nil, {}, { :class => 'form-control', :disabled => current_user.is_viewer?} %></div>
   </div>
   <br />
   <div class="row">

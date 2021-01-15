@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
 	include EmailValidator
 
-	validates :first_name, :last_name, presence: true
+	validates :first_name, :last_name, :default_city, :default_state, presence: true
 	validates :email, presence: true, email: true, uniqueness: true
 	has_secure_password
 
