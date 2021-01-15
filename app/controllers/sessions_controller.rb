@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   before_action :check_for_logged_in, only: [:root_page, :new]
-  #auto_session_timeout_actions
+  auto_session_timeout_actions
 
   def root_page
     render layout: "root_screen"

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 	# For session timeout
-	#auto_session_timeout 1.minute
+	auto_session_timeout 10.minutes
 
 	around_action :set_time_zone, if: :current_user
 
