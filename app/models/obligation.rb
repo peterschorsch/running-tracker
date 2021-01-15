@@ -3,6 +3,8 @@ class Obligation < ApplicationRecord
 	belongs_to :user
 	belongs_to :obligation_color
 
+	before_save :set_start_time
+
 	validates :name, :start_time, :city, presence: true
 
 	scope :order_by_newest_date_time, -> {
@@ -50,6 +52,12 @@ class Obligation < ApplicationRecord
 	### PICK RANDOM RECORD FROM OBLIGATION DATA ###
 	def self.get_random_obligation
 		Obligation.obligation_data.sample
+	end
+
+	private
+	def set_start_time
+		self.start_time = self.start_time.utc
+		self.end_time = self.end_time.utc if not self.end_time.nil?
 	end
 
 	protected

@@ -6,7 +6,7 @@ puts "----------OBLIGATIONS----------"
 puts @obligation_color.inspect
 
 
-### TESTING FOR MYSELF - TEMPORARY ###
+### TESTING FOR MYSELF - TEMPORARY - FIX ###
 @obligations = @my_admin_user.obligations
 start_time = DateTime.current-5.days
 if @obligations.of_date(start_time).empty?
