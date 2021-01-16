@@ -25,6 +25,7 @@ class SessionsController < ApplicationController
       if @user.is_viewer?
         ### CREATE/UPDATE RUNS FOR WEBSITE VIEWER ###
         @user.website_viewer_methods_check_upon_login
+        @user.dynamically_create_website_viewer_races
       else
         ### DELETE PLANNED RUNS FROM PREVIOUS MONTHS ###
         @user.check_for_previous_planned_runs

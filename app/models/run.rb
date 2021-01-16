@@ -85,6 +85,11 @@ class Run < ApplicationRecord
 		joins(:run_type).where("run_types.name=?", "Race").completed_runs
 	}
 
+	# Return runs that aren't races - includes planned runs
+	scope :return_run_workouts, -> {
+		joins(:run_type).where.not("run_types.name=?", "Race")
+	}
+
 	scope :retrieve_personal_bests, -> {
 		return_races.where("runs.personal_best=?", true).order(:mileage_total).includes(:state)
 	}

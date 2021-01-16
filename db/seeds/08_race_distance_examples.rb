@@ -125,29 +125,23 @@ marathon_races.each do |marathon_race|
 end
 puts ""
 
+
 puts "----------WEBSITE VIEWER RACES----------"
 @race_distances = RaceDistance.all
 ###CREATE RACES FOR WEBSITE VIEWER ACCOUNT###
-@website_viewer.yearly_totals.each do |yearly_total|
+@website_viewer.yearly_totals.exclude_current_year.each do |yearly_total|
 	@race_distances.each do |race_distance|
 		race_example = race_distance.race_examples.order("RANDOM()").first
+
 		race_run_type = RunType.named("Race")
-		shoe = Shoe.return_default_shoe
+		shoe = @website_viewer.shoes.return_random_shoe
 
 		year = yearly_total.year.to_i
-		month = rand(1..Date.current.month)
+		month = rand(1..12)
 		day = get_sunday_of_month(month, year, rand(1..4)).day
 		start_time = DateTime.new(year, month, day)
 
 		@monthly_total = yearly_total.monthly_totals.of_month(start_time)
-
-		# Change start time if the race has not happened yet as of current DateTime of seeding
-		current_datetime = DateTime.current
-		if start_time > current_datetime
-			month = (month-1)==0 ? 1 : month-1
-			day = (day-7)<=0 ? get_sunday_of_month(month, year, 1).day : day-7
-			start_time = current_datetime - 1.week
-		end
 
 		# Check if there are any runs on the day and delete them if necessary
 		@runs_on_date = @website_viewer.runs.return_runs_on_date(month, day, year)
@@ -166,6 +160,9 @@ puts "----------WEBSITE VIEWER RACES----------"
 end
 puts ""
 
+@website_viewer.dynamically_create_website_viewer_races
+
+
 ### WEBSITE VIEWER ACCOUNT - PERSONAL BEST TIMES ###
 @website_viewer_runs = @website_viewer.runs
 @website_viewer_runs.return_races.update_all(:personal_best => false)
@@ -174,5 +171,5 @@ puts ""
 @website_viewer_runs.return_half_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 @website_viewer_runs.return_marathon_results.order_by_fastest.first.update_column('personal_best', true)
 
-### UPDATE SHOE TOTALS ###
-@website_viewer.recalculate_mileage_of_a_specified_users_shoes
+### UPDATE ALL OF WEBSITE VIEWER TOTALS INCLUDING SHOES ###
+@website_viewer.recalculate_all_user_totals_and_shoes
