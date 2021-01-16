@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :time_zone, default: "UTC"
 
       t.boolean :active, :default => true
+      t.datetime :last_login
 
       t.string :users, :password_digest
 

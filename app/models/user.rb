@@ -91,6 +91,10 @@ class User < ApplicationRecord
 		runs.completed_runs
 	end
 
+	def update_last_login
+		self.update_columns(:last_login => DateTime.current)
+	end
+
 	def User.digest(string)
 		cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
 	                                                BCrypt::Engine.cost

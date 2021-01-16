@@ -16,6 +16,9 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
 
+      ### UPDATE LAST LOGIN FIELD ###
+      @user.update_last_login
+
       ### TOTAL RECORDS CHECK FOR ALL USERS ###
       @user.check_for_total_records_upon_login
 

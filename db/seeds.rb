@@ -14,7 +14,7 @@ puts ""
 puts "----------USERS----------"
 @my_admin_user = User.create_with(first_name: "Peter", last_name: "Schorsch", time_zone: "Pacific Time (US & Canada)", active: true, password_digest: User.digest("Peteschorsch1!"), user_role_id: UserRole.return_admin_user_role.id).find_or_create_by(email: "peteschorsch@gmail.com")
 puts @my_admin_user.inspect
-@user = User.create_with(first_name: "Website", last_name: "Viewer", active: true, password_digest: User.digest("Websiteviewer1!"), user_role_id: UserRole.return_website_viewer_role.id).find_or_create_by(email: "peteschorsch@icloud.com")
+@user = User.create_with(first_name: "Website", last_name: "Viewer", active: true, :last_login => DateTime.now, password_digest: User.digest("Websiteviewer1!"), user_role_id: UserRole.return_website_viewer_role.id).find_or_create_by(email: "peteschorsch@icloud.com")
 puts @user.inspect
 puts ""
 puts ""
