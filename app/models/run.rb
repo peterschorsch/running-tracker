@@ -213,8 +213,8 @@ class Run < ApplicationRecord
 	def update_planned_run_record
 		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time),
 			planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
-			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: "Los Angeles", completed_run: true, 
-			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_abbr("CA").id, run_type_id: RunType.return_planned_run_type.id)
+			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: self.user.default_city, completed_run: true, 
+			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_name(self.user.default_state).id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
@@ -360,6 +360,8 @@ class Run < ApplicationRecord
 		self.notes = nil if self.notes == ""
 	end
 
+
+	protected
 	def set_time_in_seconds(hours, minutes, seconds)
 		self.time_in_seconds = self.form_convert_elapsed_time(hours, minutes, seconds) unless hours.to_i == 0 && minutes.to_i == 0 && seconds.to_i == 0
 	end
@@ -378,4 +380,5 @@ class Run < ApplicationRecord
 
 		self.monthly_total_id = @monthly_total.id
 	end
+
 end

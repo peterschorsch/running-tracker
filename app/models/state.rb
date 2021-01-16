@@ -5,6 +5,10 @@ class State < ApplicationRecord
 
 	validates :name, :abbreviation, presence: true, uniqueness: true
 
+	scope :find_by_name, -> (name) {
+		find_by(:name => name)
+	}
+
 	scope :find_by_abbr, -> (abbreviation) {
 		find_by(:abbreviation => abbreviation)
 	}
@@ -24,6 +28,10 @@ class State < ApplicationRecord
 
 	def self.select_state_id_abbr
 		self.all.map{ |state| [state.abbreviation, state.id] }
+	end
+
+	def self.select_state_name
+		self.all.map{ |state| [state.name, state.name] }
 	end
 
 end
