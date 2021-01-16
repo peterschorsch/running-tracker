@@ -18,6 +18,8 @@
     <% end %>
     <%= render "layouts/header" if logged_in? %>
     <div class="left-right-padding">
+      <p class="text-right"><%= formatFullDate(DateTime.current) %></p>
+      <hr />
       <%= yield %>
     </div>
   </body>

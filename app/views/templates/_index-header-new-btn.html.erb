@@ -1,13 +1,14 @@
-<div class="row">
+<div class="row vertical-align-middle">
 	<div class="col-md-2">
 		<%= render back_to_dashboard_path %>
 	</div>
-	<div class="col-md-2 col-md-offset-8">
+	<div class="col-md-8">
+		<h1 class="text-center"><%=heading_text%></h1>
+	</div>
+	<div class="col-md-2">
 		<%= render new_btn_path, new_path: new_path, new_btn_text: new_btn_text %>
 	</div>
 </div>
-
-<h1 class="text-center"><%=heading_text%></h1>
 <hr />
 <%= render notice_path %>
 <%= render alert_path %>
