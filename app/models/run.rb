@@ -228,47 +228,44 @@ class Run < ApplicationRecord
 	end
 
 
-	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
-	def self.copy_last_weeks_runs(current_user)
+	### COPY LAST WEEK'S RUNS TO CURRENT WEEK ###
+	def self.copy_last_weeks_runs(user)
 		# Last week's Date
 		last_week_date = DateTime.current-1.week
 		# Starts on a Monday
 		week_start_date = last_week_date.beginning_of_week
 		week_end_date = last_week_date.end_of_week
 
-		default_shoe_id = Gear.return_default_shoe.id
-		default_run_type_id = RunType.default_run_type.id
-
-		@last_weeks_runs = current_user.runs.where(:start_time => week_start_date..week_end_date)
+		@last_weeks_runs = user.runs.where(:start_time => week_start_date..week_end_date)
 		@last_weeks_runs.each do |run|
 			start_time = run.start_time+1.week
-			monthly_total_id = MonthlyTotal.of_month(start_time).id
+			user.create_future_yearly_monthly_total(start_time) # Creates Monthly and Yearly Total if it doesn't existing (depending on start_time)
+			monthly_total_id = user.monthly_totals.of_month(start_time).id
 
-			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, default_shoe_id, run.city, run.state_id, monthly_total_id, current_user.id)
+			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, monthly_total_id, user.id)
 		end
 	end
 
-	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
-	def self.copy_current_weeks_runs(current_user)
+	### COPY LAST WEEK'S RUNS TO CURRENT WEEK ###
+	def self.copy_current_weeks_runs(user)
 		# Current week's Date
 		current_week_date = DateTime.current
 		# Starts on a Monday
 		current_start_date = current_week_date.beginning_of_week
 		current_end_date = current_week_date.end_of_week
 
-		default_shoe_id = Gear.return_default_shoe.id
-
-		@current_weeks_runs = Run.of_user(current_user).where(:start_time => current_start_date..current_end_date)
+		@current_weeks_runs = user.runs.where(:start_time => current_start_date..current_end_date)
 		@current_weeks_runs.each do |run|
 			start_time = run.start_time+1.week
-			monthly_total_id = MonthlyTotal.of_month(start_time).id
+			user.create_future_yearly_monthly_total(start_time) # Creates Monthly and Yearly Total if it doesn't existing (depending on start_time)
+			monthly_total_id = user.monthly_totals.of_month(start_time).id
 
-			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, default_shoe_id, run.city, run.state_id, monthly_total_id, current_user.id)
+			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, monthly_total_id, user.id)
 		end
 	end
 
-	### COPY LAST WEEK'S RUNS TO CURRENT WEEK
-	def self.copy_until_specific_date(current_user, end_week_date)
+	### COPY LAST WEEK'S RUNS TO CURRENT WEEK ###
+	def self.copy_until_specific_date(user, end_week_date)
 		# Current Week's Date
 		current_week_date = DateTime.current
 		# Current Week's Start & End Dates
@@ -283,18 +280,17 @@ class Run < ApplicationRecord
 		# End Week's Start Date
 		end_week_start_date = end_week_date.beginning_of_week
 
-		default_shoe_id = Gear.return_default_shoe.id
-
 		number_of_weeks = end_week_start_date.cweek - next_week_start_date.cweek
-
-		@current_weeks_runs = current_user.runs.where(:start_time => current_week_start_date..current_week_end_date)
+		@current_weeks_runs = user.runs.where(:start_time => current_week_start_date..current_week_end_date)
 
 		@current_weeks_runs.each do |run|
 			if number_of_weeks > 0
 				(1..number_of_weeks+1).each do |number|
 					running_date = run.start_time + number.week
+					user.create_future_yearly_monthly_total(running_date) # Creates Monthly and Yearly Total if it doesn't existing (depending on start_time)
+					monthly_total_id = user.monthly_totals.of_month(running_date).id
 
-					Run.create_blank_run_record(run.name, running_date, run.planned_mileage, default_shoe_id, run.city, run.state_id, monthly_total_id, current_user.id)
+					Run.create_blank_run_record(run.name, running_date, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, monthly_total_id, user.id)
 				end
 			end
 		end

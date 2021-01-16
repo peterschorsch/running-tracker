@@ -69,7 +69,7 @@ class CalendarsController < ApplicationController
 			if current_user.create_weeklong_default_runs
 				format.html { redirect_to request.referrer, notice: "<strong>Planned Runs</strong> were created for the week starting <strong>#{DateTime.current.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
-				format.html { redirect_to request.referrer, errors: @usergroup.errors }
+				format.html { redirect_to request.referrer }
 			end
 		end
 	end
@@ -80,7 +80,7 @@ class CalendarsController < ApplicationController
 			if Run.copy_last_weeks_runs(current_user)
 				format.html { redirect_to request.referrer, notice: "<strong>Last Week's</strong> runs were copied to the current week starting <strong>#{DateTime.current.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
-				format.html { redirect_to request.referrer, errors: @usergroup.errors }
+				format.html { redirect_to request.referrer }
 			end
 		end
 	end
@@ -91,7 +91,7 @@ class CalendarsController < ApplicationController
 			if Run.copy_current_weeks_runs(current_user)
 				format.html { redirect_to request.referrer, notice: "<strong>This Week's</strong> runs were copied to the next week starting <strong>#{(DateTime.current+1.week).beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
 			else
-				format.html { redirect_to request.referrer, errors: @usergroup.errors }
+				format.html { redirect_to request.referrer }
 			end
 		end
 	end
@@ -103,7 +103,6 @@ class CalendarsController < ApplicationController
 			respond_to do |format|
 				if Run.copy_until_specific_date(current_user, end_date)
 					flash[:notice] = "<strong>Current Week's</strong> runs were copied to the week ending <strong>#{(end_date).end_of_week.strftime("%B %-d, %Y")}.</strong>"
-					format.js { }
 				else
 					format.html { render :index }
 				end
