@@ -10,6 +10,7 @@ class CreateObligationsTable < ActiveRecord::Migration[5.2]
         t.boolean :event_flag, :default => true
 
     	t.references :state, index: true, foreign_key: true
+        t.references :country, index: true, foreign_key: true
         t.references :user, index: true, foreign_key: true
         t.references :obligation_color, index: true, foreign_key: true
 

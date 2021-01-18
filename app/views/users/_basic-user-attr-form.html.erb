@@ -12,10 +12,10 @@
   </div>
   <br />
   <div class="row vertical-align-middle">
-    <div class="col-md-2 col-xs-12 text-right"><%= form.label :default_city, 'City:' %></div>
+    <div class="col-md-2 col-xs-12 text-right"><label>Location:</label></div>
     <div class="col-md-4 col-xs-12"><%= form.text_field :default_city, class: 'form-control', :disabled => current_user.is_viewer? %></div>
-    <div class="col-md-2 col-xs-12 text-right"><%= form.label :default_state, 'State:' %></div>
-    <div class="col-md-4 col-xs-12"><%= form.select(:default_state, State.select_state_name, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %></div>
+    <div class="col-md-3 col-xs-12"><%= form.select(:default_state, State.select_state_name, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %></div>
+    <div class="col-md-3 col-xs-12"><%= form.select(:default_country, Country.select_country_name, { :include_blank => "Select a Country" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %></div>
   </div>
   <br />
   <div class="row vertical-align-middle">
