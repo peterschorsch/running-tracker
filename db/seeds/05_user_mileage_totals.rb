@@ -153,13 +153,13 @@ puts @run.inspect
 two_days_ago = 2.days.ago
 run_date = DateTime.new(two_days_ago.year, two_days_ago.month, two_days_ago.day, 17, 0, 0)
 monthly_total_id = MonthlyTotal.of_month(run_date).id
-@run = Run.find_or_create_by(name: "Testing", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), time_in_seconds: "8903", pace_minutes: "7", pace_seconds: "22", notes: nil, city: "Los Angeles", shoe_id: @my_account.shoes.find_shoe("Adios 4").id, planned_mileage: BigDecimal('20'), mileage_total: BigDecimal('21'), elevation_gain: BigDecimal('1000'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Long Run").id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true)
+@run = Run.find_or_create_by(name: @my_account.concat_user_default_city_run_name, start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), time_in_seconds: "8903", pace_minutes: "7", pace_seconds: "22", notes: nil, city: "Los Angeles", shoe_id: @my_account.shoes.find_shoe("Adios 4").id, planned_mileage: BigDecimal('20'), mileage_total: BigDecimal('21'), elevation_gain: BigDecimal('1000'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Long Run").id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true)
 puts @run.inspect
 
 one_day_ago = 1.day.ago
 run_date = DateTime.new(one_day_ago.year, one_day_ago.month, one_day_ago.day, 23, 15, 0)
 monthly_total_id = MonthlyTotal.of_month(run_date).id
-@run = Run.find_or_create_by(name: "Testing 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), time_in_seconds: "1800", pace_minutes: "7", pace_seconds: "30", notes: nil, city: "Los Angeles", shoe_id: @my_account.shoes.find_shoe("Adios 4").id, planned_mileage: BigDecimal('5'), mileage_total: BigDecimal('5'), elevation_gain: BigDecimal('252'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true)
+@run = Run.find_or_create_by(name: @my_account.concat_user_default_city_run_name + " 2", start_time: run_date.in_time_zone("Pacific Time (US & Canada)"), time_in_seconds: "1800", pace_minutes: "7", pace_seconds: "30", notes: nil, city: "Los Angeles", shoe_id: @my_account.shoes.find_shoe("Adios 4").id, planned_mileage: BigDecimal('5'), mileage_total: BigDecimal('5'), elevation_gain: BigDecimal('252'), state_id: State.find_by_abbr("CA").id, run_type_id: RunType.named("Easy Run").id, user_id: @my_account.id, monthly_total_id: monthly_total_id, completed_run: true)
 puts @run.inspect
 puts ""
 

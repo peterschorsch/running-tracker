@@ -42,6 +42,11 @@ class User < ApplicationRecord
 		self.first_name + " " + self.last_name
 	end
 
+	### CONCATENATE USERS DEFAULT CITY WITH RUN ###
+	def concat_user_default_city_run_name
+		self.default_city + " Run"
+	end
+
 	def is_admin?
 		self.user_role.administrator == true
 	end
@@ -178,7 +183,7 @@ class User < ApplicationRecord
 				run_type_id = RunType.return_random_run_type_id
 				@monthly_total = self.monthly_totals.of_month(date)
 
-				Run.create_random_run_record("Run", Run.return_random_run_start_time(date), true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
+				Run.create_random_run_record(self.concat_user_default_city_run_name, Run.return_random_run_start_time(date), true, shoe_id, city, state_id, run_type_id, @monthly_total.id, self.id)
 			end
 		end
 

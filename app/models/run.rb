@@ -216,7 +216,7 @@ class Run < ApplicationRecord
 
 	### FOR WEBSITE VIEWER TO UPDATE PLANNED RUNS BETWEEN LAST LOGIN AND CURRENT LOGIN DATE ###
 	def update_planned_run_record
-		self.update_columns(name: "Run", start_time: Run.return_random_run_start_time(self.start_time),
+		self.update_columns(name: self.user.concat_user_default_city_run_name, start_time: Run.return_random_run_start_time(self.start_time),
 			planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
 			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: self.user.default_city, completed_run: true, 
 			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_name(self.user.default_state).id, run_type_id: RunType.return_planned_run_type.id)

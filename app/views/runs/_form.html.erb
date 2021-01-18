@@ -21,7 +21,7 @@
   <div class="row text-center">
     <div class="col-xs-5 col-sm-offset-1">
       <%= f.label :name, 'Name:' %>
-      <%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run", :disabled => current_user.is_viewer? } %>
+      <%= f.text_field :name, { class: 'form-control', placeholder: current_user.concat_user_default_city_run_name, :disabled => current_user.is_viewer? } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :run_type_id, 'Run Type:' %>
