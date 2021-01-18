@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
 
       t.string :default_city, :null => false
       t.string :default_state, :null => false
+      t.string :default_country, :null => false
       t.string :time_zone, default: "UTC"
 
       t.boolean :active, :default => true
