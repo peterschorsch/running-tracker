@@ -1,0 +1,17 @@
+<%= form_with(model: admin_total_record_monthly_total, local: true) do |form| %>
+  <% if admin_total_record_monthly_total.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(admin_total_record_monthly_total.errors.count, "error") %> prohibited this admin_total_record_monthly_total from being saved:</h2>
+
+      <ul>
+      <% admin_total_record_monthly_total.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

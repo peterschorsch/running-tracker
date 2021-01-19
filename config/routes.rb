@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    namespace :total_record do
+      resources :monthly_totals
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'sessions#root_page'
   get "/login", to: "sessions#new"
@@ -42,7 +47,12 @@ Rails.application.routes.draw do
     resources :run_types, path: "run-types", except: [:show]
     resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
     resources :user_roles, path: "user-roles", except: [:show, :destroy]
-    resources :total_records, path: "total-records"#, except: [:show, :destroy]
+
+    namespace :total_record, path: 'total-records' do
+      root to: 'total_records#index'
+      resources :yearly_totals, path: 'yearly-totals', only: [:edit, :update]
+      resources :monthly_totals, path: 'monthly-totals', only: [:edit, :update]
+    end
   end
 
   resources :runs, except: [:show]
