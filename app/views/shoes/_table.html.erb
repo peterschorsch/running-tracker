@@ -29,7 +29,7 @@
           <% if shoe.is_retired? %>
             <td scope="row"><%= formatDateDots(shoe.retired_on) %></td>
           <% end %>
-          <td><%= render edit_icon_btn_path, edit_path: edit_shoe_path(shoe) %></td>
+          <td><%= render edit_icon_btn_path, edit_path: edit_shoe_path(shoe), disabled_condition: false %></td>
         </tr>
       <% end %>
     </tbody>

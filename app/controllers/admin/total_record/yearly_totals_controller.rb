@@ -9,7 +9,7 @@ class Admin::TotalRecord::YearlyTotalsController < Admin::TotalRecord::TotalReco
       if @yearly_total.update(yearly_total_params)
         format.html { redirect_to admin_total_record_root_path, notice: "<strong>#{@yearly_total.year}</strong> was successfully updated." }
       else
-        format.html { render :edit_yearly_total }
+        format.html { render :edit }
         format.json { render json: @yearly_total.errors, status: :unprocessable_entity }
       end
     end
