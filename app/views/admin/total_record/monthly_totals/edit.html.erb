@@ -1,6 +1,3 @@
-<h1>Editing Admin Total Record Monthly Total</h1>
+<%= render edit_header_path, path: admin_total_record_root_path, btn_text: "Total Records" %>
 
-<%= render 'form', admin_total_record_monthly_total: @admin_total_record_monthly_total %>
-
-<%= link_to 'Show', @admin_total_record_monthly_total %> |
-<%= link_to 'Back', admin_total_record_monthly_totals_path %>
+<%= render "admin/total_record/yearly_totals/form", heading: format_month(@monthly_total.month_start), total_record: @monthly_total %>

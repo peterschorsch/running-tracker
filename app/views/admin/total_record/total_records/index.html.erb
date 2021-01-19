@@ -19,36 +19,45 @@
 						<h1 class="panel-title"><%= yearly_total.year %></h1>
 					</div>
 					<div class="panel-body">
-						<p class="text-center"><%= concat_run_totals_line_one(yearly_total) %></p>
-						<p class="text-center"><%= concat_run_totals_line_two(yearly_total.time_in_seconds) %></p>
-						<p><%= render edit_icon_btn_path, edit_path: edit_admin_total_record_yearly_total_path(yearly_total) %></p>
+						<div class="row">
+							<div class="col-xs-6 col-xs-offset-3">
+								<p class="text-center"><%= concat_run_totals_line_one(yearly_total) %></p>
+								<p class="text-center"><%= concat_run_totals_line_two(yearly_total.time_in_seconds) %></p>
+							</div>
+							<div class="col-xs-3 text-right">
+								<%= render edit_btn_path, edit_path: edit_admin_total_record_yearly_total_path(yearly_total) %>
+							</div>
+						</div>
 						<br />
-						<table class="table table-responsive table-striped table-hover table-responsive w-auto">
-							<thead>
-								<tr>
-									<th></th>
-									<th># of Runs</th>
-									<th>Mileage</th>
-									<th>Elevation</th>
-									<th>Time</th>
-									<th>Frozen?</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								<% yearly_total.monthly_totals.each do |monthly_total| %>
-									<tr class="text-center">
-										<td><%= format_month(monthly_total.month_start) %></td>
-										<td><%= concat_number_of_runs(monthly_total.number_of_runs) %></td>
-										<td><%= concat_distance_miles(monthly_total.mileage_total) %></td>
-										<td><%= concat_elevation_gain(monthly_total.elevation_gain) %></td>
-										<td><%= concat_elapsed_time(monthly_total.time_in_seconds) %></td>
-										<td><%= monthly_total.frozen_flag %></td>
-										<td><%#= render edit_icon_btn_path, edit_path: edit_admin_total_records_monthly_total_path(monthly_total) %></td>
-									</tr>
-								<% end %>
-							</tbody>
-						</table>
+						<div class="row">
+							<div class="col-xs-12">
+								<table class="table table-responsive table-striped table-hover table-responsive w-auto">
+									<thead>
+										<tr>
+											<th></th>
+											<th># of Runs</th>
+											<th>Mileage</th>
+											<th>Elevation</th>
+											<th>Time</th>
+											<th colspan="2"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<% yearly_total.monthly_totals.each do |monthly_total| %>
+											<tr class="text-center">
+												<td><%= format_month(monthly_total.month_start) %></td>
+												<td><%= concat_number_of_runs(monthly_total.number_of_runs) %></td>
+												<td><%= concat_distance_miles(monthly_total.mileage_total) %></td>
+												<td><%= concat_elevation_gain(monthly_total.elevation_gain) %></td>
+												<td><%= concat_total_time(monthly_total.time_in_seconds) %></td>
+												<td><%= display_frozen_flag(monthly_total.frozen_flag) %></td>
+												<td><%= render edit_icon_btn_path, edit_path: edit_admin_total_record_monthly_total_path(monthly_total) %></td>
+											</tr>
+										<% end %>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			<% end %>

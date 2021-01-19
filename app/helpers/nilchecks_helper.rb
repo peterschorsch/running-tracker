@@ -23,4 +23,9 @@ module NilchecksHelper
 		obligation.is_end_time_nil? ? formatTime(obligation.start_time) : formatTimeRange(obligation)
 	end
 
+	# For Yearly and Monthly Frozen Field
+	def display_frozen_flag(frozen_flag)
+		frozen_flag ? "Frozen" : "Not Frozen"
+	end
+
 end

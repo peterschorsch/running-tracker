@@ -1,4 +1,6 @@
-class Admin::TotalRecord::MonthlyTotalsController < Admin::TotalRecords::TotalRecordsController
+class Admin::TotalRecord::MonthlyTotalsController < Admin::TotalRecord::TotalRecordsController
+  before_action :set_monthly_total, only: [:edit, :update]
+
   def edit
   end
 
