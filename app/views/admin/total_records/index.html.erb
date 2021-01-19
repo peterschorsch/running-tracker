@@ -1,0 +1,27 @@
+<%= render index_header_path, heading_text: "Total Records" %>
+
+<div class="row">
+	<div class="col-sm-2">
+		<div class="list-group text-center">
+			<% @yearly_totals.each do |yearly_total| %>
+				<a class="list-group-item" id="<%=yearly_total.year%>-navbar" href="#<%=yearly_total.year%>" data-toggle="tab">
+					<h4 class="list-group-item-heading"><%= yearly_total.year %></h4>
+				</a>
+			<% end %>
+		</div>
+	</div>
+	<div class="col-sm-10">
+		<div class="tab-content">
+			<% @yearly_totals.each do |yearly_total| %>
+				<div id="<%=yearly_total.year%>-panel" class="panel panel-default tab-pane fade in">
+					<div class="panel-heading text-center">
+						<h1 class="panel-title"><%= yearly_total.year %></h1>
+					</div>
+					<div class="panel-body">
+						<h1><%= yearly_total.inspect %></h1>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
