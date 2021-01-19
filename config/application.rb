@@ -14,7 +14,6 @@ module RunningTracker
     config.time_zone = "UTC"
 
     config.beginning_of_week = :monday
-    WeekOfMonth.configuration.monday_active = true
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

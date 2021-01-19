@@ -8,7 +8,6 @@ CS.countries.each do |abbreviation, country_name|
   Country.find_or_create_by(abbreviation: abbreviation, name: country_name)
 end
 Country.find_by_name("United States").update_columns(:name => "United States of America", :abbreviation => "USA")
-Country.find_by_name("United States").update_columns(:name => "United States of America", :abbreviation => "USA")
 puts "SEEDED #{CS.countries.count} Countries"
 puts ""
 puts ""

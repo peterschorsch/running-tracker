@@ -14,7 +14,6 @@
 //= require chosen-jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
-//= require cocoon
 //= require chartkick
 //= require Chart.bundle
 //= require dataTables/jquery.dataTables
