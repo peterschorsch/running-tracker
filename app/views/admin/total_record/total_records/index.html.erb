@@ -1,7 +1,7 @@
 <%= render index_header_path, heading_text: "Total Records" %>
 
 <div class="row">
-	<div class="col-sm-2">
+	<div class="col-sm-3">
 		<div class="list-group text-center">
 			<% @yearly_totals.each do |yearly_total| %>
 				<a class="list-group-item" id="<%=yearly_total.year%>-navbar" href="#<%=yearly_total.year%>-panel" data-toggle="tab">
@@ -10,8 +10,7 @@
 			<% end %>
 		</div>
 	</div>
-
-	<div class="col-sm-8">
+	<div class="col-sm-6">
 		<div class="tab-content">
 			<% @yearly_totals.each do |yearly_total| %>
 				<div id="<%=yearly_total.year%>-panel" class="panel panel-default tab-pane fade in">
@@ -55,6 +54,34 @@
 										<% end %>
 									</tbody>
 								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="list-group">
+			<% @weekly_totals.each do |weekly_total| %>
+				<div class="panel panel-default text-center">
+					<div class="panel-heading">
+						<div class="row text-center">
+							<h4 class="list-group-item-heading"><%= formatshortenedDateRange(weekly_total.week_start, weekly_total.week_end) %></h4>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="row text-center">
+							<div class="col-sm-12">
+								<%= render weekly_mileage_progress_path, object: weekly_total %>
+							</div>
+						</div>
+						<div class="row text-center">
+							<div class="col-sm-9">
+								<p class="list-group-item-text"><%= concat_number_of_runs(weekly_total.number_of_runs) %> | <%= concat_elevation_gain(weekly_total.elevation_gain) %> | <%= concat_run_totals_line_two(weekly_total.time_in_seconds) %></p>
+							</div>
+							<div class="col-sm-3">
+								<%= render edit_icon_btn_path, edit_path: edit_admin_total_record_weekly_total_path(weekly_total), disabled_condition: false %>
 							</div>
 						</div>
 					</div>

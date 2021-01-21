@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       root to: 'total_records#index'
       resources :yearly_totals, path: 'yearly-totals', only: [:edit, :update]
       resources :monthly_totals, path: 'monthly-totals', only: [:edit, :update]
+      resources :weekly_totals, path: 'weekly-totals', only: [:edit, :update]
     end
   end
 
