@@ -1,13 +1,13 @@
 class ShoesController < ApplicationController
-  before_action :set_user_shoes, only: [:index]
   before_action :set_shoe, only: [:show, :edit, :update, :destroy]
   before_action :viewer_authorization, only: [:create, :update]
 
   # GET /shoes
   # GET /shoes.json
   def index
-    @active_shoes = @user_shoes.active_shoes
-    @retired_shoes = @user_shoes.retired_shoes
+    @all_user_shoes = current_user.shoes.includes(:shoe_brand)
+    @active_shoes = @all_user_shoes.active_shoes
+    @retired_shoes = @all_user_shoes.retired_shoes
   end
 
   # GET /shoes/new
@@ -66,10 +66,6 @@ class ShoesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_shoe
       @shoe = current_user.shoes.find(params[:id])
-    end
-
-    def set_user_shoes
-      @user_shoes = current_user.shoes.includes(:shoe_brand)
     end
 
     def set_shoe_fields
