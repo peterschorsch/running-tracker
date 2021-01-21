@@ -23,7 +23,7 @@ class Obligation < ApplicationRecord
 	    where(user: user)
 	}
 
-	scope :of_date, -> (date = DateTime.current) {
+	scope :of_day, -> (date = DateTime.current) {
 		where(:start_time => date.beginning_of_day..date.end_of_day)
 	}
 
@@ -50,8 +50,8 @@ class Obligation < ApplicationRecord
 	end
 
 	### PICK RANDOM RECORD FROM OBLIGATION DATA ###
-	def self.get_random_obligation
-		Obligation.obligation_data.sample
+	def self.get_random_obligation(random_datetime_of_week)
+		Obligation.obligation_data(random_datetime_of_week).sample
 	end
 
 	private
@@ -61,10 +61,10 @@ class Obligation < ApplicationRecord
 	end
 
 	protected
-	def self.obligation_data
-		pacific_time_zone = DateTime.current.in_time_zone("Pacific Time (US & Canada)")
-		central_time_zone = DateTime.current.in_time_zone("Central Time (US & Canada)")
-		eastern_time_zone = DateTime.current.in_time_zone("Eastern Time (US & Canada)")
+	def self.obligation_data(random_datetime_of_week)
+		pacific_time_zone = random_datetime_of_week.in_time_zone("Pacific Time (US & Canada)")
+		central_time_zone = random_datetime_of_week.in_time_zone("Central Time (US & Canada)")
+		eastern_time_zone = random_datetime_of_week.in_time_zone("Eastern Time (US & Canada)")
 
 		return data = [
 			# NAME, STARTTIME, ENDTIME, CITY, STATE ABBREVIATION #
