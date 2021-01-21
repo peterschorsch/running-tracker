@@ -61,7 +61,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :return_past_uncompleted_runs, -> {
-		where("start_time < ?", Date.current).return_uncompleted_runs
+		where("start_time <= ?", Date.current).return_uncompleted_runs
 	}
 
 	scope :return_past_uncompleted_runs_except_for_current_month, -> {
@@ -219,7 +219,7 @@ class Run < ApplicationRecord
 		self.update_columns(name: self.user.concat_user_default_city_run_name, start_time: Run.return_random_run_start_time(self.start_time),
 			planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
 			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: self.user.default_city, completed_run: true, 
-			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_name(self.user.default_state).id, run_type_id: RunType.return_planned_run_type.id)
+			shoe_id: self.user.shoes.return_random_shoe.id, state_id: State.find_by_name(self.user.default_state).id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
@@ -311,11 +311,11 @@ class Run < ApplicationRecord
 
 	### RANDOMLY GENERATED FIELD NUMBERS ###
 	def self.return_random_run_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(6..19), rand(0..59), 0).localtime
+		DateTime.new(date.year, date.month, date.day, rand(14..19), rand(0..59), 0).localtime
 	end
 
 	def self.return_random_race_start_time(date = Date.current)
-		DateTime.new(date.year, date.month, date.day, rand(6..8), [0,30].sample, 0).localtime
+		DateTime.new(date.year, date.month, date.day, rand(14..16), [0,30].sample, 0).localtime
 	end
 
 	def self.return_planned_run_start_time(date = Date.current)
