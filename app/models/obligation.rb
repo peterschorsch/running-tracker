@@ -73,7 +73,12 @@ class Obligation < ApplicationRecord
 			["Go to Grocery Store", pacific_time_zone.change(hour: 10, minute: 15, second: 0), nil, "Los Angeles", "CA"] ,
 			["Go to Birthday Party", pacific_time_zone.change(hour: 14, minute: 0, second: 0), pacific_time_zone.change(hour: 18, minute: 0, second: 0), "Los Angeles", "CA"],
 			["Workout Class", pacific_time_zone.change(hour: 18, minute: 30, second: 0), nil, "Los Angeles", "CA"],
-			["Do Laundry", pacific_time_zone.change(hour: 13, minute: 0, second: 0), nil, "Los Angeles", "CA"]
+			["Do Laundry", pacific_time_zone.change(hour: 13, minute: 0, second: 0), nil, "Los Angeles", "CA"],
+			["Clean Bathroom", pacific_time_zone.change(hour: 10, minute: 45, second: 0), nil, "Los Angeles", "CA"],
+			["Vacuum", pacific_time_zone.change(hour: 14, minute: 0, second: 0), nil, "Los Angeles", "CA"],
+			["Take out Trash", pacific_time_zone.change(hour: 19, minute: 5, second: 0), nil, "Los Angeles", "CA"],
+			["Mop Floor", pacific_time_zone.change(hour: 12, minute: 15, second: 0), nil, "Los Angeles", "CA"],
+			["Pay Bills", pacific_time_zone.change(hour: 20, minute: 30, second: 0), nil, "Los Angeles", "CA"]
 		]
 	end
 end
