@@ -18,7 +18,10 @@ class Admin::TotalRecord::YearlyTotalsController < Admin::TotalRecord::TotalReco
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_yearly_total
-      @yearly_total = current_user.yearly_totals.find(params[:id])
+      @yearly_total = current_user.yearly_totals.unfrozen_years.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+      flash[:alert] = "You are not authorized to view specified Yearly Total."
+      redirect_to admin_total_record_root_path
     end
 
     # Only allow a list of trusted parameters through.

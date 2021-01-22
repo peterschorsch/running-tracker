@@ -19,7 +19,10 @@ class Admin::TotalRecord::WeeklyTotalsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_weekly_total
-      @weekly_total = current_user.weekly_totals.find(params[:id])
+      @weekly_total = current_user.weekly_totals.unfrozen_weeks.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+      flash[:alert] = "You are not authorized to view specified Weekly Total."
+      redirect_to admin_total_record_root_path
     end
 
     # Only allow a list of trusted parameters through.
