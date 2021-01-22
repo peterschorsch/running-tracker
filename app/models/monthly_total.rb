@@ -40,7 +40,7 @@ class MonthlyTotal < ApplicationRecord
 		unfrozen_months.where.not(:month_start => Date.current.beginning_of_month)
 	}
 
-	def has_been_frozen?
+	def is_frozen?
 		self.frozen_flag
 	end
 

@@ -151,11 +151,7 @@ class User < ApplicationRecord
 			self.weekly_totals.set_oldest_weekly_total_to_zero if self.current_weekly_total.nil?
 		else
 			# If 4 weekly totals have NOT already been created
-			if not self.is_viewer?
-				WeeklyTotal.create_four_blank_weekly_totals(self.id)
-			else
-				WeeklyTotal.create_four_random_weekly_totals(self.id)
-			end
+			self.is_viewer? ? WeeklyTotal.create_four_random_weekly_totals(self) : WeeklyTotal.create_four_blank_weekly_totals(self)
 		end
 	end
 

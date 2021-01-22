@@ -24,7 +24,7 @@
 								<p class="text-center"><%= concat_run_totals_line_two(yearly_total.time_in_seconds) %></p>
 							</div>
 							<div class="col-xs-3 text-right">
-								<%= render edit_btn_path, edit_path: edit_admin_total_record_yearly_total_path(yearly_total), disabled_condition: yearly_total.frozen_flag %>
+								<%= render edit_btn_path, edit_path: edit_admin_total_record_yearly_total_path(yearly_total), disabled_condition: yearly_total.is_frozen? %>
 							</div>
 						</div>
 						<br />
@@ -49,7 +49,7 @@
 												<td><%= concat_distance_miles(monthly_total.mileage_total) %></td>
 												<td><%= concat_elevation_gain(monthly_total.elevation_gain) %></td>
 												<td><%= concat_total_time(monthly_total.time_in_seconds) %></td>
-												<td><%= render edit_icon_btn_path, edit_path: edit_admin_total_record_monthly_total_path(monthly_total), disabled_condition: monthly_total.frozen_flag %></td>
+												<td><%= render edit_icon_btn_path, edit_path: edit_admin_total_record_monthly_total_path(monthly_total), disabled_condition: monthly_total.is_frozen? %></td>
 											</tr>
 										<% end %>
 									</tbody>
@@ -81,7 +81,7 @@
 								<p class="list-group-item-text"><%= concat_number_of_runs(weekly_total.number_of_runs) %> | <%= concat_elevation_gain(weekly_total.elevation_gain) %> | <%= concat_run_totals_line_two(weekly_total.time_in_seconds) %></p>
 							</div>
 							<div class="col-sm-3">
-								<%= render edit_icon_btn_path, edit_path: edit_admin_total_record_weekly_total_path(weekly_total), disabled_condition: false %>
+								<%= render edit_icon_btn_path, edit_path: edit_admin_total_record_weekly_total_path(weekly_total), disabled_condition: weekly_total.is_frozen? %>
 							</div>
 						</div>
 					</div>
