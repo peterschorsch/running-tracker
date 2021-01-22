@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_222046) do
     t.integer "time_in_seconds", null: false
     t.integer "number_of_runs", null: false
     t.integer "elevation_gain", null: false
+    t.boolean "frozen_flag", default: false
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

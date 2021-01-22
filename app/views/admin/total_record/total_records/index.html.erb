@@ -1,0 +1,94 @@
+<%= render index_header_path, heading_text: "Total Records" %>
+<%= render alert_path %>
+<br />
+
+<div class="row">
+	<div class="col-sm-3">
+		<div class="list-group text-center">
+			<% @yearly_totals.each do |yearly_total| %>
+				<a class="list-group-item" id="<%=yearly_total.year%>-navbar" href="#<%=yearly_total.year%>-panel" data-toggle="tab">
+					<h4 class="list-group-item-heading"><%= yearly_total.year %></h4>
+				</a>
+			<% end %>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="tab-content">
+			<% @yearly_totals.each do |yearly_total| %>
+				<div id="<%=yearly_total.year%>-panel" class="panel panel-default tab-pane fade in">
+					<div class="panel-heading text-center">
+						<h1 class="panel-title"><%= yearly_total.year %></h1>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-6 col-xs-offset-3">
+								<p class="text-center"><%= concat_run_totals_line_one(yearly_total) %></p>
+								<p class="text-center"><%= concat_run_totals_line_two(yearly_total.time_in_seconds) %></p>
+							</div>
+							<div class="col-xs-3 text-right">
+								<%= render edit_btn_path, edit_path: edit_admin_total_record_yearly_total_path(yearly_total), disabled_condition: yearly_total.is_frozen? %>
+							</div>
+						</div>
+						<br />
+						<div class="row">
+							<div class="col-xs-12">
+								<table class="table table-responsive table-striped table-hover table-responsive">
+									<thead>
+										<tr>
+											<th></th>
+											<th># of Runs</th>
+											<th>Mileage</th>
+											<th>Elevation</th>
+											<th>Total Time</th>
+											<th colspan="2"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<% yearly_total.monthly_totals.each do |monthly_total| %>
+											<tr class="text-center">
+												<td><%= format_month(monthly_total.month_start) %></td>
+												<td><%= concat_number_of_runs(monthly_total.number_of_runs) %></td>
+												<td><%= concat_distance_miles(monthly_total.mileage_total) %></td>
+												<td><%= concat_elevation_gain(monthly_total.elevation_gain) %></td>
+												<td><%= concat_total_time(monthly_total.time_in_seconds) %></td>
+												<td><%= render edit_icon_btn_path, edit_path: edit_admin_total_record_monthly_total_path(monthly_total), disabled_condition: monthly_total.is_frozen? %></td>
+											</tr>
+										<% end %>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+	<div class="col-sm-3">
+		<div class="list-group">
+			<% @weekly_totals.each do |weekly_total| %>
+				<div class="panel panel-default text-center">
+					<div class="panel-heading">
+						<div class="row text-center">
+							<h4 class="list-group-item-heading"><%= formatshortenedDateRange(weekly_total.week_start, weekly_total.week_end) %></h4>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="row text-center">
+							<div class="col-sm-12">
+								<%= render weekly_mileage_progress_path, object: weekly_total %>
+							</div>
+						</div>
+						<div class="row text-center">
+							<div class="col-sm-9">
+								<p class="list-group-item-text"><%= concat_number_of_runs(weekly_total.number_of_runs) %> | <%= concat_elevation_gain(weekly_total.elevation_gain) %> | <%= concat_run_totals_line_two(weekly_total.time_in_seconds) %></p>
+							</div>
+							<div class="col-sm-3">
+								<%= render edit_icon_btn_path, edit_path: edit_admin_total_record_weekly_total_path(weekly_total), disabled_condition: weekly_total.is_frozen? %>
+							</div>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>

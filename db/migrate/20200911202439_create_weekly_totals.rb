@@ -9,9 +9,10 @@ class CreateWeeklyTotals < ActiveRecord::Migration[5.2]
       t.boolean :met_goal, :default => false
 
       t.integer :time_in_seconds, :null => false
-
       t.integer :number_of_runs, :null => false
       t.integer :elevation_gain, :null => false
+
+      t.boolean :frozen_flag, :default => false
 
       t.references :user, index: true, foreign_key: true
 

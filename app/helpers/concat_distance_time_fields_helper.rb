@@ -31,7 +31,7 @@ module ConcatDistanceTimeFieldsHelper
 
 	# 25 miles/30 miles
 	def concat_goal(record)
-		raw("<strong>#{number_precision(record.mileage_total, 3)}</strong> miles/") + raw("<strong>#{number_precision(record.goal, 3)}</strong> miles")
+		raw("<strong>#{number_precision(record.mileage_total, 3)}</strong> miles/") + raw("<strong>#{number_precision(record.mileage_goal, 3)}</strong> miles")
 	end
 
 	def concat_run_totals_line_one(record)

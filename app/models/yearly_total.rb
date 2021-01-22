@@ -43,7 +43,7 @@ class YearlyTotal < ApplicationRecord
 		unfrozen_years.where.not(:year => Date.current.year)
 	}
 
-	def has_been_frozen?
+	def is_frozen?
 		self.frozen_flag
 	end
 

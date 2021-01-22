@@ -137,7 +137,7 @@ class Run < ApplicationRecord
 	end
 
 	def cannot_be_modified?
-		self.was_completed? && self.monthly_total.has_been_frozen? && self.monthly_total.yearly_total.has_been_frozen?
+		self.was_completed? && self.monthly_total.is_frozen? && self.monthly_total.yearly_total.is_frozen?
 	end
 
 	### FOR RUN FORMS - DETERMINE IF USER CAN MODIFY RUN RECORD - FROZEN YEARLY & MONTHLY TOTAL ###
@@ -181,12 +181,12 @@ class Run < ApplicationRecord
 			### RECALCULATE YEARLY TOTAL RECORD ###
 			@yearly_total = @user.yearly_totals.of_year(start_date)
 			@yearly_total = YearlyTotal.create_zero_totals(@user.id, @user.all_time_total.id, start_date.year) if @yearly_total.nil?
-			@yearly_total.recalculate_yearly_total unless @yearly_total.has_been_frozen?
+			@yearly_total.recalculate_yearly_total unless @yearly_total.is_frozen?
 
 			### RECALCULATE MONTHLY TOTAL RECORD ###
 			@monthly_total = @user.monthly_totals.of_month(start_date)
 			@monthly_total = MonthlyTotal.create_zero_totals(@user.id, @yearly_total.id, start_date.beginning_of_month, start_date.end_of_month) if @monthly_total.nil?
-			@monthly_total.recalculate_monthly_total unless @monthly_total.has_been_frozen?
+			@monthly_total.recalculate_monthly_total unless @monthly_total.is_frozen?
 
 			### RECALCULATE WEEKLY TOTAL RECORD IF IT EXISTS ###
 			@weekly_total = @user.weekly_totals.of_week(start_date)

@@ -37,11 +37,18 @@ Rails.application.routes.draw do
 
   ### ADMIN FUNCTIONS ###
   namespace :admin do
-    resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
-    resources :run_types, path: "run-types", except: [:show]
     resources :race_examples, path: "race-examples", except: [:show, :destroy]
     resources :race_distances, path: "race-distances", only: [:edit, :update]
+    resources :run_types, path: "run-types", except: [:show]
+    resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
     resources :user_roles, path: "user-roles", except: [:show, :destroy]
+
+    namespace :total_record, path: 'total-records' do
+      root to: 'total_records#index'
+      resources :yearly_totals, path: 'yearly-totals', only: [:edit, :update]
+      resources :monthly_totals, path: 'monthly-totals', only: [:edit, :update]
+      resources :weekly_totals, path: 'weekly-totals', only: [:edit, :update]
+    end
   end
 
   resources :runs, except: [:show]

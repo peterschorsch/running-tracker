@@ -116,10 +116,11 @@ class User < ApplicationRecord
 		self.check_on_frozen_total_records
 	end
 
-	### FREEZE YEARLY AND MONTHLY TOTAL RECORDS THAT AREN'T CURRENT YEAR AND/OR MONTH ###
+	### FREEZE YEARLY, MONTHLY and WEEKLY TOTAL RECORDS THAT AREN'T CURRENT YEAR AND/OR MONTH ###
 	def check_on_frozen_total_records
 		self.yearly_totals.return_unfrozen_years_except_current_year.freeze_yearly_total_collection
 		self.monthly_totals.return_unfrozen_months_except_current_month.freeze_monthly_total_collection
+		self.weekly_totals.return_unfrozen_weeks_except_past_two_weeks.freeze_weekly_total_collection
 	end
 
 	### DESTROY PLANNED RUNS THAT ARE NOT IN CURRENT MONTH ###
@@ -151,11 +152,7 @@ class User < ApplicationRecord
 			self.weekly_totals.set_oldest_weekly_total_to_zero if self.current_weekly_total.nil?
 		else
 			# If 4 weekly totals have NOT already been created
-			if not self.is_viewer?
-				WeeklyTotal.create_four_blank_weekly_totals(self.id)
-			else
-				WeeklyTotal.create_four_random_weekly_totals(self.id)
-			end
+			self.is_viewer? ? WeeklyTotal.create_four_random_weekly_totals(self) : WeeklyTotal.create_four_blank_weekly_totals(self)
 		end
 	end
 

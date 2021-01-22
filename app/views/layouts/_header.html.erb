@@ -32,12 +32,12 @@
 					<% end %>
 				</li>
 				<% if current_user.is_admin? %>
-					<li class="dropdown">
+					<li class="dropdown text-center">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Functions <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="text-center">
 								<%= link_to admin_race_examples_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-list"></span> Edit Race Examples
+									<span class="glyphicon glyphicon-th-list"></span> Edit Race Examples
 								<% end %>
 							</li>
 							<li class="text-center">
@@ -53,6 +53,11 @@
 							<li class="text-center">
 								<%= link_to admin_user_roles_path, class: 'top-bottom-padding' do %>
 									<span class="glyphicon glyphicon-user"></span> Edit User Roles
+								<% end %>
+							</li>
+							<li class="text-center">
+								<%= link_to admin_total_record_root_path, class: 'top-bottom-padding' do %>
+									<span class="glyphicon glyphicon-book"></span> Edit Total Records
 								<% end %>
 							</li>
 						</ul>
