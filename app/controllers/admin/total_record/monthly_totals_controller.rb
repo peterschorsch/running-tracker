@@ -20,7 +20,7 @@ class Admin::TotalRecord::MonthlyTotalsController < Admin::TotalRecord::TotalRec
     def set_monthly_total
       @monthly_total = current_user.monthly_totals.unfrozen_months.find(params[:id])
       rescue ActiveRecord::RecordNotFound
-      flash[:alert] = "You are not authorized to view specified Monthly Total."
+      flash[:alert] = "You are not authorized to edit specified Monthly Total."
       redirect_to admin_total_record_root_path
     end
 

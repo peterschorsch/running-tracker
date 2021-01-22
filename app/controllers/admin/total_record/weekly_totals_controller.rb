@@ -21,7 +21,7 @@ class Admin::TotalRecord::WeeklyTotalsController < ApplicationController
     def set_weekly_total
       @weekly_total = current_user.weekly_totals.unfrozen_weeks.find(params[:id])
       rescue ActiveRecord::RecordNotFound
-      flash[:alert] = "You are not authorized to view specified Weekly Total."
+      flash[:alert] = "You are not authorized to edit specified Weekly Total."
       redirect_to admin_total_record_root_path
     end
 
