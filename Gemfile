@@ -5,17 +5,17 @@ ruby '2.6.3'
 
 gem 'bootstrap-sass'
 gem 'jquery-rails'
-gem 'chosen-rails'
+gem 'chosen-rails' # For select dropdowns
 gem 'bcrypt'#, '~> 3.1.7' for user passwords
 gem 'pry-rails'
-gem 'awesome_print'
-gem 'paperclip'
-gem 'database_cleaner'
+gem 'awesome_print' # For rails console
+gem 'paperclip' # For attaching files
+gem 'database_cleaner' # For wiping database rake command
 gem "simple_calendar", "~> 2.0"
-gem "chartkick"
+gem "chartkick" # For charts
 gem 'jquery-datatables-rails'
 gem 'auto-session-timeout'
-gem 'city-state'
+gem 'city-state' # For populating states and countries 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
@@ -28,7 +28,7 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+#gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
