@@ -196,9 +196,19 @@ class User < ApplicationRecord
 
 	### WEBSITE VIEWER - MAKE NECESSARY OBLIGATIONS FOR PAST WEEK IF NEEDED ###
 	def check_for_recent_obligations
-		if self.obligations.return_obligations_past_week.count < 2
-			random_obligation_data = Obligation.get_random_obligation
-			Obligation.find_or_create_by(name: random_obligation_data[0], start_time: random_obligation_data[1], end_time: random_obligation_data[2], city: random_obligation_data[3], state_id: State.find_by_abbr(random_obligation_data[4]).id, user_id: self.id, obligation_color_id: ObligationColor.default_record.id)
+		past_weeks_obligations = self.obligations.return_obligations_past_week
+		if past_weeks_obligations.count <= 2
+
+			current_datetime = DateTime.current
+			current_week_start = current_datetime.beginning_of_week
+			# Pick random day of week starting at beginning of current week and ending at current date day
+			random_date_of_week = rand(current_week_start..current_datetime)
+
+			if past_weeks_obligations.of_day(random_date_of_week).empty?
+				random_obligation_data = Obligation.get_random_obligation(random_date_of_week)
+
+				Obligation.find_or_create_by(name: random_obligation_data[0], start_time: random_obligation_data[1], end_time: random_obligation_data[2], city: random_obligation_data[3], state_id: State.find_by_abbr(random_obligation_data[4]).id, user_id: self.id, obligation_color_id: ObligationColor.default_record.id)
+			end
 		end
 	end
 

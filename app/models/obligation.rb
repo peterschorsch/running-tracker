@@ -23,7 +23,7 @@ class Obligation < ApplicationRecord
 	    where(user: user)
 	}
 
-	scope :of_date, -> (date = DateTime.current) {
+	scope :of_day, -> (date = DateTime.current) {
 		where(:start_time => date.beginning_of_day..date.end_of_day)
 	}
 
@@ -50,8 +50,8 @@ class Obligation < ApplicationRecord
 	end
 
 	### PICK RANDOM RECORD FROM OBLIGATION DATA ###
-	def self.get_random_obligation
-		Obligation.obligation_data.sample
+	def self.get_random_obligation(random_datetime_of_week)
+		Obligation.obligation_data(random_datetime_of_week).sample
 	end
 
 	private
@@ -61,10 +61,10 @@ class Obligation < ApplicationRecord
 	end
 
 	protected
-	def self.obligation_data
-		pacific_time_zone = DateTime.current.in_time_zone("Pacific Time (US & Canada)")
-		central_time_zone = DateTime.current.in_time_zone("Central Time (US & Canada)")
-		eastern_time_zone = DateTime.current.in_time_zone("Eastern Time (US & Canada)")
+	def self.obligation_data(random_datetime_of_week)
+		pacific_time_zone = random_datetime_of_week.in_time_zone("Pacific Time (US & Canada)")
+		central_time_zone = random_datetime_of_week.in_time_zone("Central Time (US & Canada)")
+		eastern_time_zone = random_datetime_of_week.in_time_zone("Eastern Time (US & Canada)")
 
 		return data = [
 			# NAME, STARTTIME, ENDTIME, CITY, STATE ABBREVIATION #
@@ -73,7 +73,12 @@ class Obligation < ApplicationRecord
 			["Go to Grocery Store", pacific_time_zone.change(hour: 10, minute: 15, second: 0), nil, "Los Angeles", "CA"] ,
 			["Go to Birthday Party", pacific_time_zone.change(hour: 14, minute: 0, second: 0), pacific_time_zone.change(hour: 18, minute: 0, second: 0), "Los Angeles", "CA"],
 			["Workout Class", pacific_time_zone.change(hour: 18, minute: 30, second: 0), nil, "Los Angeles", "CA"],
-			["Do Laundry", pacific_time_zone.change(hour: 13, minute: 0, second: 0), nil, "Los Angeles", "CA"]
+			["Do Laundry", pacific_time_zone.change(hour: 13, minute: 0, second: 0), nil, "Los Angeles", "CA"],
+			["Clean Bathroom", pacific_time_zone.change(hour: 10, minute: 45, second: 0), nil, "Los Angeles", "CA"],
+			["Vacuum", pacific_time_zone.change(hour: 14, minute: 0, second: 0), nil, "Los Angeles", "CA"],
+			["Take out Trash", pacific_time_zone.change(hour: 19, minute: 5, second: 0), nil, "Los Angeles", "CA"],
+			["Mop Floor", pacific_time_zone.change(hour: 12, minute: 15, second: 0), nil, "Los Angeles", "CA"],
+			["Pay Bills", pacific_time_zone.change(hour: 20, minute: 30, second: 0), nil, "Los Angeles", "CA"]
 		]
 	end
 end
