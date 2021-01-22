@@ -1,10 +1,11 @@
 class Run < ApplicationRecord
 	belongs_to :user
-	belongs_to :monthly_total
-	belongs_to :shoe
-	belongs_to :state
 	belongs_to :run_type
-
+	belongs_to :shoe
+	belongs_to :monthly_total
+	belongs_to :state
+	belongs_to :country
+	
 	before_save :set_start_time, :set_blank_notes_field, :set_corresponding_monthly_total_id
 	after_save :update_subsequent_tables
 	after_destroy :update_subsequent_tables
@@ -194,24 +195,24 @@ class Run < ApplicationRecord
 	end
 
 	### CREATE RANDOM COMPLETED RUN ###
-	def self.create_random_run_record(name, start_time, completed_run, shoe_id, city, state_id, run_type_id, monthly_total_id, user_id)
+	def self.create_random_run_record(name, start_time, completed_run, shoe_id, city, state_id, country_id, run_type_id, monthly_total_id, user_id)
 		Run.create_with(name: name, planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
 			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: city, completed_run: completed_run, 
-			shoe_id: shoe_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: run_type_id)
+			shoe_id: shoe_id).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id,  country_id: country_id, run_type_id: run_type_id)
 	end
 
 	### CREATE PLANNED RUN ###
-	def self.create_planned_run_record(start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
+	def self.create_planned_run_record(start_time, planned_mileage, shoe_id, city, state_id, country_id, monthly_total_id, user_id)
 		Run.create_with(name: "Planned Run", time_in_seconds: 0, pace_minutes: "0", pace_seconds: "00", city: city, shoe_id: shoe_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, 
-			completed_run: false).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
+			completed_run: false).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id,  country_id: country_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### CREATE BLANK RUN WITH A PROVIDED NAME ###
-	def self.create_blank_run_record(name, start_time, planned_mileage, shoe_id, city, state_id, monthly_total_id, user_id)
+	def self.create_blank_run_record(name, start_time, planned_mileage, shoe_id, city, state_id, country_id, monthly_total_id, user_id)
 		Run.create_with(name: name, time_in_seconds: 0, pace_minutes: "0", pace_seconds: "00", city: city, shoe_id: shoe_id, 
 			planned_mileage: BigDecimal(planned_mileage), elevation_gain: BigDecimal('0'), state_id: state_id, 
-			completed_run: false).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, run_type_id: RunType.return_planned_run_type.id)
+			completed_run: false).find_or_create_by(user_id: user_id, start_time: start_time, monthly_total_id: monthly_total_id, state_id: state_id, country_id: country_id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### FOR WEBSITE VIEWER TO UPDATE PLANNED RUNS BETWEEN LAST LOGIN AND CURRENT LOGIN DATE ###
@@ -219,7 +220,7 @@ class Run < ApplicationRecord
 		self.update_columns(name: self.user.concat_user_default_city_run_name, start_time: Run.return_random_run_start_time(self.start_time),
 			planned_mileage: Run.return_random_mileage, mileage_total: Run.return_random_mileage, time_in_seconds: Run.return_random_time_in_seconds, 
 			pace_minutes: Run.return_random_pace_minutes, pace_seconds: Run.return_random_pace_seconds, elevation_gain: Run.return_random_elevation_gain, city: self.user.default_city, completed_run: true, 
-			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_name(self.user.default_state).id, run_type_id: RunType.return_planned_run_type.id)
+			shoe_id: Shoe.return_default_shoe.id, state_id: State.find_by_name(self.user.default_state).id, country_id: Country.find_by_name(self.user.default_country).id, run_type_id: RunType.return_planned_run_type.id)
 	end
 
 	### RETURNS RUNS FROM LAST 7 DAYS IF NO ARGUMENTS ARE PASSED ###
@@ -242,7 +243,7 @@ class Run < ApplicationRecord
 			user.create_future_yearly_monthly_total(start_time) # Creates Monthly and Yearly Total if it doesn't existing (depending on start_time)
 			monthly_total_id = user.monthly_totals.of_month(start_time).id
 
-			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, monthly_total_id, user.id)
+			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, run.country_id, monthly_total_id, user.id)
 		end
 	end
 
@@ -260,7 +261,7 @@ class Run < ApplicationRecord
 			user.create_future_yearly_monthly_total(start_time) # Creates Monthly and Yearly Total if it doesn't existing (depending on start_time)
 			monthly_total_id = user.monthly_totals.of_month(start_time).id
 
-			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, monthly_total_id, user.id)
+			Run.create_blank_run_record(run.name, start_time, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, run.country_id, monthly_total_id, user.id)
 		end
 	end
 
@@ -290,7 +291,7 @@ class Run < ApplicationRecord
 					user.create_future_yearly_monthly_total(running_date) # Creates Monthly and Yearly Total if it doesn't existing (depending on start_time)
 					monthly_total_id = user.monthly_totals.of_month(running_date).id
 
-					Run.create_blank_run_record(run.name, running_date, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, monthly_total_id, user.id)
+					Run.create_blank_run_record(run.name, running_date, run.planned_mileage, user.shoes.return_default_shoe.id, run.city, run.state_id, run.country_id, monthly_total_id, user.id)
 				end
 			end
 		end

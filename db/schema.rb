@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_30_032257) do
+ActiveRecord::Schema.define(version: 2021_01_18_222046) do
 
   create_table "all_time_totals", force: :cascade do |t|
     t.decimal "mileage_total", null: false
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.integer "time_in_seconds", null: false
     t.integer "user_id"
     t.index ["user_id"], name: "index_all_time_totals_on_user_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "abbreviation", limit: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "monthly_totals", force: :cascade do |t|
@@ -51,10 +58,12 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.string "city", null: false
     t.boolean "event_flag", default: true
     t.integer "state_id"
+    t.integer "country_id"
     t.integer "user_id"
     t.integer "obligation_color_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_obligations_on_country_id"
     t.index ["obligation_color_id"], name: "index_obligations_on_obligation_color_id"
     t.index ["state_id"], name: "index_obligations_on_state_id"
     t.index ["user_id"], name: "index_obligations_on_user_id"
@@ -75,9 +84,11 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.string "elevation_gain", null: false
     t.string "city", null: false
     t.integer "state_id"
+    t.integer "country_id"
     t.integer "race_distance_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_race_examples_on_country_id"
     t.index ["race_distance_id"], name: "index_race_examples_on_race_distance_id"
     t.index ["state_id"], name: "index_race_examples_on_state_id"
   end
@@ -112,6 +123,8 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "country_id"
+    t.index ["country_id"], name: "index_runs_on_country_id"
     t.index ["monthly_total_id"], name: "index_runs_on_monthly_total_id"
     t.index ["run_type_id"], name: "index_runs_on_run_type_id"
     t.index ["shoe_id"], name: "index_runs_on_shoe_id"
@@ -176,6 +189,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_032257) do
     t.string "email", null: false
     t.string "default_city", null: false
     t.string "default_state", null: false
+    t.string "default_country", null: false
     t.string "time_zone", default: "UTC"
     t.boolean "active", default: true
     t.datetime "last_login"

@@ -40,10 +40,11 @@ puts @all_time_total.inspect
 
         city = @website_viewer.default_city
         state_id = State.find_by_name(@website_viewer.default_state).id
+        country_id = Country.find_by_name(@website_viewer.default_country).id
 
         run_type_id = RunType.return_random_run_type_id
 
-        @run = Run.create_random_run_record(@website_viewer.concat_user_default_city_run_name, Run.return_random_run_start_time(run_date), true, shoe_id, city, state_id, run_type_id, @monthly_total.id, @website_viewer.id)
+        @run = Run.create_random_run_record(@website_viewer.concat_user_default_city_run_name, Run.return_random_run_start_time(run_date), true, shoe_id, city, state_id, country_id, run_type_id, @monthly_total.id, @website_viewer.id)
         #puts @run.inspect
       end
     end

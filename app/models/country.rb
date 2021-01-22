@@ -1,4 +1,4 @@
-class State < ApplicationRecord
+class Country < ApplicationRecord
 	has_many :obligations
 	has_many :runs
 	has_many :race_examples
@@ -22,16 +22,15 @@ class State < ApplicationRecord
 	}
 
 	### FOR FORMS ###
-	def self.select_state_id_name
-		self.sort_by_name.map{ |state| [state.name, state.id] }
+	def self.select_country_id_name
+		self.sort_by_name.map{ |country| [country.name, country.id] }
 	end
 
-	def self.select_state_id_abbr
-		self.sort_by_name.map{ |state| [state.abbreviation, state.id] }
+	def self.select_country_id_abbr
+		self.sort_by_name.map{ |country| [country.abbreviation, country.id] }
 	end
 
-	def self.select_state_name
-		self.sort_by_name.map{ |state| [state.name, state.name] }
+	def self.select_country_name
+		self.sort_by_name.map{ |country| [country.name, country.name] }
 	end
-
 end
