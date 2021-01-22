@@ -29,16 +29,26 @@ class WeeklyTotal < ApplicationRecord
 	    order_by_recent_week.first
 	}
 
-	scope :unfrozen_years, -> {
+	scope :unfrozen_weeks, -> {
 		where(:frozen_flag => false)
 	}
 
-	scope :frozen_years, -> {
+	scope :frozen_weeks, -> {
 		where(:frozen_flag => true)
+	}
+
+	### USED UPON LOGIN TO FREEZE WEEKLY TOTALS THAT ARE NOT CURRENT WEEK ###
+	scope :return_unfrozen_weeks_except_past_two_weeks, -> {
+		order_by_oldest_week.limit(2)
 	}
 
 	def is_frozen?
 		self.frozen_flag
+	end
+
+	### USED UPON LOGIN TO FREEZE WEEKLY TOTALS THAT ARE NOT CURRENT WEEK ###
+	def self.freeze_weekly_total_collection
+		self.update_all(frozen_flag: true)
 	end
 
 	def return_goal_percentage

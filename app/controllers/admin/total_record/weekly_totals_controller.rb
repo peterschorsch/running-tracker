@@ -24,6 +24,6 @@ class Admin::TotalRecord::WeeklyTotalsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def weekly_total_params
-      params.require(:weekly_total).permit(:mileage_total, :mileage_goal, :met_goal, :number_of_runs, :time_in_seconds, :elevation_gain)
+      params.require(:weekly_total).permit(:mileage_total, :mileage_goal, :met_goal, :number_of_runs, :time_in_seconds, :elevation_gain, :frozen_flag)
     end
 end

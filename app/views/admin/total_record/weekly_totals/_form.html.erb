@@ -29,6 +29,10 @@
               <%= f.label :time_in_seconds, 'Time in Seconds:' %>
               <%= f.number_field :time_in_seconds, { class: 'form-control', placeholder: "0 seconds" } %>
             </div>
+            <div class="col-xs-1">
+              <%= f.label :frozen_flag, 'Freeze Record?', { class: "pointer-cursor make-text-unselectable" } %>
+                <%= f.check_box :frozen_flag, {} %>
+            </div>
           </div>
           <br />
           <div class="row">
