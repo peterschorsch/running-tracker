@@ -24,21 +24,21 @@ puts ""
 puts "----------5K RACE EXAMPLES----------"
 ### RACE NAME, CITY, STATE ABBREVIATION, SECONDS, PACE, ELEVATION GAIN ###
 five_k_races = [
-	["Hot Chocolate 5K", "Chicago", "IL", "US", 1292, "6:57", "167"],
-	["Dirty Girl 5k Mud Run", "San Diego", "CA", "US", 1556, "8:22", "129"],
-	["Rumpshaker 5K", "New York City", "NY", "US", 2831, "15:13", "506"],
-	["Son of a Beach 5K", "Los Angeles", "CA", "US", 2147, "11:33", "304"],
-	["Sacks of Love 5K", "Los Angeles", "CA", "US", 1434, "7:43", "409"],
-	["Follow the Leader 5k", "Seattle", "WA", "US", 1045, "5:37", "389"],
-	["Knight's Challenge 5K", "Los Angeles", "CA", "US", 1151, "6:11", "290"],
-	["Lincoln Knights 5K", "Omaha", "NE", "US", 1459, "7:51", "348"],
-	["Santa Claus 5k", "Los Angeles", "CA", "US", 2365, "12:43", "274"],
-	["Bucktown 5k", "Chicago", "IL", "US", 2694, "14:27", "186"],
-	["Saluki 5k", "Carbondale", "IL", "US", 1593, "8:32", "68"],
-	["You don't need help 5k", "Austin", "TX", "US", 1485, "7:57", "456"],
-	["5K(nights) Foot Race", "Los Angeles", "CA", "US", 1799, "9:39", "654"],
-	["Super Hero 5K", "Orlando", "FL", "US", 1879, "10:04", "321"],
-	["Turkey Trot 5k", "Los Angeles", "CA", "US", 1988, "10:39", "123"]
+	["Hot Chocolate 5K", "Chicago", "IL", "USA", 1292, "6:57", "167"],
+	["Dirty Girl 5k Mud Run", "San Diego", "CA", "USA", 1556, "8:22", "129"],
+	["Rumpshaker 5K", "New York City", "NY", "USA", 2831, "15:13", "506"],
+	["Son of a Beach 5K", "Los Angeles", "CA", "USA", 2147, "11:33", "304"],
+	["Sacks of Love 5K", "Los Angeles", "CA", "USA", 1434, "7:43", "409"],
+	["Follow the Leader 5k", "Seattle", "WA", "USA", 1045, "5:37", "389"],
+	["Knight's Challenge 5K", "Los Angeles", "CA", "USA", 1151, "6:11", "290"],
+	["Lincoln Knights 5K", "Omaha", "NE", "USA", 1459, "7:51", "348"],
+	["Santa Claus 5k", "Los Angeles", "CA", "USA", 2365, "12:43", "274"],
+	["Bucktown 5k", "Chicago", "IL", "USA", 2694, "14:27", "186"],
+	["Saluki 5k", "Carbondale", "IL", "USA", 1593, "8:32", "68"],
+	["You don't need help 5k", "Austin", "TX", "USA", 1485, "7:57", "456"],
+	["5K(nights) Foot Race", "Los Angeles", "CA", "USA", 1799, "9:39", "654"],
+	["Super Hero 5K", "Orlando", "FL", "USA", 1879, "10:04", "321"],
+	["Turkey Trot 5k", "Los Angeles", "CA", "USA", 1988, "10:39", "123"]
 ]
 five_k_races.each do |five_k_race|
 	state_id = State.find_by_abbr(five_k_race[2]).id
@@ -51,21 +51,21 @@ puts ""
 puts "----------10K RACE EXAMPLES----------"
 ### RACE NAME, CITY, STATE ABBREVIATION, SECONDS, PACE, ELEVATION GAIN ###
 ten_k_races = [
-	["Chicago Spring 10k", "Chicago", "IL", "US", 3332, "8:56", "268"],
-	["Cold Turkey 10K", "Odenton", "MD", "US", 2911, "7:48", "863"],
-	["30A Thanksgiving 10K", "Rosemary", "FL", "US", 2014, "5:24", "473"],
-	["Run for the Mandarins 10K Fun Run", "Auburn", "CA", "US", 3229, "8:39", "827"],
-	["Broomfield Turkey Day 10K", "Broomfield", "CO", "US", 2385, "6:23", "947"],
-	["Burn the Bird 10K", "Great Falls", "MT", "US", 1749, "4:41", "736"],
-	["Freeze Your Fanny 10K", "Westerville", "OH", "US", 3128, "8:23", "363"],
-	["Lincoln Knights 10K", "Omaha", "NE", "US", 3572, "9:34", "638"],
-	["Jamestown S'Klallam Tribe 10K", "Blyn", "WA", "US", 2654, "7:07", "273"],
-	["Village Creek 10K Trail Run", "Wayne", "AR", "US", 2712, "7:16", "489"],
-	["Java Jog 10K", "Dawsonville", "GA", "US", 3354, "8:59", "726"],
-	["Jingle All The 10K", "Houston", "TX", "US", 3023, "8:06", "252"],
-	["Gumby 10K", "Granite Bay", "CA", "US", 2378, "6:22", "733"],
-	["Chilly Bean 10K", "Lady's Island", "SC", "US", 4305, "11:32", "928"],
-	["Sole Mates 10K", "Cary", "NC", "US", 2721, "7:17", "183"]
+	["Chicago Spring 10k", "Chicago", "IL", "USA", 3332, "8:56", "268"],
+	["Cold Turkey 10K", "Odenton", "MD", "USA", 2911, "7:48", "863"],
+	["30A Thanksgiving 10K", "Rosemary", "FL", "USA", 2014, "5:24", "473"],
+	["Run for the Mandarins 10K Fun Run", "Auburn", "CA", "USA", 3229, "8:39", "827"],
+	["Broomfield Turkey Day 10K", "Broomfield", "CO", "USA", 2385, "6:23", "947"],
+	["Burn the Bird 10K", "Great Falls", "MT", "USA", 1749, "4:41", "736"],
+	["Freeze Your Fanny 10K", "Westerville", "OH", "USA", 3128, "8:23", "363"],
+	["Lincoln Knights 10K", "Omaha", "NE", "USA", 3572, "9:34", "638"],
+	["Jamestown S'Klallam Tribe 10K", "Blyn", "WA", "USA", 2654, "7:07", "273"],
+	["Village Creek 10K Trail Run", "Wayne", "AR", "USA", 2712, "7:16", "489"],
+	["Java Jog 10K", "Dawsonville", "GA", "USA", 3354, "8:59", "726"],
+	["Jingle All The 10K", "Houston", "TX", "USA", 3023, "8:06", "252"],
+	["Gumby 10K", "Granite Bay", "CA", "USA", 2378, "6:22", "733"],
+	["Chilly Bean 10K", "Lady's Island", "SC", "USA", 4305, "11:32", "928"],
+	["Sole Mates 10K", "Cary", "NC", "USA", 2721, "7:17", "183"]
 ]
 ten_k_races.each do |ten_k_race|
 	state_id = State.find_by_abbr(ten_k_races[2]).id
@@ -78,21 +78,21 @@ puts ""
 puts "----------HALF MARATHON RACE EXAMPLES----------"
 ### RACE NAME, CITY, STATE ABBREVIATION, HOURS, MINUTES, SECONDS, PACE, ELEVATION GAIN ###
 half_marathon_races = [
-	["Rock 'n' Roll Half Marathon", "Chicago", "IL", "US", 4279, "5:26", "143"],
-	["Naperville Half Marathon", "Naperville", "IL", "US", 9251, "11:46", "205"],
-	["Fox Valley Half Marathon", "St. Charles", "IL", "US", 4971, "6:20", "607"],
-	["Flying Pirate Half Marathon", "Kitty Hawk", "NC", "US", 6349, "8:04", "9"],
-	["Maine Coast Half Marathon", "Biddeford", "ME", "US", 7005, "8:55", "200"],
-	["Pacific Crest Half Marathon", "Sunriver", "OR", "US", 10689, "13:35", "106"],
-	["All-Out Dog Days Half Marathon", "Westminster", "CO", "US", 6221, "7:54", "302"],
-	["San Francisco Marathon Half Marathon", "San Francisco", "CA", "US", 6523, "8:17", "405"],
-	["Rock 'n' Roll Virginia Beach Half Marathon", "Virginia Beach", "VA", "US", 5372, "6:50", "210"],
-	["Surftown Half Marathon", "Westerly", "RI", "US", 6524, "8:18", "101"],
-	["Equinox Half Marathon", "Fort Collins", "CO", "US", 9885, "12:34", "90"],
-	["Bay Ridge Half Marathon", "Brooklyn", "NY", "US", 8832, "11:14", "52"],
-	["Newport Half Marathon", "Newport", "RI", "US", 8483, "10:47", "21"],
-	["Baltimore Running Festival Marathon Half Marathon", "Baltimore", "MD", "US", 5319, "6:46", "501"],
-	["Oak Barrel Half Marathon", "Lynchburg", "TN", "US", 5731, "7:17", "404"],
+	["Rock 'n' Roll Half Marathon", "Chicago", "IL", "USA", 4279, "5:26", "143"],
+	["Naperville Half Marathon", "Naperville", "IL", "USA", 9251, "11:46", "205"],
+	["Fox Valley Half Marathon", "St. Charles", "IL", "USA", 4971, "6:20", "607"],
+	["Flying Pirate Half Marathon", "Kitty Hawk", "NC", "USA", 6349, "8:04", "9"],
+	["Maine Coast Half Marathon", "Biddeford", "ME", "USA", 7005, "8:55", "200"],
+	["Pacific Crest Half Marathon", "Sunriver", "OR", "USA", 10689, "13:35", "106"],
+	["All-Out Dog Days Half Marathon", "Westminster", "CO", "USA", 6221, "7:54", "302"],
+	["San Francisco Marathon Half Marathon", "San Francisco", "CA", "USA", 6523, "8:17", "405"],
+	["Rock 'n' Roll Virginia Beach Half Marathon", "Virginia Beach", "VA", "USA", 5372, "6:50", "210"],
+	["Surftown Half Marathon", "Westerly", "RI", "USA", 6524, "8:18", "101"],
+	["Equinox Half Marathon", "Fort Collins", "CO", "USA", 9885, "12:34", "90"],
+	["Bay Ridge Half Marathon", "Brooklyn", "NY", "USA", 8832, "11:14", "52"],
+	["Newport Half Marathon", "Newport", "RI", "USA", 8483, "10:47", "21"],
+	["Baltimore Running Festival Marathon Half Marathon", "Baltimore", "MD", "USA", 5319, "6:46", "501"],
+	["Oak Barrel Half Marathon", "Lynchburg", "TN", "USA", 5731, "7:17", "404"],
 ]
 half_marathon_races.each do |half_marathon_race|
 	state_id = State.find_by_abbr(half_marathon_race[2]).id
@@ -105,21 +105,21 @@ puts ""
 puts "----------MARATHON RACE EXAMPLES----------"
 ### RACE NAME, CITY, STATE ABBREVIATION, HOURS, MINUTES, SECONDS, PACE, ELEVATION GAIN ###
 marathon_races = [
-	["California International Marathon", "Sacramento", "CA", "US", 12510, "7:57", "409"],
-	["Houston Marathon", "Houston", "TX", "US", 13421, "8:32", "480"],
-	["Chicago Marathon", "Chicago", "IL", "US", 15709, "9:59", "689"],
-	["New York City Marathon", "New York City", "NY", "US", 10779, "6:51", "1620"],
-	["Boston Marathon", "Boston", "MA", "US", 12235, "7:46", "333"],
-	["Fox Valley Marathon", "St. Charles", "IL", "US", 15594, "9:55", "452"],
-	["Indianapolis Monumental Marathon", "Indianapolis", "IN", "US", 8481, "5:23", "1420"],
-	["Twin Cities Marathon", "Minneapolis", "MN", "US", 11373, "7:14", "122"],
-	["Grandma's Marathon", "Duluth", "MN", "US", 12621, "8:01", "222"],
-	["Marine Corps Marathon", "Arlington", "VA", "US", 17804, "11:19", "302"],
-	["Carlsbad Marathon", "Carlsbad", "CA", "US", 10928, "8:33", "1504"],
-	["Honolulu Marathon", "Honolulu", "HI", "US", 16461, "10:28", "204"],
-	["Los Angeles Marathon", "Los Angeles", "CA", "US", 8135, "5:10", "276"],
-	["Walt Disney World Marathon", "Orlando", "FL", "US", 13427, "8:34", "189"],
-	["Philadelphia Marathon", "Philadelphia", "PA", "US", 10618, "6:45", "121"]
+	["California International Marathon", "Sacramento", "CA", "USA", 12510, "7:57", "409"],
+	["Houston Marathon", "Houston", "TX", "USA", 13421, "8:32", "480"],
+	["Chicago Marathon", "Chicago", "IL", "USA", 15709, "9:59", "689"],
+	["New York City Marathon", "New York City", "NY", "USA", 10779, "6:51", "1620"],
+	["Boston Marathon", "Boston", "MA", "USA", 12235, "7:46", "333"],
+	["Fox Valley Marathon", "St. Charles", "IL", "USA", 15594, "9:55", "452"],
+	["Indianapolis Monumental Marathon", "Indianapolis", "IN", "USA", 8481, "5:23", "1420"],
+	["Twin Cities Marathon", "Minneapolis", "MN", "USA", 11373, "7:14", "122"],
+	["Grandma's Marathon", "Duluth", "MN", "USA", 12621, "8:01", "222"],
+	["Marine Corps Marathon", "Arlington", "VA", "USA", 17804, "11:19", "302"],
+	["Carlsbad Marathon", "Carlsbad", "CA", "USA", 10928, "8:33", "1504"],
+	["Honolulu Marathon", "Honolulu", "HI", "USA", 16461, "10:28", "204"],
+	["Los Angeles Marathon", "Los Angeles", "CA", "USA", 8135, "5:10", "276"],
+	["Walt Disney World Marathon", "Orlando", "FL", "USA", 13427, "8:34", "189"],
+	["Philadelphia Marathon", "Philadelphia", "PA", "USA", 10618, "6:45", "121"]
 ]
 marathon_races.each do |marathon_race|
 	state_id = State.find_by_abbr(marathon_race[2]).id
