@@ -71,7 +71,7 @@ class ObligationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def obligation_params
-      params.require(:obligation).permit(:name, :start_time, :end_time, :check_end_time, :city, :state_id)
+      params.require(:obligation).permit(:name, :start_time, :end_time, :check_end_time, :city, :state_id, :country_id)
     end
 
     def authorized?
