@@ -3,7 +3,7 @@ class RaceResultsController < ApplicationController
 
 	def index
 		### ALL RACE RESULTS OF CURRENT USER ###
-		@race_results = @races.includes(:state, :gear).order_by_most_recent.group_by_year
+		@race_results = @races.includes(:state, :shoe).order_by_most_recent.group_by_year
 
 		### PERSONAL BESTS SECTION ###
 		### COUNTS OF RACE DISTANCES ###
