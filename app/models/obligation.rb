@@ -1,5 +1,5 @@
 class Obligation < ApplicationRecord
-	belongs_to :state
+	belongs_to :state, optional: true
 	belongs_to :user
 	belongs_to :obligation_color
 
