@@ -3,7 +3,7 @@ class Run < ApplicationRecord
 	belongs_to :run_type
 	belongs_to :shoe
 	belongs_to :monthly_total
-	belongs_to :state
+	belongs_to :state, optional: true
 	belongs_to :country
 	
 	before_save :set_start_time, :set_blank_notes_field, :set_corresponding_monthly_total_id
