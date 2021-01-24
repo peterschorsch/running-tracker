@@ -182,7 +182,7 @@ class User < ApplicationRecord
 			if self.runs_of_current_week.count < 6
 				run_type_id = RunType.return_random_run_type_id
 				monthly_total_id = self.monthly_totals.of_month(date).id
-				if self.runs.of_day(date).empty?
+				if self.runs.are_runs_not_present_on_day?(date)
 					Run.create_random_run_record(self.concat_user_default_city_run_name, Run.return_random_run_start_time(date), true, shoe_id, city, state_id, run_type_id, monthly_total_id.id, self.id)
 				end
 			end
@@ -219,7 +219,7 @@ class User < ApplicationRecord
 		2.times { date_array.to_a.delete_at(rand(date_array.count)) } if self.is_viewer?
 
 		date_array.each do |date|
-			if self.runs.of_day(date).empty?
+			if self.runs.are_runs_not_present_on_day?(date)
 				@monthly_total = self.current_monthly_total
 				mileage = self.is_viewer? ? rand(1..20) : 0
 				@run = Run.create_planned_run_record(Run.return_planned_run_start_time(date), mileage, default_shoe_id, city, state_id, @monthly_total.id, self.id)
@@ -250,7 +250,7 @@ class User < ApplicationRecord
 			shoe = self.shoes.return_default_shoe
 			start_time = Run.return_random_race_start_time(start_date)
 
-			if @runs.of_day(start_date).empty?
+			if @runs.are_runs_not_present_on_day?(start_date)
 				@race = Run.create_with(planned_mileage: @race_distance.numeric_distance, mileage_total: @race_distance.numeric_distance, 
 				time_in_seconds: @race_example.time_in_seconds, pace_minutes: @race_example.pace_minutes, pace_seconds: @race_example.pace_seconds,
 				elevation_gain: @race_example.elevation_gain, city: @race_example.city, completed_run: true, 

@@ -28,6 +28,13 @@ class Run < ApplicationRecord
 	    where(start_time: day.beginning_of_day..day.end_of_day)
 	}
 
+	# See if any runs are present on a given day
+	# Returns true if there are no runs on date
+	# Returns false if there are runs on date
+	def self.are_runs_not_present_on_day?(run_date = Date.current)
+		self.of_day(run_date).empty?
+	end
+
 	scope :of_week, -> (week = Date.current) {
 	    where(start_time: week.beginning_of_week..week.end_of_week)
 	}

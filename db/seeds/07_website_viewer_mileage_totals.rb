@@ -44,7 +44,7 @@ puts @all_time_total.inspect
       random_day_selection = run_day_array.sample
       run_date = DateTime.new(year, month, random_day_selection)
 
-      if @website_viewer.runs.of_day(run_date).empty?
+      if @website_viewer.runs.are_runs_not_present_on_day?(run_date)
         shoe_id = @website_viewer.shoes.return_random_shoe.id
         run_type_id = RunType.return_random_run_type_id
 
