@@ -16,6 +16,7 @@ gem "chartkick" # For charts
 gem 'jquery-datatables-rails'
 gem 'auto-session-timeout'
 gem 'city-state' # For populating states and countries 
+gem 'week_of_month' # Has useful date functions
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
