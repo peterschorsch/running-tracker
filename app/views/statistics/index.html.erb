@@ -9,14 +9,15 @@
 </div>
 
 <div class="row">
-	<div class="col-md-4 col-sm-12 text-center">
+	<div class="col-md-3 col-sm-12 text-center">
 		<%= pie_chart @weekly_runtype_counts_data, messages: { empty: "No data" } %>
 	</div>
-	<div class="col-md-8 col-sm-12 text-center">
+	<div class="col-md-9 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Runs this Week (#{formatshortenedDateRange(Date.current.beginning_of_week, Date.current.end_of_week)})", data: @current_week_graph %>
 		<% @current_week_runs.each do |run| %>
 			<p>
-				<%= formateDateTimeWithAt(run.start_time) %> | <span style="color: <%=run.hex_code%>"><%= run.run_type.name %></span> | <%= concat_distance_miles(run.mileage_total) %> | <%= concat_elapsed_time(run.time_in_seconds) %> | <%= concat_pace_min_miles(run) %> | <%= concat_elevation_gain(run.elevation_gain) %> | <small class="text-muted"><%= run.shoe.return_full_shoe_name %></small>
+				<%= formateDateTimeWithAt(run.start_time) %> | <span style="color: <%=run.hex_code%>"><%= run.run_type.name %></span> | 
+				<%= mileage_and_elasped_time(run) %> | <%= pace_and_elevation(run) %> <%= shoe_with_mileage(run.shoe) %>
 			</p>
 		<% end %>
 	</div>
@@ -25,14 +26,14 @@
 <div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage over the past 4 Weeks", data: @weekly_totals_graph %>
-		<% @weekly_totals.each do |weekly_total| %>
-			<p><%= concat_date_range_run_total(formatDateRange(weekly_total.week_start, weekly_total.week_end), weekly_total) %></p>
+		<% @weekly_totals.each do |wt| %>
+			<p><%= formatDateRange(wt.week_start, wt.week_end) %> | <%= one_lined_totals(wt) %></p>
 		<% end %>
 	</div>
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage over the past 12 Months", data: @monthly_stats_graph %>
-		<% @monthly_totals.each do |monthly_total| %>
-			<p><%= concat_date_range_run_total(formatMonthYear(monthly_total.month_end, monthly_total.month_end), monthly_total) %></p>
+		<% @monthly_totals.each do |mt| %>
+			<p><%= formatMonthYear(mt.month_end, mt.month_end) %> | <%= one_lined_totals(mt) %></p>
 		<% end %>
 	</div>
 </div>
@@ -40,14 +41,14 @@
 <div class="row">
 	<div class="col-md-6 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Mileage Year-to-Year", data: @yearly_totals_graph %>
-		<% @yearly_totals.each do |yearly_total| %>
-			<p><%= concat_date_range_run_total(yearly_total.year, yearly_total) %></p>
+		<% @yearly_totals.each do |yt| %>
+			<p><%= yt.year %> | <%= one_lined_totals(yt) %></p>
 		<% end %>
 	</div>
 	<div class="col-md-6 col-sm-12 text-center">
 		<h2>All-Time</h2>
 		<hr />
 		<p><%= concat_run_totals_line_one(@all_time_stats) %></p>
-		<p><%= concat_run_totals_line_two(@all_time_stats.time_in_seconds) %></p>
+		<p><%= concat_run_totals_line_two(@all_time_stats) %></p>
 	</div>
 </div>

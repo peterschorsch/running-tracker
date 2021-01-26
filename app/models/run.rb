@@ -90,7 +90,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :return_future_races, -> {
-		joins(:run_type).where("run_types.name=?", "Race").where("start_time >= ?", Date.current).return_uncompleted_runs.order_by_oldest.limit(2)
+		joins(:run_type).where("run_types.name=?", "Race").where("start_time > ?", DateTime.current).return_uncompleted_runs.order_by_oldest.limit(2)
 	}
 
 	# Return runs that aren't races - includes planned runs

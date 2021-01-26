@@ -6,7 +6,7 @@
 			<% races.each do |race| %>
 				<body>
 					<tr>
-						<td><strong><%= formatCalendarDay(race.start_time) %></strong></td>
+						<td><strong><%= formatMonthDayDate(race.start_time) %></strong></td>
 						<td>
 							<%= concat_race_name(race.name) %><br />
 							<small class="text-muted"><%= race.city %>, <%= race.state.abbreviation %></small>

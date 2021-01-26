@@ -20,7 +20,7 @@ module FormatdatetimeHelper
     date.strftime("%b.%d.%Y")
   end
 
-  # Tuesday, October 10, 2017
+  # Tuesday | October 10, 2017
   def formatFullDate(date)
     date.strftime("%A | %B #{date.day.ordinalize}, %Y")
   end
@@ -40,10 +40,6 @@ module FormatdatetimeHelper
   def formatDateDots(date)
     date.strftime("%-m.%-d.%y")
   end
-  # 9/19
-  def formatCalendarDay(date)
-    date.strftime("%-m/%-d")
-  end
   # 12/28-1/3/21
   def formatDateRange(start_date, end_date)
     formatMonthDayDate(start_date) + "-" + formatDate(end_date)
@@ -59,7 +55,7 @@ module FormatdatetimeHelper
   end
   # 4:38pm - 5:38pm
   def formatTimeRange(record)
-    record.start_time.strftime("%-I:%M%p") + " - " + record.end_time.strftime("%-I:%M%p")
+    formatTime(record.start_time) + " - " + formatTime(record.end_time)
   end
 
   # Jul. 31 - Aug. 2, 2020
@@ -72,18 +68,18 @@ module FormatdatetimeHelper
     startdate.strftime("%B %-d") + " - " + enddate.strftime("%B %-d, %Y")
   end
 
-  # 09/19/17 04:38pm
+  # 09/19/17 4:38pm
   def formatDateTime(date)
-    date.strftime("%m/%d/%y %I:%M%p")
+    date.strftime("%m/%d/%y") + formatTime(date)
   end
 
-  # 9.19.17 at 4:38pm
+  # 9.19.17 @4:38pm
   def formateDateTimeWithAt(date)
-    date.strftime("%-m.%-d.%y @%-I:%M%p")
+    formatDateDots(date) + " @" + formatTime(date)
   end
-
-  def formatYear(date)
-    date.strftime("%-Y")
+  # Feb.23.2018 @4:38pm
+  def formatMonthNameDateTimeWithAt(date)
+    format_date_month(date) + " @" + formatTime(date)
   end
 
 end

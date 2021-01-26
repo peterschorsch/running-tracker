@@ -21,9 +21,9 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-xs-6 col-xs-offset-3">
-								<p class="text-center"><%= concat_run_totals_line_one(yearly_total) %></p>
-								<p class="text-center"><%= concat_run_totals_line_two(yearly_total.time_in_seconds) %></p>
+							<div class="col-xs-6 col-xs-offset-3 text-center">
+								<p><%= concat_run_totals_line_one(yearly_total) %></p>
+								<p><%= concat_run_totals_line_two(yearly_total) %></p>
 							</div>
 							<div class="col-xs-3 text-right">
 								<%= render edit_btn_path, edit_path: edit_admin_total_record_yearly_total_path(yearly_total), disabled_condition: yearly_total.is_frozen? %>
@@ -35,11 +35,6 @@
 								<table class="table table-responsive table-striped table-hover table-responsive">
 									<thead>
 										<tr>
-											<th></th>
-											<th># of Runs</th>
-											<th>Mileage</th>
-											<th>Elevation</th>
-											<th>Total Time</th>
 											<th colspan="2"></th>
 										</tr>
 									</thead>
@@ -47,10 +42,7 @@
 										<% yearly_total.monthly_totals.each do |monthly_total| %>
 											<tr class="text-center">
 												<td><%= format_month(monthly_total.month_start) %></td>
-												<td><%= concat_number_of_runs(monthly_total.number_of_runs) %></td>
-												<td><%= concat_distance_miles(monthly_total.mileage_total) %></td>
-												<td><%= concat_elevation_gain(monthly_total.elevation_gain) %></td>
-												<td><%= concat_total_time(monthly_total.time_in_seconds) %></td>
+												<td><%= one_lined_totals(monthly_total) %></td>
 												<td><%= render edit_icon_btn_path, edit_path: edit_admin_total_record_monthly_total_path(monthly_total), disabled_condition: monthly_total.is_frozen? %></td>
 											</tr>
 										<% end %>
@@ -80,7 +72,7 @@
 						</div>
 						<div class="row text-center">
 							<div class="col-sm-9">
-								<p class="list-group-item-text"><%= concat_number_of_runs(weekly_total.number_of_runs) %> | <%= concat_elevation_gain(weekly_total.elevation_gain) %> | <%= concat_run_totals_line_two(weekly_total.time_in_seconds) %></p>
+								<p class="list-group-item-text"><%= wt_records_one_lined_total(weekly_total) %></p>
 							</div>
 							<div class="col-sm-3">
 								<%= render edit_icon_btn_path, edit_path: edit_admin_total_record_weekly_total_path(weekly_total), disabled_condition: weekly_total.is_frozen? %>
