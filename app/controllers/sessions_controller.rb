@@ -58,6 +58,7 @@ class SessionsController < ApplicationController
 
   # For session timeout
   def timeout
+    reset_session
     render_session_timeout
   end
 
