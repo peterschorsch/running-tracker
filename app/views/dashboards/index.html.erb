@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<%= render "dashboards/panels/next-race-panel", future_races: @future_races unless @future_races.empty? %>
+		<%= render "dashboards/panels/upcoming-races-panel", future_races: @future_races unless @future_races.empty? %>
 		<%= render "dashboards/panels/weekly-total-panel", weekly_total: @weekly_total %>
 		<%= render "dashboards/panels/total-records-panel", total_record: @monthly_total, heading_date: format_month(@monthly_total.month_start) %>
 		<%= render "dashboards/panels/total-records-panel", total_record: @yearly_total, heading_date: @yearly_total.year %>

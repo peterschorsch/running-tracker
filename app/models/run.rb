@@ -73,11 +73,11 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_most_recent, -> {
-		order(:start_time)
+		order('start_time DESC')
 	}
 
 	scope :order_by_oldest, -> {
-		order('start_time DESC')
+		order('start_time ASC')
 	}
 
 	scope :order_by_fastest, -> {
@@ -90,7 +90,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :return_future_races, -> {
-		joins(:run_type).where("run_types.name=?", "Race").where("start_time >= ?", Date.current).return_uncompleted_runs.order_by_most_recent.limit(2)
+		joins(:run_type).where("run_types.name=?", "Race").where("start_time >= ?", Date.current).return_uncompleted_runs.order_by_oldest.limit(2)
 	}
 
 	# Return runs that aren't races - includes planned runs
