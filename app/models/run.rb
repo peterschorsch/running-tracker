@@ -64,10 +64,6 @@ class Run < ApplicationRecord
 		where(:completed_run=>false)
 	}
 
-	scope :return_active_runs, -> {
-		where(:active_run=>true)
-	}
-
 	scope :return_past_uncompleted_runs, -> {
 		where("start_time <= ?", Date.current).return_uncompleted_runs
 	}
@@ -81,7 +77,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_oldest, -> {
-		order(:start_time)
+		order('start_time ASC')
 	}
 
 	scope :order_by_fastest, -> {
@@ -91,6 +87,10 @@ class Run < ApplicationRecord
 	### RACE RELATED SCOPES & METHODS ###
 	scope :return_races, -> {
 		joins(:run_type).where("run_types.name=?", "Race").completed_runs
+	}
+
+	scope :return_future_races, -> {
+		joins(:run_type).where("run_types.name=?", "Race").where("start_time >= ?", Date.current).return_uncompleted_runs.order_by_oldest.limit(2)
 	}
 
 	# Return runs that aren't races - includes planned runs
@@ -128,7 +128,8 @@ class Run < ApplicationRecord
 	# Used on Current User's Runs
 	# Finds next uncompleted run
 	def self.find_next_uncompleted_run
-		return_uncompleted_runs.find_by("start_time >= ?", DateTime.current.beginning_of_day..DateTime.current.end_of_day) || nil
+		#return_uncompleted_runs.find_by("start_time >= ?", DateTime.current.beginning_of_day..DateTime.current.end_of_day) || nil
+		return_uncompleted_runs.order_by_most_recent.first || nil
 	end
 
 	def self.find_last_completed_run
