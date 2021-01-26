@@ -10,7 +10,7 @@
             <%= nil_end_time_check(obligation) %>
           </th>
           <td>
-            <small><%= concat_city_state_full(obligation.city, obligation.state) %></small><br />
+            <small><%= concat_city_state_abbreviation(obligation) %></small><br />
             <strong><%= obligation.name %></strong>   
           </td>
           <td>

@@ -9,7 +9,7 @@
 						<td><strong><%= formatMonthDayDate(race.start_time) %></strong></td>
 						<td>
 							<%= concat_race_name(race.name) %><br />
-							<small class="text-muted"><%= race.city %>, <%= race.state.abbreviation %></small>
+							<small class="text-muted"><%= concat_city_state_abbreviation(race) %></small>
 						</td>
 						<td><%= concat_distance_miles(race.mileage_total) %></td>
 						<td>

@@ -21,10 +21,6 @@ class RaceExample < ApplicationRecord
 	    joins(:race_distance).order_by_fastest.group_by { |y| [y.race_distance.id, y.race_distance.name] }
 	}
 
-	def pace
-		self.pace_minutes + ":" + self.pace_seconds
-	end
-
 	def form_convert_elapsed_time(hours=0, minutes=0, seconds=0)
 		(hours.to_i*60*60) + (minutes.to_i*60) + seconds.to_i
 	end

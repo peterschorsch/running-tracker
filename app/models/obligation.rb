@@ -31,16 +31,6 @@ class Obligation < ApplicationRecord
 		self.end_time.nil?
 	end
 
-	# Chicago, IL
-	def concat_city_state
-		self.city + ", " + self.state.abbreviation
-	end
-
-	# Chicago, Illinois
-	def concat_city_state_name
-		self.city + ", " + self.state.name
-	end
-
 	def is_event?
 		self.event_flag
 	end

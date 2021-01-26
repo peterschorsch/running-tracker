@@ -3,7 +3,7 @@ class RaceResultsController < ApplicationController
 
 	def index
 		### ALL RACE RESULTS OF CURRENT USER ###
-		@race_results = @races.includes(:state, :shoe).order_by_most_recent.group_by_year
+		@race_results = @races.includes(:country).order_by_most_recent.group_by_year
 
 		### PERSONAL BESTS SECTION ###
 		### COUNTS OF RACE DISTANCES ###
@@ -19,10 +19,10 @@ class RaceResultsController < ApplicationController
 
 	private
 	def set_current_user_races
-		@races = current_user.runs.return_races.includes(shoe: :shoe_brand)
+		@races = current_user.runs.return_races.includes(:state, shoe: :shoe_brand)
 	end
 
 	def set_geo_chart_hash
-		@geo_chart_hash = current_user.runs.return_races.group(:state_id).count
+		@geo_chart_hash = @races.where.not(:state_id => nil).group(:state_id).count
 	end
 end

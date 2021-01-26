@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-xs-12 text-center">
 			<div><strong><%= obligation.name %></strong></div>
-			<div><small class="text-muted"><%= obligation.concat_city_state %></small></div>
+			<div><small class="text-muted"><%= concat_city_state_abbreviation(obligation) %></small></div>
 			<div><small class="text-muted"><%= nil_end_time_check(obligation) %></small></div>
 		</div>
 	</div>

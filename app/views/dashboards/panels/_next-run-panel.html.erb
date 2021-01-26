@@ -4,7 +4,7 @@
 			<h1>Next Run</h1>
 		</div>
 		<div class="panel-body text-center">
-			<p><%=concat_small_date_panel(next_run.start_time, next_run.city, next_run.state) %></p>
+			<p><%=concat_small_date_panel(next_run) %></p>
 			<p style="color: <%=next_run.hex_code%>"><%= next_run.run_type.name %></p>
 			<h3><strong><%= next_run.name %></strong></h3>
 			<p><%= concat_distance_miles(next_run.planned_mileage) %></p>

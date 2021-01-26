@@ -82,9 +82,13 @@ module ConcatDistanceTimeFieldsHelper
 		raw(date_range_helper) + " | " + raw(concat_run_totals_line_one(record)) + " | " + raw(concat_run_totals_line_two(record))
 	end
 	# 3:15PM | Saturday | Jan.23.2021 | Los Angeles, CA
-	def concat_small_date_panel(start_time, city, state)
-		raw("<small class='text-muted'>#{formatDayofWeek(start_time)} | #{format_date_month(start_time)} | #{formatTime(start_time)} | #{concat_city_state_abbreviation(city, state)}</small>")
+	def concat_small_date_panel(record)
+		raw("<small class='text-muted'>#{formatDayofWeek(record.start_time)} | #{format_date_month(record.start_time)} | #{formatTime(record.start_time)} | #{concat_city_state_abbreviation(record)}</small>")
 	end
+
+	#def concat_small_date_panel(start_time, city, state)
+		#raw("<small class='text-muted'>#{formatDayofWeek(start_time)} | #{format_date_month(start_time)} | #{formatTime(start_time)} | #{concat_city_state_abbreviation(city, state)}</small>")
+	#end
 
 	# 7:30 min/mi
 	def concat_pace_min_miles(record)

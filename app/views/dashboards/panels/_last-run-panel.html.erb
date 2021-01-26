@@ -4,7 +4,7 @@
 			<h1>Last Run</h1>
 		</div>
 		<div class="panel-body text-center">
-			<p><%= concat_small_date_panel(last_run.start_time, last_run.city, last_run.state) %></p>
+			<p><%= concat_small_date_panel(last_run) %></p>
 			<p style="color: <%=last_run.hex_code%>"><%= last_run.run_type.name %></p>
 			<h3><strong><%= last_run.name %></strong></h3>
 			<p><%= mileage_and_elasped_time(last_run) %></p>
