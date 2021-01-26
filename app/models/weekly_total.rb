@@ -113,7 +113,7 @@ class WeeklyTotal < ApplicationRecord
 		mileage_goal = BigDecimal(rand(5..39))
 		met_goal = mileage_total >= mileage_goal
 
-		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, time_in_seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), notes: nil, week_start: week_start, week_end: week_end)
+		self.update_attributes(mileage_total: mileage_total, mileage_goal: mileage_goal, met_goal: met_goal, time_in_seconds: rand(21600..115200), number_of_runs: rand(1..7), elevation_gain: rand(500..5000), week_start: week_start, week_end: week_end)
 	end
 
 	### RECALCULATES USER'S FOUR WEEKLY TOTALS ###

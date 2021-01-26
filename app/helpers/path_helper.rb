@@ -39,6 +39,10 @@ module PathHelper
 	def edit_btn_tag_path
 		"templates/buttons/crud/edit-button-tag"
 	end
+
+	def edit_icon_btn_tag_path
+		"templates/buttons/crud/edit-icon-button-tag"
+	end
 	
 	def edit_icon_btn_path
 		"templates/buttons/crud/edit-icon"

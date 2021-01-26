@@ -3,12 +3,14 @@ class DashboardsController < ApplicationController
 	before_action :viewer_authorization, only: [:update]
 
 	def index
-		@runs = current_user.runs.includes(:run_type)
 		### LAST RUN ###
-		@last_run = @runs.find_last_completed_run
+		@last_run = current_user.runs.includes(:run_type).find_last_completed_run
 
 		### NEXT RUN ###
-		@next_run = @runs.find_next_uncompleted_run
+		@next_run = current_user.runs.includes(:run_type).find_next_uncompleted_run
+
+		### FUTURE RACES ###
+		@future_races = current_user.runs.includes(:state).return_future_races
 
 		### WEEKLY TOTALS ###
 		@weekly_total = current_user.current_weekly_total
