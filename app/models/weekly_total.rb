@@ -127,7 +127,7 @@ class WeeklyTotal < ApplicationRecord
 	### SET OLDEST WEEKLY TOTAL TO ZERO ###
 	def set_weekly_total_to_zero(date = Date.current)
 		mileage_goal = self.user.weekly_totals.return_newest_weekly_total.mileage_goal
-		self.update_attributes(mileage_total: BigDecimal('0'), mileage_goal: mileage_goal, met_goal: false, time_in_seconds: 0, number_of_runs: 0, elevation_gain: 0, notes: nil, week_start: date.start_of_week, week_end: date.end_of_week, frozen_flag: false)
+		self.update_attributes(mileage_total: BigDecimal('0'), mileage_goal: mileage_goal, met_goal: false, time_in_seconds: 0, number_of_runs: 0, elevation_gain: 0, week_start: date.starting_of_week, week_end: date.end_of_week, frozen_flag: false)
 	end
 
 	protected
