@@ -2,14 +2,14 @@
 	<div class="panel-heading text-center">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Upcoming <%= "Race".pluralize(@future_races.count) %></h1>
+				<h1>Upcoming <%= "Race".pluralize(future_races.count) %></h1>
 			</div>
 		</div>
 	</div>
 	<div class="panel-body text-center">
 		<div class="row">
-			<% @future_races.in_groups_of(2, false).each do |future_races| %>
-				<% future_races.each do |future_race| %>
+			<% future_races.in_groups_of(2, false).each do |future_race_records| %>
+				<% future_race_records.each do |future_race| %>
 					<div class="col-md-6">
 						<p><small class="text-muted"><%= format_date_month(future_race.start_time) %> @<%= formatTime(future_race.start_time) %></small></p>
 						<p><strong><%= future_race.name %></strong><br /><small><%= concat_city_state_abbreviation(future_race.city, future_race.state) %></small></p>
