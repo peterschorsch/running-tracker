@@ -3,7 +3,7 @@ class RaceResultsController < ApplicationController
 
 	def index
 		### ALL RACE RESULTS OF CURRENT USER ###
-		@race_results = @races.includes(:country).order_by_most_recent.group_by_year
+		@race_results = @races.order_by_most_recent.group_by_year
 
 		### PERSONAL BESTS SECTION ###
 		### COUNTS OF RACE DISTANCES ###
@@ -12,7 +12,8 @@ class RaceResultsController < ApplicationController
 		race_count = @race_distance_counts.count
 		@rd_counts_column_spacing = 12/(race_count == 0 ? 1 : race_count)
 		### DATA TO POPULATE MAP OF U.S.A. ###
-		@geo_chart_data = @geo_chart_hash.map{ |key, value| [State.find(key).name, value] }
+		@us_geo_chart_data = @us_geo_chart_hash.map{ |key, value| [State.find(key).name, value] }
+		@world_geo_chart_data = @world_geo_chart_hash.map{ |key, value| [Country.find(key).name, value] }
 		### PERSONAL BESTS ARRAY ###
 		@personal_bests = current_user.personal_best_races
 	end
@@ -23,6 +24,7 @@ class RaceResultsController < ApplicationController
 	end
 
 	def set_geo_chart_hash
-		@geo_chart_hash = @races.where.not(:state_id => nil).group(:state_id).count
+		@us_geo_chart_hash = @races.where.not(:state_id => nil).group(:state_id).count
+		@world_geo_chart_hash = @races.includes(:country).group(:country_id).count
 	end
 end

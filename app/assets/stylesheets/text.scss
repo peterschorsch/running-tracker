@@ -30,6 +30,11 @@ h1, h2, h3{
   background-color: transparent;
 }
 
+.carousel-control {
+  text-shadow: 0px transparent !important;
+  opacity: 0 !important;
+}
+
 .vertical-align-middle{
 	display:flex;
 	align-items:center; /* vertically aligns */

@@ -6,34 +6,65 @@
 			</div>
 		<% end %>
 	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="myCarousel" class="personal_best_carousel slide" data-ride="carousel">
+				<!-- Indicators -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+				</ol>
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner">
+					<div class="item active" align="center">
+						<%= geo_chart @us_geo_chart_data, width: '100%', library: {region: 'US', resolution: 'provinces'} %>
+					</div>
+					<div class="item" align="center">
+						<%= geo_chart @world_geo_chart_data, width: '100%' %>
+					</div>
+				</div>
 
-	<%= geo_chart @geo_chart_data, library: {region: 'US', resolution: 'provinces'} %>
-
-	<table class="table table-borderless">
-		<h1 class="display-2">Personal Bests</h1>
-		<hr />
-		<% @personal_bests.each do |personal_best| %>
-			<thead>
-				<tr>
-					<th colspan="3">
-						<h3><%= formatYear(personal_best.start_time) %> <%= personal_best.name %></h3>
-						<small class="text-muted"><%= concat_city_state_full(personal_best) %></small>
-					</th>
-				</tr>
-			</thead>
-			<body>
-				<tr>
-					<td class="col-md-3 text-right"><%= concat_elevation_gain(personal_best.elevation_gain) %></td>
-					<td class="col-md-5">
-						<%= concat_elapsed_time(personal_best.time_in_seconds) %><br />
-						<small class="text-muted"><%= concat_pace_min_miles(personal_best) %></small>
-					</td>
-					<td class="col-md-4">
-						<%= return_full_shoe_name(personal_best.shoe) %><br />
-						<small class="text-muted"><%= personal_best.shoe.color_way %></small>
-					</td>
-				</tr>
-			</body>
-		<% end %>
-	</table>
+				<!-- Left and right controls -->
+				<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#myCarousel" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-borderless">
+				<h1 class="display-2">Personal Bests</h1>
+				<hr />
+				<% @personal_bests.each do |personal_best| %>
+					<thead>
+						<tr>
+							<th colspan="3" class="no-padding">
+								<h3 style="margin: 0px"><%= formatYear(personal_best.start_time) %> <%= personal_best.name %></h3>
+								<small class="text-muted"><%= concat_city_state_full(personal_best) %></small>
+							</th>
+						</tr>
+					</thead>
+					<body>
+						<tr>
+							<td class="col-md-3 text-right"><%= concat_elevation_gain(personal_best.elevation_gain) %></td>
+							<td class="col-md-5">
+								<%= concat_elapsed_time(personal_best.time_in_seconds) %><br />
+								<small class="text-muted"><%= concat_pace_min_miles(personal_best) %></small>
+							</td>
+							<td class="col-md-4">
+								<%= return_full_shoe_name(personal_best.shoe) %><br />
+								<small class="text-muted"><%= personal_best.shoe.color_way %></small>
+							</td>
+						</tr>
+					</body>
+				<% end %>
+			</table>
+		</div>
+	</div>
 </div>
