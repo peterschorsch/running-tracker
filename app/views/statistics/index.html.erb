@@ -13,7 +13,7 @@
 		<%= pie_chart @weekly_runtype_counts_data, messages: { empty: "No data" }, colors: @weekly_runtype_colors %>
 	</div>
 	<div class="col-md-9 col-sm-12 text-center">
-		<%= render mileage_chart_path, title: "Runs this Week (#{formatshortenedDateRange(Date.current.beginning_of_week, Date.current.end_of_week)})", data: @current_week_graph %>
+		<%= render mileage_chart_path, title: "Runs this Week (#{formatshortenedDateRange(current_user.current_weekly_total.week_start, current_user.current_weekly_total.week_end)})", data: @current_week_graph %>
 		<% @current_week_runs.each do |run| %>
 			<p>
 				<%= formateDateTimeWithAt(run.start_time) %> | <span style="color: <%=run.hex_code%>"><%= run.run_type.name %></span> | 

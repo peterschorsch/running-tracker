@@ -13,6 +13,10 @@ class RunType < ApplicationRecord
 		order(:name)
 	}
 
+	scope :order_by_id, ->  {
+		order(:id)
+	}
+
 	scope :active_run_types, -> {
 		where(:active => true)
 	}

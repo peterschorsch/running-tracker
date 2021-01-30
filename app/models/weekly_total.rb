@@ -61,11 +61,7 @@ class WeeklyTotal < ApplicationRecord
 
 	### STATISTICS PAGE - POPULATE DATA FOR PIE CHART ###
 	def self.populate_runtype_pie_chart(runs)
-		runs.order_by_runtype.group(:run_type_id).count.map{ |key, value| [RunType.find(key).name, value] }
-	end
-	### STATISTICS PAGE - POPULATE COLORS FOR PIE CHART ###
-	def self.populate_runtype_pie_chart_colors(runs)
-		runs.order_by_runtype.group(:run_type_id).count.map{ |key, value| RunType.find(key).hex_code }
+		runs.size.map{ |key, value| [RunType.find(key).name, value] }
 	end
 
 	def met_weekly_goal?

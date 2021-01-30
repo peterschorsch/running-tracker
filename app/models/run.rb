@@ -85,7 +85,7 @@ class Run < ApplicationRecord
 	}
 
 	scope :order_by_runtype, -> {
-		joins(:run_type).order("run_types.name")
+		order('run_type_id ASC')
 	}
 
 	### RACE RELATED SCOPES & METHODS ###
