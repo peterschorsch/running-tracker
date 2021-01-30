@@ -6,6 +6,7 @@ class StatisticsController < ApplicationController
 		@current_week_runs = @current_week_runs_master.includes(shoe: :shoe_brand).order_by_most_recent
 		@current_week_graph = @current_week_runs_master.order_by_oldest.map { |cwr| [cwr.start_time.strftime("%A"), cwr.mileage_total.to_i] }
 		@weekly_runtype_counts_data = WeeklyTotal.populate_runtype_pie_chart(@current_week_runs)
+		@weekly_runtype_colors = WeeklyTotal.populate_runtype_pie_chart_colors(@current_week_runs)
 
 		### WEEKLY TOTALS ###
 		@weekly_totals = @weekly_totals_master.order_by_recent_week

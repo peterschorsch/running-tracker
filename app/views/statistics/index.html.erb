@@ -10,7 +10,7 @@
 
 <div class="row">
 	<div class="col-md-3 col-sm-12 text-center">
-		<%= pie_chart @weekly_runtype_counts_data, messages: { empty: "No data" } %>
+		<%= pie_chart @weekly_runtype_counts_data, messages: { empty: "No data" }, colors: @weekly_runtype_colors %>
 	</div>
 	<div class="col-md-9 col-sm-12 text-center">
 		<%= render mileage_chart_path, title: "Runs this Week (#{formatshortenedDateRange(Date.current.beginning_of_week, Date.current.end_of_week)})", data: @current_week_graph %>

@@ -84,6 +84,10 @@ class Run < ApplicationRecord
 		order('time_in_seconds ASC')
 	}
 
+	scope :order_by_runtype, -> {
+		joins(:run_type).order("run_types.name")
+	}
+
 	### RACE RELATED SCOPES & METHODS ###
 	scope :return_races, -> {
 		joins(:run_type).where("run_types.name=?", "Race").completed_runs
