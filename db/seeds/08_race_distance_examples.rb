@@ -145,7 +145,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 		day = get_sunday_of_month(month, year, rand(1..4)).day
 		start_time = DateTime.new(year, month, day)
 
-		@monthly_total = yearly_total.monthly_totals.of_month(start_time)
+		@monthly_total = yearly_total.monthly_totals.of_month(start_time.to_date)
 
 		# Check if there are any runs on the day and delete them if necessary
 		@runs_on_date = @website_viewer.runs.return_runs_on_date(month, day, year)

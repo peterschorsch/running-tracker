@@ -20,7 +20,7 @@ class MonthlyTotal < ApplicationRecord
 	}
 
 	def self.of_month(date = Date.current)
-	    find_by("month_start <= ? AND month_end >= ?", date, date) || nil
+	    find_by("month_start >= ? AND month_end <= ?", date.beginning_of_month, date.end_of_month) || nil
 	end
 
 	scope :of_year, -> (year = Date.current) {

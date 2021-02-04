@@ -181,7 +181,7 @@ class User < ApplicationRecord
 				run_type_id = RunType.return_random_run_type_id
 				monthly_total_id = self.monthly_totals.of_month(date).id
 				if self.runs.are_runs_not_present_on_day?(date)
-					Run.create_random_run_record(self.concat_user_default_city_run_name, Run.return_random_run_start_time(date), true, shoe_id, city, state_id, country_id, run_type_id, monthly_total_id.id, self.id)
+					Run.create_random_run_record(self.concat_user_default_city_run_name, Run.return_random_run_start_time(date), true, shoe_id, city, state_id, country_id, run_type_id, monthly_total_id, self.id)
 				end
 			end
 		end
@@ -247,7 +247,7 @@ class User < ApplicationRecord
 
 		# See if any races have occured in the past two months
 		if @recent_races.empty?
-			start_date = Date.current.prev_occurring(:sunday).beginning_of_day
+			start_date = Date.current.prev_occurring(:sunday)
 			@sundays_runs = @runs.of_day(start_date) # Find all runs of the previous sunday
 			@sundays_runs.delete_all # Remove runs of the previous sunday
 
