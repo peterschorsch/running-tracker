@@ -145,20 +145,16 @@ class Run < ApplicationRecord
 	end
 
 	def can_be_modified?
-		!self.cannot_be_modified?
+		!self.was_completed? || !self.monthly_total.is_frozen?
 	end
 
-	def cannot_be_modified?
-		self.was_completed? && self.monthly_total.is_frozen? && self.monthly_total.yearly_total.is_frozen?
+	def disable_run_form?
+		!can_be_modified?
 	end
 
-	### FOR RUN FORMS - DETERMINE IF USER CAN MODIFY RUN RECORD - FROZEN YEARLY & MONTHLY TOTAL ###
-	def cannot_modify_run_record?
-		if self.user.nil?
-			self.cannot_be_modified?
-		else
-			self.user.is_viewer? || self.cannot_be_modified?
-		end
+	### FOR RUN FORMS - DETERMINE IF USER CAN MODIFY RUN RECORD - FROZEN MONTHLY TOTAL ###
+	def determine_run_modification_by_user_role
+		self.user.is_viewer? ? true : disable_run_form?
 	end
 
 	def is_event?

@@ -8,13 +8,13 @@
     </div>
     <div class="col-xs-2 text-right">
       <%= f.label :completed_run, 'Completed?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :completed_run, { :disabled => run.cannot_modify_run_record? } %>
+      <%= f.check_box :completed_run, { :disabled => disable_form } %>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-3 col-sm-offset-2">
-      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => run.cannot_modify_run_record? } if run.new_record? %>
-      <%= f.time_field :start_time, { class: 'form-control', :disabled => run.cannot_modify_run_record? } unless run.new_record? %>
+      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => disable_form } if run.new_record? %>
+      <%= f.time_field :start_time, { class: 'form-control', :disabled => disable_form } unless run.new_record? %>
     </div>
   </div>
   <br />
@@ -25,7 +25,7 @@
     </div>
     <div class="col-xs-2">
       <%= f.label :run_type_id, 'Run Type:' %>
-      <%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control", :disabled => session[:website_viewer] })%>
+      <%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control", :disabled => disable_form })%>
     </div>
     <div class="col-xs-3">
       <%= f.label :shoe_id, 'Shoes:' %>
@@ -38,7 +38,7 @@
       <%= f.label :planned_mileage, 'Planned Mileage:' %>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-8">
-          <%= f.select(:planned_mileage, Run.run_planned_mileage_select, {}, { :class =>'form-control chosen-select', :disabled => run.cannot_modify_run_record? }) %>
+          <%= f.select(:planned_mileage, Run.run_planned_mileage_select, {}, { :class =>'form-control chosen-select', :disabled => disable_form }) %>
         </div>
         <div class="col-md-4">
           <%= f.label :planned_mileage, 'miles' %>
@@ -49,7 +49,7 @@
       <%= f.label :mileage_total, 'Actual Mileage:' %>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-8">
-          <%= f.select(:mileage_total, Run.run_actual_mileage_select, {}, { :class =>'form-control chosen-select', :disabled => run.cannot_modify_run_record? }) %>
+          <%= f.select(:mileage_total, Run.run_actual_mileage_select, {}, { :class =>'form-control chosen-select', :disabled => disable_form }) %>
         </div>
         <div class="col-md-4">
           <%= f.label :mileage_total, 'miles' %>
@@ -78,19 +78,19 @@
       </div>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-3">
-          <%= f.select('hours', (0..10), {}, { :class =>'form-control', :disabled => run.cannot_modify_run_record? }) %>
+          <%= f.select('hours', (0..10), {}, { :class =>'form-control', :disabled => disable_form }) %>
         </div>
         <div class="col-md-1">
           <%= f.label :time_in_seconds, ':' %>
         </div>
         <div class="col-md-3">
-          <%= f.select('minutes', (0..59), {}, { :class =>'form-control', :disabled => run.cannot_modify_run_record? }) %>
+          <%= f.select('minutes', (0..59), {}, { :class =>'form-control', :disabled => disable_form }) %>
         </div>
         <div class="col-md-1">
           <%= f.label :time_in_seconds, ':' %>
         </div>
         <div class="col-md-3">
-          <%= f.select('seconds', (0..59), {}, { :class =>'form-control', :disabled => run.cannot_modify_run_record? }) %>
+          <%= f.select('seconds', (0..59), {}, { :class =>'form-control', :disabled => disable_form }) %>
         </div>
       </div>
       <% if run.was_completed? %>
@@ -111,7 +111,7 @@
     <div class="col-sm-6">
       <div class="row vertical-align-middle no-padding">
           <div class="col-md-3 col-sm-offset-1 slim-padding">
-            <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "0", :min => 0, :disabled => run.cannot_modify_run_record? } %>
+            <%= f.number_field :elevation_gain, { class: 'form-control', placeholder: "0", :min => 0, :disabled => disable_form } %>
           </div>
           <div class="col-md-1 text-left no-padding">
             <%= f.label :elevation_gain, 'ft.' %>
