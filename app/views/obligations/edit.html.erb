@@ -7,7 +7,7 @@
 				<h1>Editing: <strong><%= @obligation.name %></strong></h1>
 			</div>
 			<div class="panel-body">
-				<%= render 'form', obligation: @obligation %>
+				<%= render 'form', obligation: @obligation, disable_form: session[:website_viewer] %>
 			</div>
 		</div>
 	</div>

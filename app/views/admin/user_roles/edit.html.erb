@@ -7,7 +7,7 @@
 				<h1>Editing: <strong><%= @user_role.name %></strong></h1>
 			</div>
 			<div class="panel-body">
-				<%= render 'form', user_role: @user_role %>
+				<%= render 'form', user_role: @user_role, disabled_form: session[:website_viewer] %>
 			</div>
 		</div>
 	</div>

@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-xs-2 col-sm-offset-8 text-right">
       <%= f.label :personal_best, 'Personal Best?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :personal_best, { :disabled => current_user.is_viewer? } %>
+      <%= f.check_box :personal_best, { :disabled => disable_form } %>
     </div>
     <div class="col-xs-2 text-right">
       <%= f.label :completed_run, 'Completed?', { class: "pointer-cursor make-text-unselectable" } %>
@@ -21,15 +21,15 @@
   <div class="row text-center">
     <div class="col-xs-5 col-sm-offset-1">
       <%= f.label :name, 'Name:' %>
-      <%= f.text_field :name, { class: 'form-control', placeholder: current_user.concat_user_default_city_run_name, :disabled => current_user.is_viewer? } %>
+      <%= f.text_field :name, { class: 'form-control', placeholder: current_user.concat_user_default_city_run_name, :disabled => disable_form } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :run_type_id, 'Run Type:' %>
-      <%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+      <%= f.select(:run_type_id, RunType.select_run_type_id_name, { :include_blank => "Select a Run Type" }, { :class => "form-control", :disabled => session[:website_viewer] })%>
     </div>
     <div class="col-xs-3">
       <%= f.label :shoe_id, 'Shoes:' %>
-      <%= f.select(:shoe_id, Shoe.of_user(current_user).select_shoe_id_name, { :selected => true }, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+      <%= f.select(:shoe_id, Shoe.of_user(current_user).select_shoe_id_name, { :selected => true }, { :class => "form-control", :disabled => disable_form })%>
     </div>
   </div>
   <br />
@@ -62,10 +62,10 @@
       </div>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-4 col-sm-offset-2">
-          <%= f.select('pace_minutes', (4..20), {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+          <%= f.select('pace_minutes', (4..20), {}, { :class =>'form-control', :disabled => disable_form }) %>
         </div>
         <div class="col-md-4">
-          <%= f.select('pace_seconds', (0..59).map {|n| "%02d" % n}, {}, { :class =>'form-control', :disabled => current_user.is_viewer? }) %>
+          <%= f.select('pace_seconds', (0..59).map {|n| "%02d" % n}, {}, { :class =>'form-control', :disabled => disable_form }) %>
         </div>
         <div class="col-md-2">
           <%= f.label :pace, 'min/mile' %>
@@ -121,26 +121,26 @@
       <div class="row slim-padding">
         <div class="col-xs-4 col-sm-offset-2">
           <%= f.label :city, 'City:' %>
-          <%= f.text_field :city, { class: 'form-control', :placeholder => current_user.default_city, :disabled => current_user.is_viewer? } %>
+          <%= f.text_field :city, { class: 'form-control', :placeholder => current_user.default_city, :disabled => disable_form } %>
         </div>
         <div class="col-xs-2">
           <%= f.label :state_id, 'State:' %>
-          <%= f.select(:state_id, State.select_state_id_abbr, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %>
+          <%= f.select(:state_id, State.select_state_id_abbr, { :include_blank => "Select a State" }, { :class => "form-control", :disabled => disable_form }) %>
         </div>
         <div class="col-xs-4">
           <%= f.label :country_id, 'Country:' %>
-          <%= f.select(:country_id, Country.select_country_id_name, { :include_blank => "Select a Country" }, { :class => "form-control", :disabled => current_user.is_viewer? }) %>
+          <%= f.select(:country_id, Country.select_country_id_name, { :include_blank => "Select a Country" }, { :class => "form-control", :disabled => disable_form }) %>
         </div>
       </div>
     </div>
     <div class="col-xs-5">
-      <%= f.text_area :notes, { class: 'form-control', rows: 6, :disabled => current_user.is_viewer? } %>
+      <%= f.text_area :notes, { class: 'form-control', rows: 6, :disabled => disable_form } %>
     </div>
   </div>
   <br /><br />
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <%= f.submit "Save Changes", class: "btn btn-success btn-block", :disabled => current_user.is_viewer? %>
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block", :disabled => disable_form %>
     </div>
   </div>
 <% end %>

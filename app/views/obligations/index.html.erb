@@ -15,7 +15,7 @@
           </td>
           <td>
             <%= render edit_icon_btn_path, edit_path: edit_obligation_path(obligation), disabled_condition: false %>
-            <%= render remove_icon_btn_path, object: obligation %>
+            <%= render remove_icon_btn_path, object: obligation, disabled_condition: session[:website_viewer] %>
           </td>
         <% end %>
       </tr>

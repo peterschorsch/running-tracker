@@ -31,7 +31,7 @@
 						<span class="glyphicon glyphicon-list-alt"></span> Race Pace Chart
 					<% end %>
 				</li>
-				<% if current_user.is_admin? %>
+				<% if session[:administrator] %>
 					<li class="dropdown text-center">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Functions <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -78,7 +78,7 @@
 								<span class="glyphicon glyphicon-briefcase"></span> My Shoes
 							<% end %>
 						</li>
-						<% if not current_user.is_viewer? %>
+						<% if !session[:website_viewer] %>
 							<li class="text-center">
 								<%= link_to obligations_path, class: 'top-bottom-padding' do %>
 									<span class="glyphicon glyphicon-calendar"></span> My Obligations

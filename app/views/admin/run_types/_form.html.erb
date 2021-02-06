@@ -4,30 +4,30 @@
   <div class="row text-center">
     <div class="col-xs-2 col-sm-offset-4">
       <%= f.label :name, 'Run Type:' %>
-      <%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run" } %>
+      <%= f.text_field :name, { class: 'form-control', placeholder: "Easy Run", :disabled => disable_form } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :hex_code, 'Hex Code:' %>
-      <%= f.text_field :hex_code, { class: 'form-control', placeholder: "#123456"} %>
+      <%= f.text_field :hex_code, { class: 'form-control', placeholder: "#123456", :disabled => disable_form} %>
     </div>
   </div>
   <br />
   <div class="row text-center">
     <div class="col-xs-2 col-sm-offset-4">
       <%= f.label :active, 'Active?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :active, { class: 'form-control' } %>
+      <%= f.check_box :active, { class: 'form-control', :disabled => disable_form } %>
     </div>
     <% if not f.object.is_default? %>
       <div class="col-xs-2">
         <%= f.label :default, 'Make Default?', { class: "pointer-cursor make-text-unselectable" } %>
-        <%= f.check_box :default, { class: 'form-control' } %>
+        <%= f.check_box :default, { class: 'form-control', :disabled => disable_form } %>
       </div>
     <% end %>
   </div>
   <br /><br />
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block", :disabled => disable_form %>
     </div>
   </div>
 <% end %>

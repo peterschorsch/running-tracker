@@ -29,7 +29,7 @@
         <td><%= return_full_shoe_name(run.shoe) %> (<%= return_shoe_mileage(run.shoe.total_mileage) %>)</td>
         <td>
           <%= render edit_icon_btn_path, edit_path: edit_run_path(run), disabled_condition: false %>
-          <%= render remove_icon_btn_path, object: run %>
+          <%= render remove_icon_btn_path, object: run, disabled_condition: session[:website_viewer] %>
         </td>
       </tr>
     <% end %>

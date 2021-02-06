@@ -4,28 +4,28 @@
   <div class="row text-center">
     <div class="col-xs-4 col-xs-offset-4">
       <%= f.label :name, 'Role Name:' %>
-      <%= f.text_field :name, { class: 'form-control', placeholder: "User" } %>
+      <%= f.text_field :name, { class: 'form-control', placeholder: "User", :disabled => disabled_form } %>
     </div>
   </div>
   <br />
   <div class="row text-center">
     <div class="col-xs-2 col-xs-offset-3">
       <%= f.label :user, 'User?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :user, { class: 'form-control'} %>
+      <%= f.check_box :user, { class: 'form-control', :disabled => disabled_form } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :administrator, 'Administrator?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :administrator, { class: 'form-control' } %>
+      <%= f.check_box :administrator, { class: 'form-control', :disabled => disabled_form } %>
     </div>
     <div class="col-xs-2">
       <%= f.label :website_viewer, 'Website Viewer?', { class: "pointer-cursor make-text-unselectable" } %>
-      <%= f.check_box :website_viewer, { class: 'form-control' } %>
+      <%= f.check_box :website_viewer, { class: 'form-control', :disabled => disabled_form } %>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <%= f.submit "Save Changes", class: "btn btn-success btn-block" %>
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block", :disabled => disabled_form %>
     </div>
   </div>
 <% end %>

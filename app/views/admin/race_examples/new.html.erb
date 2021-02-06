@@ -7,7 +7,7 @@
 				<h1>Add New Race Example</h1>
 			</div>
 			<div class="panel-body">
-				<%= render 'form', race_example: @race_example %>
+				<%= render 'form', race_example: @race_example, disable_form: session[:website_viewer] %>
 			</div>
 		</div>
 	</div>

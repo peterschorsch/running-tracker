@@ -11,11 +11,11 @@
 					<h1 class="text-center">Basic Information</h1>
 				</div>
 				<div class="panel-body">
-					<%= render 'basic-user-attr-form' %>
+					<%= render 'basic-user-attr-form', disable_form: session[:website_viewer] %>
 				</div>
 			</div>
 		</div>
-		<% if current_user.is_admin? %>
+		<% if session[:administrator] %>
 			<div class="text-center">
 				<p><strong><u>Website Viewer</u></strong></p>
 				<p>Last Logged in at: <strong><%= formateDateTimeWithAt(@website_viewer.last_login) %></strong></p>
@@ -29,7 +29,7 @@
 					<h1 class="text-center">Change Password</h1>
 				</div>
 				<div class="panel-body">
-					<%= render 'password-form' %>
+					<%= render 'password-form', disable_form: session[:website_viewer] %>
 				</div>
 			</div>
 		</div>

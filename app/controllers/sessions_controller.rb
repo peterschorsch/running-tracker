@@ -15,6 +15,8 @@ class SessionsController < ApplicationController
 
     if @user && @user.authenticate(params[:password]) && @user.is_active?
       session[:user_id] = @user.id
+      session[:administrator] = @user.is_admin?
+      session[:website_viewer] = @user.is_viewer?
 
       ### UPDATE LAST LOGIN FIELD ###
       @user.update_last_login
@@ -22,7 +24,7 @@ class SessionsController < ApplicationController
       ### TOTAL RECORDS CHECK FOR ALL USERS ###
       @user.check_for_total_records_upon_login
 
-      if @user.is_viewer?
+      if session[:website_viewer]
         ### CREATE/UPDATE RUNS FOR WEBSITE VIEWER ###
         @user.website_viewer_methods_check_upon_login
         @user.dynamically_create_website_viewer_races

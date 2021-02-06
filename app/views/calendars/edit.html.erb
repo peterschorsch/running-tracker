@@ -7,7 +7,7 @@
 				<h1>Editing: <strong><%= @run.name %></strong></h1>
 			</div>
 			<div class="panel-body">
-				<%= render "runs/form", run: @run, action: "update" %>
+				<%= render "runs/form", run: @run, action: "update", disable_form: session[:website_viewer] %>
 			</div>
 		</div>
 	</div>

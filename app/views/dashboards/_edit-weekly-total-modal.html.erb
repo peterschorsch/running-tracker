@@ -11,14 +11,14 @@
 					<div class="row">
 						<div class="col-xs-4 col-sm-offset-4 text-center">
 							<%= f.label :mileage_goal, 'Mileage Goal:' %>
-							<%= f.select(:mileage_goal, Run.run_weekly_mileage_select, {}, { :class => "form-control", :disabled => current_user.is_viewer? })%>
+							<%= f.select(:mileage_goal, Run.run_weekly_mileage_select, {}, { :class => "form-control", :disabled => session[:website_viewer] })%>
 						</div>
 		          	</div>
 		          	<br />
 			</div>
 			<div class="modal-footer">
 				<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#weeklyTotalEditModal" } %>
-				<%= f.submit "Save Changes", class: 'btn btn-success', :disabled => current_user.is_viewer? %>
+				<%= f.submit "Save Changes", class: 'btn btn-success', :disabled => session[:website_viewer] %>
 			</div>
 			<% end %>
 		</div>

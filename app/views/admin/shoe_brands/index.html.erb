@@ -31,7 +31,7 @@
               <%= render edit_btn_tag_path, target: "#editShoeBrandModal-#{shoe_brand.id}" %>
             </td>
             <td>
-              <%= render remove_btn_path, object: [:admin, shoe_brand] %>
+              <%= render remove_btn_path, object: [:admin, shoe_brand], disabled_condition: session[:website_viewer] %>
             </td>
           </tr>
         <% end %>

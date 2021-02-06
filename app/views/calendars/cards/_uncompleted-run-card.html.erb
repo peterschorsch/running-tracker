@@ -5,7 +5,7 @@
 			<div><%= concat_distance_miles(run.planned_mileage) %></div>
 			<%= render colored_line_divider_path, hex_code: run.hex_code %>
 			<%= render edit_icon_btn_path, edit_path: edit_calendars_path(run.id), disabled_condition: false %>
-			<%= render remove_icon_btn_path, object: destroy_calendars_path(run.id) %>
+			<%= render remove_icon_btn_path, object: destroy_calendars_path(run.id), disabled_condition: session[:website_viewer] %>
 		</div>
 	</div>
 </div>

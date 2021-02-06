@@ -7,7 +7,7 @@
 				<h1>Editing: <span style="color: <%=@run_type.hex_code%>"><strong><%= @run_type.name %></strong></span></h1>
 			</div>
 			<div class="panel-body">
-				<%= render 'form', run_type: @run_type %>
+				<%= render 'form', run_type: @run_type, disable_form: session[:website_viewer] %>
 			</div>
 		</div>
 	</div>
