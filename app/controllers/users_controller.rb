@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
-  before_action :authorized?
-  before_action :viewer_authorization, only: [:update, :update_password]
+  include UserAuthorization
+  before_action :set_user
+  before_action only: [:update, :update_password] do
+    website_viewer_authorization(edit_user_path(current_user))
+  end
 
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
@@ -34,14 +37,8 @@ class UsersController < ApplicationController
     end
   end
 
-  def handle_record_not_found
-    # Send it to the view that is specific for User not found
-    flash[:alert] = "Record not Found"
-    redirect_to dashboards_path
-  end
-
   private
-    def authorized?
+    def set_user
       @user = User.find(params[:id])
       ### IF USER DOESN'T MATCH CURRENT USER OR IS ARCHIVED
       if current_user != @user || current_user.is_archived?
@@ -50,11 +47,10 @@ class UsersController < ApplicationController
       end
     end
 
-    def viewer_authorization
-      if current_user.is_viewer?
-        flash[:alert] = "You are not authorized to do said action."
-        redirect_to edit_user_path(current_user)
-      end
+    def handle_record_not_found
+      # Send it to the view that is specific for User not found
+      flash[:alert] = "Record not Found"
+      redirect_to dashboards_path
     end
 
     # Only allow a list of trusted parameters through.

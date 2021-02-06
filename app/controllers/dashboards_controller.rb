@@ -1,6 +1,10 @@
 class DashboardsController < ApplicationController
+	include UserAuthorization
+
 	before_action :set_weekly_total, only: [:update]
-	before_action :viewer_authorization, only: [:update]
+	before_action only: [:update] do
+		website_viewer_authorization(dashboards_path)
+	end
 
 	def index
 		### LAST RUN ###
@@ -45,12 +49,4 @@ class DashboardsController < ApplicationController
 		def weekly_total_params
 			params.require(:weekly_total).permit(:mileage_goal)
 		end
-
-		def viewer_authorization
-	      if current_user.is_viewer?
-	        flash[:alert] = "You are not authorized to do said action."
-	        redirect_to dashboards_path
-	      end
-	    end
-
 end

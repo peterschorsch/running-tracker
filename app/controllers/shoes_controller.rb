@@ -1,6 +1,9 @@
 class ShoesController < ApplicationController
+  include UserAuthorization
   before_action :set_shoe, only: [:show, :edit, :update, :destroy]
-  before_action :viewer_authorization, only: [:create, :update]
+  before_action only: [:create, :update] do
+    website_viewer_authorization(shoes_path)
+  end
 
   # GET /shoes
   # GET /shoes.json
@@ -56,13 +59,6 @@ class ShoesController < ApplicationController
   end
 
   private
-    def viewer_authorization
-      if current_user.is_viewer?
-        flash[:alert] = "You are not authorized to do said action."
-        redirect_to shoes_path
-      end
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_shoe
       @shoe = current_user.shoes.find(params[:id])

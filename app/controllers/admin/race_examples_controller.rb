@@ -1,5 +1,5 @@
 class Admin::RaceExamplesController < Admin::AdminController
-  before_action :set_race_example, only: [:show, :edit, :update, :destroy]
+  before_action :set_race_example, only: [:edit, :update, :destroy]
 
   # GET /race_examples
   # GET /race_examples.json

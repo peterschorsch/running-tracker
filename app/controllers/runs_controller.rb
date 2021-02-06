@@ -1,6 +1,9 @@
 class RunsController < ApplicationController
+  include UserAuthorization
   before_action :set_run, only: [:edit, :update, :destroy]
-  before_action :viewer_authorization, only: [:create, :update, :destroy]
+  before_action only: [:create, :update, :destroy] do
+    website_viewer_authorization(runs_path)
+  end
 
   # GET /runs
   # GET /runs.json
@@ -72,13 +75,6 @@ class RunsController < ApplicationController
   end
 
   private
-    def viewer_authorization
-      if current_user.is_viewer?
-        flash[:alert] = "You are not authorized to do said action."
-        redirect_to runs_path
-      end
-    end
-
     # Use callbacks to share common setup or constraints between actions.
     def set_run
       @run = current_user.runs.find(params[:id])

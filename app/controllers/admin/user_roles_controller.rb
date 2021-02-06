@@ -1,5 +1,5 @@
 class Admin::UserRolesController < Admin::AdminController
-  before_action :set_user_role, only: [:show, :edit, :update, :destroy]
+  before_action :set_user_role, only: [:edit, :update, :destroy]
 
   # GET /user_roles
   # GET /user_roles.json

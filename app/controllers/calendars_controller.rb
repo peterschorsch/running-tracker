@@ -1,6 +1,9 @@
 class CalendarsController < ApplicationController
+	include UserAuthorization
 	before_action :set_run, only: [:edit, :update, :destroy]
-	before_action :viewer_authorization, except: [:index, :edit]
+	before_action except: [:index, :edit] do
+		website_viewer_authorization(calendars_path)
+	end
 
 	def index
 		@obligations = current_user.obligations.includes(:state, :obligation_color)
@@ -111,13 +114,6 @@ class CalendarsController < ApplicationController
 	end
 
 	private
-	    def viewer_authorization
-	      if current_user.is_viewer?
-	        flash[:alert] = "You are not authorized to do said action."
-	        redirect_to runs_path
-	      end
-	    end
-
 	    def set_run
 			@run = current_user.runs.return_uncompleted_runs.find(params[:id])
 			rescue ActiveRecord::RecordNotFound
