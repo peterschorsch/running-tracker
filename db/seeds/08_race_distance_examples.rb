@@ -135,7 +135,7 @@ puts "----------WEBSITE VIEWER RACES----------"
 ###CREATE RACES FOR WEBSITE VIEWER ACCOUNT###
 @website_viewer.yearly_totals.exclude_current_year.each do |yearly_total|
 	@race_distances.each do |race_distance|
-		race_example = race_distance.race_examples.order("RANDOM()").first
+		race_example = race_distance.race_examples.sample
 
 		race_run_type = RunType.named("Race")
 		shoe = @website_viewer.shoes.return_random_shoe

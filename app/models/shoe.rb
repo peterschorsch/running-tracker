@@ -61,7 +61,7 @@ class Shoe < ApplicationRecord
 	end
 
 	def self.return_random_shoe
-		active_shoes.order("RANDOM()").first
+		active_shoes.sample
 	end
 
 	### FORM SELECTS ###

@@ -252,12 +252,12 @@ class User < ApplicationRecord
 			@sundays_runs.delete_all # Remove runs of the previous sunday
 
 			# Create a Race
-			@race_distance = RaceDistance.order("RANDOM()").first
-			@race_example = @race_distance.race_examples.order("RANDOM()").first
+			@race_distance = RaceDistance.all.sample
+			@race_example = @race_distance.race_examples.sample
 			@monthly_total = self.monthly_totals.of_month(start_date)
 
 			race_run_type = RunType.named("Race")
-			shoe = self.shoes.return_default_shoe
+			shoe = self.shoes.return_random_shoe
 			start_time = Run.return_random_race_start_time(start_date)
 
 			if @runs.are_runs_not_present_on_day?(start_date)
