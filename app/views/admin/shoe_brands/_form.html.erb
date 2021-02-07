@@ -5,12 +5,12 @@
 		<div class="row text-center">
 		    <div class="col-xs-4 col-sm-offset-4">
 		    	<%= f.label :brand, 'Brand Name:' %>
-		    	<%= f.text_field :brand, { class: 'form-control', placeholder: "Brand Name Here" } %>
+				<%= f.text_field :brand, { class: 'form-control', placeholder: "Brand Name Here", :disabled => disable_form } %>
 		   	</div>
 		</div>
 </div>
 <div class="modal-footer">
-	<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#editShoeBrandModal-#{admin_shoe_brand.id}" } %>
-	<%= f.submit "Save Changes", class: 'btn btn-success' %>
+	<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#" + target_id } %>
+	<%= f.submit "Save Changes", class: 'btn btn-success', :disabled => disable_form %>
 </div>
 <% end %>

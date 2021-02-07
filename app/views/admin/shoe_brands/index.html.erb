@@ -3,7 +3,7 @@
     <%= render back_to_dashboard_path %>
   </div>
   <div class="col-md-2 col-md-offset-8">
-    <%= render "add-modal" %>
+    <%= render "add-modal", new_shoe_brand: @new_admin_shoe_brand, target_id: "shoebrandAddModal" %>
     <%= render new_btn_tag_path, target: "#shoebrandAddModal", button_text: "Shoe Brand" %>
   </div>
 </div>
@@ -27,7 +27,7 @@
           <tr>
             <td><%= shoe_brand.brand %></td>
             <td>
-              <%= render "edit-modal", shoe_brand: shoe_brand %>
+              <%= render "edit-modal", shoe_brand: shoe_brand, target_id: "editShoeBrandModal-#{shoe_brand.id}" %>
               <%= render edit_btn_tag_path, target: "#editShoeBrandModal-#{shoe_brand.id}" %>
             </td>
             <td>
