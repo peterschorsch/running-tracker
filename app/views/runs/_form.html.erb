@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-xs-3 col-sm-offset-2">
       <%= f.datetime_field :start_time, { class: 'form-control', :disabled => disable_form } if run.new_record? %>
-      <%= f.time_field :start_time, { class: 'form-control', :disabled => disable_form } unless run.new_record? %>
+      <%= f.datetime_field :start_time, { class: 'form-control', :disabled => disable_form } unless run.new_record? %>
     </div>
   </div>
   <br />
@@ -62,7 +62,7 @@
       </div>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-4 col-sm-offset-2">
-          <%= f.select('pace_minutes', (4..20), {}, { :class =>'form-control', :disabled => disable_form }) %>
+          <%= f.select('pace_minutes', (0..20), {}, { :class =>'form-control', :disabled => disable_form }) %>
         </div>
         <div class="col-md-4">
           <%= f.select('pace_seconds', (0..59).map {|n| "%02d" % n}, {}, { :class =>'form-control', :disabled => disable_form }) %>

@@ -26,8 +26,6 @@ class CalendarsController < ApplicationController
 
 		respond_to do |format|
 			if @run.save
-				@run.update_subsequent_tables
-
 				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
 				format.json { render :new, status: :created, location: @run }
 			else
@@ -43,8 +41,6 @@ class CalendarsController < ApplicationController
 
 		respond_to do |format|
 			if @run.update(run_params)
-				@run.update_subsequent_tables
-
 				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
 				format.json { render :index, status: :ok, location: @run }
 			else
