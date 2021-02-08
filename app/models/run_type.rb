@@ -47,7 +47,7 @@ class RunType < ApplicationRecord
 
 	def self.return_random_run_type_id
 		race_type = RunType.exclude_race_type
-		return run_type_id = race_type.offset(rand(race_type.count)).first.id
+		return run_type_id = race_type.offset(rand(race_type.size)).first.id
 	end
 
 	def self.select_run_type_id_name
