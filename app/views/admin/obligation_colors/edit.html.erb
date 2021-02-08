@@ -1,0 +1,33 @@
+<%= render index_header_path, heading_text: "Obligation Colors" %>
+
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default" style="border-color: <%= @obligation_color.hex_code %>">
+			<div class="panel-heading text-center">
+				<h1>Editing: <span style="color: <%=@obligation_color.hex_code%>"><strong><%= @obligation_color.name %></strong></span></h1>
+			</div>
+			<div class="panel-body">
+				<%= form_with(model: [:admin, @obligation_color], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+				  <%= render "templates/alerts/form-errors", model: @obligation_color %>
+
+				  <div class="row text-center">
+				    <div class="col-xs-2 col-sm-offset-4">
+				      <%= f.label :name, 'Obligation Color:' %>
+				      <%= f.text_field :name, { class: 'form-control', placeholder: "Color Name", :disabled => session[:website_viewer] } %>
+				    </div>
+				    <div class="col-xs-2">
+				      <%= f.label :hex_code, 'Hex Code:' %>
+				      <%= f.text_field :hex_code, { class: 'form-control', placeholder: "#123456", :disabled => session[:website_viewer]} %>
+				    </div>
+				  </div>
+				  <br />
+				  <div class="row">
+				    <div class="col-md-4 col-md-offset-4">
+				      <%= f.submit "Save Changes", class: "btn btn-success btn-block", :disabled => session[:website_viewer] %>
+				    </div>
+				  </div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

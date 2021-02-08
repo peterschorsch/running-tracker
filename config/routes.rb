@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     resources :run_types, path: "run-types", except: [:show]
     resources :shoe_brands, path: 'shoe-brands', except: [:new, :edit, :show]
     resources :user_roles, path: "user-roles", except: [:show, :destroy]
+    resources :obligation_colors, path: "obligation-colors", only: [:edit, :update]
 
     namespace :total_record, path: 'total-records' do
       root to: 'total_records#index'

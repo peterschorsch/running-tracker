@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       session[:administrator] = @user.is_admin?
       session[:website_viewer] = @user.is_viewer?
+      session[:obligation_color_id] = ObligationColor.first.id
 
       ### UPDATE LAST LOGIN FIELD ###
       @user.update_last_login
