@@ -67,6 +67,9 @@ class Run < ApplicationRecord
 	scope :return_past_uncompleted_runs, -> {
 		where("start_time <= ?", Date.current).return_uncompleted_runs
 	}
+	scope :return_future_uncompleted_runs, -> {
+		where("start_time >= ?", Date.current).return_uncompleted_runs
+	}
 
 	scope :return_past_uncompleted_runs_except_for_current_month, -> {
 		where("start_time <= ?", (Date.current-1.month).end_of_month).return_uncompleted_runs
@@ -132,8 +135,7 @@ class Run < ApplicationRecord
 	# Used on Current User's Runs
 	# Finds next uncompleted run
 	def self.find_next_uncompleted_run
-		#return_uncompleted_runs.find_by("start_time >= ?", DateTime.current.beginning_of_day..DateTime.current.end_of_day) || nil
-		return_uncompleted_runs.order_by_most_recent.first || nil
+		return_future_uncompleted_runs.first || nil
 	end
 
 	def self.find_last_completed_run
