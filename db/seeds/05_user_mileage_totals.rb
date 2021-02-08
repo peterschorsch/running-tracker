@@ -185,7 +185,7 @@ puts ""
 
 ### 2020 YEARLY TOTAL ###
 totals = [
-  # MILES, NUMBER OF RUNS, ELEVATION GAIN, HOURS, MINUTES, TIME IN SECONDS
+  # MILES, NUMBER OF RUNS, ELEVATION GAIN, TIME IN SECONDS
   [229.05, 29, 12992, 97871], #JAN
   [288.14, 29, 15925, 126278], #FEB
   [151.50, 24, 4265, 63637], #MAR
@@ -196,9 +196,10 @@ totals = [
   [181.12, 27, 4511, 81610], #AUG
   [166, 26, 4731, 74080], #SEPT
   [163, 27, 4186, 73256], #OCT
-  [178.8, 21, 3589, 70873], #NOV
+  [161.43, 25, 4223, 70873], #NOV
   [175.46, 27, 4636, 77798] #DEC
 ]
+
 # 2020 yearly total
 @yearly_total = @my_account.yearly_totals.of_year(Date.new(2020))
 @monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
@@ -206,7 +207,23 @@ totals = [
 @monthly_totals.each_with_index do |monthly_total, index|
   monthly_total.update_columns(mileage_total: BigDecimal("#{totals[index][0]}"), number_of_runs: totals[index][1], elevation_gain: totals[index][2], time_in_seconds: totals[index][3])
 end
-@yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), time_in_seconds: 884246)
+@yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), time_in_seconds: @monthly_totals.sum(:time_in_seconds))
+
+### 2021 YEARLY TOTAL ###
+totals = [
+  # MILES, NUMBER OF RUNS, ELEVATION GAIN, TIME IN SECONDS
+  [173.99, 27, 4636, 77068], #JAN
+  [39.09, 6, 1050, 17223] #FEB
+]
+# 2021 yearly total
+@yearly_total = @my_account.yearly_totals.of_year(Date.new(2021))
+@monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
+
+@monthly_totals.each_with_index do |monthly_total, index|
+  monthly_total.update_columns(mileage_total: BigDecimal("#{totals[index][0]}"), number_of_runs: totals[index][1], elevation_gain: totals[index][2], time_in_seconds: totals[index][3])
+end
+@yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), time_in_seconds: @monthly_totals.sum(:time_in_seconds))
+
 
 #Add forzen flag to all yearly totals except current year
 @my_account.yearly_totals.where.not(:year => Date.current.year.to_s).each do |yearly_total|
