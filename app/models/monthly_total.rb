@@ -1,4 +1,6 @@
 class MonthlyTotal < ApplicationRecord
+	extend Modules::TotalRecord
+
 	belongs_to :user
 	has_many :runs
 	belongs_to :yearly_total
@@ -15,10 +17,6 @@ class MonthlyTotal < ApplicationRecord
 	    order(month_start: :desc)
 	}
 
-	scope :of_user, -> (user) {
-	    where(user: user)
-	}
-
 	def self.of_month(date = Date.current)
 	    find_by("month_start >= ? AND month_end <= ?", date.beginning_of_month, date.end_of_month) || nil
 	end
@@ -27,27 +25,10 @@ class MonthlyTotal < ApplicationRecord
 		where("month_start >= ? AND month_end <= ?", year.beginning_of_year, year.end_of_year)
 	}
 
-	scope :unfrozen_months, -> {
-		where(:frozen_flag => false)
-	}
-
-	scope :frozen_months, -> {
-		where(:frozen_flag => true)
-	}
-
 	### USED UPON LOGIN TO FREEZE MONTHLY TOTALS THAT ARE NOT CURRENT MONTH ###
 	scope :return_unfrozen_months_except_current_month, -> {
-		unfrozen_months.where.not(:month_start => Date.current.beginning_of_month)
+		unfrozen_records.where.not(:month_start => Date.current.beginning_of_month)
 	}
-
-	def is_frozen?
-		self.frozen_flag
-	end
-
-	### USED UPON LOGIN TO FREEZE MONTHLY TOTALS THAT ARE NOT CURRENT MONTH ###
-	def self.freeze_monthly_total_collection
-		self.update_all(frozen_flag: true)
-	end
 
 	def self.create_zero_totals(user_id, yearly_total_id, month_start, month_end)
 		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)

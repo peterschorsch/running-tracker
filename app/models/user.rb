@@ -118,9 +118,9 @@ class User < ApplicationRecord
 
 	### FREEZE YEARLY, MONTHLY and WEEKLY TOTAL RECORDS THAT AREN'T CURRENT YEAR AND/OR MONTH ###
 	def check_on_frozen_total_records
-		self.yearly_totals.return_unfrozen_years_except_current_year.freeze_yearly_total_collection
-		self.monthly_totals.return_unfrozen_months_except_current_month.freeze_monthly_total_collection
-		self.weekly_totals.return_unfrozen_weeks_except_past_two_weeks.freeze_weekly_total_collection
+		self.yearly_totals.return_unfrozen_years_except_current_year.freeze_total_records_collection
+		self.monthly_totals.return_unfrozen_months_except_current_month.freeze_total_records_collection
+		self.weekly_totals.return_unfrozen_weeks_except_past_two_weeks.freeze_total_records_collection
 	end
 
 	### DESTROY PLANNED RUNS THAT ARE NOT IN CURRENT MONTH ###
@@ -317,11 +317,11 @@ class User < ApplicationRecord
 	end
 
 	def recalculate_user_yearly_totals
-		self.yearly_totals.unfrozen_years.each { |yearly_total| yearly_total.recalculate_yearly_total }
+		self.yearly_totals.unfrozen_records.each { |yearly_total| yearly_total.recalculate_yearly_total }
 	end
 
 	def recalculate_user_monthly_totals
-		self.monthly_totals.unfrozen_months.each { |monthly_total| monthly_total.recalculate_monthly_total }
+		self.monthly_totals.unfrozen_records.each { |monthly_total| monthly_total.recalculate_monthly_total }
 	end
 
 	def recalculate_user_weekly_totals

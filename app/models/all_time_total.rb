@@ -1,10 +1,8 @@
 class AllTimeTotal < ApplicationRecord
+	extend Modules::TotalRecord
+
 	has_many :yearly_totals, dependent: :destroy
 	belongs_to :user
-
-	scope :of_user, -> (user) {
-	    where(user: user)
-	}
 
 	def self.create_zero_totals(user_id)
 		AllTimeTotal.create_with(mileage_total: BigDecimal(0), elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id)

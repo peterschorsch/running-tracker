@@ -1,4 +1,5 @@
 class YearlyTotal < ApplicationRecord
+	extend Modules::TotalRecord
 	belongs_to :user
 	belongs_to :all_time_total
 	has_many :monthly_totals, dependent: :destroy
@@ -26,31 +27,10 @@ class YearlyTotal < ApplicationRecord
 		where.not(:year => Date.current.year)
 	}
 
-	scope :of_user, -> (user) {
-		where(:user => user)
-	}
-
-	scope :unfrozen_years, -> {
-		where(:frozen_flag => false)
-	}
-
-	scope :frozen_years, -> {
-		where(:frozen_flag => true)
-	}
-
 	### USED UPON LOGIN TO FREEZE YEARLY TOTALS THAT ARE NOT CURRENT YEARLY ###
 	scope :return_unfrozen_years_except_current_year, -> {
-		unfrozen_years.where.not(:year => Date.current.year)
+		unfrozen_records.where.not(:year => Date.current.year)
 	}
-
-	def is_frozen?
-		self.frozen_flag
-	end
-
-	### USED UPON LOGIN TO FREEZE YEARLY TOTALS THAT ARE NOT CURRENT YEARLY ###
-	def self.freeze_yearly_total_collection
-		self.update_all(frozen_flag: true)
-	end
 
 	### RECALCULATES ALL YEARLY TOTALS ###
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###

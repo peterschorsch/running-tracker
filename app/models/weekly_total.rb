@@ -1,4 +1,5 @@
 class WeeklyTotal < ApplicationRecord
+	extend Modules::TotalRecord
 	belongs_to :user
 
 	validates :week_start, :week_end, :mileage_total, :time_in_seconds, :elevation_gain, presence: true
@@ -13,10 +14,6 @@ class WeeklyTotal < ApplicationRecord
 		order(week_start: :desc)
 	}
 
-	scope :of_user, -> (user) {
-		where(user: user)
-	}
-
 	def self.of_week(date = Date.current)
 		find_by("week_start >= ? AND week_end <= ?", date.beginning_of_week, date.end_of_week) || nil
 	end
@@ -29,27 +26,10 @@ class WeeklyTotal < ApplicationRecord
 	    order_by_recent_week.first
 	}
 
-	scope :unfrozen_weeks, -> {
-		where(:frozen_flag => false)
-	}
-
-	scope :frozen_weeks, -> {
-		where(:frozen_flag => true)
-	}
-
 	### USED UPON LOGIN TO FREEZE WEEKLY TOTALS THAT ARE NOT CURRENT WEEK ###
 	scope :return_unfrozen_weeks_except_past_two_weeks, -> {
 		order_by_oldest_week.limit(2)
 	}
-
-	def is_frozen?
-		self.frozen_flag
-	end
-
-	### USED UPON LOGIN TO FREEZE WEEKLY TOTALS THAT ARE NOT CURRENT WEEK ###
-	def self.freeze_weekly_total_collection
-		self.update_all(frozen_flag: true)
-	end
 
 	def return_goal_percentage
 		self.percentage_calculation >= 100 ? 100 : self.percentage_calculation

@@ -18,7 +18,7 @@ class Admin::TotalRecord::MonthlyTotalsController < Admin::TotalRecord::TotalRec
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_monthly_total
-      @monthly_total = current_user.monthly_totals.unfrozen_months.find(params[:id])
+      @monthly_total = current_user.monthly_totals.unfrozen_records.find(params[:id])
       rescue ActiveRecord::RecordNotFound
       flash[:alert] = "You are not authorized to edit specified Monthly Total."
       redirect_to admin_total_record_root_path
