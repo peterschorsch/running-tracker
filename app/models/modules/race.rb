@@ -1,12 +1,16 @@
 module Modules::Race
 
 	### RACE RELATED SCOPES & METHODS ###
+	def return_race_type
+		joins(:run_type).where("run_types.name=?", "Race")
+	end
+
 	def return_races
-		joins(:run_type).where("run_types.name=?", "Race").completed_runs
+		return_race_type.completed_runs
 	end
 
 	def return_future_races
-		joins(:run_type).where("run_types.name=?", "Race").where("start_time > ?", DateTime.current).return_uncompleted_runs.order_by_oldest
+		return_race_type.where("start_time > ?", DateTime.current).return_uncompleted_runs.order_by_oldest
 	end
 
 	# Return runs that aren't races - includes planned runs
