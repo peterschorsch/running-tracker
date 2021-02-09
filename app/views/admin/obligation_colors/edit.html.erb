@@ -4,7 +4,7 @@
 	<div class="col-md-10 col-md-offset-1">
 		<div class="panel panel-default" style="border-color: <%= @obligation_color.hex_code %>">
 			<div class="panel-heading text-center">
-				<h1>Editing: <span style="color: <%=@obligation_color.hex_code%>"><strong><%= @obligation_color.name %></strong></span></h1>
+				<h1>Editing: <span style="color: <%=@obligation_color.hex_code%>"><%= bold_text(@obligation_color.name) %></span></h1>
 			</div>
 			<div class="panel-body">
 				<%= form_with(model: [:admin, @obligation_color], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>

@@ -18,7 +18,7 @@
       <tr class="text-center">
         <td>
           <small class="text-muted"><%= formateDateTimeWithAt(run.start_time) %></small><br />
-          <strong><%= run.name %></strong><br />
+          <%= bold_text(run.name) %><br />
           <small><%= run.notes %></small>
         </td>
         <td style="color: <%=run.hex_code%>"><%= run.run_type.name %></td>

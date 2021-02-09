@@ -35,7 +35,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<%= month_calendar(attribute: :start_time, events: @runs+@obligations) do |date, events| %>
-			<h5><strong><%= date %></strong></h5>
+			<h5><%= bold_text(date) %></h5>
 
 			<% events.each do |event| %>
 				<% if event.is_event? %>

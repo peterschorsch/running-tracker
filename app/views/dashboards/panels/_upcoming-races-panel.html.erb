@@ -2,7 +2,7 @@
 	<div class="panel-heading text-center">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Upcoming <%= "Race".pluralize(future_races.count) %></h1>
+				<h1>Upcoming <%= "Race".pluralize(future_races.size) %></h1>
 			</div>
 		</div>
 	</div>
@@ -14,7 +14,7 @@
 						<p><%= concat_countdown_timer(future_race.start_time) %></p>
 						<p>
 							<small class="text-muted"><%= formatMonthNameDateTimeWithAt(future_race.start_time) %></small><br />
-							<strong><%= future_race.name %></strong><br />
+							<%= bold_text(future_race.name) %><br />
 							<small><%= concat_city_state_abbreviation(future_race) %></small>
 						</p>
 					</div>

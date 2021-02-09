@@ -6,7 +6,7 @@
 		<div class="panel-body text-center">
 			<p><%=concat_small_date_panel(next_run) %></p>
 			<p style="color: <%=next_run.hex_code%>"><%= next_run.run_type.name %></p>
-			<h3><strong><%= next_run.name %></strong></h3>
+			<h3><%= bold_text(next_run.name) %></h3>
 			<p><%= concat_distance_miles(next_run.planned_mileage) %></p>
 		</div>
 	</div>

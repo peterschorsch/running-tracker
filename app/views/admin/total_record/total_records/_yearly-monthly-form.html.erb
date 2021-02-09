@@ -2,7 +2,7 @@
   <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
       <div class="panel-heading text-center">
-        <h1>Editing: <strong><%= heading %></strong></h1>
+        <h1>Editing: <%= bold_text(heading) %></h1>
       </div>
       <div class="panel-body">
         <%= form_with(model: [:admin, :total_record, total_record], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>

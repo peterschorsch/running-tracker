@@ -1,7 +1,7 @@
 module ConcatDistanceTimeFieldsHelper
 
 	# Chicago Marathon
-	def concat_race_name(name)
+	def bold_text(name)
 		raw("<strong>#{name}</strong>")
 	end
 

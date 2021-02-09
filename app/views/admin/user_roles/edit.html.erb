@@ -4,7 +4,7 @@
 	<div class="col-md-10 col-md-offset-1">
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
-				<h1>Editing: <strong><%= @user_role.name %></strong></h1>
+				<h1>Editing: <%= bold_text(@user_role.name) %></h1>
 			</div>
 			<div class="panel-body">
 				<%= render 'form', user_role: @user_role, disabled_form: session[:website_viewer] %>

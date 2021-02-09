@@ -4,7 +4,7 @@
 	<div class="col-md-10 col-md-offset-1">
 		<div class="panel panel-default" style="border-color: <%= @run_type.hex_code %>">
 			<div class="panel-heading text-center">
-				<h1>Editing: <span style="color: <%=@run_type.hex_code%>"><strong><%= @run_type.name %></strong></span></h1>
+				<h1>Editing: <span style="color: <%=@run_type.hex_code%>"><%= bold_text(@run_type.name) %></span></h1>
 			</div>
 			<div class="panel-body">
 				<%= render 'form', run_type: @run_type, disable_form: session[:website_viewer] %>
