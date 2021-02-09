@@ -1,5 +1,5 @@
 class Run < ApplicationRecord
-	extend Race
+	extend Modules::Race
 	extend FormPopulateRunField
 
 	belongs_to :user

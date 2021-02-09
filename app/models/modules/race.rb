@@ -1,5 +1,4 @@
-module Race
-	extend ActiveSupport::Concern
+module Modules::Race
 
 	### RACE RELATED SCOPES & METHODS ###
 	def return_races
