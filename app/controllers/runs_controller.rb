@@ -1,6 +1,11 @@
 class RunsController < ApplicationController
+  include RunTime
   include UserAuthorization
+
   before_action :set_run, only: [:edit, :update, :destroy]
+  before_action only: [:create, :update] do
+    set_run_time_fields(current_user, params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
+  end
   before_action only: [:create, :update, :destroy] do
     website_viewer_authorization(runs_path)
   end
@@ -25,9 +30,6 @@ class RunsController < ApplicationController
   def create
     @run = Run.new(run_params)
 
-    ### Also, converts and sets hours, minutes, seconds to just seconds ###
-    @run.set_necessary_run_fields(current_user, params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
-
     respond_to do |format|
       if @run.save
         format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
@@ -42,9 +44,6 @@ class RunsController < ApplicationController
   # PATCH/PUT /runs/1
   # PATCH/PUT /runs/1.json
   def update
-    ### Also, converts and sets hours, minutes, seconds to just seconds ###
-    @run.set_necessary_run_fields(current_user, params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
-
     respond_to do |format|
       if @run.update(run_params)
         format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
