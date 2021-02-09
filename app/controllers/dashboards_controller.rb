@@ -14,7 +14,7 @@ class DashboardsController < ApplicationController
 		@next_run = current_user.runs.includes(:run_type).find_next_uncompleted_run
 
 		### FUTURE RACES ###
-		@future_races = current_user.runs.includes(:state).return_future_races
+		@future_races = current_user.runs.includes(:state).return_future_races.limit(2)
 
 		### WEEKLY TOTALS ###
 		@weekly_total = current_user.current_weekly_total

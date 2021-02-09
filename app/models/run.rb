@@ -1,4 +1,5 @@
 class Run < ApplicationRecord
+	extend Race
 	belongs_to :user
 	belongs_to :run_type
 	belongs_to :shoe
@@ -90,47 +91,6 @@ class Run < ApplicationRecord
 	scope :order_by_runtype, -> {
 		order('run_type_id ASC')
 	}
-
-	### RACE RELATED SCOPES & METHODS ###
-	scope :return_races, -> {
-		joins(:run_type).where("run_types.name=?", "Race").completed_runs
-	}
-
-	scope :return_future_races, -> {
-		joins(:run_type).where("run_types.name=?", "Race").where("start_time > ?", DateTime.current).return_uncompleted_runs.order_by_oldest.limit(2)
-	}
-
-	# Return runs that aren't races - includes planned runs
-	scope :return_run_workouts, -> {
-		joins(:run_type).where.not("run_types.name=?", "Race")
-	}
-
-	scope :retrieve_personal_bests, -> {
-		return_races.where("runs.personal_best=?", true).order(:mileage_total).includes(:state)
-	}
-
-	scope :return_5k_results, -> {
-		where(mileage_total: BigDecimal('3.1')).completed_runs
-	}
-
-	scope :return_10k_results, -> {
-		where(mileage_total: BigDecimal('6.2')).completed_runs
-	}
-
-	scope :return_half_marathon_results, -> {
-		where(mileage_total: BigDecimal('13.1')).completed_runs
-	}
-
-	scope :return_marathon_results, -> {
-		where(mileage_total: BigDecimal('26.2')).completed_runs
-	}
-
-	def self.return_race_distance_counts
-		totals = self.group(:mileage_total).count
-		mappings = { BigDecimal('3.1') => '5K', BigDecimal('6.2') => '10K', BigDecimal('13.1') => 'Half Marathon', BigDecimal('26.2') => 'Marathon' }
-		return totals.transform_keys(&mappings.method(:[]))
-	end
-	### END OF RACE RELATED SCOPES & METHODS ###
 
 	# Used on Current User's Runs
 	# Finds next uncompleted run
@@ -356,11 +316,6 @@ class Run < ApplicationRecord
 
 	def form_convert_elapsed_time(hours=0, minutes=0, seconds=0)
 		(hours.to_i*60*60) + (minutes.to_i*60) + seconds.to_i
-	end
-
-	def form_convert_and_save_elapsed_time(hours=0, minutes=0, seconds=0)
-		elapsed_time = self.form_convert_elapsed_time(hours, minutes, seconds)
-		self.update_columns(:time_in_seconds => elapsed_time)
 	end
 
 	private
