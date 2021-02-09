@@ -1,5 +1,6 @@
 class MonthlyTotal < ApplicationRecord
 	extend Modules::TotalRecord
+	include Modules::FrozenRecord
 
 	belongs_to :user
 	has_many :runs

@@ -1,5 +1,7 @@
 class WeeklyTotal < ApplicationRecord
 	extend Modules::TotalRecord
+	include Modules::FrozenRecord
+
 	belongs_to :user
 
 	validates :week_start, :week_end, :mileage_total, :time_in_seconds, :elevation_gain, presence: true

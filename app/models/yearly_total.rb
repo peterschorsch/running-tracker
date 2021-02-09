@@ -1,5 +1,7 @@
 class YearlyTotal < ApplicationRecord
 	extend Modules::TotalRecord
+	include Modules::FrozenRecord
+
 	belongs_to :user
 	belongs_to :all_time_total
 	has_many :monthly_totals, dependent: :destroy
