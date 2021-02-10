@@ -19,7 +19,7 @@ class DashboardsController < ApplicationController
 
 		### WEEKLY TOTALS ###
 		@weekly_total = current_user.current_weekly_total
-		@weekly_total_graph = current_user.weekly_totals.order_by_oldest_week.map { |wt| [shortened_date_field(wt.week_start).to_s + "-" + shortened_date_field(wt.week_end).to_s, wt.mileage_total.to_i] }
+		@weekly_total_graph = current_user.weekly_totals.order_by_oldest_week.map { |wt| ["#{shortened_date_field(wt.week_start)}-#{shortened_date_field(wt.week_end)}", wt.mileage_total.to_i] }
 
 		### MONTHLY TOTALS ###
 		@monthly_total = current_user.current_monthly_total

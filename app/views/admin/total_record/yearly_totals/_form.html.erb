@@ -2,22 +2,18 @@
   <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
       <div class="panel-heading text-center">
-        <h1>Editing Weekly Total: <%= bold_text(formatshortenedDateRange(weekly_total.week_start, weekly_total.week_end)) %></h1>
+        <h1>Editing: <%= bold_text(yearly_total.year) %></h1>
       </div>
       <div class="panel-body">
-        <%= form_with(model: [:admin, :total_record, weekly_total], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
-          <%= render "templates/alerts/form-errors", model: weekly_total %>
+        <%= form_with(model: [:admin, :total_record, yearly_total], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+          <%= render "templates/alerts/form-errors", model: yearly_total %>
 
           <div class="row text-center">
             <div class="col-xs-2 col-xs-offset-1">
               <%= f.label :number_of_runs, 'Number of Runs:' %>
               <%= f.number_field :number_of_runs, { class: 'form-control', step: 1, placeholder: "0 runs", :disabled => disable_form } %>
             </div>
-            <div class="col-xs-2">
-              <%= f.label :mileage_goal, 'Mileage Goal:' %>
-              <%= f.number_field :mileage_goal, { class: 'form-control', step: 0.01, placeholder: "0 miles", :disabled => disable_form } %>
-            </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
               <%= f.label :mileage_total, 'Mileage Total:' %>
               <%= f.number_field :mileage_total, { class: 'form-control', step: 0.01, placeholder: "0 miles", :disabled => disable_form } %>
             </div>
@@ -27,7 +23,7 @@
             </div>
             <div class="col-xs-2">
               <%= f.label :time_in_seconds, 'Time in Seconds:' %>
-              <%= f.number_field :time_in_seconds, { class: 'form-control', placeholder: "0 seconds", :disabled => disable_form } %>
+              <%= f.number_field :time_in_seconds, { class: 'form-control', step: 1, placeholder: "0 seconds", :disabled => disable_form } %>
             </div>
             <div class="col-xs-1">
               <%= f.label :frozen_flag, 'Freeze Record?', { class: "pointer-cursor make-text-unselectable", :disabled => disable_form } %>

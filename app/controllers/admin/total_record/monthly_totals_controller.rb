@@ -26,7 +26,7 @@ class Admin::TotalRecord::MonthlyTotalsController < Admin::TotalRecord::TotalRec
 
     # Only allow a list of trusted parameters through.
     def monthly_total_params
-      params.require(:monthly_total).permit(:mileage_total, :number_of_runs, :elevation_gain, :time_in_seconds, :frozen_flag)
+      params.require(:monthly_total).permit(:previous_mileage, :new_mileage, :previous_number_of_runs, :new_number_of_runs, :previous_elevation_gain, :new_elevation_gain, :previous_time_in_seconds, :new_time_in_seconds, :frozen_flag)
     end
 
 end

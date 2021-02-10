@@ -31,10 +31,18 @@ ActiveRecord::Schema.define(version: 2021_01_18_222046) do
   create_table "monthly_totals", force: :cascade do |t|
     t.date "month_start", null: false
     t.date "month_end", null: false
-    t.decimal "mileage_total", null: false
-    t.integer "number_of_runs", null: false
-    t.integer "elevation_gain", null: false
-    t.integer "time_in_seconds", null: false
+    t.decimal "previous_mileage", default: "0.0"
+    t.decimal "new_mileage", default: "0.0"
+    t.decimal "mileage_total", default: "0.0"
+    t.integer "previous_number_of_runs", default: 0
+    t.integer "new_number_of_runs", default: 0
+    t.integer "number_of_runs", default: 0
+    t.integer "previous_elevation_gain", default: 0
+    t.integer "new_elevation_gain", default: 0
+    t.integer "elevation_gain", default: 0
+    t.integer "previous_time_in_seconds", default: 0
+    t.integer "new_time_in_seconds", default: 0
+    t.integer "time_in_seconds", default: 0
     t.boolean "frozen_flag", default: false
     t.integer "yearly_total_id"
     t.integer "user_id"

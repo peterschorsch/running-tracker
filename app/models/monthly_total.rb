@@ -6,9 +6,10 @@ class MonthlyTotal < ApplicationRecord
 	has_many :runs
 	belongs_to :yearly_total
 
-	validates :month_start, :month_end, :mileage_total, :time_in_seconds, :elevation_gain, presence: true
-	validates :mileage_total, :elevation_gain, numericality: true
-	validates :time_in_seconds, numericality: true
+	validates :month_start, :month_end, :time_in_seconds, :elevation_gain, presence: true
+
+	before_save :calculate_total_mileage, :calculate_number_of_runs, :calculate_elevation_gain, :calculate_time_in_seconds
+
 
 	scope :order_by_oldest_month, -> {
 	    order(:month_start)
@@ -32,7 +33,7 @@ class MonthlyTotal < ApplicationRecord
 	}
 
 	def self.create_zero_totals(user_id, yearly_total_id, month_start, month_end)
-		MonthlyTotal.create_with(mileage_total: 0, elevation_gain: 0, number_of_runs: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
+		MonthlyTotal.create_with(new_mileage: 0, mileage_total: 0, new_elevation_gain: 0, elevation_gain: 0, new_number_of_runs: 0, number_of_runs: 0, new_time_in_seconds: 0, time_in_seconds: 0).find_or_create_by(user_id: user_id, yearly_total_id: yearly_total_id, month_start: month_start, month_end: month_end)
 	end
 
 	def self.create_random_totals(user_id, yearly_total_id, month_start, month_end)
@@ -44,7 +45,33 @@ class MonthlyTotal < ApplicationRecord
 	def recalculate_monthly_total
 		# Return completed runs of the month
 		@completed_runs_of_month = self.runs.of_month(self.month_end).completed_runs
-		self.update_columns(:mileage_total => @completed_runs_of_month.sum(:mileage_total), :time_in_seconds => @completed_runs_of_month.sum(:time_in_seconds), :number_of_runs => @completed_runs_of_month.count, :elevation_gain => @completed_runs_of_month.sum(:elevation_gain))
-	end 
+		new_mileage_for_month = @completed_runs_of_month.sum(:mileage_total)
+		new_time_in_seconds_for_month = @completed_runs_of_month.sum(:time_in_seconds)
+		new_number_of_runs_for_month = @completed_runs_of_month.count
+		new_elevation_gain_for_month = @completed_runs_of_month.sum(:elevation_gain)
+
+		self.update_columns(:new_mileage => new_mileage_for_month, :mileage_total => self.previous_mileage + new_mileage_for_month, :time_in_seconds => self.previous_time_in_seconds + new_time_in_seconds_for_month, :number_of_runs => self.previous_number_of_runs + new_number_of_runs_for_month, :elevation_gain => self.previous_elevation_gain + new_elevation_gain_for_month)
+	end
+
+	private
+	### ADD MILEAGE FIELDS TOGETHER ###
+	def calculate_total_mileage
+		self.mileage_total = self.previous_mileage + self.new_mileage
+	end
+
+	### ADD NUMBER OF RUNS TOGETHER ###
+	def calculate_number_of_runs
+		self.number_of_runs = self.previous_number_of_runs + self.new_number_of_runs
+	end
+
+	### ADD ELEVATION TOGETHER ###
+	def calculate_elevation_gain
+		self.elevation_gain = self.previous_elevation_gain + self.new_elevation_gain
+	end
+
+	### ADD TIME IN SECONDS TOGETHER ###
+	def calculate_time_in_seconds
+		self.time_in_seconds = self.previous_time_in_seconds + self.new_time_in_seconds
+	end
 
 end

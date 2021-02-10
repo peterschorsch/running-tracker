@@ -37,8 +37,8 @@ class YearlyTotal < ApplicationRecord
 	### RECALCULATES ALL YEARLY TOTALS ###
 	### CALLED AFTER A RUN IS UPDATED IN CALENDAR OR RUNS TABLE ###
 	def recalculate_yearly_total
-		@completed_runs_of_year = self.user.return_completed_runs.of_year(self.year_start)
-		self.update_columns(:mileage_total => BigDecimal(@completed_runs_of_year.sum(&:mileage_total)), :elevation_gain => @completed_runs_of_year.sum(&:elevation_gain), :number_of_runs => @completed_runs_of_year.count, :time_in_seconds => @completed_runs_of_year.sum(&:time_in_seconds))
+		@monthly_totals_of_year = self.monthly_totals.of_year(self.year_start)
+		self.update_columns(:mileage_total => BigDecimal(@monthly_totals_of_year.sum(:mileage_total)), :elevation_gain => @monthly_totals_of_year.sum(:elevation_gain), :number_of_runs => @monthly_totals_of_year.sum(:number_of_runs), :time_in_seconds => @monthly_totals_of_year.sum(:time_in_seconds))
 	end
 
 	def self.create_zero_totals(user_id, all_time_total_id, year = Date.current)

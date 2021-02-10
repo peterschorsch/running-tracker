@@ -24,6 +24,6 @@ module ControllerNotice
 
     # 2/9
     def shortened_date_field(date)
-		date.strftime("%B %-d, %Y")
+		date.strftime("%b. %-d, %Y")
     end
 end

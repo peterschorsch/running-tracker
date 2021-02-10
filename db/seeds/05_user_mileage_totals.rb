@@ -172,13 +172,13 @@ puts ""
 @yearly_total = @my_account.yearly_totals.of_year(Date.new(2019))
 @monthly_totals = @yearly_total.monthly_totals
 
-@april = @monthly_totals.of_month(Date.new(2019,4,1)).update_columns(mileage_total: BigDecimal('26.2'), number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
-@july = @monthly_totals.of_month(Date.new(2019,7,1)).update_columns(mileage_total: BigDecimal('13.1'), number_of_runs: 1, elevation_gain: 0, time_in_seconds: 4784)
-@august = @monthly_totals.of_month(Date.new(2019,8,1)).update_columns(mileage_total: BigDecimal('55.03'), number_of_runs: 8, elevation_gain: 882, time_in_seconds: 23568)
-@september = @monthly_totals.of_month(Date.new(2019,9,1)).update_columns(mileage_total: BigDecimal('197.34'), number_of_runs: 25, elevation_gain: 2670, time_in_seconds: 86783)
-@october = @monthly_totals.of_month(Date.new(2019,10,1)).update_columns(mileage_total: BigDecimal('131.87'), number_of_runs: 22, elevation_gain: 726, time_in_seconds: 48328)
-@november = @monthly_totals.of_month(Date.new(2019,11,1)).update_columns(mileage_total: BigDecimal('70.34'), number_of_runs: 13, elevation_gain: 858, time_in_seconds: 32413)
-@december = @monthly_totals.of_month(Date.new(2019,12,1)).update_columns(mileage_total: BigDecimal('150.82'), number_of_runs: 28, elevation_gain: 6709, time_in_seconds: 61901)
+@april = @monthly_totals.of_month(Date.new(2019,4,1)).update_columns(previous_mileage: BigDecimal('26.2'), mileage_total: BigDecimal('26.2'), previous_number_of_runs: 1, previous_elevation_gain: 655, previous_time_in_seconds: 10628, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
+@july = @monthly_totals.of_month(Date.new(2019,7,1)).update_columns(previous_mileage: BigDecimal('13.1'), mileage_total: BigDecimal('13.1'), previous_number_of_runs: 1, previous_elevation_gain: 0, previous_time_in_seconds: 4784, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
+@august = @monthly_totals.of_month(Date.new(2019,8,1)).update_columns(previous_mileage: BigDecimal('55.03'), mileage_total: BigDecimal('55.03'), previous_number_of_runs: 8, previous_elevation_gain: 882, previous_time_in_seconds: 23568, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
+@september = @monthly_totals.of_month(Date.new(2019,9,1)).update_columns(previous_mileage: BigDecimal('197.34'), mileage_total: BigDecimal('197.34'), previous_number_of_runs: 25, previous_elevation_gain: 2670, previous_time_in_seconds: 86783, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
+@october = @monthly_totals.of_month(Date.new(2019,10,1)).update_columns(previous_mileage: BigDecimal('131.87'), mileage_total: BigDecimal('131.87'), previous_number_of_runs: 22, previous_elevation_gain: 726, previous_time_in_seconds: 48328, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
+@november = @monthly_totals.of_month(Date.new(2019,11,1)).update_columns(previous_mileage: BigDecimal('70.34'), mileage_total: BigDecimal('70.34'), previous_number_of_runs: 13, previous_elevation_gain: 858, previous_time_in_seconds: 32413, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
+@december = @monthly_totals.of_month(Date.new(2019,12,1)).update_columns(previous_mileage: BigDecimal('150.82'), mileage_total: BigDecimal('150.82'), previous_number_of_runs: 28, previous_elevation_gain: 6709, previous_time_in_seconds: 61901, number_of_runs: 1, elevation_gain: 655, time_in_seconds: 10628)
 
 @yearly_total = @yearly_total.update_columns(mileage_total: @monthly_totals.sum(:mileage_total), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), time_in_seconds: 263160)
 
@@ -205,7 +205,7 @@ totals = [
 @monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
 
 @monthly_totals.each_with_index do |monthly_total, index|
-  monthly_total.update_columns(mileage_total: BigDecimal("#{totals[index][0]}"), number_of_runs: totals[index][1], elevation_gain: totals[index][2], time_in_seconds: totals[index][3])
+  monthly_total.update_columns(previous_mileage: BigDecimal("#{totals[index][0]}"), mileage_total: BigDecimal("#{totals[index][0]}"), previous_number_of_runs: totals[index][1], number_of_runs: totals[index][1], previous_elevation_gain: totals[index][2], elevation_gain: totals[index][2], previous_time_in_seconds: totals[index][3], time_in_seconds: totals[index][3])
 end
 @yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), time_in_seconds: @monthly_totals.sum(:time_in_seconds))
 
@@ -220,7 +220,7 @@ totals = [
 @monthly_totals = @yearly_total.monthly_totals.order_by_oldest_month
 
 @monthly_totals.each_with_index do |monthly_total, index|
-  monthly_total.update_columns(mileage_total: BigDecimal("#{totals[index][0]}"), number_of_runs: totals[index][1], elevation_gain: totals[index][2], time_in_seconds: totals[index][3])
+  monthly_total.update_columns(previous_mileage: BigDecimal("#{totals[index][0]}"), mileage_total: BigDecimal("#{totals[index][0]}"), previous_number_of_runs: totals[index][1], number_of_runs: totals[index][1], previous_elevation_gain: totals[index][2], elevation_gain: totals[index][2], previous_time_in_seconds: totals[index][3], time_in_seconds: totals[index][3])
 end
 @yearly_total.update_columns(mileage_total: BigDecimal(@monthly_totals.sum(:mileage_total)), number_of_runs: @monthly_totals.sum(:number_of_runs), elevation_gain: @monthly_totals.sum(:elevation_gain), time_in_seconds: @monthly_totals.sum(:time_in_seconds))
 

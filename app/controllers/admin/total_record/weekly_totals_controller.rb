@@ -1,4 +1,4 @@
-class Admin::TotalRecord::WeeklyTotalsController < ApplicationController
+class Admin::TotalRecord::WeeklyTotalsController < Admin::TotalRecord::TotalRecordsController
   before_action :set_weekly_total, only: [:edit, :update]
 
   def edit

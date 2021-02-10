@@ -3,9 +3,6 @@ class Shoe < ApplicationRecord
 	belongs_to :shoe_brand
 	has_many :runs
 
-	before_save :calculate_heel_drop, if: ->(obj){ obj.forefoot_stack_changed? or obj.heel_stack_changed? }
-	before_save :calculate_total_mileage
-
 	has_attached_file :image
 	validates_attachment_presence :image
 	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
@@ -14,6 +11,9 @@ class Shoe < ApplicationRecord
 	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way, :user_id] }, :if => :model_changed?
 	validates :forefoot_stack, :heel_stack, numericality: true
 	validates :heel_drop, :weight, :size, length: { maximum: 4 }
+
+	before_save :calculate_heel_drop, if: ->(obj){ obj.forefoot_stack_changed? or obj.heel_stack_changed? }
+	before_save :calculate_total_mileage
 
 	scope :of_user, -> (user) {
 	    where(user: user)
