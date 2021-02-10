@@ -5,11 +5,11 @@ class CreateShoeTable < ActiveRecord::Migration[5.2]
 		t.string :color_way, :null => false
 		t.attachment :image, :null => false
 
-		t.decimal :forefoot_stack, :null => false
-		t.decimal :heel_stack, :null => false
-		t.string :heel_drop, :null => false, :limit => 4
-		t.string :weight, :null => false, :limit => 4
-		t.string :size, :null => false, :limit => 4
+		t.decimal :forefoot_stack, :default => "0.0", :limit => 4, :null => false
+		t.decimal :heel_stack, :default => "0.0", :limit => 4
+		t.string :heel_drop, :default => "0", :limit => 4
+		t.string :weight, :default => "0", :limit => 4
+		t.string :size, :default => "0", :limit => 4
 		t.string :shoe_type, :null => false
 
 		t.decimal :previous_mileage, :default => 0

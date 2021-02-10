@@ -7,14 +7,13 @@ class Shoe < ApplicationRecord
 	validates_attachment_presence :image
 	validates_attachment_content_type :image, :content_type => ["image/jpg", "image/jpeg", "image/png"]
 
-	validates :model, :color_way, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :purchased_on, presence: true
+	validates :model, :color_way, :forefoot_stack, :heel_stack, :heel_drop, :shoe_type, :purchased_on, presence: true
 	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way, :user_id] }, :if => :model_changed?
 	validates :forefoot_stack, :heel_stack, numericality: true
-	validates :heel_drop, length: { maximum: 2 }
-	validates :forefoot_stack, :heel_stack, :weight, :size, length: { maximum: 4 }
+	validates :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, length: { maximum: 4 }
 
 	before_save :calculate_heel_drop, if: ->(obj){ obj.forefoot_stack_changed? or obj.heel_stack_changed? }
-	before_save :calculate_mileage_total
+	before_save :calculate_mileage_total, :trim_fields
 
 	scope :of_user, -> (user) {
 	    where(user: user)
@@ -75,11 +74,11 @@ class Shoe < ApplicationRecord
 	end
 
 	def self.forefoot_stack_select
-		(10..40).step(0.5.to_d).map {|i| [i.to_s + " mm", i] }
+		(0..40).step(0.5.to_d).map {|i| [i.to_s + " mm", i] }
 	end
 
 	def self.heel_stack_select
-		(15..40).step(0.5.to_d).map {|i| [i.to_s + " mm", i] }
+		(0..40).step(0.5.to_d).map {|i| [i.to_s + " mm", i] }
 	end
 
 	### ADDING NEW MILEAGE TO A SHOE ###
@@ -126,6 +125,11 @@ class Shoe < ApplicationRecord
 	### ADD MILEAGE FIELDS TOGETHER ###
 	def calculate_mileage_total
 		self.mileage_total = self.previous_mileage + self.new_mileage
+	end
+
+	def trim_fields
+		self.weight = "0" if self.weight.blank?
+		self.size = "0" if self.size.blank?
 	end
 
 end

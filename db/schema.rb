@@ -153,11 +153,11 @@ ActiveRecord::Schema.define(version: 2021_01_18_222046) do
     t.string "image_content_type", null: false
     t.bigint "image_file_size", null: false
     t.datetime "image_updated_at", null: false
-    t.decimal "forefoot_stack", null: false
-    t.decimal "heel_stack", null: false
-    t.string "heel_drop", limit: 4, null: false
-    t.string "weight", limit: 4, null: false
-    t.string "size", limit: 4, null: false
+    t.decimal "forefoot_stack", default: "0.0", null: false
+    t.decimal "heel_stack", default: "0.0"
+    t.string "heel_drop", limit: 4, default: "0"
+    t.string "weight", limit: 4, default: "0"
+    t.string "size", limit: 4, default: "0"
     t.string "shoe_type", null: false
     t.decimal "previous_mileage", default: "0.0"
     t.decimal "new_mileage", default: "0.0"
