@@ -50,7 +50,7 @@ module Modules::UserTotalRecord
 	def recalculate_mileage_of_a_specified_users_shoes
 		self.shoes.each do |shoe|
 			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
-			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
+			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :mileage_total => shoe.previous_mileage + new_mileage_of_shoe)
 		end
 	end
 
@@ -85,7 +85,7 @@ module Modules::UserTotalRecord
 	def recalculate_mileage_of_a_specified_users_shoes
 		self.shoes.each do |shoe|
 			new_mileage_of_shoe = shoe.runs.completed_runs.sum(:mileage_total)
-			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => shoe.previous_mileage + new_mileage_of_shoe)
+			shoe.update_columns(:new_mileage => new_mileage_of_shoe, :mileage_total => shoe.previous_mileage + new_mileage_of_shoe)
 		end
 	end
 

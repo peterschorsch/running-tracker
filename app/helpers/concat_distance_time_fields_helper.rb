@@ -57,7 +57,7 @@ module ConcatDistanceTimeFieldsHelper
 	end
 	# Adidas Adios 4 (168.6 miles)
 	def shoe_with_mileage(shoe)
-		raw("<small class='text-muted'>#{return_full_shoe_name(shoe)} (#{return_shoe_mileage(shoe.total_mileage)})</small>")
+		raw("<small class='text-muted'>#{return_full_shoe_name(shoe)} (#{return_shoe_mileage(shoe.mileage_total)})</small>")
 	end
 
 	# 3 runs | 15 miles | 630 ft

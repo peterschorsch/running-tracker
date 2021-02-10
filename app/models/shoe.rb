@@ -10,10 +10,11 @@ class Shoe < ApplicationRecord
 	validates :model, :color_way, :forefoot_stack, :heel_stack, :heel_drop, :weight, :size, :shoe_type, :purchased_on, presence: true
 	validates :model, :uniqueness => { :scope => [:shoe_brand_id, :color_way, :user_id] }, :if => :model_changed?
 	validates :forefoot_stack, :heel_stack, numericality: true
-	validates :heel_drop, :weight, :size, length: { maximum: 4 }
+	validates :heel_drop, length: { maximum: 2 }
+	validates :forefoot_stack, :heel_stack, :weight, :size, length: { maximum: 4 }
 
 	before_save :calculate_heel_drop, if: ->(obj){ obj.forefoot_stack_changed? or obj.heel_stack_changed? }
-	before_save :calculate_total_mileage
+	before_save :calculate_mileage_total
 
 	scope :of_user, -> (user) {
 	    where(user: user)
@@ -83,20 +84,20 @@ class Shoe < ApplicationRecord
 
 	### ADDING NEW MILEAGE TO A SHOE ###
 	def add_mileage_to_shoe(mileage)
-		self.total_mileage += mileage
+		self.mileage_total += mileage
 		self.save(:validate => false)
 	end
 
 	### SUBRACT MILEAGE FROM A SHOE ###
 	def subract_mileage_from_shoe(mileage)
-		self.total_mileage -= mileage
+		self.mileage_total -= mileage
 		self.save(:validate => false)
 	end
 
 	### UPDATING MILEAGE OF A SUNGULAR SHOE ###
 	def recalculate_new_mileage_singlular_shoe
 		new_mileage_of_shoe = self.runs.completed_runs.sum(:mileage_total)
-		self.update_columns(:new_mileage => new_mileage_of_shoe, :total_mileage => self.previous_mileage + new_mileage_of_shoe)
+		self.update_columns(:new_mileage => new_mileage_of_shoe, :mileage_total => self.previous_mileage + new_mileage_of_shoe)
 	end
 
 	def remove_other_default_shoes
@@ -123,8 +124,8 @@ class Shoe < ApplicationRecord
 	end
 
 	### ADD MILEAGE FIELDS TOGETHER ###
-	def calculate_total_mileage
-		self.total_mileage = self.previous_mileage + self.new_mileage
+	def calculate_mileage_total
+		self.mileage_total = self.previous_mileage + self.new_mileage
 	end
 
 end

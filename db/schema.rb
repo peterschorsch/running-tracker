@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_222046) do
     t.string "shoe_type", null: false
     t.decimal "previous_mileage", default: "0.0"
     t.decimal "new_mileage", default: "0.0"
-    t.decimal "total_mileage", default: "0.0"
+    t.decimal "mileage_total", default: "0.0"
     t.boolean "default", default: false
     t.date "purchased_on", null: false
     t.date "first_used_on"

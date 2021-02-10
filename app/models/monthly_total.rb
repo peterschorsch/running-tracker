@@ -8,7 +8,7 @@ class MonthlyTotal < ApplicationRecord
 
 	validates :month_start, :month_end, :time_in_seconds, :elevation_gain, presence: true
 
-	before_save :calculate_total_mileage, :calculate_number_of_runs, :calculate_elevation_gain, :calculate_time_in_seconds
+	before_save :calculate_mileage_total, :calculate_number_of_runs, :calculate_elevation_gain, :calculate_time_in_seconds
 
 
 	scope :order_by_oldest_month, -> {
@@ -55,7 +55,7 @@ class MonthlyTotal < ApplicationRecord
 
 	private
 	### ADD MILEAGE FIELDS TOGETHER ###
-	def calculate_total_mileage
+	def calculate_mileage_total
 		self.mileage_total = self.previous_mileage + self.new_mileage
 	end
 
