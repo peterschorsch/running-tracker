@@ -88,7 +88,7 @@ class CalendarsController < ApplicationController
 	def copy_current_week_runs
 		respond_to do |format|
 			if Run.copy_current_weeks_runs(current_user)
-				format.html { redirect_to request.referrer, notice: bold_text("This Week's") + " runs were copied to the next week starting " + bold_text(date_field((DateTime.current+1.week).beginning_of_week.strftime("%B %-d, %Y"))) }
+				format.html { redirect_to request.referrer, notice: bold_text("This Week's") + " runs were copied to the next week starting " + bold_text(date_field((DateTime.current+1.week).beginning_of_week)) }
 			else
 				format.html { redirect_to request.referrer }
 			end
@@ -101,7 +101,7 @@ class CalendarsController < ApplicationController
 			end_date = end_date.to_datetime
 			respond_to do |format|
 				if Run.copy_until_specific_date(current_user, end_date)
-					flash[:notice] = bold_text("Current Week's") + " runs were copied to the week ending " + bold_text(date_field((end_date).end_of_week.strftime("%B %-d, %Y"))) }
+					format.html { redirect_to request.referrer, notice: bold_text("Current Week's") + " runs were copied to the week ending " + bold_text(date_field((end_date).end_of_week)) }
 				else
 					format.html { render :index }
 				end
