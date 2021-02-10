@@ -1,4 +1,6 @@
 class StatisticsController < ApplicationController
+	include ControllerNotice
+
 	before_action :set_master_totals, only: [:index]
 
 	def index
@@ -26,7 +28,7 @@ class StatisticsController < ApplicationController
 	def recalculate_stats
 		respond_to do |format|
 			if current_user.recalculate_all_user_totals_and_shoes
-				format.html { redirect_to statistics_path, notice: "<strong>#{current_user.concat_name}'s</strong> totals were successfully updated." }
+				format.html { redirect_to statistics_path, notice: update_notice("#{current_user.concat_name}'s") }
 				format.json { render :new, status: :created, location: @run }
 			else
 				format.html { render :new }

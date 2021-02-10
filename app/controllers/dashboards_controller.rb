@@ -1,4 +1,5 @@
 class DashboardsController < ApplicationController
+	include ControllerNotice
 	include UserAuthorization
 
 	before_action :set_weekly_total, only: [:update]
@@ -18,7 +19,7 @@ class DashboardsController < ApplicationController
 
 		### WEEKLY TOTALS ###
 		@weekly_total = current_user.current_weekly_total
-		@weekly_total_graph = current_user.weekly_totals.order_by_oldest_week.map { |wt| [wt.week_start.strftime("%-m/%-d").to_s + "-" + wt.week_end.strftime("%-m/%-d").to_s, wt.mileage_total.to_i] }
+		@weekly_total_graph = current_user.weekly_totals.order_by_oldest_week.map { |wt| [shortened_date_field(wt.week_start).to_s + "-" + shortened_date_field(wt.week_end).to_s, wt.mileage_total.to_i] }
 
 		### MONTHLY TOTALS ###
 		@monthly_total = current_user.current_monthly_total
@@ -32,7 +33,7 @@ class DashboardsController < ApplicationController
 
 	    respond_to do |format|
 	      if @weekly_total.update(weekly_total_params)
-	        format.html { redirect_to dashboards_path, notice: "Your Weekly Mileage Goal was successfully updated to <strong>#{@mileage_goal.to_s + " mile".pluralize(@mileage_goal)}</strong>!" }
+	        format.html { redirect_to dashboards_path, notice: "Your Weekly Mileage Goal was successfully updated to " + bold_text(@mileage_goal.to_s + " mile".pluralize(@mileage_goal) + "!") }
 	        format.json { render :index, status: :ok, location: @weekly_total }
 	      else
 	        format.html { render :index }

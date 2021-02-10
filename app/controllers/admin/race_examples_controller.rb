@@ -25,7 +25,7 @@ class Admin::RaceExamplesController < Admin::AdminController
 
     respond_to do |format|
       if @race_example.save
-        format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
+        format.html { redirect_to admin_race_examples_path, notice: create_notice(@race_example.name) }
         format.json { render :index, status: :created, location: @race_example }
       else
         format.html { render :new }
@@ -41,7 +41,7 @@ class Admin::RaceExamplesController < Admin::AdminController
 
     respond_to do |format|
       if @race_example.update(race_example_params)
-        format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_example.name}</strong> was successfully updated." }
+        format.html { redirect_to admin_race_examples_path, notice: update_notice(@race_example.name) }
         format.json { render :index, status: :ok, location: @race_example }
       else
         format.html { render :edit }

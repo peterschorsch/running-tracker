@@ -7,7 +7,7 @@ class Admin::TotalRecord::WeeklyTotalsController < ApplicationController
   def update
     respond_to do |format|
       if @weekly_total.update(weekly_total_params)
-        format.html { redirect_to admin_total_record_root_path, notice: "Weekly Total Record starting <strong>#{@weekly_total.week_start.strftime("%b.%d.%Y")}</strong> was successfully updated." }
+        format.html { redirect_to admin_total_record_root_path, notice: "Weekly Total Record starting " + bold_text(date_field((@weekly_total.week_start))) + " was successfully updated." }
       else
         format.html { render :edit }
         format.json { render json: @weekly_total.errors, status: :unprocessable_entity }

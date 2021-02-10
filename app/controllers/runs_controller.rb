@@ -1,4 +1,5 @@
 class RunsController < ApplicationController
+  include ControllerNotice
   include RunTime
   include UserAuthorization
 
@@ -32,7 +33,7 @@ class RunsController < ApplicationController
 
     respond_to do |format|
       if @run.save
-        format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
+        format.html { redirect_to runs_path, notice: create_notice(@run.name) }
         format.json { render :new, status: :created, location: @run }
       else
         format.html { render :new }
@@ -46,7 +47,7 @@ class RunsController < ApplicationController
   def update
     respond_to do |format|
       if @run.update(run_params)
-        format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
+        format.html { redirect_to runs_path, notice: update_notice(@run.name) }
         format.json { render :index, status: :ok, location: @run }
       else
         format.html { render :edit }
@@ -60,7 +61,7 @@ class RunsController < ApplicationController
   def destroy
     respond_to do |format|
       if @run.destroy
-        format.html { redirect_to runs_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
+        format.html { redirect_to runs_path, notice: remove_notice(@run.name) }
         format.json { render :index, status: :ok, location: @run }
       else
         format.html { render :index }

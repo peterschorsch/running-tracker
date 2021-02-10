@@ -15,10 +15,10 @@ class Admin::ShoeBrandsController < Admin::AdminController
 
     respond_to do |format|
       if @admin_shoe_brand.save
-        format.html { redirect_to admin_shoe_brands_path, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully created." }
+        format.html { redirect_to admin_shoe_brands_path, notice: create_notice(@admin_shoe_brand.brand) }
         format.json { render :index, status: :created, location: @admin_shoe_brand }
       else
-        format.html { redirect_to admin_shoe_brands_path, alert: "You <strong>MUST</strong> provide a brand name." }
+        format.html { redirect_to admin_shoe_brands_path, alert: "You " + bold_text("MUST") + " provide a brand name." }
       end
     end
   end
@@ -28,7 +28,7 @@ class Admin::ShoeBrandsController < Admin::AdminController
   def update
     respond_to do |format|
       if @admin_shoe_brand.update(admin_shoe_brand_params)
-        format.html { redirect_to admin_shoe_brands_path, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully updated." }
+        format.html { redirect_to admin_shoe_brands_path, notice: update_notice(@admin_shoe_brand.brand) }
         format.json { render :index, status: :ok, location: @admin_shoe_brand }
       else
         format.html { redirect_to admin_shoe_brands_path, alert: "Validation Error" }
@@ -51,7 +51,7 @@ class Admin::ShoeBrandsController < Admin::AdminController
 
     @admin_shoe_brand.destroy
     respond_to do |format|
-      format.html { redirect_to admin_shoe_brands_path, notice: "<strong>#{@admin_shoe_brand.brand}</strong> was successfully removed." }
+      format.html { redirect_to admin_shoe_brands_path, notice: remove_notice(@admin_shoe_brand.brand) }
       format.json { head :no_content }
     end
   end

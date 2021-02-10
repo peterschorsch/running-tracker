@@ -23,7 +23,7 @@ class Admin::UserRolesController < Admin::AdminController
 
     respond_to do |format|
       if @user_role.save
-        format.html { redirect_to admin_user_roles_path, notice: "<strong>#{@user_role.name}</strong> was successfully created." }
+        format.html { redirect_to admin_user_roles_path, notice: create_notice(@user_role.name) }
         format.json { render :index, status: :created, location: @user_role }
       else
         format.html { render :new }
@@ -37,7 +37,7 @@ class Admin::UserRolesController < Admin::AdminController
   def update
     respond_to do |format|
       if @user_role.update(user_role_params)
-        format.html { redirect_to admin_user_roles_path, notice: "<strong>#{@user_role.name}</strong> was successfully updated." }
+        format.html { redirect_to admin_user_roles_path, notice: update_notice(@user_role.name) }
         format.json { render :index, status: :ok, location: @user_role }
       else
         format.html { render :edit }
@@ -51,7 +51,7 @@ class Admin::UserRolesController < Admin::AdminController
   def destroy
     @user_role.destroy
     respond_to do |format|
-      format.html { redirect_to admin_user_roles_path, notice: "<strong>#{@user_role.name}</strong> was successfully removed." }
+      format.html { redirect_to admin_user_roles_path, notice: remove_notice(@user_role.name) }
       format.json { head :no_content }
     end
   end

@@ -7,7 +7,7 @@ class Admin::RaceDistancesController < Admin::AdminController
   def update
     respond_to do |format|
       if @race_distance.update(race_distance_params)
-        format.html { redirect_to admin_race_examples_path, notice: "<strong>#{@race_distance.name}</strong> was successfully updated." }
+        format.html { redirect_to admin_race_examples_path, notice: update_notice(@race_distance.name) }
         format.json { render :index, status: :ok, location: @race_distance }
       else
         format.html { render :edit }

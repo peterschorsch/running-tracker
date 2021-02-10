@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  include ControllerNotice
+
   before_action :check_for_logged_in, only: [:root_page, :new]
   auto_session_timeout_actions
 
@@ -37,7 +39,7 @@ class SessionsController < ApplicationController
       end
 
       respond_to do |format|
-        format.html { redirect_to dashboards_path, notice: "<h3><strong>Welcome, #{@user.concat_name}!</strong></h3>" }
+        format.html { redirect_to dashboards_path, notice: "<h3>" + bold_text("Welcome, #{@user.concat_name}!") + "</h3>" }
       end
     else
       alert_message = "Email and/or Password is invalid."

@@ -1,4 +1,5 @@
 class ObligationsController < ApplicationController
+  include ControllerNotice
   include UserAuthorization
 
   before_action :set_obligation, only: [:edit, :update, :destroy]
@@ -33,7 +34,7 @@ class ObligationsController < ApplicationController
 
     respond_to do |format|
       if @obligation.save
-        format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully created." }
+        format.html { redirect_to obligations_path, notice: create_notice(@obligation.name) }
         format.json { render :index, status: :created, location: @obligation }
       else
         format.html { render :new }
@@ -47,7 +48,7 @@ class ObligationsController < ApplicationController
   def update
     respond_to do |format|
       if @obligation.update(obligation_params)
-        format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully updated." }
+        format.html { redirect_to obligations_path, notice: update_notice(@obligation.name) }
         format.json { render :index, status: :ok, location: @obligation }
       else
         format.html { render :edit }
@@ -61,7 +62,7 @@ class ObligationsController < ApplicationController
   def destroy
     @obligation.destroy
     respond_to do |format|
-      format.html { redirect_to obligations_path, notice: "<strong>#{@obligation.name}</strong> was successfully removed." }
+      format.html { redirect_to obligations_path, notice: remove_notice(@obligation.name) }
       format.json { head :no_content }
     end
   end

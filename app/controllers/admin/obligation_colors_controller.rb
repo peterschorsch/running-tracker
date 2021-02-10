@@ -7,7 +7,7 @@ class Admin::ObligationColorsController < Admin::AdminController
   def update
     respond_to do |format|
       if @obligation_color.update(obligation_color_params)
-        format.html { redirect_to edit_admin_obligation_color_path(@obligation_color), notice: "<strong>#{@obligation_color.name}</strong> was successfully updated." }
+        format.html { redirect_to edit_admin_obligation_color_path(@obligation_color), notice: update_notice(@obligation_color.name) }
         format.json { render :edit, status: :ok, location: @obligation_color }
       else
         format.html { render :edit }

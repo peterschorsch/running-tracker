@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+	include ControllerNotice
 	include RunTime
 	include UserAuthorization
 
@@ -28,7 +29,7 @@ class CalendarsController < ApplicationController
 
 		respond_to do |format|
 			if @run.save
-				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully created." }
+				format.html { redirect_to calendars_path, notice: create_notice(@run.name) }
 				format.json { render :new, status: :created, location: @run }
 			else
 				format.html { render :new }
@@ -40,7 +41,7 @@ class CalendarsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @run.update(run_params)
-				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully updated." }
+				format.html { redirect_to calendars_path, notice: update_notice(@run.name) }
 				format.json { render :index, status: :ok, location: @run }
 			else
 				format.html { render :edit }
@@ -52,7 +53,7 @@ class CalendarsController < ApplicationController
 	def destroy
 		respond_to do |format|
 			if @run.destroy
-				format.html { redirect_to calendars_path, notice: "<strong>#{@run.name}</strong> was successfully removed." }
+				format.html { redirect_to calendars_path, notice: remove_notice(@run.name) }
 				format.json { render :index, status: :ok, location: @run }
 			else
 				format.html { render :index }
@@ -65,7 +66,7 @@ class CalendarsController < ApplicationController
 	def create_current_week_planned_runs
 		respond_to do |format|
 			if current_user.create_weeklong_default_runs
-				format.html { redirect_to request.referrer, notice: "<strong>Planned Runs</strong> were created for the week starting <strong>#{DateTime.current.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
+				format.html { redirect_to request.referrer, notice: bold_text("Planned Runs") + " were created for the week starting " + bold_text(date_field(DateTime.current.beginning_of_week)) }
 			else
 				format.html { redirect_to request.referrer }
 			end
@@ -76,7 +77,7 @@ class CalendarsController < ApplicationController
 	def copy_past_week_runs
 		respond_to do |format|
 			if Run.copy_last_weeks_runs(current_user)
-				format.html { redirect_to request.referrer, notice: "<strong>Last Week's</strong> runs were copied to the current week starting <strong>#{DateTime.current.beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
+				format.html { redirect_to request.referrer, notice: bold_text("This Week's") + " runs were copied to the current week starting " + bold_text(date_field(DateTime.current.beginning_of_week)) }
 			else
 				format.html { redirect_to request.referrer }
 			end
@@ -87,7 +88,7 @@ class CalendarsController < ApplicationController
 	def copy_current_week_runs
 		respond_to do |format|
 			if Run.copy_current_weeks_runs(current_user)
-				format.html { redirect_to request.referrer, notice: "<strong>This Week's</strong> runs were copied to the next week starting <strong>#{(DateTime.current+1.week).beginning_of_week.strftime("%B %-d, %Y")}.</strong>" }
+				format.html { redirect_to request.referrer, notice: bold_text("This Week's") + " runs were copied to the next week starting " + bold_text(date_field((DateTime.current+1.week).beginning_of_week.strftime("%B %-d, %Y"))) }
 			else
 				format.html { redirect_to request.referrer }
 			end
@@ -100,7 +101,7 @@ class CalendarsController < ApplicationController
 			end_date = end_date.to_datetime
 			respond_to do |format|
 				if Run.copy_until_specific_date(current_user, end_date)
-					flash[:notice] = "<strong>Current Week's</strong> runs were copied to the week ending <strong>#{(end_date).end_of_week.strftime("%B %-d, %Y")}.</strong>"
+					flash[:notice] = bold_text("Current Week's") + " runs were copied to the week ending " + bold_text(date_field((end_date).end_of_week.strftime("%B %-d, %Y"))) }
 				else
 					format.html { render :index }
 				end

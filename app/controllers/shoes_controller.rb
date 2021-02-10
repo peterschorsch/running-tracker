@@ -1,5 +1,7 @@
 class ShoesController < ApplicationController
+  include ControllerNotice
   include UserAuthorization
+
   before_action :set_shoe, only: [:show, :edit, :update, :destroy]
   before_action only: [:create, :update] do
     website_viewer_authorization(shoes_path)
@@ -32,7 +34,7 @@ class ShoesController < ApplicationController
 
     respond_to do |format|
       if check_for_retired_shoe
-        format.html { redirect_to shoes_path, notice: "<strong>#{@shoe.return_full_shoe_name}</strong> was successfully created." }
+        format.html { redirect_to shoes_path, notice: create_notice(@shoe.return_full_shoe_name) }
         format.json { render :show, status: :created, location: @shoe }
       else
         format.html { render :new }
@@ -49,7 +51,7 @@ class ShoesController < ApplicationController
 
     respond_to do |format|
       if check_for_retired_shoe
-        format.html { redirect_to shoes_path, notice: "<strong>#{@shoe.return_full_shoe_name}</strong> was successfully updated." }
+        format.html { redirect_to shoes_path, notice: update_notice(@shoe.return_full_shoe_name) }
         format.json { render :index, status: :ok, location: @shoe }
       else
         format.html { render :edit }

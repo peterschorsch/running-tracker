@@ -27,7 +27,7 @@ class Admin::RunTypesController < Admin::AdminController
       if @run_type.save
         @run_type.update_default_shoe(params[:run_type][:default].to_i)
 
-        format.html { redirect_to admin_run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully created." }
+        format.html { redirect_to admin_run_types_path, notice: create_notice(@run_type.name) }
         format.json { render :index, status: :created, location: @run_type }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class Admin::RunTypesController < Admin::AdminController
       if @run_type.update(run_type_params)
         @run_type.update_default_shoe(params[:run_type][:default].to_i)
 
-        format.html { redirect_to admin_run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully updated." }
+        format.html { redirect_to admin_run_types_path, notice: update_notice(@run_type.name) }
         format.json { render :index, status: :ok, location: @run_type }
       else
         format.html { render :edit }
@@ -59,7 +59,7 @@ class Admin::RunTypesController < Admin::AdminController
 
     respond_to do |format|
       if @run_type.save
-        format.html { redirect_to admin_run_types_path, notice: "<strong>#{@run_type.name}</strong> was successfully removed." }
+        format.html { redirect_to admin_run_types_path, notice: remove_notice(@run_type.name) }
         format.json { render :index, status: :ok, location: @run_type }
       else
         format.html { render :edit }

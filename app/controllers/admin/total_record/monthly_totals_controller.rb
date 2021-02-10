@@ -7,7 +7,7 @@ class Admin::TotalRecord::MonthlyTotalsController < Admin::TotalRecord::TotalRec
   def update
     respond_to do |format|
       if @monthly_total.update(monthly_total_params)
-        format.html { redirect_to admin_total_record_root_path, notice: "<strong>#{@monthly_total.month_start.strftime("%B %Y")}</strong> was successfully updated." }
+        format.html { redirect_to admin_total_record_root_path, notice: update_notice(@monthly_total.month_start.strftime("%B %Y")) }
       else
         format.html { render :edit }
         format.json { render json: @monthly_total.errors, status: :unprocessable_entity }

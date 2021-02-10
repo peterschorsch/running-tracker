@@ -7,7 +7,7 @@ class Admin::TotalRecord::YearlyTotalsController < Admin::TotalRecord::TotalReco
   def update
     respond_to do |format|
       if @yearly_total.update(yearly_total_params)
-        format.html { redirect_to admin_total_record_root_path, notice: "<strong>#{@yearly_total.year}</strong> was successfully updated." }
+        format.html { redirect_to admin_total_record_root_path, notice: update_notice(@yearly_total.year) }
       else
         format.html { render :edit }
         format.json { render json: @yearly_total.errors, status: :unprocessable_entity }

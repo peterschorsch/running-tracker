@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
+  include ControllerNotice
   include UserAuthorization
+
   before_action :set_user
   before_action only: [:update, :update_password] do
     website_viewer_authorization(edit_user_path(current_user))
@@ -17,7 +19,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if current_user.update(user_params)
-        format.html { redirect_to edit_user_path(current_user), notice: 'Your Profile was successfully updated.' }
+        format.html { redirect_to edit_user_path(current_user), notice: update_notice("Your Profile") }
         format.json { render :edit, status: :ok, location: current_user }
       else
         format.html { render :edit }
@@ -29,7 +31,7 @@ class UsersController < ApplicationController
   def update_password
     respond_to do |format|
       if current_user.update_with_password(user_password_params)
-        format.html { redirect_to edit_user_path(current_user), notice: "Your password was successfully updated." }
+        format.html { redirect_to edit_user_path(current_user), notice: update_notice("Your Password") }
       else
         format.html { render :edit }
         format.json { render json: current_user.errors, status: :unprocessable_entity }
