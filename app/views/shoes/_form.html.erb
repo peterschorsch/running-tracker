@@ -77,7 +77,7 @@
       <%= f.label :planned_mileage, 'Previous Mileage:' %>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-8">
-          <%= f.number_field :previous_mileage, { min: 0, step: 0.1, class: 'form-control', :disabled => disable_form } %>
+          <%= f.number_field :previous_mileage, { min: 0, step: 0.01, class: 'form-control', :disabled => disable_form } %>
         </div>
         <div class="col-md-4">
           <%= f.label :planned_mileage, 'miles' %>
@@ -88,7 +88,7 @@
       <%= f.label :mileage_total, 'New Mileage:' %>
       <div class="vertical-align-middle slim-padding">
         <div class="col-md-8">
-          <%= f.number_field :new_mileage, { min: 0, step: 0.1, class: 'form-control', :disabled => disable_form } %>
+          <%= f.number_field :new_mileage, { min: 0, step: 0.01, class: 'form-control', :disabled => disable_form } %>
         </div>
         <div class="col-md-4">
           <%= f.label :mileage_total, 'miles' %>

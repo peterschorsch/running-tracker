@@ -15,11 +15,11 @@
             </div>
             <div class="col-xs-2">
               <%= f.label :mileage_goal, 'Mileage Goal:' %>
-              <%= f.number_field :mileage_goal, { class: 'form-control', step: 0.1, placeholder: "0 miles", :disabled => disable_form } %>
+              <%= f.number_field :mileage_goal, { class: 'form-control', step: 0.01, placeholder: "0 miles", :disabled => disable_form } %>
             </div>
             <div class="col-xs-2">
               <%= f.label :mileage_total, 'Mileage Total:' %>
-              <%= f.number_field :mileage_total, { class: 'form-control', step: 0.1, placeholder: "0 miles", :disabled => disable_form } %>
+              <%= f.number_field :mileage_total, { class: 'form-control', step: 0.01, placeholder: "0 miles", :disabled => disable_form } %>
             </div>
             <div class="col-xs-2">
               <%= f.label :elevation_gain, 'Elevation:' %>

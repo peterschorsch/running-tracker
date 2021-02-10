@@ -15,7 +15,7 @@
             </div>
             <div class="col-xs-3">
               <%= f.label :mileage_total, 'Mileage Total:' %>
-              <%= f.number_field :mileage_total, { class: 'form-control', step: 0.1, placeholder: "0 miles", :disabled => disable_form } %>
+              <%= f.number_field :mileage_total, { class: 'form-control', step: 0.01, placeholder: "0 miles", :disabled => disable_form } %>
             </div>
             <div class="col-xs-2">
               <%= f.label :elevation_gain, 'Elevation:' %>
@@ -23,7 +23,7 @@
             </div>
             <div class="col-xs-2">
               <%= f.label :time_in_seconds, 'Time in Seconds:' %>
-              <%= f.number_field :time_in_seconds, { class: 'form-control', placeholder: "0 seconds", :disabled => disable_form } %>
+              <%= f.number_field :time_in_seconds, { class: 'form-control', step: 1, placeholder: "0 seconds", :disabled => disable_form } %>
             </div>
             <div class="col-xs-1">
               <%= f.label :frozen_flag, 'Freeze Record?', { class: "pointer-cursor make-text-unselectable", :disabled => disable_form } %>
