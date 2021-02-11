@@ -20,9 +20,15 @@
 //= require_tree .
 
 $(function() {
-	$('.chosen-select').chosen();
-	$('.personal_best_carousel').carousel({
-		// 1000ms = 1 second
-		interval: 10000
-	});
+	make_active_header_link();
+
+	function make_active_header_link(){
+		var header = document.getElementById('run-tracker-header');
+		trimmed_url = "/".concat(window.location.pathname.split('/')[1]);
+		var link_li = document.getElementById(trimmed_url);
+		console.log(link_li)
+		if (link_li != null){
+			link_li.classList.add('active')
+		}
+	}
 });

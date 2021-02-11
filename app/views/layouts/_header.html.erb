@@ -20,7 +20,6 @@
 						<span class="glyphicon glyphicon-calendar"></span> Calendar
 					<% end %>
 				</li>
-				
 				<li id="<%=workout_pace_chart_path%>">
 					<%= link_to workout_pace_chart_path do %>
 						<span class="glyphicon glyphicon-tasks"></span> Workout Pace Chart
@@ -32,7 +31,7 @@
 					<% end %>
 				</li>
 				<% if session[:administrator] %>
-					<li class="dropdown text-center">
+					<li id="/admin" class="dropdown text-center">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Functions <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="text-center">
@@ -70,6 +69,11 @@
 				<% end %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<li id="<%=calendars_path%>">
+					<%= link_to dashboards_path do %>
+						<span class="glyphicon glyphicon-home"></span> Home
+					<% end %>
+				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.concat_name %> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
