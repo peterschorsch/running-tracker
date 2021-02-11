@@ -55,11 +55,19 @@
   <div class="row text-center">
     <div class="col-xs-2 col-sm-offset-1">
       <%= f.label :weight, 'Weight:' %>
-      <%= f.select(:weight, Shoe.weight_select, { :include_blank => "Select a Weight" }, { :class => "form-control", :disabled => disable_form })%>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-xs-12">
+          <%= f.select(:weight, Shoe.weight_select, { :include_blank => "Select a Weight" }, { :class => "form-control", :disabled => disable_form })%>
+        </div>
+      </div>
     </div>
     <div class="col-xs-2">
       <%= f.label :forefoot_stack, 'Forefoot Stack (mm):' %>
-       <%= f.select(:forefoot_stack, Shoe.forefoot_stack_select, {}, { :class =>'form-control', :disabled => disable_form }) %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-xs-12">
+          <%= f.select(:forefoot_stack, Shoe.forefoot_stack_select, {}, { :class =>'form-control', :disabled => disable_form }) %>
+        </div>
+      </div>
       <% if not shoe.new_record? %>
         <br />
         <p class="text-right">Heel Drop:</p>
@@ -67,10 +75,14 @@
     </div>
     <div class="col-xs-2">
       <%= f.label :heel_stack, 'Heel Stack (mm):' %>
-      <%= f.select(:heel_stack, Shoe.heel_stack_select, {}, { :class =>'form-control', :disabled => disable_form }) %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-xs-12">
+          <%= f.select(:heel_stack, Shoe.heel_stack_select, {}, { :class =>'form-control', :disabled => disable_form }) %>
+        </div>
+      </div>
       <% if not shoe.new_record? %>
         <br />
-        <p class="text-left"><%= return_shoe_drop(shoe.heel_drop) %></p>
+        <p class="text-left"><strong id="heel_drop"></strong></p>
       <% end %>
     </div>
     <div class="col-xs-2">
@@ -83,6 +95,8 @@
           <%= f.label :planned_mileage, 'miles' %>
         </div>
       </div>
+      <br />
+      <p class="text-right">Total Mileage:</p>
     </div>
     <div class="col-xs-2">
       <%= f.label :mileage_total, 'New Mileage:' %>
@@ -94,6 +108,8 @@
           <%= f.label :mileage_total, 'miles' %>
         </div>
       </div>
+      <br />
+      <p class="text-left"><strong id="mileage_total"></strong></p>
     </div>
   </div>
   <hr />
