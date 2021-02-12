@@ -26,7 +26,7 @@ class User::StatisticsController < User::UsersController
 	def recalculate_stats
 		respond_to do |format|
 			if current_user.recalculate_all_user_totals_and_shoes
-				format.html { redirect_to statistics_path, notice: update_notice("#{current_user.concat_name}'s Statistics") }
+				format.html { redirect_to user_statistics_path, notice: update_notice("#{current_user.concat_name}'s Statistics") }
 				format.json { render :new, status: :created, location: @run }
 			else
 				format.html { render :new }

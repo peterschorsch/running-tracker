@@ -1,14 +1,12 @@
-class CalendarsController < ApplicationController
-	include ControllerNotice
+class User::CalendarsController < User::UsersController
 	include RunTime
-	include UserAuthorization
 
 	before_action :set_run, only: [:edit, :update, :destroy]
 	before_action only: [:create, :update] do
 		set_run_time_fields(current_user, params[:run][:hours], params[:run][:minutes], params[:run][:seconds])
 	end
 	before_action except: [:index, :edit] do
-		website_viewer_authorization(calendars_path)
+		website_viewer_authorization(user_calendars_path)
 	end
 
 	def index
@@ -29,7 +27,7 @@ class CalendarsController < ApplicationController
 
 		respond_to do |format|
 			if @run.save
-				format.html { redirect_to calendars_path, notice: create_notice(@run.name) }
+				format.html { redirect_to user_calendars_path, notice: create_notice(@run.name) }
 				format.json { render :new, status: :created, location: @run }
 			else
 				format.html { render :new }
@@ -41,7 +39,7 @@ class CalendarsController < ApplicationController
 	def update
 		respond_to do |format|
 			if @run.update(run_params)
-				format.html { redirect_to calendars_path, notice: update_notice(@run.name) }
+				format.html { redirect_to user_calendars_path, notice: update_notice(@run.name) }
 				format.json { render :index, status: :ok, location: @run }
 			else
 				format.html { render :edit }
@@ -53,7 +51,7 @@ class CalendarsController < ApplicationController
 	def destroy
 		respond_to do |format|
 			if @run.destroy
-				format.html { redirect_to calendars_path, notice: remove_notice(@run.name) }
+				format.html { redirect_to user_calendars_path, notice: remove_notice(@run.name) }
 				format.json { render :index, status: :ok, location: @run }
 			else
 				format.html { render :index }
@@ -68,7 +66,7 @@ class CalendarsController < ApplicationController
 			if current_user.create_weeklong_default_runs
 				format.html { redirect_to request.referrer, notice: bold_text("Planned Runs") + " were created for the week starting " + bold_text(date_field(DateTime.current.beginning_of_week)) }
 			else
-				format.html { redirect_to request.referrer }
+				format.html { redirect_to :index }
 			end
 		end
 	end
@@ -77,9 +75,9 @@ class CalendarsController < ApplicationController
 	def copy_past_week_runs
 		respond_to do |format|
 			if Run.copy_last_weeks_runs(current_user)
-				format.html { redirect_to request.referrer, notice: bold_text("This Week's") + " runs were copied to the current week starting " + bold_text(date_field(DateTime.current.beginning_of_week)) }
+				format.html { redirect_to user_calendars_path, notice: bold_text("This Week's") + " runs were copied to the current week starting " + bold_text(date_field(DateTime.current.beginning_of_week)) }
 			else
-				format.html { redirect_to request.referrer }
+				format.html { redirect_to :index }
 			end
 		end
 	end
@@ -88,9 +86,9 @@ class CalendarsController < ApplicationController
 	def copy_current_week_runs
 		respond_to do |format|
 			if Run.copy_current_weeks_runs(current_user)
-				format.html { redirect_to request.referrer, notice: bold_text("This Week's") + " runs were copied to the next week starting " + bold_text(date_field((DateTime.current+1.week).beginning_of_week)) }
+				format.html { redirect_to user_calendars_path, notice: bold_text("This Week's") + " runs were copied to the next week starting " + bold_text(date_field((DateTime.current+1.week).beginning_of_week)) }
 			else
-				format.html { redirect_to request.referrer }
+				format.html { redirect_to :index }
 			end
 		end
 	end
@@ -101,7 +99,7 @@ class CalendarsController < ApplicationController
 			end_date = end_date.to_datetime
 			respond_to do |format|
 				if Run.copy_until_specific_date(current_user, end_date)
-					format.html { redirect_to request.referrer, notice: bold_text("Current Week's") + " runs were copied to the week ending " + bold_text(date_field((end_date).end_of_week)) }
+					format.html { redirect_to user_calendars_path, notice: bold_text("Current Week's") + " runs were copied to the week ending " + bold_text(date_field((end_date).end_of_week)) }
 				else
 					format.html { render :index }
 				end
@@ -114,7 +112,7 @@ class CalendarsController < ApplicationController
 			@run = current_user.runs.return_uncompleted_runs.find(params[:id])
 			rescue ActiveRecord::RecordNotFound
 			flash[:alert] = "You are not authorized to view specified run."
-			redirect_to calendars_path
+			redirect_to user_calendars_path
 	    end
 
 	    # Only allow a list of trusted parameters through.

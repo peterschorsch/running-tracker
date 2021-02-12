@@ -14,8 +14,8 @@
             <strong><%= obligation.name %></strong>   
           </td>
           <td>
-            <%= render edit_icon_btn_path, edit_path: edit_user_obligation_path(obligation), disabled_condition: false %>
-            <%= render remove_icon_btn_path, object: [:user, obligation], disabled_condition: session[:website_viewer] %>
+            <%= render edit_icon_btn_path, edit_path: edit_user_obligation_path(current_user, obligation), disabled_condition: false %>
+            <%= render remove_icon_btn_path, object: [current_user, obligation], disabled_condition: session[:website_viewer] %>
           </td>
         <% end %>
       </tr>
