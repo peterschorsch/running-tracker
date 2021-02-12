@@ -20,15 +20,20 @@
 						<span class="glyphicon glyphicon-calendar"></span> Calendar
 					<% end %>
 				</li>
-				<li id="<%=workout_pace_chart_path%>">
-					<%= link_to workout_pace_chart_path do %>
-						<span class="glyphicon glyphicon-tasks"></span> Workout Pace Chart
-					<% end %>
-				</li>
-				<li id="<%=race_pace_chart_path%>">
-					<%= link_to race_pace_chart_path do %>
-						<span class="glyphicon glyphicon-list-alt"></span> Race Pace Chart
-					<% end %>
+				<li id="/resources" class="dropdown text-center">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li class="text-center">
+							<%= link_to resource_workout_pace_chart_path, class: 'top-bottom-padding' do %>
+								<span class="glyphicon glyphicon-tasks"></span> Workout Pace Chart
+							<% end %>
+						</li>
+						<li class="text-center">
+							<%= link_to resource_race_pace_chart_path, class: 'top-bottom-padding' do %>
+								<span class="glyphicon glyphicon-list-alt"></span> Race Pace Chart
+							<% end %>
+						</li>
+					</ul>
 				</li>
 				<% if session[:administrator] %>
 					<li id="/admin" class="dropdown text-center">

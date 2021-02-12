@@ -1,4 +1,4 @@
-class PaceChartsController < ApplicationController
+class Resource::PaceChartsController < ApplicationController
 
 	def workout_pace_chart
 	end

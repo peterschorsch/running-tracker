@@ -32,8 +32,11 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'workout-pace-chart', to: 'pace_charts#workout_pace_chart'
-  get 'race-pace-chart', to: 'pace_charts#race_pace_chart'
+  ### RESOURCE NAMESPACE ##
+  scope "/resources", module: 'resource', as: 'resource' do
+    get 'workout-pace-chart', to: 'pace_charts#workout_pace_chart'
+    get 'race-pace-chart', to: 'pace_charts#race_pace_chart'
+  end
 
   ### ADMIN FUNCTIONS ###
   namespace :admin do
