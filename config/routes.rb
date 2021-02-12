@@ -16,7 +16,6 @@ Rails.application.routes.draw do
     end
   end
 
-  ### HEADER ###
   get 'workout-pace-chart', to: 'pace_charts#workout_pace_chart'
   get 'race-pace-chart', to: 'pace_charts#race_pace_chart'
 
@@ -37,6 +36,7 @@ Rails.application.routes.draw do
     end
   end
 
+  ### USER NAMESPACE ##
   scope "/user/:user_id", module: 'user', as: 'user' do
     resources 'calendars', only: [:index], path: "calendar" do
       collection do
