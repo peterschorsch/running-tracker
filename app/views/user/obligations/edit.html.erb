@@ -1,4 +1,4 @@
-<%= render edit_header_path, path: obligations_path, btn_text: "Obligations" %>
+<%= render edit_header_path, path: user_obligations_path, btn_text: "Obligations" %>
 
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
@@ -7,7 +7,7 @@
 				<h1>Editing: <%= bold_text(@obligation.name) %></h1>
 			</div>
 			<div class="panel-body">
-				<%= render 'form', obligation: @obligation, disable_form: session[:website_viewer] %>
+				<%= render 'user/obligations/form', obligation: @obligation, disable_form: session[:website_viewer] %>
 			</div>
 		</div>
 	</div>

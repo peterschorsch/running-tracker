@@ -1,31 +1,22 @@
-class ObligationsController < ApplicationController
-  include ControllerNotice
-  include UserAuthorization
-
+class User::ObligationsController < User::UsersController
   before_action :set_obligation, only: [:edit, :update, :destroy]
-  before_action :set_end_timem only: [:create, :update]
+  before_action :set_end_time, only: [:create, :update]
 
   before_action do
     website_viewer_authorization(dashboards_path)
   end
 
-  # GET /obligations
-  # GET /obligations.json
   def index
     @obligations = current_user.obligations.order_by_newest_date_time.includes(:state)
   end
 
-  # GET /obligations/new
   def new
     @obligation = Obligation.new
   end
 
-  # GET /obligations/1/edit
   def edit
   end
 
-  # POST /obligations
-  # POST /obligations.json
   def create
     @obligation = Obligation.new(obligation_params)
 
@@ -34,7 +25,7 @@ class ObligationsController < ApplicationController
 
     respond_to do |format|
       if @obligation.save
-        format.html { redirect_to obligations_path, notice: create_notice(@obligation.name) }
+        format.html { redirect_to user_obligations_path, notice: create_notice(@obligation.name) }
         format.json { render :index, status: :created, location: @obligation }
       else
         format.html { render :new }
@@ -43,12 +34,10 @@ class ObligationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /obligations/1
-  # PATCH/PUT /obligations/1.json
   def update
     respond_to do |format|
       if @obligation.update(obligation_params)
-        format.html { redirect_to obligations_path, notice: update_notice(@obligation.name) }
+        format.html { redirect_to user_obligations_path, notice: update_notice(@obligation.name) }
         format.json { render :index, status: :ok, location: @obligation }
       else
         format.html { render :edit }
@@ -57,12 +46,10 @@ class ObligationsController < ApplicationController
     end
   end
 
-  # DELETE /obligations/1
-  # DELETE /obligations/1.json
   def destroy
     @obligation.destroy
     respond_to do |format|
-      format.html { redirect_to obligations_path, notice: remove_notice(@obligation.name) }
+      format.html { redirect_to user_obligations_path, notice: remove_notice(@obligation.name) }
       format.json { head :no_content }
     end
   end

@@ -1,4 +1,4 @@
-class RaceResultsController < ApplicationController
+class User::RaceResultsController < User::UsersController
 	before_action :set_current_user_races, :set_geo_chart_hash
 
 	def index

@@ -1,6 +1,4 @@
-class StatisticsController < ApplicationController
-	include ControllerNotice
-
+class User::StatisticsController < User::UsersController
 	before_action :set_master_totals, only: [:index]
 
 	def index

@@ -1,4 +1,4 @@
-<%= render edit_header_path, path: runs_path, btn_text: "Runs" %>
+<%= render edit_header_path, path: user_runs_path, btn_text: "Runs" %>
 
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
@@ -7,7 +7,7 @@
 				<h1>Editing: <%= bold_text(@run.name) %></h1>
 			</div>
 			<div class="panel-body">
-				<%= render 'runs/form', run: @run, action: "update", disable_form: @run.determine_run_modification_by_user_role %>
+				<%= render 'user/runs/form', run: @run, action: "update", disable_form: @run.determine_run_modification_by_user_role %>
 			</div>
 		</div>
 	</div>

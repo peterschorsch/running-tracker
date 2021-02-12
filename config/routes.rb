@@ -52,23 +52,21 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :runs, except: [:show]
-  resources :shoes, path: "shoes", except: [:show, :destroy]
-  resources :obligations, except: [:show]
+  namespace :user do
+    resources :runs, except: [:show]
+    resources :shoes, path: "shoes", except: [:show, :destroy]
+    resources :obligations, except: [:show]
 
-  ### USERS PAGE ###
-  resources :users, except: [:index, :new, :create, :show, :destroy] do
-    collection do
-      patch 'update_password'
-    end
+    get 'race-results', to: 'race_results#index'
+    resources :statistics, only: [:index] do
+      collection do
+        post :recalculate, to: 'statistics#recalculate_stats'
+      end
+     end
+
+    ### USER SETTINGS PAGE ###
+    get 'settings/:id/edit', to: 'settings#edit', as: 'settings_edit'
+    patch 'settings/:id/edit', to: 'settings#update', as: "settings_update"
+    patch 'settings/:id/edit', to: 'settings#update_password', as: "settings_update_password"
   end
-
-  get 'race-results', to: 'race_results#index'
-
-  resources :statistics, only: [:index] do
-    collection do
-      post :recalculate, to: 'statistics#recalculate_stats'
-    end
-  end
-
 end

@@ -1,10 +1,10 @@
-<%= render new_header_path, path: shoes_path, btn_text: "Shoes", heading_text: "Shoe" %>
+<%= render edit_header_path, path: user_shoes_path, btn_text: "Shoes" %>
 
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">
-				<h1>Add a New Shoe</h1>
+				<h1>Editing: <%= bold_text(@shoe.return_full_shoe_name) %></h1>
 			</div>
 			<div class="panel-body">
 				<%= render 'form', shoe: @shoe, disable_form: session[:website_viewer] %>

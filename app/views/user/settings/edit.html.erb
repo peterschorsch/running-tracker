@@ -11,7 +11,7 @@
 					<h1 class="text-center">Basic Information</h1>
 				</div>
 				<div class="panel-body">
-					<%= render 'basic-user-attr-form', disable_form: session[:website_viewer] %>
+					<%= render 'user/settings/basic-user-attr-form', disable_form: session[:website_viewer] %>
 				</div>
 			</div>
 		</div>
@@ -29,7 +29,7 @@
 					<h1 class="text-center">Change Password</h1>
 				</div>
 				<div class="panel-body">
-					<%= render 'password-form', disable_form: session[:website_viewer] %>
+					<%= render 'user/settings/password-form', disable_form: session[:website_viewer] %>
 				</div>
 			</div>
 		</div>

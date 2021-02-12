@@ -1,4 +1,4 @@
-<%= form_with(model: shoe, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+<%= form_with(model: [:user, shoe], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
   <%= render "templates/alerts/form-errors", model: shoe %>
   <% if not f.object.default %>
     <div class="row">

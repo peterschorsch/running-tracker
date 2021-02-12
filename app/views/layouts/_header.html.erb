@@ -31,7 +31,7 @@
 					<% end %>
 				</li>
 				<% if session[:administrator] %>
-					<li id="/admin" class="dropdown text-center">
+					<li id="/admin" class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Functions <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="text-center">
@@ -69,45 +69,45 @@
 				<% end %>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li id="<%=calendars_path%>">
+				<li id="<%=dashboards_path%>">
 					<%= link_to dashboards_path do %>
 						<span class="glyphicon glyphicon-home"></span> Home
 					<% end %>
 				</li>
-				<li class="dropdown">
+				<li id="/user" class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.concat_name %> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li class="text-center">
-							<%= link_to runs_path, class: 'top-bottom-padding' do %>
+							<%= link_to user_runs_path, class: 'top-bottom-padding' do %>
 								<span class="glyphicon glyphicon-road"></span> My Runs
 							<% end %>
 						</li>
 						<li class="text-center">
-							<%= link_to shoes_path, class: 'top-bottom-padding' do %>
+							<%= link_to user_shoes_path, class: 'top-bottom-padding' do %>
 								<span class="glyphicon glyphicon-briefcase"></span> My Shoes
 							<% end %>
 						</li>
-						<% if !session[:website_viewer] %>
+						<% if not session[:website_viewer] %>
 							<li class="text-center">
-								<%= link_to obligations_path, class: 'top-bottom-padding' do %>
+								<%= link_to user_obligations_path, class: 'top-bottom-padding' do %>
 									<span class="glyphicon glyphicon-calendar"></span> My Obligations
 								<% end %>
 							</li>
 						<% end %>
 						<li role="separator" class="divider"></li>
 						<li class="text-center">
-							<%= link_to statistics_path, class: 'top-bottom-padding' do %>
+							<%= link_to user_statistics_path, class: 'top-bottom-padding' do %>
 								<span class="glyphicon glyphicon-stats"></span> My Stats
 							<% end %>
 						</li>
 						<li class="text-center">
-							<%= link_to race_results_path, class: 'top-bottom-padding' do %>
+							<%= link_to user_race_results_path, class: 'top-bottom-padding' do %>
 								<span class="glyphicon glyphicon-th-list"></span> Race Results
 							<% end %>
 						</li>
 						<li role="separator" class="divider"></li>
 						<li class="text-center">
-							<%= link_to edit_user_path(current_user), class: 'top-bottom-padding' do %>
+							<%= link_to user_settings_edit_path(current_user), class: 'top-bottom-padding' do %>
 								<span class="glyphicon glyphicon-cog"></span> Settings
 							<% end %>
 						</li>

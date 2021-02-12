@@ -1,4 +1,4 @@
-<%= form_with(model: current_user, local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |form| %>
+<%= form_with(model: [:user, :settings, current_user], local: true, :url => { :action => "update" }, class: "form-horizontal", html: { autocomplete: "off" }) do |form| %>
   <div class="row vertical-align-middle">
     <div class="col-md-2 col-xs-12 text-right"><%= form.label :first_name, 'First Name:' %></div>
     <div class="col-md-4 col-xs-12"><%= form.text_field :first_name, class: 'form-control', :disabled => disable_form %></div>

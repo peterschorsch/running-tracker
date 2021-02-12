@@ -1,31 +1,22 @@
-class ShoesController < ApplicationController
-  include ControllerNotice
-  include UserAuthorization
-
+class User::ShoesController < User::UsersController
   before_action :set_shoe, only: [:show, :edit, :update, :destroy]
   before_action only: [:create, :update] do
-    website_viewer_authorization(shoes_path)
+    website_viewer_authorization(user_shoes_path)
   end
 
-  # GET /shoes
-  # GET /shoes.json
   def index
     @all_user_shoes = current_user.shoes.includes(:shoe_brand)
     @active_shoes = @all_user_shoes.active_shoes
     @retired_shoes = @all_user_shoes.retired_shoes
   end
 
-  # GET /shoes/new
   def new
     @shoe = Shoe.new
   end
 
-  # GET /shoes/1/edit
   def edit
   end
 
-  # POST /shoes
-  # POST /shoes.json
   def create
     @shoe = Shoe.new(shoe_params)
 
@@ -34,7 +25,7 @@ class ShoesController < ApplicationController
 
     respond_to do |format|
       if check_for_retired_shoe
-        format.html { redirect_to shoes_path, notice: create_notice(@shoe.return_full_shoe_name) }
+        format.html { redirect_to user_shoes_path, notice: create_notice(@shoe.return_full_shoe_name) }
         format.json { render :show, status: :created, location: @shoe }
       else
         format.html { render :new }
@@ -43,15 +34,13 @@ class ShoesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /shoes/1
-  # PATCH/PUT /shoes/1.json
   def update
     set_shoe_fields
     @shoe.update(shoe_params)
 
     respond_to do |format|
       if check_for_retired_shoe
-        format.html { redirect_to shoes_path, notice: update_notice(@shoe.return_full_shoe_name) }
+        format.html { redirect_to user_shoes_path, notice: update_notice(@shoe.return_full_shoe_name) }
         format.json { render :index, status: :ok, location: @shoe }
       else
         format.html { render :edit }
