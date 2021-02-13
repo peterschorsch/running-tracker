@@ -26,3 +26,9 @@ table tfoot tr th, .table-bordered tfoot tr th{
     border: none !important;
     border-color: transparent;
 }
+
+
+.table-hover tbody tr:hover th, .table-hover tbody tr:hover td {
+	background: #c7c7c7;
+	color: #333333;
+}
