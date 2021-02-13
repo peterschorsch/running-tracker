@@ -10,6 +10,7 @@ class Run < ApplicationRecord
 	belongs_to :country
 	
 	before_save :set_start_time, :set_blank_notes_field, :set_corresponding_monthly_total_id
+	before_update :subract_mileage_shoe
 	after_save :update_subsequent_tables
 	after_destroy :update_subsequent_tables
 
@@ -280,6 +281,11 @@ class Run < ApplicationRecord
 
 	def set_blank_notes_field
 		self.notes = nil if self.notes == ""
+	end
+
+	def subract_mileage_shoe
+		@old_shoe = self.user.shoes.find(self.shoe_id_was)
+		@old_shoe.subract_mileage_from_shoe(self.mileage_total)
 	end
 
 

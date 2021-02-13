@@ -1,7 +1,7 @@
 @my_admin_user = User.find_user_by_name("Peter","Schorsch")
 
 puts "----------SHOW BRANDS----------"
-shoe_brands = ["Adidas", "Altra", "ASICS", "Atreyu", "Brooks", "DEFAULT", "Hoka One One", "Mizuno", "Newton", "New Balance", "Nike", "ON", "Saloman", "Saucony"]
+shoe_brands = ["Adidas", "Altra", "Asics", "Atreyu", "Brooks", "Default", "Hoka One One", "Mizuno", "Newton", "New Balance", "Nike", "On", "Saloman", "Saucony"]
 shoe_brands.each do |brand|
 	@shoe = ShoeBrand.create_with(:brand => brand).find_or_create_by(:brand => brand)
 	puts @shoe.inspect
@@ -14,14 +14,14 @@ adidias_id = ShoeBrand.named("Adidas").id
 alta_id = ShoeBrand.named("Altra").id
 brooks_id = ShoeBrand.named("Brooks").id
 nike_id = ShoeBrand.named("Nike").id
-on_id = ShoeBrand.named("ON").id
+on_id = ShoeBrand.named("On").id
 saucony_id = ShoeBrand.named("Saucony").id
 
-model = "RUNNING SHOE"
+model = "Running Shoe"
 color_way = "White"
 image_path = "#{Rails.root}/app/assets/images/shoes/stock_shoe.png"
 image_file = File.new(image_path)
-@shoe = Shoe.create_with(:shoe_brand_id => ShoeBrand.named("DEFAULT").id, :model => model, :color_way => color_way, :forefoot_stack => 0, :heel_stack => 0, :heel_drop => "0", :weight => 0, :size => "0", :shoe_type => "Neutral", :default => true, :purchased_on => Date.current, :first_used_on => Date.current,
+@shoe = Shoe.create_with(:shoe_brand_id => ShoeBrand.named("Default").id, :model => model, :color_way => color_way, :forefoot_stack => 0, :heel_stack => 0, :heel_drop => "0", :weight => 0, :size => "0", :shoe_type => "Neutral", :default => true, :purchased_on => Date.current, :first_used_on => Date.current,
 	:image => ActionDispatch::Http::UploadedFile.new(:filename => File.basename(image_file),:tempfile => image_file,
     # detect the image's mime type with MIME if you can't provide it yourself.
     :type => MIME::Types.type_for(image_path).first.content_type
@@ -204,7 +204,7 @@ image_file = File.new(image_path)
   )).find_or_create_by(:model => model, :color_way => color_way, :user_id => @my_admin_user.id)
 puts @shoe.inspect
 
-model = "Voyager"
+model = "Voyager (P1)"
 color_way = "Blue/White"
 image_path = "#{Rails.root}/app/assets/images/shoes/voyager.jpg"
 image_file = File.new(image_path)

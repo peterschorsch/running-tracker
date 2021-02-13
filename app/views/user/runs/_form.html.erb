@@ -29,7 +29,7 @@
     </div>
     <div class="col-xs-3">
       <%= f.label :shoe_id, 'Shoes:' %>
-      <%= f.select(:shoe_id, Shoe.of_user(current_user).select_shoe_id_name, { :selected => true }, { :class => "form-control", :disabled => disable_form })%>
+      <%= f.select(:shoe_id, shoe_selection, {}, { :class => "form-control", :disabled => disable_form })%>
     </div>
   </div>
   <br />

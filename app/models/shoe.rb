@@ -43,6 +43,10 @@ class Shoe < ApplicationRecord
 		where(:default => false)
 	}
 
+	scope :order_by_model_brand, -> {
+		includes(:shoe_brand).order(default: :desc).order('shoe_brands.brand')
+	}
+
 	### DISPLAY METHODS ###
 	def return_full_shoe_name
 		self.shoe_brand.brand + " " + self.model
@@ -56,8 +60,12 @@ class Shoe < ApplicationRecord
 		self.retired
 	end
 
-	def self.select_shoe_id_name
-		self.active_shoes.includes(:shoe_brand).order(default: :desc, brand: :asc).map{ |shoe| [shoe.return_full_shoe_name, shoe.id] }
+	def self.select_new_shoe_id_name
+		self.active_shoes.order_by_model_brand.map{ |shoe| [shoe.return_full_shoe_name, shoe.id] }
+	end
+
+	def self.select_edit_shoe_id_name
+		self.order_by_model_brand.map{ |shoe| [shoe.return_full_shoe_name, shoe.id] }
 	end
 
 	def self.return_random_shoe
@@ -82,14 +90,14 @@ class Shoe < ApplicationRecord
 	end
 
 	### ADDING NEW MILEAGE TO A SHOE ###
-	def add_mileage_to_shoe(mileage)
-		self.mileage_total += mileage
+	def add_mileage_to_shoe(mileage_of_run)
+		self.mileage_total += mileage_of_run
 		self.save(:validate => false)
 	end
 
 	### SUBRACT MILEAGE FROM A SHOE ###
-	def subract_mileage_from_shoe(mileage)
-		self.mileage_total -= mileage
+	def subract_mileage_from_shoe(mileage_of_run)
+		self.mileage_total -= mileage_of_run
 		self.save(:validate => false)
 	end
 
