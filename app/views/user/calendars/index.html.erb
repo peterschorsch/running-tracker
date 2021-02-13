@@ -1,0 +1,50 @@
+<div class="row">
+	<div class="col-md-2 col-xs-12 col-md-offset-1">
+		<%= link_to "Add a Run on Specific Date", new_user_calendars_path, { class: "btn btn-info btn-block", :disabled => session[:website_viewer] } %>
+	</div>
+	<div class="col-md-2 col-xs-12">
+		<%= button_to "Create this Week's Planned Runs", create_current_week_runs_user_calendars_path, { class: "btn btn-primary btn-block", :disabled => session[:website_viewer] } %>
+	</div>
+	<div class="col-md-2 col-xs-12">
+		<%= button_to "Copy Last Week's Runs to This Week", copy_past_week_runs_user_calendars_path, { class: "btn btn-danger btn-block", :disabled => session[:website_viewer] } %>
+	</div>
+	<div class="col-md-2 col-xs-12">
+		<%= button_to "Copy This Week's Runs to Next Week", copy_current_week_runs_user_calendars_path, { class: "btn btn-success btn-block", :disabled => session[:website_viewer] } %>
+	</div>
+	<div class="col-md-2 col-xs-12">
+		<%= button_tag "Copy This Week's Runs Until Specific Date", :class => "btn btn-warning btn-block", :disabled => session[:website_viewer], data: { toggle: 'modal', target: '#copySpecificDateModal' } %>
+		<%= render "copy-runs-until-date-modal" %>
+	</div>
+</div>
+<hr />
+
+<div class="row">
+	<div class="col-md-12">
+		<p class="text-center">
+			<% @run_types.take(@run_types.count-1).each do |run_type| %>
+				<%= render "user/calendars/run-type-listing", run_type: run_type %> |
+			<% end %>
+			<%= render "user/calendars/run-type-listing", run_type: @run_types.last %>
+		</p>
+	</div>
+</div>
+
+<%= render notice_path %>
+<%= render alert_path %>
+
+<div class="row">
+	<div class="col-md-12">
+		<%= month_calendar(partial: '/user/calendars/simple_calendar/month_calendar', attribute: :start_time, events: @runs+@obligations) do |date, events| %>
+			<h5><%= bold_text(date) %></h5>
+
+			<% events.each do |event| %>
+				<% if event.is_event? %>
+					<%= render "user/calendars/cards/obligation-card", obligation: event %>
+				<% else %>
+					<% partial_name = event.was_completed? ? "completed-run-card" : "uncompleted-run-card" %>
+					<%= render "user/calendars/cards/" + partial_name, run: event %>
+				<% end %>
+			<% end %>
+		<% end %>
+	</div>
+</div>

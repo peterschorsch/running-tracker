@@ -1,0 +1,37 @@
+<div class="table-wrapper-scroll-y shoe-table-scrollbar">
+  <table class="table table-responsive table-striped mb-0">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Shoe</th>
+        <th scope="col">Weight</th>
+        <th scope="col">Forefoot/Heel Stack</th>
+        <th scope="col">Heel Drop</th>
+        <th scope="col">Purchased</th>
+        <th scope="col">First Used</th>
+        <th scope="col">Mileage</th>
+        <% if id=="#retired_shoes" %>
+          <th scope="col">Retired On</th>
+        <% end %>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% shoes.each do |shoe| %>
+          <td scope="row"><%= image_tag(shoe.image.url, alt: "#{return_full_shoe_name(shoe)} Icon", class: "shoe-icon") %></td>
+          <td scope="row" <%= "class=bold-text" if shoe.is_default_shoe? %>><%= return_full_shoe_name(shoe) %></td>
+          <td scope="row"><%= return_shoe_weight(shoe.weight) %></td>
+          <td scope="row"><%= return_shoe_stack_height(shoe) %></td>
+          <td scope="row"><%= return_shoe_drop(shoe.heel_drop) %></td>
+          <td scope="row"><%= formatDateDots(shoe.purchased_on) %></td>
+          <td scope="row"><%= date_nil_check(shoe.first_used_on) %></td>
+          <td scope="row"><%= return_shoe_mileage(shoe.mileage_total) %></td>
+          <% if shoe.is_retired? %>
+            <td scope="row"><%= formatDateDots(shoe.retired_on) %></td>
+          <% end %>
+          <td><%= render edit_icon_btn_path, edit_path: edit_user_shoe_path(current_user, shoe), disabled_condition: false %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

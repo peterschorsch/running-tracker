@@ -1,0 +1,54 @@
+<%= render index_header_path, heading_text: "Statistics" %>
+
+<div class="row">
+	<div class="col-md-1 col-xs-8 col-md-offset-11 text-right">
+		<%= button_to user_statistics_recalculate_path, :class => "btn btn-primary", :title => "Recalculate All User Totals" do %> 
+			<span class="glyphicon glyphicon-refresh"></span>
+		<% end %>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-sm-12 text-center">
+		<%= pie_chart @weekly_runtype_counts_data, messages: { empty: "No data" }, colors: @weekly_runtype_colors %>
+	</div>
+	<div class="col-md-9 col-sm-12 text-center">
+		<%= render mileage_chart_path, title: "Runs this Week (#{formatshortenedDateRange(current_user.current_weekly_total.week_start, current_user.current_weekly_total.week_end)})", data: @current_week_graph %>
+		<% @current_week_runs.each do |run| %>
+			<p>
+				<%= formateDateTimeWithAt(run.start_time) %> | <span style="color: <%=run.hex_code%>"><%= run.run_type.name %></span> | 
+				<%= mileage_and_elasped_time(run) %> | <%= pace_and_elevation(run) %> <%= shoe_with_mileage(run.shoe) %>
+			</p>
+		<% end %>
+	</div>
+</div>
+<hr />
+<div class="row">
+	<div class="col-md-6 col-sm-12 text-center">
+		<%= render mileage_chart_path, title: "Mileage over the past 4 Weeks", data: @weekly_totals_graph %>
+		<% @weekly_totals.each do |wt| %>
+			<p><%= formatDateRange(wt.week_start, wt.week_end) %> | <%= one_lined_totals(wt) %></p>
+		<% end %>
+	</div>
+	<div class="col-md-6 col-sm-12 text-center">
+		<%= render mileage_chart_path, title: "Mileage over the past 12 Months", data: @monthly_stats_graph %>
+		<% @monthly_totals.each do |mt| %>
+			<p><%= formatMonthYear(mt.month_end, mt.month_end) %> | <%= one_lined_totals(mt) %></p>
+		<% end %>
+	</div>
+</div>
+<hr />
+<div class="row">
+	<div class="col-md-6 col-sm-12 text-center">
+		<%= render mileage_chart_path, title: "Mileage Year-to-Year", data: @yearly_totals_graph %>
+		<% @yearly_totals.each do |yt| %>
+			<p><%= yt.year %> | <%= one_lined_totals(yt) %></p>
+		<% end %>
+	</div>
+	<div class="col-md-6 col-sm-12 text-center">
+		<h2>All-Time</h2>
+		<hr />
+		<p><%= concat_run_totals_line_one(@all_time_stats) %></p>
+		<p><%= concat_run_totals_line_two(@all_time_stats) %></p>
+	</div>
+</div>

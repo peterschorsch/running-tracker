@@ -1,0 +1,140 @@
+<%= form_with(model: [:user, shoe], local: true, class: "form-horizontal", html: { autocomplete: "off" }) do |f| %>
+  <%= render "templates/alerts/form-errors", model: shoe %>
+  <% if not f.object.default %>
+    <div class="row">
+      <div class="col-xs-2 col-xs-offset-10 text-right">
+        <%= f.label :default, 'Make Default Shoe?', { class: "pointer-cursor make-text-unselectable" } %>
+        <%= f.check_box :default, { :disabled => disable_form } %>
+      </div>
+    </div>
+  <% end %>
+  <br />
+  <% if f.object.new_record? %>
+    <div class="row">
+      <div class="col-xs-4 col-sm-offset-4 text-center">
+        <%= f.label :image, 'Shoe Image:' %>
+        <%= f.file_field :image, class: 'form-control', :disabled => disable_form %>
+      </div>
+    </div>
+  <% else %>
+    <div class="row">
+      <div class="col-xs-1 col-xs-offset-5"><%= image_tag(f.object.image.url, class: "shoe-icon", alt: f.object.image_file_name) %></div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-xs-4 col-sm-offset-4 text-center">
+        <%= f.label :image, 'Change Image:' %>
+        <%= f.file_field :image, { class: 'form-control', :disabled => disable_form } %>
+      </div>
+    </div>
+  <% end %>
+  <br />
+  <hr />
+  <div class="row text-center">
+    <div class="col-xs-2">
+      <%= f.label :shoe_brand_id, 'Brand:' %>
+      <%= f.select(:shoe_brand_id, ShoeBrand.select_shoe_id_name, { :include_blank => "Please Select a Brand" }, { :class => "form-control", :disabled => disable_form })%></div>
+    <div class="col-xs-2">
+      <%= f.label :model, 'Model:' %>
+      <%= f.text_field :model, { class: 'form-control', placeholder: "Pegasus 37", :disabled => disable_form } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :size, "Size (US Mens):" %>
+      <%= f.select(:size, Shoe.shoe_size_select, { :include_blank => "Select a Shoe Size" }, { :class => "form-control", :disabled => disable_form } )%>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :shoe_type, 'Type:' %>
+      <%= f.select(:shoe_type, ["Neutral", "Stability"], { :include_blank => "Please Select a Type" }, { :class => "form-control", :disabled => disable_form })%>
+    </div>
+    <div class="col-xs-4">
+      <%= f.label :color_way, 'Color Way:' %>
+      <%= f.text_field :color_way, { class: 'form-control', placeholder: "Black", :disabled => disable_form } %>
+    </div>
+  </div>
+  <hr />
+  <div class="row text-center">
+    <div class="col-xs-2 col-sm-offset-1">
+      <%= f.label :weight, 'Weight:' %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-xs-12">
+          <%= f.select(:weight, Shoe.weight_select, { :include_blank => "Select a Weight" }, { :class => "form-control", :disabled => disable_form })%>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :forefoot_stack, 'Forefoot Stack (mm):' %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-xs-12">
+          <%= f.select(:forefoot_stack, Shoe.forefoot_stack_select, {}, { :class =>'form-control', :disabled => disable_form }) %>
+        </div>
+      </div>
+      <% if not shoe.new_record? %>
+        <br />
+        <p class="text-right">Heel Drop:</p>
+      <% end %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :heel_stack, 'Heel Stack (mm):' %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-xs-12">
+          <%= f.select(:heel_stack, Shoe.heel_stack_select, {}, { :class =>'form-control', :disabled => disable_form }) %>
+        </div>
+      </div>
+      <% if not shoe.new_record? %>
+        <br />
+        <p class="text-left"><strong id="heel_drop"></strong></p>
+      <% end %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :planned_mileage, 'Previous Mileage:' %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-md-8">
+          <%= f.number_field :previous_mileage, { min: 0, step: 0.01, class: 'form-control', :disabled => disable_form } %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :planned_mileage, 'miles' %>
+        </div>
+      </div>
+      <br />
+      <p class="text-right">Total Mileage:</p>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :mileage_total, 'New Mileage:' %>
+      <div class="vertical-align-middle slim-padding">
+        <div class="col-md-8">
+          <%= f.number_field :new_mileage, { min: 0, step: 0.01, class: 'form-control', :disabled => disable_form } %>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :mileage_total, 'miles' %>
+        </div>
+      </div>
+      <br />
+      <p class="text-left"><strong id="mileage_total"></strong></p>
+    </div>
+  </div>
+  <hr />
+  <div class="row text-center">
+    <div class="col-xs-2 col-sm-offset-2">
+      <%= f.label :purchased_on, 'Purchased:' %>
+      <%= f.date_field :purchased_on, { class: 'form-control', :disabled => disable_form } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :first_used_on, 'First Used:' %>
+      <%= f.date_field :first_used_on, { class: 'form-control', :disabled => disable_form } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :retired, 'Retire Shoe?', { class: "pointer-cursor make-text-unselectable" } %>
+      <%= f.check_box :retired, { class: 'form-control', :disabled => disable_form } %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :retired_on, 'Retired on:' %>
+      <%= f.date_field :retired_on, { class: 'form-control', :disabled => disable_form } %>
+    </div>
+  </div>
+  <br /><br />
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <%= f.submit "Save Changes", class: "btn btn-success btn-block", :disabled => disable_form %>
+    </div>
+  </div>
+<% end %>

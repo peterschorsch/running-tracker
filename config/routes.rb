@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   root 'sessions#root_page'
   get "/login", to: "sessions#new"
   post "/sessions", to: "sessions#create"
-  #delete "/sessions", to: "sessions#destroy"
   get 'sessions/destroy', to: 'sessions#destroy', as: 'logout'
 
   # For session timeout
@@ -14,21 +13,6 @@ Rails.application.routes.draw do
   resources 'dashboards', path: "dashboard", only: [:index] do
     collection do
       patch 'weekly_total/:id', to: 'dashboards#update', as: "update"
-    end
-  end
-
-  ### HEADER ###
-  resources 'calendars', only: [:index], path: "calendar" do
-    collection do
-      get ':id/edit', to: 'calendars#edit', as: "edit"
-      patch ':id/edit', to: 'calendars#update', as: "update"
-      delete ':id/destroy', to: 'calendars#destroy', as: "destroy"
-      get '/new', to: 'calendars#new'
-      post '/new', to: 'calendars#create'
-      post '/create_current_week_runs', to: 'calendars#create_current_week_planned_runs'
-      post '/copy_past_week_runs', to: 'calendars#copy_past_week_runs'
-      post '/copy_current_week_runs', to: 'calendars#copy_current_week_runs'
-      post '/copy_until_specific_date', to: 'calendars#copy_until_specific_date'
     end
   end
 
@@ -55,23 +39,33 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :runs, except: [:show]
-  resources :shoes, path: "shoes", except: [:show, :destroy]
-  resources :obligations, except: [:show]
-
-  ### USERS PAGE ###
-  resources :users, except: [:index, :new, :create, :show, :destroy] do
-    collection do
-      patch 'update_password'
+  ### USER NAMESPACE ##
+  scope "/user/:user_id", module: 'user', as: 'user' do
+    resources 'calendars', only: [:index], path: "calendar" do
+      collection do
+        get ':id/edit', to: 'calendars#edit', as: "edit"
+        patch ':id/edit', to: 'calendars#update', as: "update"
+        delete ':id/destroy', to: 'calendars#destroy', as: "destroy"
+        get '/new', to: 'calendars#new'
+        post '/new', to: 'calendars#create'
+        post '/create_current_week_runs', to: 'calendars#create_current_week_planned_runs'
+        post '/copy_past_week_runs', to: 'calendars#copy_past_week_runs'
+        post '/copy_current_week_runs', to: 'calendars#copy_current_week_runs'
+        post '/copy_until_specific_date', to: 'calendars#copy_until_specific_date'
+      end
     end
+
+    resources :runs, except: [:show]
+    resources :shoes, path: "shoes", except: [:show, :destroy]
+    resources :obligations, except: [:show]
+
+    get 'race-results', to: 'race_results#index'
+    get 'statistics', to: 'statistics#index'
+    post 'statistics/recalculate', to: 'statistics#recalculate_stats'
+
+    ### USER SETTINGS PAGE ###
+    get 'settings/:id/edit', to: 'settings#edit', as: 'settings_edit'
+    patch 'settings/:id/edit', to: 'settings#update', as: "settings_update"
+    patch 'settings/:id/edit', to: 'settings#update_password', as: "settings_update_password"
   end
-
-  get 'race-results', to: 'race_results#index'
-
-  resources :statistics, only: [:index] do
-    collection do
-      post :recalculate, to: 'statistics#recalculate_stats'
-    end
-  end
-
 end

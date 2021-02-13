@@ -1,0 +1,14 @@
+<%= render edit_header_path, path: user_runs_path, btn_text: "Runs" %>
+
+<div class="row">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">
+				<h1>Editing: <%= bold_text(@run.name) %></h1>
+			</div>
+			<div class="panel-body">
+				<%= render 'user/runs/form', run: @run, action: "update", shoe_selection: Shoe.of_user(current_user).select_edit_shoe_id_name, disable_form: @run.determine_run_modification_by_user_role %>
+			</div>
+		</div>
+	</div>
+</div>
