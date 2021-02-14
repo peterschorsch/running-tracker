@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_222046) do
     t.datetime "image_updated_at", null: false
     t.decimal "forefoot_stack", default: "0.0", null: false
     t.decimal "heel_stack", default: "0.0"
-    t.string "heel_drop", limit: 4, default: "0"
+    t.decimal "heel_drop", default: "0.0"
     t.string "weight", limit: 4, default: "0"
     t.string "size", limit: 4, default: "0"
     t.string "shoe_type", null: false

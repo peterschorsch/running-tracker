@@ -7,7 +7,7 @@ class CreateShoeTable < ActiveRecord::Migration[5.2]
 
 		t.decimal :forefoot_stack, :default => "0.0", :limit => 4, :null => false
 		t.decimal :heel_stack, :default => "0.0", :limit => 4
-		t.string :heel_drop, :default => "0", :limit => 4
+		t.decimal :heel_drop, :default => "0.0", :limit => 4
 		t.string :weight, :default => "0", :limit => 4
 		t.string :size, :default => "0", :limit => 4
 		t.string :shoe_type, :null => false
