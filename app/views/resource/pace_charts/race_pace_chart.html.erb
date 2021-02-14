@@ -1,6 +1,6 @@
 <%= render index_header_path, heading_text: "Race Pace Chart" %>
 
-<table class="table table-responsive table-striped table-bordered table-hover">
+<table class="table table-responsive table-striped table-bordered table-hover make-text-unselectable">
 	<thead>
 		<% @race_paces.each do |header, data| %>
 			<tr>
@@ -10,14 +10,14 @@
 			</tr>
 	</thead>
 	<tbody>
-		<% data.each_with_index do |test, index| %>
-			<tr>
-				<th><%= test[0] %></th>
-				<% (1..test.count-1).each do |index| %>
-					<td><%= test[index] %></td>
-				<% end %>
-			</tr>
+			<% data.each_with_index do |body, index| %>
+				<tr>
+					<th><%= body[0] %></th>
+					<% (1..body.count-1).each do |index| %>
+						<td><%= body[index] %></td>
+					<% end %>
+				</tr>
+			<% end %>
 		<% end %>
 	</tbody>
-	<% end %>
 </table>

@@ -1,215 +1,23 @@
-<%= render index_header_path, heading_text: "Conversion of Target Race Times to Target Interval Workout and Tempo Run Paces" %>
+<%= render index_header_path, heading_text: "Workout Pace Chart" %>
 
-<table class="table table-responsive table-striped table-bordered table-hover">
+<table class="table table-responsive table-striped table-bordered table-hover make-text-unselectable">
 	<thead>
-		<tr>
-			<th>Distance</th>
-			<th colspan="7">Target Race Time</th>
-		</tr>
+		<% @workout_paces.each do |header, data| %>
+			<tr>
+				<th><%= header[0] %></th>
+				<th colspan="7"><%= header[1] %></th>
+			</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<th>Marathon</th>
-			<td>2:15:00</td>
-			<td>2:20:00</td>
-			<td>2:30:00</td>
-			<td>2:40:00</td>
-			<td>2:50:00</td>
-			<td>3:00:00</td>
-			<td>3:10:00</td>
-		</tr>
-		<tr>
-			<th>1/2 Marathon</th>
-			<td>1:04:00</td>
-			<td>1:06:22</td>
-			<td>1:11:07</td>
-			<td>1:15:51</td>
-			<td>1:20:36</td>
-			<td>1:25:20</td>
-			<td>1:30:04</td>
-		</tr>
-		<tr>
-			<th>10 Mile</th>
-			<td>0:48:15</td>
-			<td>0:50:02</td>
-			<td>0:53:37</td>
-			<td>0:57:11</td>
-			<td>1:00:46</td>
-			<td>1:04:20</td>
-			<td>1:07:54</td>
-		</tr>
-		<tr>
-			<th>10K</th>
-			<td>28:45</td>
-			<td>29:49</td>
-			<td>31:57</td>
-			<td>34:04</td>
-			<td>36:12</td>
-			<td>38:20</td>
-			<td>40:28</td>
-		</tr>
-		<tr>
-			<th>5K</th>
-			<td>13:52</td>
-			<td>14:23</td>
-			<td>15:25</td>
-			<td>16:27</td>
-			<td>17:28</td>
-			<td>18:30</td>
-			<td>19:32</td>
-		</tr>
-	</tbody>
-</table>
-
-<table class="table table-responsive table-striped table-bordered table-hover">
-	<thead>
-		<tr>
-			<th>Distance</th>
-			<th colspan="7">Target Interval Pace</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th>400</th>
-			<td>01:02</td>
-			<td>01:05</td>
-			<td>01:09</td>
-			<td>01:14</td>
-			<td>01:18</td>
-			<td>01:23</td>
-			<td>01:28</td>
-		</tr>
-		<tr>
-			<th>600</th>
-			<td>01:35</td>
-			<td>01:39</td>
-			<td>01:46</td>
-			<td>01:53</td>
-			<td>02:00</td>
-			<td>02:07</td>
-			<td>02:14</td>
-		</tr>
-		<tr>
-			<th>800</th>
-			<td>02:10</td>
-			<td>02:15</td>
-			<td>02:24</td>
-			<td>02:34</td>
-			<td>02:43</td>
-			<td>02:53</td>
-			<td>03:03</td>
-		</tr>
-		<tr>
-			<th>1000</th>
-			<td>02:46</td>
-			<td>02:52</td>
-			<td>03:04</td>
-			<td>03:16</td>
-			<td>03:29</td>
-			<td>03:41</td>
-			<td>03:53</td>
-		</tr>
-		<tr>
-			<th>1200</th>
-			<td>03:20</td>
-			<td>03:28</td>
-			<td>03:43</td>
-			<td>03:57</td>
-			<td>04:12</td>
-			<td>04:27</td>
-			<td>04:42</td>
-		</tr>
-		<tr>
-			<th>1600</th>
-			<td>04:30</td>
-			<td>04:40</td>
-			<td>05:00</td>
-			<td>05:20</td>
-			<td>05:40</td>
-			<td>06:00</td>
-			<td>06:20</td>
-		</tr>				
-		<tr>
-			<th>2000</th>
-			<td>05:45</td>
-			<td>05:58</td>
-			<td>06:23</td>
-			<td>06:49</td>
-			<td>07:14</td>
-			<td>07:40</td>
-			<td>08:06</td>
-		</tr>
-		<tr>
-			<th>3200</th>
-			<td>09:22</td>
-			<td>09:43</td>
-			<td>10:24</td>
-			<td>11:06</td>
-			<td>11:47</td>
-			<td>12:29</td>
-			<td>13:11</td>
-		</tr>
-	</tbody>
-</table>
-
-<table class="table table-responsive table-striped table-bordered table-hover">
-	<thead>
-		<tr>
-			<th>Distance</th>
-			<th colspan="7">Target Tempo Run</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th>2 Miles</th>
-			<td>09:04</td>
-			<td>09:24</td>
-			<td>10:04</td>
-			<td>10:44</td>
-			<td>11:25</td>
-			<td>12:05</td>
-			<td>12:45</td>
-		</tr>
-		<tr>
-			<th>5K</th>
-			<td>14:22</td>
-			<td>14:54</td>
-			<td>15:58</td>
-			<td>17:02</td>
-			<td>18:06</td>
-			<td>19:10</td>
-			<td>20:14</td>
-		</tr>
-		<tr>
-			<th>4 Miles</th>
-			<td>18:56</td>
-			<td>19:38</td>
-			<td>21:03</td>
-			<td>22:27</td>
-			<td>23:51</td>
-			<td>25:15</td>
-			<td>26:39</td>
-		</tr>				
-		<tr>
-			<th>5 Miles</th>
-			<td>24:07</td>
-			<td>25:01</td>
-			<td>26:48</td>
-			<td>28:36</td>
-			<td>30:23</td>
-			<td>32:10</td>
-			<td>33:57</td>
-		</tr>
-		<tr>
-			<th>10K</th>
-			<td>30:22</td>
-			<td>31:30</td>
-			<td>33:45</td>
-			<td>36:00</td>
-			<td>38:15</td>
-			<td>40:30</td>
-			<td>42:45</td>
-		</tr>
+			<% data.each_with_index do |body, index| %>
+				<tr>
+					<th><%= body[0] %></th>
+					<% (1..body.count-1).each do |index| %>
+						<td><%= body[index] %></td>
+					<% end %>
+				</tr>
+			<% end %>
+		<% end %>
 	</tbody>
 </table>
 
