@@ -17,8 +17,12 @@
 		          	<br />
 			</div>
 			<div class="modal-footer">
-				<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#weeklyTotalEditModal" } %>
-				<%= f.submit "Save Changes", class: 'btn btn-success', :disabled => session[:website_viewer] %>
+				<%= button_tag :type => 'button', class: "btn btn-danger", id: "wtEditCancelBtn", data: { toggle: 'modal', 'target': "#weeklyTotalEditModal" } do %>
+					<span class="glyphicon glyphicon-remove"></span> Cancel
+				<% end %>
+				<%= f.button :submit, class: 'btn btn-success', :disabled => session[:website_viewer] do %>
+					<span class="glyphicon glyphicon-ok"></span> Save
+				<% end %>
 			</div>
 			<% end %>
 		</div>
