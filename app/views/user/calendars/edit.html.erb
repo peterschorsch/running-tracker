@@ -7,7 +7,7 @@
 				<h1>Editing: <%= bold_text(@run.name) %></h1>
 			</div>
 			<div class="panel-body">
-				<%= render "user/runs/form", run: @run, action: "update", disable_form: @run.determine_run_modification_by_user_role %>
+				<%= render "user/runs/form", run: @run, action: "update", shoe_selection: Shoe.of_user(current_user).select_edit_shoe_id_name, disable_form: @run.determine_run_modification_by_user_role %>
 			</div
 		</div>
 	</div>

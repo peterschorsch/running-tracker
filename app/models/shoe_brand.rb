@@ -3,7 +3,7 @@ class ShoeBrand < ApplicationRecord
 
 	validates :brand, presence: true, uniqueness: true
 
-	default_scope -> { order(brand: :desc) }
+	default_scope -> { order(brand: :asc) }
 
 	scope :named, -> (brand) {
 		find_by(:brand => brand)
