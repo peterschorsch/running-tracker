@@ -15,60 +15,24 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="run-tracker-header">
 			<ul class="nav navbar-nav">
-				<li id="/users">
-					<%= link_to user_calendars_path(current_user) do %>
-						<span class="glyphicon glyphicon-calendar"></span> Calendar
-					<% end %>
-				</li>
+				<li id="/users"><%= link_with_icon("Calendar", user_calendars_path(current_user), "calendar") %></li>
 				<li id="/resources" class="dropdown text-center">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Resources <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li class="text-center">
-							<%= link_to resource_workout_pace_chart_path, class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-tasks"></span> Workout Pace Chart
-							<% end %>
-						</li>
-						<li class="text-center">
-							<%= link_to resource_race_pace_chart_path, class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-list-alt"></span> Race Pace Chart
-							<% end %>
-						</li>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-book"></span> Resources <span class="caret"></span></a>
+					<ul class="dropdown-menu text-center">
+						<li><%= dropdown_link_with_icon("Workout Pace Chart", resource_workout_pace_chart_path, "th") %></li>
+						<li><%= dropdown_link_with_icon("Race Pace Chart", resource_race_pace_chart_path, "dashboard") %></li>
 					</ul>
 				</li>
 				<% if session[:administrator] %>
 					<li id="/admin" class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Functions <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li class="text-center">
-								<%= link_to edit_admin_obligation_color_path(session[:obligation_color_id]), class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-tint"></span> Edit Obligation Color
-								<% end %>
-							</li>
-							<li class="text-center">
-								<%= link_to admin_race_examples_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-th-list"></span> Edit Race Examples
-								<% end %>
-							</li>
-							<li class="text-center">
-								<%= link_to admin_run_types_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-tasks"></span> Edit Run Types
-								<% end %>
-							</li>
-							<li class="text-center">
-								<%= link_to admin_shoe_brands_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-tags"></span> Edit Shoe Brands
-								<% end %>
-							</li>
-							<li class="text-center">
-								<%= link_to admin_total_record_root_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-book"></span> Edit Total Records
-								<% end %>
-							</li>
-							<li class="text-center">
-								<%= link_to admin_user_roles_path, class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-user"></span> Edit User Roles
-								<% end %>
-							</li>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-lock"></span> Admin Functions <span class="caret"></span></a>
+						<ul class="dropdown-menu text-center">
+							<li><%= dropdown_link_with_icon("Edit Obligation Color", edit_admin_obligation_color_path(session[:obligation_color_id]), "tint") %></li>
+							<li><%= dropdown_link_with_icon("Edit Race Examples", admin_race_examples_path, "th-list") %></li>
+							<li><%= dropdown_link_with_icon("Edit Run Types", admin_run_types_path, "tasks") %></li>
+							<li><%= dropdown_link_with_icon("Edit Shoe Brands", admin_shoe_brands_path, "tags") %></li>
+							<li><%= dropdown_link_with_icon("Edit Total Records", admin_total_record_root_path, "folder-open") %></li>
+							<li><%= dropdown_link_with_icon("Edit User Roles", admin_user_roles_path, "user") %></li>
 						</ul>
 					</li>
 				<% end %>
@@ -80,45 +44,21 @@
 					<% end %>
 				</li>
 				<li id="/user" class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.concat_name %> <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li class="text-center">
-							<%= link_to user_runs_path(current_user), class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-road"></span> My Runs
-							<% end %>
-						</li>
-						<li class="text-center">
-							<%= link_to user_shoes_path(current_user), class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-briefcase"></span> My Shoes
-							<% end %>
-						</li>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <%= current_user.concat_name %> <span class="caret"></span></a>
+					<ul class="dropdown-menu text-center">
+						<li><%= dropdown_link_with_icon("My Runs", user_runs_path(current_user), "road") %></li>
+						<li><%= dropdown_link_with_icon("My Shoes", user_shoes_path(current_user), "briefcase") %></li>
 						<% if not session[:website_viewer] %>
-							<li class="text-center">
-								<%= link_to user_obligations_path(current_user), class: 'top-bottom-padding' do %>
-									<span class="glyphicon glyphicon-calendar"></span> My Obligations
-								<% end %>
-							</li>
+							<li><%= dropdown_link_with_icon("My Obligations", user_obligations_path(current_user), "calendar") %></li>
 						<% end %>
 						<li role="separator" class="divider"></li>
-						<li class="text-center">
-							<%= link_to user_statistics_path(current_user), class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-stats"></span> My Stats
-							<% end %>
-						</li>
-						<li class="text-center">
-							<%= link_to user_race_results_path(current_user), class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-th-list"></span> My Race Results
-							<% end %>
-						</li>
+						<li><%= dropdown_link_with_icon("My Stats", user_statistics_path(current_user), "stats") %></li>
+						<li><%= dropdown_link_with_icon("My Race Results", user_race_results_path(current_user), "th-list") %></li>
 						<li role="separator" class="divider"></li>
-						<li class="text-center">
-							<%= link_to user_settings_edit_path(current_user, current_user.id), class: 'top-bottom-padding' do %>
-								<span class="glyphicon glyphicon-cog"></span> Settings
-							<% end %>
-						</li>
+						<li><%= dropdown_link_with_icon("Settings", user_settings_edit_path(current_user, current_user.id), "cog") %></li>
 					</ul>
 				</li>
-				<li><%= link_to "Logout", logout_path %></li>
+				<li><%= dropdown_link_with_icon("Logout", logout_path, "log-out") %></li>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
