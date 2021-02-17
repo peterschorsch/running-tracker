@@ -10,7 +10,11 @@
 		</div>
 </div>
 <div class="modal-footer">
-	<%= submit_tag 'Cancel', :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#" + target_id } %>
-	<%= f.submit "Save Changes", class: 'btn btn-success', :disabled => disable_form %>
+	<%= button_tag :type => 'button', class: "btn btn-danger", data: { toggle: 'modal', 'target': "#" + target_id } do %>
+		<span class="glyphicon glyphicon-remove"></span> Cancel
+	<% end %>
+	<%= f.button :submit, class: 'btn btn-success', :disabled => disable_form do %>
+		<span class="glyphicon glyphicon-ok"></span> Save
+	<% end %>
 </div>
 <% end %>
