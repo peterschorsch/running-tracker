@@ -9,10 +9,10 @@ class DashboardsController < ApplicationController
 
 	def index
 		### LAST RUN ###
-		@last_run = current_user.runs.includes(:run_type).find_last_completed_run
+		@last_runs = current_user.runs.includes(:run_type, :state, :shoe).find_last_completed_runs
 
 		### NEXT RUN ###
-		@next_run = current_user.runs.includes(:run_type).find_next_uncompleted_run
+		@next_runs = current_user.runs.includes(:run_type, :state).find_next_uncompleted_runs
 
 		### FUTURE RACES ###
 		@future_races = current_user.runs.includes(:state).return_future_races.limit(2)

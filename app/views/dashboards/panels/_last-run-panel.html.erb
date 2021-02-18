@@ -1,28 +1,28 @@
-<% if not last_run.nil? %>
-	<div class="panel panel-default" style="border-color: <%=last_run.hex_code%>">
-		<div class="panel-heading text-center" style="border-color: <%=last_run.hex_code%>">
-			<h1>Last Run</h1>
-		</div>
-		<div class="panel-body text-center">
-			<p><%= concat_small_date_panel(last_run) %></p>
-			<p style="color: <%=last_run.hex_code%>"><%= last_run.run_type.name %></p>
-			<h3><%= bold_text(last_run.name) %></h3>
-			<p><%= mileage_and_elasped_time(last_run) %></p>
-			<p><%= pace_and_elevation(last_run) %></p>
-			<p><%= shoe_with_mileage(last_run.shoe) %></p>
-			<% if not last_run.run_type.is_race? %>
-				<%= render colored_line_divider_path, hex_code: last_run.hex_code %>
-				<p><small class="text-muted">Planned to run: <%= concat_distance_miles(last_run.planned_mileage) %></small></p>
+<% if not last_runs.blank? %>
+	<div class="panel panel-default text-center">
+		<div class="panel-heading"><h1>Last <%="Run".pluralize(last_runs.size) %></h1></div>
+		<div class="panel-body">
+			<% last_runs.each_with_index do |last_run, index| %>
+				<div class="panel panel-default" style="border-color: <%= last_run.hex_code %>; margin-bottom: <%= last_runs.size==index+1 ? '0' : '15'; %>px;">
+					<div class="panel-body">
+						<p><%= concat_small_date_panel(last_run) %></p>
+						<p style="color: <%=last_run.hex_code%>"><%= last_run.run_type.name %></p>
+						<h3><%= bold_text(last_run.name) %></h3>
+						<p><%= mileage_and_elasped_time(last_run) %></p>
+						<p><%= pace_and_elevation(last_run) %></p>
+						<p><%= shoe_with_mileage(last_run.shoe) %></p>
+						<% if not last_run.run_type.is_race? %>
+							<%= render colored_line_divider_path, hex_code: last_run.hex_code %>
+							<p><small class="text-muted">Planned to run: <%= concat_distance_miles(last_run.planned_mileage) %></small></p>
+						<% end %>
+					</div>
+				</div>
 			<% end %>
 		</div>
 	</div>
 <% else %>
-	<div class="panel panel-default">
-		<div class="panel-heading text-center">
-			<h1>Last Run</h1>
-		</div>
-		<div class="panel-body text-center">
-			<p class="text-muted"><i>No Data Available</i></p>
-		</div>
+	<div class="panel panel-default text-center">
+		<div class="panel-heading"><h1>Last Run</h1></div>
+		<div class="panel-body"><p class="text-muted"><i>No Data Available</i></p></div>
 	</div>
 <% end %>

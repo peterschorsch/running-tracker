@@ -1,22 +1,22 @@
-<% if not next_run.nil? %>
-	<div class="panel panel-default" style="border-color: <%= next_run.hex_code %>">
-		<div class="panel-heading text-center" style="border-color: <%= next_run.hex_code %>">
-			<h1>Next Run</h1>
-		</div>
-		<div class="panel-body text-center">
-			<p><%=concat_small_date_panel(next_run) %></p>
-			<p style="color: <%=next_run.hex_code%>"><%= next_run.run_type.name %></p>
-			<h3><%= bold_text(next_run.name) %></h3>
-			<p><%= concat_distance_miles(next_run.planned_mileage) %></p>
+<% if not next_runs.blank? %>
+	<div class="panel panel-default text-center">
+		<div class="panel-heading"><h1>Next <%="Run".pluralize(next_runs.size) %></h1></div>
+		<div class="panel-body">
+			<% next_runs.each_with_index do |next_run, index| %>
+				<div class="panel panel-default" style="border-color: <%= next_run.hex_code %>; margin-bottom: <%= next_runs.size==index+1 ? '0' : '15'; %>px;">
+					<div class="panel-body">
+						<p><%= concat_small_date_panel(next_run) %></p>
+						<p style="color: <%=next_run.hex_code%>"><%= next_run.run_type.name %></p>
+						<h3><%= bold_text(next_run.name) %></h3>
+						<p><%= concat_distance_miles(next_run.planned_mileage) %></p>
+					</div>
+				</div>
+			<% end %>
 		</div>
 	</div>
 <% else %>
-	<div class="panel panel-default">
-		<div class="panel-heading text-center">
-			<h1>Next Run</h1>
-		</div>
-		<div class="panel-body text-center">
-			<p class="text-muted"><i>Your next run is not scheduled yet.</i></p>
-		</div>
+	<div class="panel panel-default text-center">
+		<div class="panel-heading"><h1>Next Run</h1></div>
+		<div class="panel-body"><p class="text-muted"><i>Your next run is not scheduled yet.</i></p></div>
 	</div>
 <% end %>

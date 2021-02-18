@@ -97,12 +97,14 @@ class Run < ApplicationRecord
 
 	# Used on Current User's Runs
 	# Finds next uncompleted run
-	def self.find_next_uncompleted_run
-		return_future_uncompleted_runs.first || nil
+	def self.find_next_uncompleted_runs
+		where("start_time >= ? AND start_time <= ?", DateTime.current.all_day, (DateTime.current+1.day).all_day).return_uncompleted_runs.order_by_oldest
 	end
 
-	def self.find_last_completed_run
-		completed_runs.order_by_most_recent.first || nil
+	def self.find_last_completed_runs
+		@completed_runs = completed_runs.order_by_most_recent
+		@last_completed_run = @completed_runs.first
+		@completed_runs.of_day(@last_completed_run.start_time).order_by_oldest
 	end
 
 	def was_completed?
