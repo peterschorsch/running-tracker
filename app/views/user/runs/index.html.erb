@@ -5,7 +5,7 @@
     <tr>
       <th>Run</th>
       <th>Run Type</th>
-      <th>Distance</th>
+      <th>Planned/Actual Distance</th>
       <th>Time</th>
       <th>Pace</th>
       <th>Elevation Gain</th>
@@ -22,7 +22,7 @@
           <small><%= run.notes %></small>
         </td>
         <td style="color: <%=run.hex_code%>"><%= run.run_type.name %></td>
-        <td><%= concat_distance_miles(run.mileage_total) %></td>
+        <td><%= concat_distance_miles(run.planned_mileage) %>/<%= concat_distance_miles(run.mileage_total) %></td>
         <td><%= concat_elapsed_time(run.time_in_seconds) %></td>
         <td><%= concat_pace_min_miles(run) %></td>
         <td><%= concat_elevation_gain(run.elevation_gain) %></td>

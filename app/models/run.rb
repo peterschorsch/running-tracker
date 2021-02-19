@@ -104,7 +104,7 @@ class Run < ApplicationRecord
 	def self.find_last_completed_runs
 		@completed_runs = completed_runs.order_by_most_recent
 		@last_completed_run = @completed_runs.first
-		@completed_runs.of_day(@last_completed_run.start_time).order_by_oldest
+		@completed_runs.of_day(@last_completed_run.start_time)
 	end
 
 	def was_completed?

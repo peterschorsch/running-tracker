@@ -59,6 +59,10 @@ module ConcatDistanceTimeFieldsHelper
 	def shoe_with_mileage(shoe)
 		raw("<small class='text-muted'>#{return_full_shoe_name(shoe)} (#{return_shoe_mileage(shoe.mileage_total)})</small>")
 	end
+	# 5 miles | 30:00 | 7:30 min/mi | 252 ft
+	def one_lined_run_total(record)
+		mileage_and_elasped_time(record) + " | " + pace_and_elevation(record)
+	end
 
 	# 3 runs | 15 miles | 630 ft
 	def concat_run_totals_line_one(record)
@@ -85,10 +89,6 @@ module ConcatDistanceTimeFieldsHelper
 	def concat_small_date_panel(record)
 		raw("<small class='text-muted'>#{formatDayofWeek(record.start_time)} | #{format_date_month(record.start_time)} | #{formatTime(record.start_time)} | #{concat_city_state_abbreviation(record)}</small>")
 	end
-
-	#def concat_small_date_panel(start_time, city, state)
-		#raw("<small class='text-muted'>#{formatDayofWeek(start_time)} | #{format_date_month(start_time)} | #{formatTime(start_time)} | #{concat_city_state_abbreviation(city, state)}</small>")
-	#end
 
 	# 7:30 min/mi
 	def concat_pace_min_miles(record)
