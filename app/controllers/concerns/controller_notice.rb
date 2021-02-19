@@ -22,8 +22,9 @@ module ControllerNotice
 		date.strftime("%B %-d, %Y")
     end
 
-    # 2/9
-    def shortened_date_field(date)
-		date.strftime("%b. %-d, %Y")
+    # Feb. 9-14
+    def shortened_date_range(week_start, week_end)
+      week_start.strftime("%-b. %-d") + "-" + week_end.strftime("%-d")
     end
+
 end
